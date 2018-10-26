@@ -56,21 +56,24 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //MARK: Setup Calls
+        //MARK: Add Gestures
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginVC.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        setupEverything()
+    }
+    
+    //MARK: Setup Functions
+    func setupEverything(){
         setupBoxView()
         setupContinueButton()
         setupEmailTextField()
         setupPasswordTextField()
         setupErrorMessageLabel()
-        
-        //MARK: Add Gestures
-        //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginVC.dismissKeyboard))
-        
-        view.addGestureRecognizer(tap)
     }
     
-    //MARK: Setup Functions
     func setupBoxView(){
         roundCorners(layer: box_view.layer, cornerRadius: 10)
     }
