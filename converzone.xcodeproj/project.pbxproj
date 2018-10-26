@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4AAED90C218336F400968E3E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED90B218336F400968E3E /* AppDelegate.swift */; };
-		4AAED90E218336F400968E3E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED90D218336F400968E3E /* ViewController.swift */; };
+		4AAED90E218336F400968E3E /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED90D218336F400968E3E /* LoginVC.swift */; };
 		4AAED911218336F400968E3E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AAED90F218336F400968E3E /* Main.storyboard */; };
 		4AAED914218336F400968E3E /* converzone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED912218336F400968E3E /* converzone.xcdatamodeld */; };
 		4AAED916218336F400968E3E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AAED915218336F400968E3E /* Assets.xcassets */; };
@@ -37,7 +37,7 @@
 /* Begin PBXFileReference section */
 		4AAED908218336F400968E3E /* converzone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = converzone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AAED90B218336F400968E3E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4AAED90D218336F400968E3E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4AAED90D218336F400968E3E /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		4AAED910218336F400968E3E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4AAED913218336F400968E3E /* converzone.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = converzone.xcdatamodel; sourceTree = "<group>"; };
 		4AAED915218336F400968E3E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				4AAED90B218336F400968E3E /* AppDelegate.swift */,
-				4AAED90D218336F400968E3E /* ViewController.swift */,
+				4AAED90D218336F400968E3E /* LoginVC.swift */,
 				4AAED90F218336F400968E3E /* Main.storyboard */,
 				4AAED915218336F400968E3E /* Assets.xcassets */,
 				4AAED917218336F400968E3E /* LaunchScreen.storyboard */,
@@ -259,7 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4AAED90E218336F400968E3E /* ViewController.swift in Sources */,
+				4AAED90E218336F400968E3E /* LoginVC.swift in Sources */,
 				4AAED914218336F400968E3E /* converzone.xcdatamodeld in Sources */,
 				4AAED90C218336F400968E3E /* AppDelegate.swift in Sources */,
 			);
@@ -439,6 +439,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M3493F96B3;
 				INFOPLIST_FILE = converzone/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -457,6 +458,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M3493F96B3;
 				INFOPLIST_FILE = converzone/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

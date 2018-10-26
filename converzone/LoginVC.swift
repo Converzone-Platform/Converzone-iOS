@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LoginVC.swift
 //  converzone
 //
 //  Created by Goga Barabadze on 26.10.18.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class LoginVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
     }
 
 
