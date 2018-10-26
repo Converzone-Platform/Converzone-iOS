@@ -14,7 +14,5 @@ class LoginVC: UIViewController {
         super.viewDidLoad()
         
     }
-
-
 }
 
