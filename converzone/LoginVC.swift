@@ -11,11 +11,7 @@ import UIKit
 class LoginVC: UIViewController {
     
     //MARK: Variables
-    var type = "login"{
-        didSet{
-            print(type)
-        }
-    }
+    var type = "login"
 
     //MARK: Design
     @IBOutlet weak var box_view: UIView!
@@ -38,7 +34,12 @@ class LoginVC: UIViewController {
         //If login is not already selected than switch colors
         //MARK: TODO: Save this information somewhere
         
-        
+        if type == "register"{
+            type = "login"
+            
+            login_button.setTitleColor(.black, for: .normal)
+            register_button.setTitleColor(.gray, for: .normal)
+        }
         
     }
     
@@ -46,6 +47,12 @@ class LoginVC: UIViewController {
         //If register is not already selected than switch colors
         //MARK: TODO: Save this information somewhere
         
+        if type == "login"{
+            type = "register"
+            
+            login_button.setTitleColor(.gray, for: .normal)
+            register_button.setTitleColor(.black, for: .normal)
+        }
     }
     
     @IBAction func forgotPassword(_ sender: Any) {
