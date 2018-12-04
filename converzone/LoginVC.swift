@@ -10,112 +10,132 @@ import UIKit
 
 class LoginVC: UIViewController {
     
-    //MARK: Variables
-    var type = "login"
-
-    //MARK: Design
-    @IBOutlet weak var box_view: UIView!
-    
-    //MARK: Outlet Declarations
-    @IBOutlet weak var continue_button: UIButton!
-    @IBOutlet weak var login_button: UIButton!
-    @IBOutlet weak var register_button: UIButton!
+    //Design/Label
+    @IBOutlet weak var welcome_label: UILabel!
+    @IBOutlet weak var continue_outlet: UIButton!
+    @IBOutlet weak var login_outlet: StandardButton!
+    @IBOutlet weak var register_outlet: StandardButton!
     
     
-    //MARK: Textfields
-    @IBOutlet weak var email_textfield: UITextField!
-    @IBOutlet weak var password_textfield: UITextField!
+    //TextFields
+    @IBOutlet weak var email_textfield: StandardTextField!
+    @IBOutlet weak var password_textfield: StandardTextField!
     
-    //MARK: Labels
-    @IBOutlet weak var error_message: UILabel!
-    
-    //MARK: Buttons
-    @IBAction func login(_ sender: Any) {
-        //If login is not already selected than switch colors
-        //MARK: TODO: Save this information somewhere
+    //Buttons
+    @IBAction func forgot_button(_ sender: Any) {
         
-        if type == "register"{
-            type = "login"
-            
-            login_button.setTitleColor(.black, for: .normal)
-            register_button.setTitleColor(.gray, for: .normal)
+    }
+    
+    @IBAction func continue_button(_ sender: Any) {
+        if(email_textfield.text == "" || password_textfield.text == ""){
+            alert(NSLocalizedString("Fill in both fields", comment: "Error title when the user doesn't fill in password and email"),
+                  NSLocalizedString("Please make sure that you fill in a password and an email address", comment: "Error message when the user doesn't fill in password and email"))
+            return
         }
         
-    }
-    
-    @IBAction func register(_ sender: Any) {
-        //If register is not already selected than switch colors
-        //MARK: TODO: Save this information somewhere
-        
-        if type == "login"{
-            type = "register"
-            
-            login_button.setTitleColor(.gray, for: .normal)
-            register_button.setTitleColor(.black, for: .normal)
+        if(!Internet.isOnline()){
+            alert(NSLocalizedString("Your device is offline", comment: "Error title the user gets when device is not connected to the internet"),
+                  NSLocalizedString("Please make sure that your device is connected to the internet in order to proceed.", comment: "Error message the user gets when device is not connected to the internet"))
+            return
         }
-    }
-    
-    @IBAction func forgotPassword(_ sender: Any) {
         
+        if(!email_textfield.isValidEmail()){
+            alert(NSLocalizedString("Email Address", comment: "Error title when the user enters a invalid email address"),
+                  NSLocalizedString("Please make sure that you enter a valid email address.", comment: "Error message when the user enters a invalid email address"))
+            return
+        }
+        
+        if(!password_textfield.isValidPassword()){
+            alert(NSLocalizedString("Password", comment: "Error title when the user enters a wrong password"),
+                  NSLocalizedString("Please make sure that you enter a strong password. \n\n • 8 to 20 characters \n • Upper and Lower Case\n • One number", comment: "Error message when the user enters a wrong password"))
+            return
+        }
+        
+        print("Try to connect to server")
     }
     
-    //MARK: System Functions
+    @IBAction func register_button(_ sender: Any) {
+        register_outlet.isEnabled = false
+        login_outlet.isEnabled = true
+        
+        login_outlet.setTitleColor(Colors.darkGrey, for: .normal)
+        register_outlet.setTitleColor(Colors.black, for: .normal)
+    }
+    
+    @IBAction func login_button(_ sender: Any) {
+        login_outlet.isEnabled = false
+        register_outlet.isEnabled = true
+        
+        login_outlet.setTitleColor(Colors.black, for: .normal)
+        register_outlet.setTitleColor(Colors.darkGrey, for: .normal)
+    }
+    
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
+        drawCircle()
+        renderWelcomeMessage()
+    }
+    
+    func renderWelcomeMessage(){
+        let attributedString = NSMutableAttributedString(string: "Chat with the world.")
         
-        //MARK: Add Gestures
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginVC.dismissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
-    
-    override func viewWillLayoutSubviews() {
-        setupEverything()
-    }
-    
-    //MARK: Setup Functions
-    func setupEverything(){
-        setupBoxView()
-        setupContinueButton()
-        setupEmailTextField()
-        setupPasswordTextField()
-        setupErrorMessageLabel()
-    }
-    
-    func setupBoxView(){
-        roundCorners(layer: box_view.layer, cornerRadius: 10)
-    }
-    
-    func setupContinueButton(){
-        roundCorners(layer: continue_button.layer, cornerRadius: continue_button.frame.size.height/2)
-    }
-    
-    func setupEmailTextField(){
-        roundCorners(layer: email_textfield.layer, cornerRadius: 10)
+        let attributes: [NSAttributedString.Key : Any] = [
+            .foregroundColor: Colors.blue
+        ]
+        attributedString.addAttributes(attributes, range: NSRange(location: 10, length: 9))
         
-        email_textfield.borderStyle = UITextField.BorderStyle.none
+        welcome_label.attributedText = attributedString
     }
     
-    func setupPasswordTextField(){
-        roundCorners(layer: password_textfield.layer, cornerRadius: 10)
-        password_textfield.borderStyle = UITextField.BorderStyle.none
+    func makeRound(button: UIButton){
+        button.layer.cornerRadius = button.frame.size.width / 2
+        button.clipsToBounds = true
     }
     
-    func setupErrorMessageLabel(){
-        //Remove the text of the storyboard
-        error_message.text = nil
-    }
-    
-    //MARK: Design
-    func roundCorners(layer: CALayer, cornerRadius: CGFloat){
+    func drawCircle(){
         
-        layer.cornerRadius = cornerRadius
-        layer.masksToBounds = true
+        //Calculate how big the radius should be
+        let radius = view.frame.height * 0.5
+        
+        let circlePath = UIBezierPath(arcCenter: CGPoint(x: view.frame.size.width / 3, y: continue_outlet.center.y / 2), radius: CGFloat(radius), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = circlePath.cgPath
+        
+        //It should be behind everything
+        shapeLayer.zPosition = -1
+        
+        //change the fill color
+        shapeLayer.fillColor = UIColor.white.cgColor
+        
+        view.layer.addSublayer(shapeLayer)
     }
     
-    //MARK: Keyboard
-    @objc func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
+    //Hide status bar
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    //Close keyboard when touched somewhere else
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func alert(_ title: String, _ message: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            switch action.style{
+            case .default:
+                print("")
+                
+            case .cancel:
+                print("")
+                
+            case .destructive:
+                print("")
+                
+                
+            }}))
+        self.present(alert, animated: true, completion: nil)
     }
 }
-
