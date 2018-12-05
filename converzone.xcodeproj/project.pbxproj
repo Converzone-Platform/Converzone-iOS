@@ -13,6 +13,7 @@
 		4A016FDC21B6B61F00095E26 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A016FDB21B6B61F00095E26 /* User.swift */; };
 		4A016FDE21B6B6A500095E26 /* Master.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A016FDD21B6B6A500095E26 /* Master.swift */; };
 		4A016FE021B6B78B00095E26 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A016FDF21B6B78B00095E26 /* Message.swift */; };
+		4A016FE521B7188600095E26 /* Reflection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A016FE421B7188600095E26 /* Reflection.swift */; };
 		4A337EEF21B549CA002A12EF /* StandardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A337EEE21B549CA002A12EF /* StandardView.swift */; };
 		4A5D856721B29F07004E3E79 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856621B29F07004E3E79 /* Colors.swift */; };
 		4A5D856B21B31341004E3E79 /* StandardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856A21B31341004E3E79 /* StandardLabel.swift */; };
@@ -52,6 +53,7 @@
 		4A016FDB21B6B61F00095E26 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4A016FDD21B6B6A500095E26 /* Master.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Master.swift; sourceTree = "<group>"; };
 		4A016FDF21B6B78B00095E26 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		4A016FE421B7188600095E26 /* Reflection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reflection.swift; sourceTree = "<group>"; };
 		4A337EEE21B549CA002A12EF /* StandardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardView.swift; sourceTree = "<group>"; };
 		4A5D856621B29F07004E3E79 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		4A5D856A21B31341004E3E79 /* StandardLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardLabel.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				4AAED90D218336F400968E3E /* LoginVC.swift */,
 				4A016FE121B6B83800095E26 /* Person */,
 				4A016FDF21B6B78B00095E26 /* Message.swift */,
+				4A016FE421B7188600095E26 /* Reflection.swift */,
 				4A5D857121B31AFF004E3E79 /* UI Elements */,
 				4AAED90F218336F400968E3E /* Main.storyboard */,
 				4AAED915218336F400968E3E /* Assets.xcassets */,
@@ -316,6 +319,7 @@
 				4AAED914218336F400968E3E /* converzone.xcdatamodeld in Sources */,
 				4A016FD421B6716800095E26 /* Extensions.swift in Sources */,
 				4AAED90C218336F400968E3E /* AppDelegate.swift in Sources */,
+				4A016FE521B7188600095E26 /* Reflection.swift in Sources */,
 				4A016FDC21B6B61F00095E26 /* User.swift in Sources */,
 				4A5D856F21B315D3004E3E79 /* StandardTextField.swift in Sources */,
 				4A5D856D21B3135F004E3E79 /* StandardButton.swift in Sources */,

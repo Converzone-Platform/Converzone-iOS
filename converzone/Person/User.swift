@@ -6,12 +6,13 @@
 //  Copyright © 2018 Goga Barabadze. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class User: Person {
     
     //Platform Informations
     internal var blocked: Bool = false
+    internal var small_profile_images: [UIImage]?
     
     //Chats with the Person
     internal var chat: [Message]?

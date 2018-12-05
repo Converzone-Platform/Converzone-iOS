@@ -121,6 +121,15 @@ class LoginVC: UIViewController {
         self.view.endEditing(true)
     }
     
+    //Disable auto rotation
+    override var shouldAutorotate: Bool{
+        return false
+    }
+    
+    func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
     func alert(_ title: String, _ message: String){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in

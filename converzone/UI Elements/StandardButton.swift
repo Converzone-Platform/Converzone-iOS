@@ -43,11 +43,11 @@ open class StandardButton : UIButton {
     }
     
     open override func setTitleColor(_ color: UIColor?, for state: UIControl.State) {
-        var attributes: [NSAttributedString.Key : Any] = [
-            .foregroundColor: color
+        let attributes: [NSAttributedString.Key : Any] = [
+            .foregroundColor: color ?? "No color"
         ]
         
-        var text: NSMutableAttributedString = NSMutableAttributedString(attributedString: self.attributedText ?? NSMutableAttributedString(string: ""))
+        let text: NSMutableAttributedString = NSMutableAttributedString(attributedString: self.attributedText ?? NSMutableAttributedString(string: ""))
         
         text.addAttributes(attributes, range: NSRange(location: 0, length: text.length))
         

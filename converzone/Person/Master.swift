@@ -6,9 +6,9 @@
 //  Copyright © 2018 Goga Barabadze. All rights reserved.
 //
 
-/*  Master is the main user which is using the device*/
+/*  Master is the main user which is using the device */
 
-import Foundation
+import UIKit
 
 class Master: Person {
     
@@ -16,4 +16,9 @@ class Master: Person {
     internal var email: String?
     internal var password: String?
     
+    //All people with whom the master has chats with
+    internal var chats: [User]?
+    
+    //Platform
+    internal var profile_images: [UIImage]?
 }
