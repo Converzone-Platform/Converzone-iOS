@@ -1,0 +1,63 @@
+
+/* Class = "UIViewController"; title = "... Languages"; ObjectID = "0pg-6g-hME"; */
+"0pg-6g-hME.title" = "... Languages";
+
+/* Class = "UIViewController"; title = "... Languages"; ObjectID = "1ky-PN-Kja"; */
+"1ky-PN-Kja.title" = "... Languages";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "5wL-xI-Nvr"; */
+"5wL-xI-Nvr.title" = "Back";
+
+/* Class = "UIButton"; normalTitle = "Login    "; ObjectID = "6Zg-Rl-X5V"; */
+"6Zg-Rl-X5V.normalTitle" = "Login    ";
+
+/* Class = "UITextField"; placeholder = "Your future email address"; ObjectID = "9WA-22-kFv"; */
+"9WA-22-kFv.placeholder" = "Your future email address";
+
+/* Class = "UILabel"; text = "    Password"; ObjectID = "BAw-Vl-ZbS"; */
+"BAw-Vl-ZbS.text" = "    Password";
+
+/* Class = "UIViewController"; title = "LoginVC"; ObjectID = "BYZ-38-t0r"; */
+"BYZ-38-t0r.title" = "LoginVC";
+
+/* Class = "UILabel"; text = "Language Name"; ObjectID = "DL8-EZ-R2s"; */
+"DL8-EZ-R2s.text" = "Language Name";
+
+/* Class = "UISearchBar"; placeholder = "Search the planet"; ObjectID = "Jiy-ga-lel"; */
+"Jiy-ga-lel.placeholder" = "Search the planet";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "M4S-bb-fN7"; */
+"M4S-bb-fN7.text" = "Title";
+
+/* Class = "UINavigationItem"; title = "Where do you live?"; ObjectID = "Otc-fK-Hlx"; */
+"Otc-fK-Hlx.title" = "Where do you live?";
+
+/* Class = "UILabel"; text = "Add Language"; ObjectID = "T5w-y1-UMR"; */
+"T5w-y1-UMR.text" = "Add Language";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "VLU-ui-Ost"; */
+"VLU-ui-Ost.text" = "Title";
+
+/* Class = "UIButton"; normalTitle = "Forgot Password?"; ObjectID = "agq-Rh-SV3"; */
+"agq-Rh-SV3.normalTitle" = "Forgot Password?";
+
+/* Class = "UIViewController"; title = "Where do you live?"; ObjectID = "csk-FX-6pN"; */
+"csk-FX-6pN.title" = "Where do you live?";
+
+/* Class = "UITextField"; placeholder = "Your future password"; ObjectID = "fcj-Mh-c6x"; */
+"fcj-Mh-c6x.placeholder" = "Your future password";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "i0S-V2-dI5"; */
+"i0S-V2-dI5.text" = "Title";
+
+/* Class = "UIButton"; normalTitle = "Register"; ObjectID = "jni-Qc-I3P"; */
+"jni-Qc-I3P.normalTitle" = "Register";
+
+/* Class = "UILabel"; text = "    Email"; ObjectID = "jsE-Xt-YR0"; */
+"jsE-Xt-YR0.text" = "    Email";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "sN0-3I-mTE"; */
+"sN0-3I-mTE.text" = "Title";
+
+/* Class = "UIButton"; normalTitle = "➜"; ObjectID = "xnb-hm-jsa"; */
+"xnb-hm-jsa.normalTitle" = "➜";
