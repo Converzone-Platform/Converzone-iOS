@@ -27,7 +27,11 @@ class UsersLanguagesVC: UIViewController {
     }
     
     @objc func continuePressed(){
-    
+        
+        //Check if everything is fine
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let newViewController = storyBoard.instantiateViewController(withIdentifier: "ProfileNavigationBar")
+        self.present(newViewController, animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,6 +39,7 @@ class UsersLanguagesVC: UIViewController {
     }
     
     func guessSpeakLanguages(){
+        
         //The person probably speaks the languages of his device - add preferred languages
         if(master?.speak_languages?.count != nil && (master?.speak_languages?.count)! == 0 ){
             for language in NSLocale.preferredLanguages {

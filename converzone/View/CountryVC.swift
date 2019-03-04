@@ -80,8 +80,4 @@ extension CountryVC: UISearchBarDelegate {
         
         tableView.reloadData()
     }
-    
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        
-    }
 }

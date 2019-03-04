@@ -62,8 +62,8 @@ class LoginVC: UIViewController {
         if(register_outlet.isEnabled == true){
             //Try register. Create Master
             
-            guard let email = email_textfield.text else {return}
-            guard let password = password_textfield.text else {return}
+            guard let email = email_textfield.text          else { return }
+            guard let password = password_textfield.text    else { return }
             
             master = Master(email, password)
         }

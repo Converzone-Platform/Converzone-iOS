@@ -16,7 +16,7 @@ class Person {
     //Personal Details
     internal var firstname: String?
     internal var lastname: String?
-    internal var gender: String?
+    internal var gender: Gender?
     internal var birthdate: Date?
     internal var main_language: Language?
     internal var speak_languages: [Language]? = []
@@ -30,4 +30,6 @@ class Person {
     internal var status: String?
     internal var link_to_profile_image: URL?
     internal var reflections: [Reflection]? = []
+    
+    
 }
