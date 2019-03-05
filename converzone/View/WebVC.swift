@@ -19,25 +19,29 @@ class WebVC: UIViewController, WKUIDelegate {
         
         // Adding webView content
         do {
-            guard let filePath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "home_screen") else {
+            guard let filePath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "home_screen")
+                else {
                     // File Error
                     print ("File reading error")
                     return
             }
-            
+
             let contents =  try String(contentsOfFile: filePath, encoding: .utf8)
             let baseUrl = URL(fileURLWithPath: filePath)
             webView.loadHTMLString(contents as String, baseURL: baseUrl)
-        }
-        catch {
+        } catch {
             print ("File HTML error")
         }
-        
+
         webView.uiDelegate = self
         webView.navigationDelegate = self
-        
+
         webView.allowsLinkPreview = false
+        
+       
     }
+    
+    
     
     func loadWebsite(search: String){
         
@@ -59,10 +63,9 @@ class WebVC: UIViewController, WKUIDelegate {
         return new
     }
     
-    
 }
 
-extension WebVC: WKNavigationDelegate{
+extension WebVC: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {

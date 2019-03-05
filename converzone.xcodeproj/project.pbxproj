@@ -27,8 +27,12 @@
 		4A5D856F21B315D3004E3E79 /* StandardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856E21B315D3004E3E79 /* StandardTextField.swift */; };
 		4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */; };
 		4A7A70D1222405D80074BE5E /* ReflectionDiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A70D0222405D80074BE5E /* ReflectionDiscoverCell.swift */; };
-		4A950C72222D17A80089754D /* ImageProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A950C71222D17A80089754D /* ImageProfileCell.swift */; };
+		4A950C72222D17A80089754D /* ProfileCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A950C71222D17A80089754D /* ProfileCells.swift */; };
 		4A950C7D222D2B3C0089754D /* home_screen in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C7C222D2B3C0089754D /* home_screen */; };
+		4A950C7F222D4D360089754D /* SendMessageProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C7E222D4D360089754D /* SendMessageProfileCell.xib */; };
+		4A950C81222D583E0089754D /* GeneralProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C80222D583E0089754D /* GeneralProfileCell.xib */; };
+		4A950C83222DA2640089754D /* StatusProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C82222DA2640089754D /* StatusProfileCell.xib */; };
+		4A950C85222E64600089754D /* BlockAndReportProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C84222E64600089754D /* BlockAndReportProfileCell.xib */; };
 		4AA2FC1B22281AD000A10A4A /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA2FC1A22281AD000A10A4A /* ChatCell.swift */; };
 		4AA2FC1F22281BC600A10A4A /* ConversationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA2FC1E22281BC600A10A4A /* ConversationsVC.swift */; };
 		4AA32887222925DD00AB79C4 /* DiscoverCardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AA32886222925DD00AB79C4 /* DiscoverCardVC.xib */; };
@@ -93,8 +97,12 @@
 		4A5D856E21B315D3004E3E79 /* StandardTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTextField.swift; sourceTree = "<group>"; };
 		4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		4A7A70D0222405D80074BE5E /* ReflectionDiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionDiscoverCell.swift; sourceTree = "<group>"; };
-		4A950C71222D17A80089754D /* ImageProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProfileCell.swift; sourceTree = "<group>"; };
+		4A950C71222D17A80089754D /* ProfileCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCells.swift; sourceTree = "<group>"; };
 		4A950C7C222D2B3C0089754D /* home_screen */ = {isa = PBXFileReference; lastKnownFileType = folder; name = home_screen; path = ../../../../Desktop/home_screen; sourceTree = "<group>"; };
+		4A950C7E222D4D360089754D /* SendMessageProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendMessageProfileCell.xib; sourceTree = "<group>"; };
+		4A950C80222D583E0089754D /* GeneralProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GeneralProfileCell.xib; sourceTree = "<group>"; };
+		4A950C82222DA2640089754D /* StatusProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatusProfileCell.xib; sourceTree = "<group>"; };
+		4A950C84222E64600089754D /* BlockAndReportProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockAndReportProfileCell.xib; sourceTree = "<group>"; };
 		4AA2FC1A22281AD000A10A4A /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		4AA2FC1E22281BC600A10A4A /* ConversationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsVC.swift; sourceTree = "<group>"; };
 		4AA32886222925DD00AB79C4 /* DiscoverCardVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiscoverCardVC.xib; sourceTree = "<group>"; };
@@ -220,6 +228,10 @@
 			children = (
 				4AA32886222925DD00AB79C4 /* DiscoverCardVC.xib */,
 				4AA3288C2229D3B300AB79C4 /* ImageProfileCell.xib */,
+				4A950C7E222D4D360089754D /* SendMessageProfileCell.xib */,
+				4A950C80222D583E0089754D /* GeneralProfileCell.xib */,
+				4A950C82222DA2640089754D /* StatusProfileCell.xib */,
+				4A950C84222E64600089754D /* BlockAndReportProfileCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -233,7 +245,7 @@
 				4A7A70D0222405D80074BE5E /* ReflectionDiscoverCell.swift */,
 				4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */,
 				4AA2FC1A22281AD000A10A4A /* ChatCell.swift */,
-				4A950C71222D17A80089754D /* ImageProfileCell.swift */,
+				4A950C71222D17A80089754D /* ProfileCells.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -398,11 +410,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A950C7F222D4D360089754D /* SendMessageProfileCell.xib in Resources */,
+				4A950C85222E64600089754D /* BlockAndReportProfileCell.xib in Resources */,
 				4AAED919218336F400968E3E /* LaunchScreen.storyboard in Resources */,
 				4AA32887222925DD00AB79C4 /* DiscoverCardVC.xib in Resources */,
 				4AAED916218336F400968E3E /* Assets.xcassets in Resources */,
 				4AA3288D2229D3B300AB79C4 /* ImageProfileCell.xib in Resources */,
+				4A950C83222DA2640089754D /* StatusProfileCell.xib in Resources */,
 				4AAED911218336F400968E3E /* Main.storyboard in Resources */,
+				4A950C81222D583E0089754D /* GeneralProfileCell.xib in Resources */,
 				4A950C7D222D2B3C0089754D /* home_screen in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -437,7 +453,7 @@
 				4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */,
 				4A016FDA21B6B1B200095E26 /* Person.swift in Sources */,
 				4AAED914218336F400968E3E /* converzone.xcdatamodeld in Sources */,
-				4A950C72222D17A80089754D /* ImageProfileCell.swift in Sources */,
+				4A950C72222D17A80089754D /* ProfileCells.swift in Sources */,
 				4AD7D687221A090A000E4660 /* DiscoverVC.swift in Sources */,
 				4AA2FC1B22281AD000A10A4A /* ChatCell.swift in Sources */,
 				4AA8739F2214816B006035A3 /* WelcomeVC.swift in Sources */,

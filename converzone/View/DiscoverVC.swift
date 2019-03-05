@@ -160,6 +160,18 @@ class DiscoverVC: UIViewController {
             blurAnimator.startAnimation()
             runningAnimations.append(blurAnimator)
             
+//            let alphaAnimation = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
+//                switch state {
+//                case .expanded:
+//                    self.discoverCardVC.view.alpha = 1
+//                case .collapsed:
+//                    self.discoverCardVC.view.alpha = 0
+//                }
+//            }
+//            
+//            alphaAnimation.startAnimation()
+//            runningAnimations.append(blurAnimator)
+            
             let navAnimation = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
                 
                 switch state {
