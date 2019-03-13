@@ -30,6 +30,8 @@ extension String {
     }
 }
 
+
+
 extension UILabel {
     func textHeight(withWidth width: CGFloat) -> CGFloat {
         guard let text = text else {
@@ -59,6 +61,34 @@ extension NSAttributedString {
         let maxSize = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
         let actualSize = boundingRect(with: maxSize, options: [.usesLineFragmentOrigin], context: nil)
         return actualSize.height
+    }
+}
+
+extension UILabel {
+    
+    func setLineSpacing(lineSpacing: CGFloat = 0.0, lineHeightMultiple: CGFloat = 0.0) {
+        
+        guard let labelText = self.text else { return }
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = lineSpacing
+        paragraphStyle.lineHeightMultiple = lineHeightMultiple
+        
+        let attributedString:NSMutableAttributedString
+        if let labelattributedText = self.attributedText {
+            attributedString = NSMutableAttributedString(attributedString: labelattributedText)
+        } else {
+            attributedString = NSMutableAttributedString(string: labelText)
+        }
+        
+        // (Swift 4.2 and above) Line spacing attribute
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        
+        
+        // (Swift 4.1 and 4.0) Line spacing attribute
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        
+        self.attributedText = attributedString
     }
 }
 

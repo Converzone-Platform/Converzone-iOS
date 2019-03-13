@@ -30,7 +30,6 @@ class SendMessageProfileCell: UITableViewCell {
         print("Send message")
     }
     
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
@@ -77,12 +76,26 @@ class StatusProfileCell: UITableViewCell {
 
 class BlockAndReportProfileCell: UITableViewCell {
     
-    
     @IBAction func blockAndReport(_ sender: Any) {
         
         print("Block and Report")
         
     }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+    }
+}
+
+class InterestsProfileCell: UITableViewCell {
+    
+    @IBOutlet weak var interests: UILabel!
+    @IBOutlet weak var view: UIView!
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -31,8 +31,8 @@ class DiscoverCardVC: UIViewController {
         profile_of.lastname = "Stone"
         profile_of.country = Country(name: "France")
         profile_of.country?.flag_name = "france"
-        profile_of.status = "No temptation has overtaken you that is not common to man. God is faithful, and he will not let you be tempted beyond your ability, but with the temptation he will also provide the way of escape, that you may be able to endure it."
-        profile_of.interests = "Sport, doing stuff, doing more stuff after that and football"
+        profile_of.status = NSAttributedString(string: "No temptation has overtaken you that is not common to man. God is faithful, and he will not let you be tempted beyond your ability, but with the temptation he will also provide the way of escape, that you may be able to endure it.")
+        profile_of.interests = "🇩🇪, 🇮🇹, 🥋 and Traveling"
         profile_of.reflections?.append(Reflection(text: "Such a nice person. you should check him out dudes", user_name: "Giorgio A.", user_id: "123", date: Date(timeIntervalSince1970: 0)))
         profile_of.reflections?.append(Reflection(text: "This is a long reflection so i can check if everything goes fine if the reflections get a little longer than planned because i like planning myself and seein my plans fail is just fun and you should try it too to be honest you might enjoy it as well", user_name: "Giorgio A.", user_id: "123", date: Date(timeIntervalSince1970: 1)))
         profile_of.learn_languages = [Language(name: "German"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish"), Language(name: "Spanish")]
@@ -98,7 +98,32 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 3:
             let cell = Bundle.main.loadNibNamed("StatusProfileCell", owner: self, options: nil)?.first as! StatusProfileCell
             
-            cell.status.text = profile_of.status
+            //cell.status.text = profile_of.status
+            
+            cell.status.attributedText = profile_of.status
+            cell.status.setLineSpacing(lineSpacing: 3, lineHeightMultiple: 2)
+            cell.status.textAlignment = .center
+            
+            cell.view.layer.cornerRadius = 23
+            cell.view.layer.shadowColor = UIColor.black.cgColor
+            cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
+            cell.view.layer.shadowOpacity = 0.2
+            cell.view.layer.shadowRadius = 4.0
+            
+            return cell
+            
+        case 4:
+            let cell = Bundle.main.loadNibNamed("InterestsProfileCell", owner: self, options: nil)?.first as! InterestsProfileCell
+            
+            cell.interests.text = profile_of.interests
+            
+//            cell.interests.layer.borderColor = Colors.grey.cgColor
+//            cell.interests.layer.borderWidth = 0.3
+//            cell.interests.layer.cornerRadius = 17
+//            
+//            cell.interests.sizeToFit()
+//            cell.interests.frame = CGRect(cell.view.frame.origin.x / 2, cell.interests.frame.origin.y, cell.interests.frame.width + 15, cell.interests.frame.height + 20)
+//            cell.interests.textAlignment = .center
             
             cell.view.layer.cornerRadius = 23
             cell.view.layer.shadowColor = UIColor.black.cgColor
@@ -148,14 +173,13 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             let cell = Bundle.main.loadNibNamed("StatusProfileCell", owner: self, options: nil)?.first as! StatusProfileCell
             
             
-            print(profile_of.status?.height(withWidth: 309, font:UIFont(name: "Helvetica Neue", size: 14)!))
             
-            //return (cell.status.text?.height(withWidth: 309, font: UIFont(name: "Helvetica Neue", size: 14)!))!
-            
-            return 300
+            return (profile_of.status?.string.height(withWidth: cell.status.frame.width, font: UIFont(name: "Helvetica Neue", size: 16)!))! + 97
+        case 4:
+            return 184.5
             
         case 6:
-            return 30
+            return 105
             
         default:
             return 100
@@ -163,5 +187,28 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         
     }
     
+    func getHeight(for attributedString: NSAttributedString, font: UIFont, width: CGFloat) -> CGFloat {
+        
+        let textStorage = NSTextStorage(attributedString: attributedString)
+        let textContainter = NSTextContainer(size: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+        let layoutManager = NSLayoutManager()
+        layoutManager.addTextContainer(textContainter)
+        textStorage.addLayoutManager(layoutManager)
+        textStorage.addAttribute(NSAttributedString.Key.font, value: font, range: NSMakeRange(0, textStorage.length))
+        textContainter.lineFragmentPadding = 0.0
+        layoutManager.glyphRange(for: textContainter)
+        return layoutManager.usedRect(for: textContainter).size.height
+    }
     
+    func getHeight(for string: String, font: UIFont, width: CGFloat) -> CGFloat {
+        let textStorage = NSTextStorage(string: string)
+        let textContainter = NSTextContainer(size: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude))
+        let layoutManager = NSLayoutManager()
+        layoutManager.addTextContainer(textContainter)
+        textStorage.addLayoutManager(layoutManager)
+        textStorage.addAttribute(NSAttributedString.Key.font, value: font, range: NSMakeRange(0, textStorage.length))
+        textContainter.lineFragmentPadding = 0.0
+        layoutManager.glyphRange(for: textContainter)
+        return layoutManager.usedRect(for: textContainter).size.height
+    }
 }

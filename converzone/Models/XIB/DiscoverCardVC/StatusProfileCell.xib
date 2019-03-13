@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="StatusProfileCell" id="HEC-b6-Adc" customClass="StatusProfileCell" customModule="converzone" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="270"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HEC-b6-Adc" id="gSp-Ho-Ddh">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="269.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nkx-MT-PvM">
+                        <rect key="frame" x="25" y="17" width="325" height="235"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pbt-qi-LEm">
+                                <rect key="frame" x="40" y="19" width="277" height="27"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="27" id="nbj-AN-Vha"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="go5-qg-mpk">
+                                <rect key="frame" x="14" y="54" width="297" height="173"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">“Just take my hand, lead, dance with me…and I will simply follow the blueness of the water, the white waves rolling free…where the earth beneath my feet and stars make my heart whole again…in long and priceless moments of shared solitude…” 
+</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="16" name=".AppleSystemUIFont"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="2" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="―">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="16" name=".LucidaGrandeUI"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="1" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" Oksana Rus">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="16" name=".AppleSystemUIFont"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="1" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Pbt-qi-LEm" secondAttribute="trailing" constant="8" id="5z0-XJ-wHj"/>
+                            <constraint firstItem="Pbt-qi-LEm" firstAttribute="top" secondItem="Nkx-MT-PvM" secondAttribute="top" constant="19" id="FZC-uJ-rz2"/>
+                            <constraint firstItem="go5-qg-mpk" firstAttribute="leading" secondItem="Nkx-MT-PvM" secondAttribute="leading" constant="14" id="WYd-pP-WSv"/>
+                            <constraint firstAttribute="bottom" secondItem="go5-qg-mpk" secondAttribute="bottom" constant="8" id="fCB-9T-HUz"/>
+                            <constraint firstItem="Pbt-qi-LEm" firstAttribute="leading" secondItem="Nkx-MT-PvM" secondAttribute="leading" constant="40" id="fbE-pC-Asu"/>
+                            <constraint firstAttribute="trailing" secondItem="go5-qg-mpk" secondAttribute="trailing" constant="14" id="lC8-EG-UO6"/>
+                            <constraint firstItem="go5-qg-mpk" firstAttribute="top" secondItem="Pbt-qi-LEm" secondAttribute="bottom" constant="8" id="lkN-Kg-C1C"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="Nkx-MT-PvM" secondAttribute="trailing" constant="9" id="CH7-ot-fLS"/>
+                    <constraint firstItem="Nkx-MT-PvM" firstAttribute="leading" secondItem="gSp-Ho-Ddh" secondAttribute="leadingMargin" constant="9" id="cKg-P8-ZYe"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Nkx-MT-PvM" secondAttribute="bottom" constant="7" id="fda-R8-jGR"/>
+                    <constraint firstItem="Nkx-MT-PvM" firstAttribute="top" secondItem="gSp-Ho-Ddh" secondAttribute="topMargin" constant="6" id="hbY-C7-PBM"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="status" destination="go5-qg-mpk" id="LgS-Fd-I5w"/>
+                <outlet property="view" destination="Nkx-MT-PvM" id="JHB-Cj-uRb"/>
+            </connections>
+            <point key="canvasLocation" x="709.60000000000002" y="35.982008995502248"/>
+        </tableViewCell>
+    </objects>
+</document>

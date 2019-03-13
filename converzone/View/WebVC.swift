@@ -13,6 +13,7 @@ class WebVC: UIViewController, WKUIDelegate {
 
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var progressView: UIProgressView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,9 +39,49 @@ class WebVC: UIViewController, WKUIDelegate {
 
         webView.allowsLinkPreview = false
         
-       
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
     }
     
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        
+        //self.progressView.setProgress(Float(webView.estimatedProgress), animated: true)
+        
+        UIView.animate(withDuration: 1, delay: 0.1, options: UIView.AnimationOptions.curveEaseInOut, animations: {
+            self.progressView.progressTintColor = randomColor()
+            
+//            self.navigationController?.
+        })
+        
+        
+        
+        if self.webView.estimatedProgress >= 1.0 {
+            
+            UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseIn, animations: {
+                
+                self.progressView.alpha = 0
+                
+            }) { (finished: Bool) in
+                
+                self.progressView.alpha = 0
+                
+            }
+            
+        }
+
+        
+    }
+    
+    func showProgressView() {
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.progressView.alpha = 1
+        }, completion: nil)
+    }
+    
+    func hideProgressView() {
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.progressView.alpha = 0
+        }, completion: nil)
+    }
     
     
     func loadWebsite(search: String){
@@ -68,34 +109,15 @@ class WebVC: UIViewController, WKUIDelegate {
 extension WebVC: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-            webView.alpha = 1
-            
-            
-            
-        }, completion: nil)
-
+        hideProgressView()
     }
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-            webView.alpha = 0.3
-            
-        
-            
-        }, completion: nil)
-        
-        webView.alpha = 0
-
+        showProgressView()
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-            webView.alpha = 1
-            
-            
-            
-        }, completion: nil)
+        hideProgressView()
     }
 }
 

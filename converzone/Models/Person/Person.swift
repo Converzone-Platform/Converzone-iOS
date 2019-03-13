@@ -27,7 +27,7 @@ class Person {
     
     //Platform Informations
     internal var interests: String?
-    internal var status: String?
+    internal var status: NSAttributedString?
     internal var link_to_profile_image: URL?
     internal var reflections: [Reflection]? = []
     
