@@ -8,11 +8,16 @@
 
 import Foundation
 
-enum Gender {
+let genderStrings = ["female", "male", "non binary"]
+
+enum Gender: Int, CaseIterable {
     
     case female
     case male
     case non_binary
     
+    func toString() -> String {
+        return genderStrings[self.rawValue]
+    }
+    
 }
-

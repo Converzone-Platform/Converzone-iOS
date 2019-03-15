@@ -14,6 +14,8 @@ class EditProfileVC: UIViewController{
     
     var titlesOfCells = ["First name", "Last name", "Gender", "Birthdate", "Interests", "Status", "Discoverable"]
     
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         profile_image.addGestureRecognizer(tapGesture)
@@ -25,14 +27,12 @@ class EditProfileVC: UIViewController{
         
         //Dismiss for keyboard
         //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(endEditing))
 
         view.addGestureRecognizer(tap)
-        
-        
     }
     
-    @objc func dismissKeyboard() {
+    @objc func endEditing() {
         view.endEditing(true)
     }
     
@@ -40,14 +40,45 @@ class EditProfileVC: UIViewController{
         print("Save everything and send to server!")
     }
     
+    @objc func pickDate (datePicker: UIDatePicker){
+        
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.locale = NSLocale(localeIdentifier: Locale.current.languageCode!) as Locale
+        
+        let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as! InputDateCell
+        cell.date.text = formatter.string(from: datePicker.date)
+        
+    }
     
+}
+
+extension EditProfileVC: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return Gender.allCases.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        
+        return Gender.allCases[row].toString()
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as! InputGenderCell
+        cell.gender.text = Gender.allCases[row].toString()
+    }
 }
 
 extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if (section == 3) { return 1}
+        if (section == 3) { return 1 }
         
         return 2
     }
@@ -56,12 +87,100 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
         return 4
     }
     
+    func getIndexOfTitles( indexPath: IndexPath ) -> Int{
+        
+        switch indexPath.section {
+        case 0:
+            if ( indexPath.row == 0) { return 0 }
+            
+            return 1
+        case 1:
+            if ( indexPath.row == 0) { return 2 }
+            
+            return 3
+        case 2:
+            if ( indexPath.row == 0) { return 4 }
+            
+            return 5
+        case 3:
+            return 6
+        default:
+            return 1
+        }
+        
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NormalInputCell") as! NormalInputCell
         
-        cell.title?.text = titlesOfCells[indexPath.row + (indexPath.section * 2)]
+        switch indexPath.section {
+            
+        case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NormalInputCell") as! NormalInputCell
+            
+            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            
+            return cell
+            
+        case 1:
+            
+            if indexPath.row == 0 {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "InputGenderCell") as! InputGenderCell
+                
+                cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+                
+                let picker = UIPickerView()
+                picker.delegate = self
+                
+                cell.gender.inputView = picker
+                
+                return cell
+                
+            }else{
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "InputDateCell") as! InputDateCell
+                
+                cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+                
+                // Setup date picker
+                let datePicker = UIDatePicker()
+                datePicker.datePickerMode = .date
+                datePicker.locale = NSLocale(localeIdentifier: Locale.current.languageCode!) as Locale
+                
+                cell.date.inputView = datePicker
+                
+                datePicker.addTarget(self, action: #selector(pickDate(datePicker:)), for: .valueChanged)
+                
+                return cell
+                
+            }
+            
+            
+            
+        case 2:
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "InputLongTextCell") as! InputLongTextCell
+            
+            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            
+            return cell
+            
+        case 3:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "BooleanInputCell") as! BooleanInputCell
+            
+            cell.discoverable.isOn = true
+            
+            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            
+            return cell
         
-        return cell
+        default:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NormalInputCell") as! NormalInputCell
+            
+            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

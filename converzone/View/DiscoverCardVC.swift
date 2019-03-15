@@ -172,8 +172,6 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             
             let cell = Bundle.main.loadNibNamed("StatusProfileCell", owner: self, options: nil)?.first as! StatusProfileCell
             
-            
-            
             return (profile_of.status?.string.height(withWidth: cell.status.frame.width, font: UIFont(name: "Helvetica Neue", size: 16)!))! + 97
         case 4:
             return 184.5

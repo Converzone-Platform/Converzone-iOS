@@ -21,9 +21,7 @@ import CoreData
     // MARK: - Core Data stack
 
     //MARK: TODO - persistentContainer and saveContext work differently since iOS 10. Find a way for older versions
-    
-    /*
-     lazy var persistentContainer: NSPersistentContainer = {
+    lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
          creates and returns a container, having loaded the store for the
@@ -51,7 +49,6 @@ import CoreData
     }()
 
     // MARK: - Core Data Saving support
-
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
@@ -65,8 +62,5 @@ import CoreData
             }
         }
     }
-     
-     */
-
 }
 

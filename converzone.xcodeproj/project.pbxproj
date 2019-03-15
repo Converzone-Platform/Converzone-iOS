@@ -21,6 +21,7 @@
 		4A1C985D21BC720A00F99D62 /* LanguagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C985C21BC720A00F99D62 /* LanguagesVC.swift */; };
 		4A337EEF21B549CA002A12EF /* StandardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A337EEE21B549CA002A12EF /* StandardView.swift */; };
 		4A46A0CC222428FF00324A93 /* RandomDiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */; };
+		4A526B03223A53A3002B12C7 /* home_screen in Resources */ = {isa = PBXBuildFile; fileRef = 4A526B02223A53A3002B12C7 /* home_screen */; };
 		4A5D856721B29F07004E3E79 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856621B29F07004E3E79 /* Colors.swift */; };
 		4A5D856B21B31341004E3E79 /* StandardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856A21B31341004E3E79 /* StandardLabel.swift */; };
 		4A5D856D21B3135F004E3E79 /* StandardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856C21B3135F004E3E79 /* StandardButton.swift */; };
@@ -40,7 +41,7 @@
 		4AA328892229269500AB79C4 /* DiscoverCardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA328882229269500AB79C4 /* DiscoverCardVC.swift */; };
 		4AA3288B22294E4700AB79C4 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA3288A22294E4700AB79C4 /* ChatVC.swift */; };
 		4AA3288D2229D3B300AB79C4 /* ImageProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AA3288C2229D3B300AB79C4 /* ImageProfileCell.xib */; };
-		4AA8739C22143AE7006035A3 /* NormalInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA8739B22143AE7006035A3 /* NormalInputCell.swift */; };
+		4AA8739C22143AE7006035A3 /* NormalInputCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA8739B22143AE7006035A3 /* NormalInputCells.swift */; };
 		4AA8739F2214816B006035A3 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA8739E2214816B006035A3 /* WelcomeVC.swift */; };
 		4AA873A12214952F006035A3 /* WebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA873A02214952F006035A3 /* WebVC.swift */; };
 		4AAED90C218336F400968E3E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED90B218336F400968E3E /* AppDelegate.swift */; };
@@ -56,7 +57,6 @@
 		4AD7D687221A090A000E4660 /* DiscoverVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD7D686221A090A000E4660 /* DiscoverVC.swift */; };
 		4AD7D689221A19A4000E4660 /* StatusDiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD7D688221A19A4000E4660 /* StatusDiscoverCell.swift */; };
 		4AD7D68B221B2FFA000E4660 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD7D68A221B2FFA000E4660 /* SettingsVC.swift */; };
-		4AEF94B12231915300D5D64F /* home_screen in Resources */ = {isa = PBXBuildFile; fileRef = 4AEF94B02231915300D5D64F /* home_screen */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +93,7 @@
 		4A1C985F21BD47BA00F99D62 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		4A337EEE21B549CA002A12EF /* StandardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardView.swift; sourceTree = "<group>"; };
 		4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomDiscoverCell.swift; sourceTree = "<group>"; };
+		4A526B02223A53A3002B12C7 /* home_screen */ = {isa = PBXFileReference; lastKnownFileType = folder; path = home_screen; sourceTree = "<group>"; };
 		4A5D856621B29F07004E3E79 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		4A5D856A21B31341004E3E79 /* StandardLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardLabel.swift; sourceTree = "<group>"; };
 		4A5D856C21B3135F004E3E79 /* StandardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardButton.swift; sourceTree = "<group>"; };
@@ -112,7 +113,7 @@
 		4AA328882229269500AB79C4 /* DiscoverCardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCardVC.swift; sourceTree = "<group>"; };
 		4AA3288A22294E4700AB79C4 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
 		4AA3288C2229D3B300AB79C4 /* ImageProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageProfileCell.xib; sourceTree = "<group>"; };
-		4AA8739B22143AE7006035A3 /* NormalInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalInputCell.swift; sourceTree = "<group>"; };
+		4AA8739B22143AE7006035A3 /* NormalInputCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalInputCells.swift; sourceTree = "<group>"; };
 		4AA8739E2214816B006035A3 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		4AA873A02214952F006035A3 /* WebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebVC.swift; sourceTree = "<group>"; };
 		4AAED908218336F400968E3E /* converzone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = converzone.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,7 +135,6 @@
 		4AD7D686221A090A000E4660 /* DiscoverVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverVC.swift; sourceTree = "<group>"; };
 		4AD7D688221A19A4000E4660 /* StatusDiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusDiscoverCell.swift; sourceTree = "<group>"; };
 		4AD7D68A221B2FFA000E4660 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
-		4AEF94B02231915300D5D64F /* home_screen */ = {isa = PBXFileReference; lastKnownFileType = folder; name = home_screen; path = ../../../../Desktop/home_screen; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,7 +253,7 @@
 		4AA8739D22143AF8006035A3 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				4AA8739B22143AE7006035A3 /* NormalInputCell.swift */,
+				4AA8739B22143AE7006035A3 /* NormalInputCells.swift */,
 				4AD7D684221A0800000E4660 /* PicDiscoverCell.swift */,
 				4AD7D688221A19A4000E4660 /* StatusDiscoverCell.swift */,
 				4A7A70D0222405D80074BE5E /* ReflectionDiscoverCell.swift */,
@@ -267,7 +267,7 @@
 		4AAED8FF218336F400968E3E = {
 			isa = PBXGroup;
 			children = (
-				4AEF94B02231915300D5D64F /* home_screen */,
+				4A526B02223A53A3002B12C7 /* home_screen */,
 				4AAED90A218336F400968E3E /* converzone */,
 				4AAED922218336F400968E3E /* converzoneTests */,
 				4AAED92D218336F400968E3E /* converzoneUITests */,
@@ -330,6 +330,7 @@
 				4AAED904218336F400968E3E /* Sources */,
 				4AAED905218336F400968E3E /* Frameworks */,
 				4AAED906218336F400968E3E /* Resources */,
+				4A526B04223A55C3002B12C7 /* Increment Build */,
 			);
 			buildRules = (
 			);
@@ -431,7 +432,7 @@
 				4AA32887222925DD00AB79C4 /* DiscoverCardVC.xib in Resources */,
 				4A950C87222FB3C30089754D /* InterestsProfileCell.xib in Resources */,
 				4AAED916218336F400968E3E /* Assets.xcassets in Resources */,
-				4AEF94B12231915300D5D64F /* home_screen in Resources */,
+				4A526B03223A53A3002B12C7 /* home_screen in Resources */,
 				4AA3288D2229D3B300AB79C4 /* ImageProfileCell.xib in Resources */,
 				4A950C83222DA2640089754D /* StatusProfileCell.xib in Resources */,
 				4AAED911218336F400968E3E /* Main.storyboard in Resources */,
@@ -454,6 +455,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4A526B04223A55C3002B12C7 /* Increment Build */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Increment Build";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4AAED904218336F400968E3E /* Sources */ = {
@@ -491,7 +513,7 @@
 				4AD7D689221A19A4000E4660 /* StatusDiscoverCell.swift in Sources */,
 				4A5D856B21B31341004E3E79 /* StandardLabel.swift in Sources */,
 				4AA3288B22294E4700AB79C4 /* ChatVC.swift in Sources */,
-				4AA8739C22143AE7006035A3 /* NormalInputCell.swift in Sources */,
+				4AA8739C22143AE7006035A3 /* NormalInputCells.swift in Sources */,
 				4AA873A12214952F006035A3 /* WebVC.swift in Sources */,
 				4AD7D68B221B2FFA000E4660 /* SettingsVC.swift in Sources */,
 				4A016FE021B6B78B00095E26 /* Message.swift in Sources */,
