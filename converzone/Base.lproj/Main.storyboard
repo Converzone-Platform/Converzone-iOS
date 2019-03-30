@@ -1255,6 +1255,9 @@
                     <navigationItem key="navigationItem" title="Conversations" largeTitleDisplayMode="always" id="WXE-6a-9mo">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="2hc-sM-OtF"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="okL-nn-9kh" id="yVu-aY-gO1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U0h-VO-RI2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

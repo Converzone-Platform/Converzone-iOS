@@ -37,6 +37,9 @@ class TextMessage: Message {
         self.text = text
         self.is_sender = is_sender
         
+        //MARK: TODO - Change this to the received time
+        self.date = Date()
+        
         self.color = Colors.blue
     }
     
@@ -77,6 +80,8 @@ class ImageMessage: Message {
         
         self.image = image
         self.is_sender = is_sender
+        //MARK: TODO - Change this to the received time
+        self.date = Date()
         
         self.color = Colors.green
     }

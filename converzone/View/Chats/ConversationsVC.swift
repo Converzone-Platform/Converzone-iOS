@@ -10,6 +10,8 @@ import UIKit
 
 class ConversationsVC: UIViewController {
     
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         
         setUpNavBar()
@@ -20,13 +22,13 @@ class ConversationsVC: UIViewController {
     
     func setUpFakeUsers(){
         
-        let user_1 = User(firstname: "John", lastname: "Jefferson", gender: .male, birthdate: Date(timeIntervalSince1970: 0))
+        let user_1 = User(firstname: "John", lastname: "Jefferson", gender: .male, birthdate: Date())
         
         user_1.chat.append(TextMessage(text: "Hey! I am John!", is_sender: false))
         user_1.chat.append(TextMessage(text: "How are you doing, John?", is_sender: true))
         
         
-        let user_2 = User(firstname: "Jack", lastname: "Miller", gender: .male, birthdate: Date(timeIntervalSince1970: 0))
+        let user_2 = User(firstname: "Jack", lastname: "Miller", gender: .male, birthdate: Date())
         
         user_2.chat.append(TextMessage(text: "Hello Goga!", is_sender: false))
         user_2.chat.append(TextMessage(text: "How are you?", is_sender: false))
@@ -35,6 +37,17 @@ class ConversationsVC: UIViewController {
         master?.chats.append(user_1)
         master?.chats.append(user_2)
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        master?.chats.sort(by: { (user1, user2) -> Bool in
+            return (user1.chat.last?.date?.isGreaterThan((user2.chat.last?.date)!))!  
+            
+        })
+        
+        //MARK: TODO - Reloading the whole tableview might be too much
+        tableView.reloadData()
     }
     
     func setUpNavBar(){
@@ -86,11 +99,26 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        chatOf = master?.chats[indexPath.row]
+        indexOfUser = indexPath.row
         
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let balanceViewController = storyBoard.instantiateViewController(withIdentifier: "ChatVC")
         self.navigationController?.pushViewController(balanceViewController, animated: true)
         
+    }
+}
+
+extension Date {
+    
+    func isEqualTo(_ date: Date) -> Bool {
+        return self == date
+    }
+    
+    func isGreaterThan(_ date: Date) -> Bool {
+        return self > date
+    }
+    
+    func isSmallerThan(_ date: Date) -> Bool {
+        return self < date
     }
 }
