@@ -13,20 +13,33 @@ class Message {
     
     internal var date: Date?
     internal var sent: Bool?
-    internal var is_sender: Bool?
 }
 
 //Color: blue
 class TextMessage: Message {
     
     internal var text: String?
-    internal var only_emojies: Bool?
+    internal var only_emojies: Bool?{
+        get{
+            return text?.containsOnlyEmoji
+        }
+        set{
+            // Don't do anything here
+        }
+    }
+    internal var is_sender: Bool?
+    
+    init(text: String, is_sender: Bool) {
+        self.text = text
+        self.is_sender = is_sender
+    }
 }
 
 //Color: green
 class AudioMessage: Message {
     
     internal var path: String?
+    internal var is_sender: Bool?
 }
 
 //Color: green
@@ -34,6 +47,15 @@ class ImageMessage: Message {
     
     internal var path: String?
     internal var link: String?
+    internal var is_sender: Bool?
+    
+    // For testing purposes
+    internal var image: UIImage?
+    
+    init(image: UIImage, is_sender: Bool) {
+        self.image = image
+        self.is_sender = is_sender
+    }
 }
 
 //Color: green
@@ -41,6 +63,7 @@ class VideoMessage: Message {
     
     internal var path: String?
     internal var link: String?
+    internal var is_sender: Bool?
 }
 
 //Color: green
@@ -48,6 +71,7 @@ class GifMessage: Message {
     
     internal var path: String?
     internal var link: String?
+    internal var is_sender: Bool?
 }
 
 //Color: green
@@ -55,31 +79,38 @@ class LinkMessage: Message {
     
     internal var meta_image: String?
     internal var meta_text: String?
+    internal var is_sender: Bool?
 }
 
 //Color: green
 class LocationMessage: Message {
     
-    internal var latitude: CLLocationCoordinate2D?
-    internal var longitude: CLLocationCoordinate2D?
+    internal var coordinate: CLLocationCoordinate2D?
+    internal var is_sender: Bool?
 }
 
 //Color: orange
 class UserMessage: Message {
     
     internal var user_id: String?
+    internal var is_sender: Bool?
+    
+    // Please delete me when the final release is about to happen
+    internal var user: User?
 }
 
 //Color: orange
 class ReflectionMessage: Message {
     
     internal var text: String?
+    internal var is_sender: Bool?
 }
 
 //Color: orange
 class WroteReflectionMessage: Message {
     
     internal var reflection: String?
+    internal var is_sender: Bool?
 }
 
 // Color: red
@@ -94,4 +125,8 @@ class CannotDisplayMessage: Message {
     // The partner sent a message which has not been introduced with this version of the app
     
     internal var text: String?
+}
+
+class ReminderMessage: Message {
+    
 }

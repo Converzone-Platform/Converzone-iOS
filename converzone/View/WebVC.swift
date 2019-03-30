@@ -44,15 +44,9 @@ class WebVC: UIViewController, WKUIDelegate {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
-        //self.progressView.setProgress(Float(webView.estimatedProgress), animated: true)
-        
         UIView.animate(withDuration: 1, delay: 0.1, options: UIView.AnimationOptions.curveEaseInOut, animations: {
             self.progressView.progressTintColor = randomColor()
-            
-//            self.navigationController?.
         })
-        
-        
         
         if self.webView.estimatedProgress >= 1.0 {
             
@@ -83,11 +77,21 @@ class WebVC: UIViewController, WKUIDelegate {
         }, completion: nil)
     }
     
-    
     func loadWebsite(search: String){
         
-        let myURL = URL(string: fromSimpleWordsToSearch(simpleWords: search))
-        let myRequest = URLRequest(url: myURL!)
+        var myURL: URL = URL(string: search)!
+        
+        if search.isURL() {
+            
+            myURL = URL(string: search)!
+            
+        }else{
+            
+            myURL = URL(string: fromSimpleWordsToSearch(simpleWords: search))!
+            
+        }
+        
+        let myRequest = URLRequest(url: myURL)
         webView.load(myRequest)
     }
     
@@ -118,18 +122,6 @@ extension WebVC: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         hideProgressView()
-    }
-}
-
-extension String {
-    var isValidURL: Bool {
-        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-        if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.endIndex.encodedOffset)) {
-            // it is a link, if the match covers the whole string
-            return match.range.length == self.endIndex.encodedOffset
-        } else {
-            return false
-        }
     }
 }
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SendMessageProfileCell" rowHeight="86" id="4MN-4n-1A5" customClass="SendMessageProfileCell" customModule="converzone" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="86"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4MN-4n-1A5" id="swk-Tq-jKh">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="85.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G7b-sJ-txN">
+                        <rect key="frame" x="97.5" y="27" width="180" height="30"/>
+                        <color key="backgroundColor" red="0.16862745100000001" green="0.55294117649999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="5ca-lX-FrT"/>
+                            <constraint firstAttribute="width" secondItem="G7b-sJ-txN" secondAttribute="height" multiplier="6:1" id="E0h-cy-lxp"/>
+                        </constraints>
+                        <state key="normal" title="Button">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <connections>
+                            <action selector="sendMessage:" destination="4MN-4n-1A5" eventType="touchUpInside" id="UOr-tU-hvr"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="G7b-sJ-txN" firstAttribute="top" secondItem="swk-Tq-jKh" secondAttribute="topMargin" constant="16" id="9BA-2f-FrV"/>
+                    <constraint firstItem="G7b-sJ-txN" firstAttribute="centerX" secondItem="swk-Tq-jKh" secondAttribute="centerX" id="OBv-dc-9RJ"/>
+                    <constraint firstItem="G7b-sJ-txN" firstAttribute="centerY" secondItem="swk-Tq-jKh" secondAttribute="centerY" id="zn5-T2-sAN"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="sendMessage" destination="G7b-sJ-txN" id="mhD-jl-cVP"/>
+            </connections>
+            <point key="canvasLocation" x="-916" y="-381"/>
+        </tableViewCell>
+    </objects>
+</document>

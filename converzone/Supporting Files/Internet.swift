@@ -7,6 +7,10 @@
 //
 
 import SystemConfiguration
+import UIKit
+
+//Base url
+var baseURL = "http://converzone.htl-perg.ac.at/"
 
 public class Internet {
     
@@ -65,4 +69,56 @@ public class Internet {
          return isReachable && !needsConnection
  
     }
+    
+    class func database(url: String = baseURL, parameters: [String: Any], completionHandler: @escaping (_ json: [[String: Any]]?, _ response: URLResponse?, _ error: Error?) -> ()) {
+        
+        var request = URLRequest(url: URL(string: url)! )
+        
+        request.httpMethod = "POST"
+        
+        //request.httpBody = par.data(using: String.Encoding.utf8)
+        request.httpBody = parameters.percentEscaped().data(using: .utf8)
+        
+        URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+            
+            if error != nil{
+                
+                completionHandler(nil, response, error)
+                
+                return
+            }
+            
+            do {
+                
+                let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                print(json)
+                guard let jsonArray = json as? [[String: Any]] else {
+                    
+                    completionHandler(nil, response, error)
+                    
+                    return
+                }
+                
+                completionHandler(jsonArray, response, error)
+                
+            } catch {
+                completionHandler(nil, response, error)
+            }
+            
+        }.resume()
+        
+    }
+    
+    class func sendText(message: String){
+        
+    }
+    
+    class func sendImage(message: UIImage){
+        
+    }
+    
+    
+    
 }
+
+

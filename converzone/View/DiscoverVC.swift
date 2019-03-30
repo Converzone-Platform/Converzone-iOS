@@ -40,8 +40,6 @@ class DiscoverVC: UIViewController {
         setUpNavBar()
     }
     
-    
-    
     func removeCard(){
         
         self.discoverCardVC.removeFromParent()
@@ -67,8 +65,8 @@ class DiscoverVC: UIViewController {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DiscoverVC.handleCardTap(recognizer:)))
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(DiscoverVC.handleCardPan(recognizer:)))
         
-        discoverCardVC.handleArea.addGestureRecognizer(tapGestureRecognizer)
-        discoverCardVC.handleArea.addGestureRecognizer(panGestureRecognizer)
+        discoverCardVC.handleArea_view.addGestureRecognizer(tapGestureRecognizer)
+        discoverCardVC.handleArea_view.addGestureRecognizer(panGestureRecognizer)
         
         cardHeight = self.view.frame.height - 30
         
@@ -95,7 +93,7 @@ class DiscoverVC: UIViewController {
             startInteractiveTransition(state: nextState, duration: 0.9)
             
         case .changed:
-            let transition = recognizer.translation(in: self.discoverCardVC.handleArea)
+            let transition = recognizer.translation(in: self.discoverCardVC.handleArea_view)
             var fractionCompleted = transition.y / cardHeight
             fractionCompleted = cardVisible ? fractionCompleted : -fractionCompleted
             updateInteractiveTransition(fractionCompleted: fractionCompleted)
@@ -160,18 +158,6 @@ class DiscoverVC: UIViewController {
             blurAnimator.startAnimation()
             runningAnimations.append(blurAnimator)
             
-//            let alphaAnimation = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
-//                switch state {
-//                case .expanded:
-//                    self.discoverCardVC.view.alpha = 1
-//                case .collapsed:
-//                    self.discoverCardVC.view.alpha = 0
-//                }
-//            }
-//            
-//            alphaAnimation.startAnimation()
-//            runningAnimations.append(blurAnimator)
-            
             let navAnimation = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
                 
                 switch state {
@@ -199,9 +185,7 @@ class DiscoverVC: UIViewController {
         
     func startInteractiveTransition(state: CardState, duration: TimeInterval){
         if runningAnimations.isEmpty {
-            
             animateTransitionIfNeeded(state: state, duration: duration)
-            
         }
         
         for animator in runningAnimations {
@@ -253,7 +237,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PicDiscoverCell") as! PicDiscoverCell
             
             cell.name.text = names[indexPath.row]
-            cell.profileImage.image = UIImage(named: String(indexPath.row))
+            cell.profileImage.image = UIImage(named: String(arc4random_uniform(14)))
             
             cell.profileImage.contentMode = .scaleAspectFill
             cell.profileImage.clipsToBounds = true
@@ -273,7 +257,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StatusDiscoverCell") as! StatusDiscoverCell
             
             cell.name.text = names[indexPath.row]
-            cell.profileImage.image = UIImage(named: String(indexPath.row))
+            cell.profileImage.image = UIImage(named: String(arc4random_uniform(14)))
             
             cell.profileImage.layer.cornerRadius = cell.profileImage.layer.frame.width / 2
             cell.profileImage.layer.masksToBounds = true
@@ -293,7 +277,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ReflectionDiscoverCell") as! ReflectionDiscoverCell
             
             cell.name.text = names[indexPath.row ]
-            cell.profileImage.image = UIImage(named: String(indexPath.row))
+            cell.profileImage.image = UIImage(named: String(arc4random_uniform(14)))
             
             cell.profileImage.layer.cornerRadius = 23
             cell.profileImage.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -360,11 +344,12 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
                 }
             
             default:
-                print("The others don't need to be animated")
+                print("There is no cell with that name")
                 return
             
         }
     }
+    
     func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
         switch types[indexPath.row] {
             case 0:

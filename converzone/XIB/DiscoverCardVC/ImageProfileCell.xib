@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImageProfileCell" id="13a-X5-9aT" customClass="ImageProfileCell" customModule="converzone" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="13a-X5-9aT" id="krQ-hc-zqZ">
+                <rect key="frame" x="0.0" y="0.0" width="100" height="99.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cWF-uP-sn5">
+                        <rect key="frame" x="14.5" y="14" width="71.5" height="71.5"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="LK8-8W-9iy">
+                                <rect key="frame" x="0.0" y="0.0" width="71.5" height="71.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="71.5" id="95F-fD-WrM"/>
+                            <constraint firstAttribute="height" constant="71.5" id="QA9-a3-2eq"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="cWF-uP-sn5" firstAttribute="centerY" secondItem="krQ-hc-zqZ" secondAttribute="centerY" id="7IT-vi-pa2"/>
+                    <constraint firstItem="cWF-uP-sn5" firstAttribute="top" secondItem="krQ-hc-zqZ" secondAttribute="top" constant="14" id="H4D-g3-6C5"/>
+                    <constraint firstItem="cWF-uP-sn5" firstAttribute="centerX" secondItem="krQ-hc-zqZ" secondAttribute="centerX" id="YfU-bh-J8G"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="profileImage" destination="LK8-8W-9iy" id="VOy-QA-alK"/>
+                <outlet property="view" destination="cWF-uP-sn5" id="prk-IV-6Nh"/>
+            </connections>
+            <point key="canvasLocation" x="-332.80000000000001" y="-352.62368815592208"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="1" width="1000" height="750"/>
+    </resources>
+</document>

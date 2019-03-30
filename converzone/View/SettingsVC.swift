@@ -32,9 +32,28 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell")
         
-        cell?.imageView?.image = UIImage(named: "austria")
-        
-        cell?.textLabel?.text = settings[ rowsFor(section: indexPath.section) + indexPath.row - 1 ]
+        switch tableView.globalIndexPath(for: indexPath as NSIndexPath){
+            
+        case 0:
+            
+            cell?.textLabel?.text = "Goga"
+            cell?.detailTextLabel?.text = "jknafdslkjas"
+            
+            cell?.imageView?.image = UIImage(named: "2")
+            cell?.imageView?.layer.cornerRadius = cell?.imageView?.layer.frame.height ?? 50 / 2
+            cell?.imageView?.layer.masksToBounds = true
+            
+            cell?.accessoryType = .disclosureIndicator
+            
+        default:
+            
+            //cell?.imageView?.image = UIImage(named: "austria")
+            
+            cell?.textLabel?.text = settings[ tableView.globalIndexPath(for: indexPath as NSIndexPath) ]
+            
+            cell?.accessoryType = .disclosureIndicator
+            
+        }
         
         return cell!
     }
@@ -58,7 +77,18 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate {
         
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 10
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        
+        switch (indexPath.section){
+        case 0:
+            return 100
+        default:
+            return 44
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 25
     }
 }

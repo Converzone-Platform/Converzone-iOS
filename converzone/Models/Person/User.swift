@@ -15,5 +15,5 @@ class User: Person {
     internal var small_profile_images: [UIImage]?
     
     //Chats with the Person
-    internal var chat: [Message]?
+    internal var chat: [Message] = []
 }

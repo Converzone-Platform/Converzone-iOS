@@ -17,7 +17,7 @@ class Master: Person {
     internal var password: String
     
     //All people with whom the master has chats with
-    internal var chats: [User]?
+    internal var chats: [User] = []
     
     //Platform
     internal var profile_images: [UIImage]?
@@ -25,5 +25,9 @@ class Master: Person {
     init(_ email: String, _ password: String) {
         self.email = email
         self.password = password
+        
+        super.init(firstname: "Unknown", lastname: "Unknown", gender: .non_binary, birthdate: Date(timeIntervalSince1970: 0))
     }
 }
+
+

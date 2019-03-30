@@ -19,7 +19,6 @@ import CoreData
     }
 
     // MARK: - Core Data stack
-
     //MARK: TODO - persistentContainer and saveContext work differently since iOS 10. Find a way for older versions
     lazy var persistentContainer: NSPersistentContainer = {
         /*
@@ -45,6 +44,7 @@ import CoreData
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        
         return container
     }()
 

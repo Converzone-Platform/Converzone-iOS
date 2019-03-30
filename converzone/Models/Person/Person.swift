@@ -10,6 +10,7 @@
     The main user and all other users will extend this class later */
 
 import Foundation
+import MapKit
 
 class Person {
     
@@ -19,17 +20,40 @@ class Person {
     internal var gender: Gender?
     internal var birthdate: Date?
     internal var main_language: Language?
-    internal var speak_languages: [Language]? = []
-    internal var learn_languages: [Language]? = []
+    internal var speak_languages: [Language] = []
+    internal var learn_languages: [Language] = []
     
     internal var continent: String?
     internal var country: Country?
+    internal var coordinate: CLLocationCoordinate2D?
     
     //Platform Informations
     internal var interests: String?
     internal var status: NSAttributedString?
-    internal var link_to_profile_image: URL?
-    internal var reflections: [Reflection]? = []
+    internal var link_to_profile_image: String?
+    internal var reflections: [Reflection] = []
     
+    init (firstname: String, lastname: String, gender: Gender, birthdate: Date){
+        self.firstname = firstname
+        self.lastname = lastname
+        self.gender = gender
+        self.birthdate = birthdate
+    }
     
+    init(){
+        
+    }
+    
+    //Functionality
+    func sortLanguagesAlphabetically(){
+        
+        self.speak_languages.sort{
+            $0.name.localizedCaseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending
+        }
+        
+        self.learn_languages.sort{
+            $0.name.localizedCaseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending
+        }
+        
+    }
 }
