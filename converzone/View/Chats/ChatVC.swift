@@ -10,6 +10,8 @@ import UIKit
 import MapKit
 import CoreLocation
 
+var chatOf: User? = nil
+
 class ChatVC: UIViewController {
     
     @IBOutlet weak var messageInputBottomConstraint: NSLayoutConstraint!
@@ -61,7 +63,7 @@ class ChatVC: UIViewController {
                     self.locationManager.requestLocation()
                     locationMessage.coordinate = master?.coordinate
                     
-                    self.messages.append(locationMessage)
+                    chatOf!.chat.append(locationMessage)
                     
                     self.updateTableView(animated: true)
                     
@@ -85,14 +87,6 @@ class ChatVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var messages: [Message] = []{
-        
-        didSet{
-            
-        }
-        
-    }
-    
     override func viewDidLoad() {
        
         self.navigationItem.title = "MC Haselnussbaum"
@@ -110,8 +104,6 @@ class ChatVC: UIViewController {
         tableView.estimatedRowHeight = 1000
         
         tableView.backgroundColor = Colors.backgroundGrey
-        
-        createFakeMessages()
         
         NotificationCenter.default.addObserver(self, selector: #selector(didTakeScreenshot), name: UIApplication.userDidTakeScreenshotNotification, object: nil)
         
@@ -168,25 +160,9 @@ class ChatVC: UIViewController {
     
     func scrollToBottom(animated: Bool){
         DispatchQueue.main.async {
-            let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+            let indexPath = IndexPath(row: (chatOf?.chat.count)!-1, section: 0)
             self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
         }
-    }
-    
-    func createFakeMessages(){
-        
-        for _ in 0...2000{
-            messages.append(TextMessage(text: randomString(), is_sender: arc4random() % 2 == 0))
-        }
-        
-        //messages.append(TextMessage(text:"", is_sender: true))
-    }
-    
-    
-    
-    func randomString() -> String {
-        let randomMessages = ["14  For if you forgive other people when they sin against you, your heavenly Father will also forgive you. 15  But if you do not forgive others their sins, your Father will not forgive your sins.", "12  “Even now,” declares the LORD, “return to me with all your heart, with fasting and weeping and mourning.” 13  Rend your heart and not your garments. Return to the LORD your God, for he is gracious and compassionate, slow to anger and abounding in love, and he relents from sending calamity.", "1  “Come, let us return to the LORD. He has torn us to pieces but he will heal us; he has injured us but he will bind up our wounds. 2  After two days he will revive us; on the third day he will restore us, that we may live in his presence.", "4  One thing I ask from the LORD, this only do I seek: that I may dwell in the house of the LORD all the days of my life, to gaze on the beauty of the LORD and to seek him in his temple.", "8  Keep my decrees and follow them. I am the LORD, who makes you holy.", "15  So then, brothers and sisters, stand firm and hold fast to the teachings we passed on to you, whether by word of mouth or by letter.", "14  For if you forgive other people when they sin against you, your heavenly Father will also forgive you. 15  But if you do not forgive others their sins, your Father will not forgive your sins.", "刃」在一把有柄刀的刀刃地方加一點，指出這裏是刀口最鋒利的地方", "迎刃而解」：迎著刀刃的竹子，會順著刀勢裂開。比喻戰事進展順利。語出《晉書．杜預列傳》。後形容相連的事物很容易分解，亦用來比喻事情很容易處理。"]
-        return randomMessages[Int(arc4random_uniform(UInt32(randomMessages.count)))]
     }
     
     @objc func didTakeScreenshot(){
@@ -196,7 +172,7 @@ class ChatVC: UIViewController {
         screenshot_message.text = NSLocalizedString("You", comment: "The pronoun") + " " + NSLocalizedString("took a screenshot!", comment: "Message when the master or the partner takes a screenshot")
         screenshot_message.date = NSDate() as Date
         
-        messages.append(screenshot_message)
+        chatOf?.chat.append(screenshot_message)
         
         //MARK: TODO - Send this to the partner
         
@@ -207,18 +183,18 @@ class ChatVC: UIViewController {
 extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        return (chatOf?.chat.count)!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch messages[indexPath.row]{
+        switch chatOf!.chat[indexPath.row]{
             
         case is TextMessage:
             
             let cell = Bundle.main.loadNibNamed("TextMessageCell", owner: self, options: nil)?.first as! TextMessageCell
             
-            let message = messages[indexPath.row] as! TextMessage
+            let message = chatOf?.chat[indexPath.row] as! TextMessage
             
             cell.message_label.text = message.text!
             
@@ -290,7 +266,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let cell = Bundle.main.loadNibNamed("ImageMessageCell", owner: self, options: nil)?.first as! ImageMessageCell
             
-            let message = messages[indexPath.row] as! ImageMessage
+            let message = chatOf?.chat[indexPath.row] as! ImageMessage
             
             //cell.message_imageView.download(from: message.link!)
             cell.message_imageView.image = message.image
@@ -323,7 +299,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         case is LocationMessage:
             let cell = Bundle.main.loadNibNamed("LocationMessageCell", owner: self, options: nil)?.first as! LocationMessageCell
             
-            let message = messages[indexPath.row] as! LocationMessage
+            let message = chatOf?.chat[indexPath.row] as! LocationMessage
             
             let latitude:CLLocationDegrees = (message.coordinate?.latitude)!
             let longitude:CLLocationDegrees = (message.coordinate?.longitude)!
@@ -367,7 +343,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let cell = Bundle.main.loadNibNamed("InformationMessageCell", owner: self, options: nil)?.first as! InformationMessageCell
             
-            let message = messages[indexPath.row] as! InformationMessage
+            let message = chatOf?.chat[indexPath.row] as! InformationMessage
             
             cell.information.text = message.text
             
@@ -390,7 +366,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        switch messages[indexPath.row]{
+        switch chatOf?.chat[indexPath.row]{
         case is ImageMessage:
             if (self.view.frame.width < self.view.frame.height){
                 return self.view.frame.width
@@ -413,13 +389,9 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
 
 extension ChatVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        messages.append(TextMessage(text: textField.text!, is_sender: arc4random() % 2 == 0))
-        
-        
+        chatOf?.chat.append(TextMessage(text: textField.text!, is_sender: arc4random() % 2 == 0))
         
         textField.text = ""
-        
-        
         
         return true
     }
@@ -455,7 +427,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         
         // Display sent image in chat
         let message = ImageMessage(image: image as! UIImage, is_sender: true)
-        messages.append(message)
+        chatOf?.chat.append(message)
         
         updateTableView(animated: true)
         

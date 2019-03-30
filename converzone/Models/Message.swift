@@ -13,6 +13,8 @@ class Message {
     
     internal var date: Date?
     internal var sent: Bool?
+    internal var color: UIColor?
+    
 }
 
 //Color: blue
@@ -30,8 +32,18 @@ class TextMessage: Message {
     internal var is_sender: Bool?
     
     init(text: String, is_sender: Bool) {
+        super.init()
+        
         self.text = text
         self.is_sender = is_sender
+        
+        self.color = Colors.blue
+    }
+    
+    override init() {
+        super.init()
+        
+        self.color = Colors.blue
     }
 }
 
@@ -40,6 +52,12 @@ class AudioMessage: Message {
     
     internal var path: String?
     internal var is_sender: Bool?
+    
+    override init() {
+        super.init()
+        
+        self.color = Colors.green
+    }
 }
 
 //Color: green
@@ -49,12 +67,24 @@ class ImageMessage: Message {
     internal var link: String?
     internal var is_sender: Bool?
     
+    
     // For testing purposes
     internal var image: UIImage?
     
     init(image: UIImage, is_sender: Bool) {
+        
+        super.init()
+        
         self.image = image
         self.is_sender = is_sender
+        
+        self.color = Colors.green
+    }
+    
+    override init() {
+        super.init()
+        
+        self.color = Colors.green
     }
 }
 
@@ -64,6 +94,12 @@ class VideoMessage: Message {
     internal var path: String?
     internal var link: String?
     internal var is_sender: Bool?
+    
+    override init() {
+        super.init()
+        
+        self.color = Colors.green
+    }
 }
 
 //Color: green
@@ -72,6 +108,12 @@ class GifMessage: Message {
     internal var path: String?
     internal var link: String?
     internal var is_sender: Bool?
+    
+    override init() {
+        super.init()
+        
+        self.color = Colors.green
+    }
 }
 
 //Color: green
@@ -80,6 +122,12 @@ class LinkMessage: Message {
     internal var meta_image: String?
     internal var meta_text: String?
     internal var is_sender: Bool?
+    
+    override init() {
+        super.init()
+        
+        self.color = Colors.green
+    }
 }
 
 //Color: green
@@ -87,6 +135,12 @@ class LocationMessage: Message {
     
     internal var coordinate: CLLocationCoordinate2D?
     internal var is_sender: Bool?
+    
+    override init() {
+        super.init()
+        
+        self.color = Colors.green
+    }
 }
 
 //Color: orange
@@ -95,8 +149,15 @@ class UserMessage: Message {
     internal var user_id: String?
     internal var is_sender: Bool?
     
+    
     // Please delete me when the final release is about to happen
     internal var user: User?
+    
+    override init() {
+        super.init()
+        
+        self.color = Colors.orange
+    }
 }
 
 //Color: orange
@@ -104,6 +165,12 @@ class ReflectionMessage: Message {
     
     internal var text: String?
     internal var is_sender: Bool?
+    
+    override init() {
+        super.init()
+        
+        self.color = Colors.orange
+    }
 }
 
 //Color: orange
@@ -111,12 +178,24 @@ class WroteReflectionMessage: Message {
     
     internal var reflection: String?
     internal var is_sender: Bool?
+    
+    override init() {
+        super.init()
+        
+        self.color = Colors.orange
+    }
 }
 
 // Color: red
 class InformationMessage: Message{
     
     internal var text: String?
+    
+    override init() {
+        super.init()
+        
+        self.color = Colors.red
+    }
 }
 
 // Color: red
@@ -125,6 +204,12 @@ class CannotDisplayMessage: Message {
     // The partner sent a message which has not been introduced with this version of the app
     
     internal var text: String?
+    
+    override init() {
+        super.init()
+        
+        self.color = Colors.red
+    }
 }
 
 class ReminderMessage: Message {

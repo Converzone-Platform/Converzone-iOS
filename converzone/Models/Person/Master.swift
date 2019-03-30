@@ -6,7 +6,7 @@
 //  Copyright © 2018 Goga Barabadze. All rights reserved.
 //
 
-/*  Master is the main user which is using the device */
+/*  Master is the main user who is using the device */
 
 import UIKit
 
@@ -27,6 +27,8 @@ class Master: Person {
         self.password = password
         
         super.init(firstname: "Unknown", lastname: "Unknown", gender: .non_binary, birthdate: Date(timeIntervalSince1970: 0))
+        
+        
     }
 }
 

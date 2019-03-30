@@ -18,28 +18,16 @@ class WebVC: UIViewController, WKUIDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Adding webView content
-        do {
-            guard let filePath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "home_screen")
-                else {
-                    // File Error
-                    print ("File reading error")
-                    return
-            }
-
-            let contents =  try String(contentsOfFile: filePath, encoding: .utf8)
-            let baseUrl = URL(fileURLWithPath: filePath)
-            webView.loadHTMLString(contents as String, baseURL: baseUrl)
-        } catch {
-            print ("File HTML error")
-        }
-
+        loadWebsite(search: "https://www.duckduckgo.com")
+        
         webView.uiDelegate = self
         webView.navigationDelegate = self
 
         webView.allowsLinkPreview = false
         
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
+        
+        searchBar.autocapitalizationType = .none
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -79,7 +67,15 @@ class WebVC: UIViewController, WKUIDelegate {
     
     func loadWebsite(search: String){
         
-        var myURL: URL = URL(string: search)!
+        var myURL: URL
+        
+        if search.isEmpty{
+            myURL = URL(string: "https://www.duckduckgo.com")!
+        }else{
+            myURL = URL(string: search)!
+        }
+        
+        
         
         if search.isURL() {
             
@@ -127,7 +123,7 @@ extension WebVC: WKNavigationDelegate {
 
 extension WebVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        loadWebsite(search: searchBar.text ?? "")
+        loadWebsite(search: searchBar.text ?? "https://duckduckgo.com")
         searchBar.resignFirstResponder()
         searchBar.setShowsCancelButton(false, animated: true)
     }

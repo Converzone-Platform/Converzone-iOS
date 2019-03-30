@@ -9,7 +9,7 @@
 import UIKit
 
 //Create main user aka Master
-var master: Master? = nil
+var master: Master? = Master("goga@gmail.com", "1234234")
 
 class LoginVC: UIViewController {
     

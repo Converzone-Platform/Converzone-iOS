@@ -30,11 +30,11 @@ class ConversationsVC: UIViewController {
         
         user_2.chat.append(TextMessage(text: "Hello Goga!", is_sender: false))
         user_2.chat.append(TextMessage(text: "How are you?", is_sender: false))
+        user_2.chat.append(ImageMessage(image: UIImage(named: "1")!, is_sender: true))
         
         master?.chats.append(user_1)
         master?.chats.append(user_2)
         
-        print(master?.chats.count)
     }
     
     func setUpNavBar(){
@@ -49,16 +49,16 @@ class ConversationsVC: UIViewController {
 extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return master?.chats.count ?? 0
+        return (master?.chats.count) ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell") as! ChatCell
         
-        cell.name.text = master?.chats[indexPath.row].firstname
+        cell.name.text = (master?.chats[indexPath.row].firstname)! + " " + (master?.chats[indexPath.row].lastname)!
         cell.profileImage.image = UIImage(named: String(arc4random_uniform(14)))
-        cell.lastMessageType.backgroundColor = Colors.blue
+        cell.lastMessageType.backgroundColor = master?.chats[indexPath.row].chat.last?.color
         
         cell.profileImage.layer.cornerRadius = cell.profileImage.layer.frame.width / 2
         cell.profileImage.layer.masksToBounds = true
@@ -85,6 +85,8 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        chatOf = master?.chats[indexPath.row]
         
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let balanceViewController = storyBoard.instantiateViewController(withIdentifier: "ChatVC")
