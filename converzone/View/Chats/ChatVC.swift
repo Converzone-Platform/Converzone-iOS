@@ -62,6 +62,7 @@ class ChatVC: UIViewController {
                     
                     self.locationManager.requestLocation()
                     locationMessage.coordinate = master?.coordinate
+                    locationMessage.date = Date()
                     
                     master?.chats[indexOfUser].chat.append(locationMessage)
                     
@@ -85,11 +86,32 @@ class ChatVC: UIViewController {
         
     }
     
+    func changeToPhoto(){
+        let navController = self.navigationController
+        
+        let image = UIImage(named: "1")
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        imageView.image = image
+        
+        let bannerWidth = navController!.navigationBar.frame.size.width
+        let bannerHeight = navController!.navigationBar.frame.size.height
+
+        let bannerX = bannerWidth / 2 - image!.size.width / 2
+        let bannerY = bannerHeight / 2 - image!.size.height / 2
+
+        imageView.frame = CGRect(x: bannerX, y: bannerY, width: bannerWidth, height: bannerHeight)
+        imageView.contentMode = .scaleAspectFit
+        
+        imageView.maskCircle()
+        
+        navigationItem.titleView = imageView
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
-       
-        self.navigationItem.title = (master?.firstname)! + " " + (master?.lastname)!
+       changeToPhoto()
+        //self.navigationItem.title = (master?.chats[indexOfUser].firstname)! + " " + (master?.chats[indexOfUser].lastname)!
         
 //        let profile_pic = UIImageView(image: UIImage(named: "1"))
 //        profile_pic.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
@@ -109,14 +131,25 @@ class ChatVC: UIViewController {
         
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(willShowKeyboard),
+            selector: #selector(handleKeyboard),
             name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleKeyboard),
+            name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
         
         message_textField.delegate = self
         
         setUpMessageTextField()
+        
+    }
+    
+    func handleLocationNavigation(){
         
     }
     
@@ -128,8 +161,6 @@ class ChatVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setUpLocationServices()
-        
-        
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.prefersLargeTitles = false
         scrollToBottom(animated: false)
@@ -139,18 +170,21 @@ class ChatVC: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
     
-    @objc func willShowKeyboard(_ notification: Notification){
+    @objc func handleKeyboard(_ notification: Notification){
         
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            
-            UIView.animate(withDuration: 1.5) {
-                self.messageInputBottomConstraint.constant = keyboardHeight
-            }
-            
+        let info = notification.userInfo!
+        let keyboardFrame: CGRect = (info[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        
+        if notification.name == UIResponder.keyboardWillShowNotification{
+            self.messageInputBottomConstraint.constant = keyboardFrame.size.height
+        }else{
+            self.messageInputBottomConstraint.constant = 0
         }
         
+        UIView.animate(withDuration: 0, delay: 0, options: .curveEaseInOut, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+        scrollToBottom(animated: true)
     }
     
     func updateTableView(animated: Bool){
@@ -396,11 +430,13 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let message = master?.chats[indexOfUser].chat[indexPath.row] as! LocationMessage
             
-            let source = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: (message.coordinate?.latitude)!, longitude: (message.coordinate?.longitude)!)))
+            let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: (message.coordinate?.latitude)!, longitude: (message.coordinate?.longitude)!))
             
-            MKMapItem.openMaps(with: [source], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+            let source = MKMapItem(placemark: placemark)
+            
+            MKMapItem.openMaps(with: [source], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])
+            
         }
-        
     }
 }
 
@@ -486,5 +522,14 @@ extension ChatVC: CLLocationManagerDelegate {
         if status == .authorizedWhenInUse {
             locationManager.requestLocation()
         }
+    }
+}
+
+extension UIImageView {
+    public func maskCircle() {
+        self.contentMode = UIView.ContentMode.scaleAspectFill
+        self.layer.cornerRadius = self.frame.height / 2
+        self.layer.masksToBounds = false
+        self.clipsToBounds = true
     }
 }
