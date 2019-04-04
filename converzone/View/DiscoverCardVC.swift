@@ -49,6 +49,15 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         return 7
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.row {
+        case 0:
+            return self.view.frame.height / 2
+        default:
+            return UITableView.automaticDimension
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.row {

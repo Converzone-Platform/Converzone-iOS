@@ -8,11 +8,18 @@
 
 import UIKit
 
-var settings = ["Profile", "Only for pros", "Account", "Notifications", "Security", "Languages", "Network", "Help", "Recommend to your best friend", "Sign off"]
+var settings = ["Profile",
+                "Only for pros",
+                "Account",
+                "Notifications",
+                "Security",
+                "Languages",
+                "Network",
+                "Help",
+                "Recommend to your best friend",
+                "Sign off"]
 
 class SettingsVC: UIViewController {
-    
-    
     
 }
 
@@ -36,12 +43,13 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate {
             
         case 0:
             
-            cell?.textLabel?.text = "Goga"
-            cell?.detailTextLabel?.text = "jknafdslkjas"
+            cell?.textLabel?.text = (master?.firstname)! + " " + (master?.lastname)!
+            cell?.detailTextLabel?.text = master?.status?.string
             
-            cell?.imageView?.image = UIImage(named: "2")
-            cell?.imageView?.layer.cornerRadius = cell?.imageView?.layer.frame.height ?? 50 / 2
-            cell?.imageView?.layer.masksToBounds = true
+            cell?.imageView?.image = UIImage(named: "9")
+            cell!.imageView!.contentMode = .scaleAspectFill
+            cell!.imageView!.clipsToBounds = true
+            cell?.imageView?.layer.cornerRadius = (cell?.imageView?.frame.width)! / 2
             
             cell?.accessoryType = .disclosureIndicator
             

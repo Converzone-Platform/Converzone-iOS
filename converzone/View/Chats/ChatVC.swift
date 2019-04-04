@@ -21,6 +21,8 @@ class ChatVC: UIViewController {
     //Location purposes
     let locationManager = CLLocationManager()
     
+    
+    
     @IBAction func audio_button(_ sender: Any) {
         print("Send audio message")
     }
@@ -28,6 +30,7 @@ class ChatVC: UIViewController {
     @IBAction func more_button(_ sender: Any) {
         
         let alert = UIAlertController()
+        
         
         alert.addAction(UIAlertAction(title: "Camera", style: .default , handler:{ (UIAlertAction)in
             
@@ -86,47 +89,39 @@ class ChatVC: UIViewController {
         
     }
     
-    func changeToPhoto(){
-        let navController = self.navigationController
-        
-        let image = UIImage(named: "1")
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
-        imageView.image = image
-        
-        let bannerWidth = navController!.navigationBar.frame.size.width
-        let bannerHeight = navController!.navigationBar.frame.size.height
-
-        let bannerX = bannerWidth / 2 - image!.size.width / 2
-        let bannerY = bannerHeight / 2 - image!.size.height / 2
-
-        imageView.frame = CGRect(x: bannerX, y: bannerY, width: bannerWidth, height: bannerHeight)
-        imageView.contentMode = .scaleAspectFit
-        
-        imageView.maskCircle()
-        
-        navigationItem.titleView = imageView
-    }
-    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
-       changeToPhoto()
-        //self.navigationItem.title = (master?.chats[indexOfUser].firstname)! + " " + (master?.chats[indexOfUser].lastname)!
         
-//        let profile_pic = UIImageView(image: UIImage(named: "1"))
-//        profile_pic.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-//
-//        self.navigationItem.titleView = profile_pic
-//        self.navigationItem.titleView?.contentMode = .scaleAspectFit
-//
-//        profile_pic.layer.masksToBounds = false
-//        profile_pic.layer.cornerRadius = profile_pic.frame.width / 2
+        changeToPhoto()
+        setUpTableView()
+        setUpMessageTextField()
+        setUpObervers()
         
+        message_textField.delegate = self
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setUpLocationServices()
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        scrollToBottom(animated: false)
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    func setUpTableView(){
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 1000
         
         tableView.backgroundColor = Colors.backgroundGrey
-        
+    }
+    
+    func setUpObervers(){
         NotificationCenter.default.addObserver(self, selector: #selector(didTakeScreenshot), name: UIApplication.userDidTakeScreenshotNotification, object: nil)
         
         NotificationCenter.default.addObserver(
@@ -142,14 +137,57 @@ class ChatVC: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
-        
-        message_textField.delegate = self
-        
-        setUpMessageTextField()
-        
     }
     
-    func handleLocationNavigation(){
+    func changeToPhoto(){
+//        let navController = self.navigationController
+//
+//        let image = UIImage(named: "2")
+//        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+//        imageView.image = image
+//
+//        let bannerWidth = navController!.navigationBar.frame.size.width
+//        let bannerHeight = navController!.navigationBar.frame.size.height
+//
+//        let bannerX = bannerWidth / 2 - image!.size.width / 2
+//        let bannerY = bannerHeight / 2 - image!.size.height / 2
+//
+//        imageView.frame = CGRect(x: bannerX, y: bannerY, width: bannerWidth, height: bannerHeight)
+//        imageView.contentMode = .scaleAspectFit
+//
+//        navigationItem.titleView = imageView
+        
+//        let button = UIButton()
+//        button.frame = CGRect(0, 0, 40, 40)
+//
+//        let image = UIImage(named: "1")!
+//
+//        UIGraphicsBeginImageContextWithOptions(button.frame.size, false, image.scale)
+//        let rect  = CGRect(0, 0, button.frame.size.width, button.frame.size.height)
+//        UIBezierPath(roundedRect: rect, cornerRadius: rect.width/2).addClip()
+//        image.draw(in: rect)
+//
+//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//
+//
+        var containView = UIView(frame: CGRect(x: 0, y: 0, width: 37, height: 37))
+        var profileImageView = UIImageView(image: UIImage(named: "2"))
+        profileImageView.contentMode = .scaleAspectFill
+        profileImageView.frame = CGRect(x: 0, y: 0, width: 37, height: 37)
+        profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
+        //profileImageView.layer.masksToBounds = true
+        profileImageView.clipsToBounds = true
+        containView.addSubview(profileImageView)
+        navigationItem.titleView = containView
+
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(showMoreOfPartner))
+        navigationItem.titleView?.addGestureRecognizer(gesture)
+    }
+    
+    @objc func showMoreOfPartner(){
+
+        
         
     }
     
@@ -159,16 +197,7 @@ class ChatVC: UIViewController {
         message_textField.sizeThatFits(CGSize(width: message_textField.frame.size.width, height: maxHeight))
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        setUpLocationServices()
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.navigationBar.prefersLargeTitles = false
-        scrollToBottom(animated: false)
-    }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = false
-    }
     
     @objc func handleKeyboard(_ notification: Notification){
         
@@ -234,6 +263,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             let message = master?.chats[indexOfUser].chat[indexPath.row] as! TextMessage
             
             cell.message_label.text = message.text!
+            cell.selectionStyle = .none
             
             if (message.only_emojies == false){
                 
@@ -285,7 +315,6 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
                 
                 cell.message_label.textAlignment = .left
-                
                 
                 if ((cell.message_label.text?.widthWithConstrained(cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - (2 * 36)){
                     cell.rightConstraint.isActive = false
@@ -522,14 +551,5 @@ extension ChatVC: CLLocationManagerDelegate {
         if status == .authorizedWhenInUse {
             locationManager.requestLocation()
         }
-    }
-}
-
-extension UIImageView {
-    public func maskCircle() {
-        self.contentMode = UIView.ContentMode.scaleAspectFill
-        self.layer.cornerRadius = self.frame.height / 2
-        self.layer.masksToBounds = false
-        self.clipsToBounds = true
     }
 }

@@ -21,22 +21,25 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cWF-uP-sn5">
                         <rect key="frame" x="14.5" y="14" width="71.5" height="71.5"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="LK8-8W-9iy">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="LK8-8W-9iy">
                                 <rect key="frame" x="0.0" y="0.0" width="71.5" height="71.5"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="71.5" id="95F-fD-WrM"/>
-                            <constraint firstAttribute="height" constant="71.5" id="QA9-a3-2eq"/>
+                            <constraint firstAttribute="width" secondItem="cWF-uP-sn5" secondAttribute="height" multiplier="1:1" id="Joj-h4-APP"/>
+                            <constraint firstAttribute="trailing" secondItem="LK8-8W-9iy" secondAttribute="trailing" id="Lfh-sC-akk"/>
+                            <constraint firstAttribute="bottom" secondItem="LK8-8W-9iy" secondAttribute="bottom" id="brF-IJ-okK"/>
+                            <constraint firstItem="LK8-8W-9iy" firstAttribute="top" secondItem="cWF-uP-sn5" secondAttribute="top" id="rO9-F2-pWf"/>
+                            <constraint firstItem="LK8-8W-9iy" firstAttribute="leading" secondItem="cWF-uP-sn5" secondAttribute="leading" id="rSN-k8-vk3"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="cWF-uP-sn5" firstAttribute="centerY" secondItem="krQ-hc-zqZ" secondAttribute="centerY" id="7IT-vi-pa2"/>
-                    <constraint firstItem="cWF-uP-sn5" firstAttribute="top" secondItem="krQ-hc-zqZ" secondAttribute="top" constant="14" id="H4D-g3-6C5"/>
-                    <constraint firstItem="cWF-uP-sn5" firstAttribute="centerX" secondItem="krQ-hc-zqZ" secondAttribute="centerX" id="YfU-bh-J8G"/>
+                    <constraint firstItem="cWF-uP-sn5" firstAttribute="centerX" secondItem="krQ-hc-zqZ" secondAttribute="centerX" id="24l-kX-n2Y"/>
+                    <constraint firstItem="cWF-uP-sn5" firstAttribute="top" secondItem="krQ-hc-zqZ" secondAttribute="top" constant="14" id="bZp-I5-IIO"/>
+                    <constraint firstAttribute="bottom" secondItem="cWF-uP-sn5" secondAttribute="bottom" constant="14" id="tYp-p2-RLA"/>
+                    <constraint firstItem="cWF-uP-sn5" firstAttribute="centerY" secondItem="krQ-hc-zqZ" secondAttribute="centerY" id="wbb-La-fYZ"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

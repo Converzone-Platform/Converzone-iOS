@@ -52,7 +52,7 @@
                 <outlet property="rightConstraint" destination="ad8-ma-ZUy" id="dE0-FH-Kp6"/>
                 <outlet property="view" destination="bb5-mb-yCh" id="E5i-2l-2QZ"/>
             </connections>
-            <point key="canvasLocation" x="-121.59999999999999" y="-8.995502248875562"/>
+            <point key="canvasLocation" x="-120" y="-15"/>
         </tableViewCell>
     </objects>
 </document>
