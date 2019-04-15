@@ -72,6 +72,7 @@
                         </constraints>
                     </view>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="Nkx-MT-PvM" secondAttribute="trailing" constant="9" id="CH7-ot-fLS"/>
                     <constraint firstItem="Nkx-MT-PvM" firstAttribute="leading" secondItem="gSp-Ho-Ddh" secondAttribute="leadingMargin" constant="9" id="cKg-P8-ZYe"/>
@@ -79,6 +80,7 @@
                     <constraint firstItem="Nkx-MT-PvM" firstAttribute="top" secondItem="gSp-Ho-Ddh" secondAttribute="topMargin" constant="6" id="hbY-C7-PBM"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="status" destination="go5-qg-mpk" id="LgS-Fd-I5w"/>
                 <outlet property="view" destination="Nkx-MT-PvM" id="JHB-Cj-uRb"/>

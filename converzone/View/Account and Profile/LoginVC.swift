@@ -9,7 +9,7 @@
 import UIKit
 
 //Create main user aka Master
-var master: Master? = Master("goga@gmail.com", "1234234")
+var master: Master? = Master("", "")
 
 class LoginVC: UIViewController {
     
@@ -26,13 +26,19 @@ class LoginVC: UIViewController {
     //Buttons
     @IBAction func forgot_button(_ sender: Any) {
         
-        
-        
     }
     
     func login(email: String, password: String) {
         
-        Internet.database(url: baseURL + "info.php", parameters: ["email": email, "password": password]) { (data, response, error) in
+        // Save these in case they are correct
+        master?.email = email_textfield.text!
+        master?.password = password_textfield.text!
+        
+        Internet.database(url: baseURL + "login_client.php", parameters: ["email": email, "password": password]) { (data, response, error) in
+            
+            if error != nil {
+                print(error!)
+            }
             
             //Did the server give back an error?
             if let httpResponse = response as? HTTPURLResponse {
@@ -43,18 +49,23 @@ class LoginVC: UIViewController {
                         self.alert("Error", String(httpResponse.statusCode))
                     }
                     
+                    // hash of "1": $2y$10$vDEhAhrg0KDcLj7tjEMFE.oU4Ul8ib98VlZlz8fH9fIFCZkTTMbua
+                    
+//                INSERT INTO USERS (USERID, PASSWORD, FIRSTNAME, LASTNAME, GENDER, FIRSTJOIN, BIRTHDAY, , EMAIL, INTRESTS, BIO, COUNTRYID, BLOCKEDBYTHESYSTEM)
+//
+//                    VALUES (1, '$2y$10$vDEhAhrg0KDcLj7tjEMFE.oU4Ul8ib98VlZlz8fH9fIFCZkTTMbua', 'Goga', 'Barabadze',TO_DATE('14/12/2015', 'DD/MM/YYYY'), '1');
+                    
+                
+                    
+                    //UPDATE USERS SET PASSWORD="$2y$10$vDEhAhrg0KDcLj7tjEMFE.oU4Ul8ib98VlZlz8fH9fIFCZkTTMbua" FROM USERS WHERE EMAIL="tmail@skl";
+                    
                 }else{
-                    
-                    // Login the user locally
-                    DispatchQueue.main.async {
-                        
-                        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                        let nav = mainStoryboard.instantiateViewController(withIdentifier: "RegisterNC")
-                        _ = UIApplication.shared.delegate as! AppDelegate
-                        //appDelegate.window?.rootViewController = nav
-                        self.navigationController?.pushViewController(nav, animated: true)
-                    }
-                    
+                    //Login was successful
+                    print(data)
+                    master?.firstname = data?["FIRSTNAME"] as? String
+                    master?.lastname = data?["LASTNAME"] as? String
+                    master?.uid = data?["USERID"] as? Int
+//                    master?.gender =
                 }
             }
         }
@@ -65,55 +76,58 @@ class LoginVC: UIViewController {
         guard let email = email_textfield.text          else { return }
         guard let password = password_textfield.text    else { return }
         
-        /*if(email_textfield.text == "" || password_textfield.text == ""){
-         alert(NSLocalizedString("Fill in both fields", comment: "Error title when the user doesn't fill in password and email"),
-         NSLocalizedString("Please make sure that you fill in a password and an email address", comment: "Error message when the user doesn't fill in password and email"))
-         return
-         }
-         
-         if(!Internet.isOnline()){
-         alert(NSLocalizedString("Your device is offline", comment: "Error title the user gets when device is not connected to the internet"),
-         NSLocalizedString("Please make sure that your device is connected to the internet in order to proceed.", comment: "Error message the user gets when device is not connected to the internet"))
-         return
-         }
-         
-         if(!email_textfield.isValidEmail()){
-         alert(NSLocalizedString("Email Address", comment: "Error title when the user enters a invalid email address"),
-         NSLocalizedString("Please make sure that you enter a valid email address.", comment: "Error message when the user enters a invalid email address"))
-         return
-         }
-         
-         if(!password_textfield.isValidPassword()){
-         alert(NSLocalizedString("Password", comment: "Error title when the user enters a wrong password"),
-         NSLocalizedString("Please make sure that you enter a strong password. \n\n • 8 to 20 characters \n • Upper and Lower Case\n • One number", comment: "Error message when the user enters a wrong password"))
-         return
-         }*/
+//        if(email_textfield.text == "" || password_textfield.text == ""){
+//         alert(NSLocalizedString("Fill in both fields", comment: "Error title when the user doesn't fill in password and email"),
+//         NSLocalizedString("Please make sure that you fill in a password and an email address", comment: "Error message when the user doesn't fill in password and email"))
+//         return
+//         }
+//
+//         if(!Internet.isOnline()){
+//         alert(NSLocalizedString("Your device is offline", comment: "Error title the user gets when device is not connected to the internet"),
+//         NSLocalizedString("Please make sure that your device is connected to the internet in order to proceed.", comment: "Error message the user gets when device is not connected to the internet"))
+//         return
+//         }
+//
+//         if(!email_textfield.isValidEmail()){
+//         alert(NSLocalizedString("Email Address", comment: "Error title when the user enters a invalid email address"),
+//         NSLocalizedString("Please make sure that you enter a valid email address.", comment: "Error message when the user enters a invalid email address"))
+//         return
+//         }
+//
+//         if(!password_textfield.isValidPassword()){
+//         alert(NSLocalizedString("Password", comment: "Error title when the user enters a wrong password"),
+//         NSLocalizedString("Please make sure that you enter a strong password. \n\n • 8 to 20 characters \n • Upper and Lower Case\n • One number", comment: "Error message when the user enters a wrong password"))
+//         return
+//         }
         
-        if(login_outlet.isEnabled == true) {
+        
+        if(login_outlet.isEnabled == false) {
             
             login(email: email, password: password)
             
         }
         
-        if(register_outlet.isEnabled == true){
+        if(register_outlet.isEnabled == false){
             
             //Try register. Create Master
             master = Master(email, password)
+            
+            // Continue to further registration
             
         }
     }
     
     @IBAction func register_button(_ sender: Any) {
-        register_outlet.isEnabled = false
-        login_outlet.isEnabled = true
+        register_outlet.isEnabled = !register_outlet.isEnabled
+        login_outlet.isEnabled = !login_outlet.isEnabled
         
         login_outlet.setTitleColor(Colors.darkGrey, for: .normal)
         register_outlet.setTitleColor(Colors.black, for: .normal)
     }
     
     @IBAction func login_button(_ sender: Any) {
-        login_outlet.isEnabled = false
-        register_outlet.isEnabled = true
+        register_outlet.isEnabled = !register_outlet.isEnabled
+        login_outlet.isEnabled = !login_outlet.isEnabled
         
         login_outlet.setTitleColor(Colors.black, for: .normal)
         register_outlet.setTitleColor(Colors.darkGrey, for: .normal)
@@ -123,6 +137,9 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         drawCircle()
         renderWelcomeMessage()
+        
+        register_outlet.isEnabled = false
+        login_outlet.isEnabled = true
     }
     
     func renderWelcomeMessage(){

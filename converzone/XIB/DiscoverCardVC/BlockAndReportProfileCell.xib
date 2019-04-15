@@ -28,6 +28,7 @@
                         </connections>
                     </button>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="dhw-d1-QJD" firstAttribute="top" secondItem="eWg-0l-4Al" secondAttribute="top" constant="23" id="2YS-62-0S1"/>
                     <constraint firstItem="dhw-d1-QJD" firstAttribute="leading" secondItem="eWg-0l-4Al" secondAttribute="leading" id="TB6-NO-1Av"/>
@@ -35,6 +36,7 @@
                     <constraint firstAttribute="trailing" secondItem="dhw-d1-QJD" secondAttribute="trailing" id="kkG-hb-Ubi"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <point key="canvasLocation" x="12" y="65.217391304347828"/>
         </tableViewCell>
     </objects>

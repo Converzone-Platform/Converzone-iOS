@@ -57,13 +57,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="Fa4-10-jlg" firstAttribute="top" secondItem="o7w-Yl-AKs" secondAttribute="topMargin" constant="6" id="5yf-ix-S97"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="Fa4-10-jlg" secondAttribute="bottom" constant="7" id="H44-hP-8El"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="Fa4-10-jlg" secondAttribute="trailing" constant="9" id="YC3-RS-lRL"/>
-                    <constraint firstItem="Fa4-10-jlg" firstAttribute="leading" secondItem="o7w-Yl-AKs" secondAttribute="leadingMargin" constant="9" id="z3T-9S-SPP"/>
+                    <constraint firstItem="Fa4-10-jlg" firstAttribute="leading" secondItem="o7w-Yl-AKs" secondAttribute="leadingMargin" constant="9" id="QBh-hN-YY0"/>
+                    <constraint firstItem="Fa4-10-jlg" firstAttribute="top" secondItem="o7w-Yl-AKs" secondAttribute="topMargin" constant="6" id="akY-At-Did"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Fa4-10-jlg" secondAttribute="bottom" constant="7" id="eyK-SQ-twg"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Fa4-10-jlg" secondAttribute="trailing" constant="9" id="q1O-u9-qoC"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="country" destination="RXJ-5c-EcZ" id="vQH-dd-GjD"/>
                 <outlet property="flag" destination="plL-WF-Piu" id="4Lb-oH-28g"/>

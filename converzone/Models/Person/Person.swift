@@ -17,6 +17,11 @@ class Person {
     //Personal Details
     internal var firstname: String?
     internal var lastname: String?
+    
+    internal var fullname: String?{
+        return firstname! + " " + lastname!
+    }
+    
     internal var gender: Gender?
     internal var birthdate: Date?
     internal var main_language: Language?
@@ -32,6 +37,7 @@ class Person {
     internal var status: NSAttributedString?
     internal var link_to_profile_image: String?
     internal var reflections: [Reflection] = []
+    internal var uid: Int?
     
     init (firstname: String, lastname: String, gender: Gender, birthdate: Date){
         self.firstname = firstname

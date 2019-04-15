@@ -33,12 +33,14 @@
                         </connections>
                     </button>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="G7b-sJ-txN" firstAttribute="top" secondItem="swk-Tq-jKh" secondAttribute="topMargin" constant="16" id="9BA-2f-FrV"/>
                     <constraint firstItem="G7b-sJ-txN" firstAttribute="centerX" secondItem="swk-Tq-jKh" secondAttribute="centerX" id="OBv-dc-9RJ"/>
                     <constraint firstItem="G7b-sJ-txN" firstAttribute="centerY" secondItem="swk-Tq-jKh" secondAttribute="centerY" id="zn5-T2-sAN"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="sendMessage" destination="G7b-sJ-txN" id="mhD-jl-cVP"/>
             </connections>

@@ -35,6 +35,7 @@
                         </constraints>
                     </view>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="cWF-uP-sn5" firstAttribute="centerX" secondItem="krQ-hc-zqZ" secondAttribute="centerX" id="24l-kX-n2Y"/>
                     <constraint firstItem="cWF-uP-sn5" firstAttribute="top" secondItem="krQ-hc-zqZ" secondAttribute="top" constant="14" id="bZp-I5-IIO"/>
@@ -42,6 +43,7 @@
                     <constraint firstItem="cWF-uP-sn5" firstAttribute="centerY" secondItem="krQ-hc-zqZ" secondAttribute="centerY" id="wbb-La-fYZ"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="profileImage" destination="LK8-8W-9iy" id="VOy-QA-alK"/>
                 <outlet property="view" destination="cWF-uP-sn5" id="prk-IV-6Nh"/>

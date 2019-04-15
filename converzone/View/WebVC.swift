@@ -15,6 +15,8 @@ class WebVC: UIViewController, WKUIDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var progressView: UIProgressView!
     
+    @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,12 +24,14 @@ class WebVC: UIViewController, WKUIDelegate {
         
         webView.uiDelegate = self
         webView.navigationDelegate = self
-
+        webView.scrollView.delegate = self
+        
         webView.allowsLinkPreview = false
         
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
         searchBar.autocapitalizationType = .none
+        
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -102,6 +106,29 @@ class WebVC: UIViewController, WKUIDelegate {
         }
         
         return new
+    }
+    
+}
+
+extension WebVC: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        var offset = scrollView.contentOffset.y / view.frame.height
+        
+        if offset > 1 {
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
+                //self.searchBar.alpha = 0
+                
+            }, completion: nil)
+            self.searchBarTopConstraint.constant = -offset/self.searchBar.frame.height
+            
+        }else{
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
+                //self.searchBar.alpha = 1
+                self.searchBarTopConstraint.constant = 0
+            }, completion: nil)
+        }
+        
     }
     
 }

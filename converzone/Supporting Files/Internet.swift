@@ -70,13 +70,12 @@ public class Internet {
  
     }
     
-    class func database(url: String = baseURL, parameters: [String: Any], completionHandler: @escaping (_ json: [[String: Any]]?, _ response: URLResponse?, _ error: Error?) -> ()) {
+    class func database(url: String = baseURL, parameters: [String: Any], completionHandler: @escaping (_ json: [String: Any]?, _ response: URLResponse?, _ error: Error?) -> ()) {
         
         var request = URLRequest(url: URL(string: url)! )
         
         request.httpMethod = "POST"
         
-        //request.httpBody = par.data(using: String.Encoding.utf8)
         request.httpBody = parameters.percentEscaped().data(using: .utf8)
         
         URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
@@ -91,8 +90,8 @@ public class Internet {
             do {
                 
                 let json = try JSONSerialization.jsonObject(with: data!, options: [])
-                print(json)
-                guard let jsonArray = json as? [[String: Any]] else {
+                
+                guard let jsonArray = json as? [String: Any] else {
                     
                     completionHandler(nil, response, error)
                     
@@ -116,9 +115,6 @@ public class Internet {
     class func sendImage(message: UIImage){
         
     }
-    
-    
-    
 }
 
 

@@ -25,6 +25,9 @@ class DiscoverCardVC: UIViewController {
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 1000
+        
+        self.view.backgroundColor = Colors.backgroundGrey
+        handleArea_view.backgroundColor = Colors.backgroundGrey
     }
     
     func setUpUser(){
@@ -145,10 +148,11 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             return cell
             
         default:
-                print("Something bad happened while choosing the cell")
+            print("Something bad happened while choosing the cell")
+            return Bundle.main.loadNibNamed("SendMessageProfileCell", owner: self, options: nil)?.first as! SendMessageProfileCell
         }
         
-        return Bundle.main.loadNibNamed("SendMessageProfileCell", owner: self, options: nil)?.first as! SendMessageProfileCell
+        
     }
     
     func addLanguagesTo(level: String, languages: [Language]) -> String{

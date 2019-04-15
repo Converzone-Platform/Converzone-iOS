@@ -21,8 +21,6 @@ class ChatVC: UIViewController {
     //Location purposes
     let locationManager = CLLocationManager()
     
-    
-    
     @IBAction func audio_button(_ sender: Any) {
         print("Send audio message")
     }
@@ -93,13 +91,23 @@ class ChatVC: UIViewController {
     
     override func viewDidLoad() {
         
-        changeToPhoto()
         setUpTableView()
         setUpMessageTextField()
         setUpObervers()
         
         message_textField.delegate = self
         
+        setUpInfoButton()
+        
+        navigationItem.titleView = navTitleWithImageAndText(titleText: master!.chats[indexOfUser].fullname!, imageName: "4")
+        
+        changeBackBarButton(title: "")
+    }
+    
+    func changeBackBarButton(title: String){
+        let backButton = UIBarButtonItem()
+        backButton.title = title
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,11 +115,73 @@ class ChatVC: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.prefersLargeTitles = false
         scrollToBottom(animated: false)
+    }
+    
+    @objc func goToConversations(){
+        //Go to next view controller
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let conversations = storyBoard.instantiateViewController(withIdentifier: "ConversationsVC")
+        self.navigationController?.pushViewController(conversations, animated: true)
+    }
+    
+    func navTitleWithImageAndText(titleText: String, imageName: String) -> UIView {
+        
+        // Creates a new UIView
+        let titleView = UIView()
+        
+        // Creates a new text label
+        let label = UILabel()
+        label.text = titleText
+        label.sizeToFit()
+        label.center = titleView.center
+        label.textAlignment = NSTextAlignment.center
+        
+        // Creates the image view
+        let image = UIImageView()
+        image.image = UIImage(named: imageName)
+        
+        let imageWidth = label.frame.size.height * 1.3
+        let imageHeight = label.frame.size.height * 1.3
+        
+        let imageX = label.frame.origin.x - label.frame.size.height * 1.3 - 8
+        let imageY = label.frame.origin.y - 3
+        
+        image.frame = CGRect(x: imageX, y: imageY, width: imageWidth, height: imageHeight)
+        
+        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
+        image.layer.cornerRadius = image.frame.width / 2
+        
+        // Adds both the label and image view to the titleView
+        titleView.addSubview(label)
+        titleView.addSubview(image)
+        
+        // Sets the titleView frame to fit within the UINavigation Title
+        titleView.sizeToFit()
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(showMoreOfPartner))
+        navigationItem.titleView?.addGestureRecognizer(gesture)
+        
+        titleView.addGestureRecognizer(gesture)
+        
+        return titleView
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    func setUpInfoButton(){
+        let infoButton = UIBarButtonItem(title: "More", style: .plain, target: self, action: #selector(handleInfoButton))
+        navigationItem.rightBarButtonItem = infoButton
+    }
+    
+    @objc func handleInfoButton(){
+        //Go to next view controller
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let chatSettingsVC = storyBoard.instantiateViewController(withIdentifier: "ChatSettingsVC")
+        self.navigationController?.pushViewController(chatSettingsVC, animated: true)
     }
     
     func setUpTableView(){
@@ -139,55 +209,11 @@ class ChatVC: UIViewController {
         )
     }
     
-    func changeToPhoto(){
-//        let navController = self.navigationController
-//
-//        let image = UIImage(named: "2")
-//        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
-//        imageView.image = image
-//
-//        let bannerWidth = navController!.navigationBar.frame.size.width
-//        let bannerHeight = navController!.navigationBar.frame.size.height
-//
-//        let bannerX = bannerWidth / 2 - image!.size.width / 2
-//        let bannerY = bannerHeight / 2 - image!.size.height / 2
-//
-//        imageView.frame = CGRect(x: bannerX, y: bannerY, width: bannerWidth, height: bannerHeight)
-//        imageView.contentMode = .scaleAspectFit
-//
-//        navigationItem.titleView = imageView
-        
-//        let button = UIButton()
-//        button.frame = CGRect(0, 0, 40, 40)
-//
-//        let image = UIImage(named: "1")!
-//
-//        UIGraphicsBeginImageContextWithOptions(button.frame.size, false, image.scale)
-//        let rect  = CGRect(0, 0, button.frame.size.width, button.frame.size.height)
-//        UIBezierPath(roundedRect: rect, cornerRadius: rect.width/2).addClip()
-//        image.draw(in: rect)
-//
-//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//
-//
-        var containView = UIView(frame: CGRect(x: 0, y: 0, width: 37, height: 37))
-        var profileImageView = UIImageView(image: UIImage(named: "2"))
-        profileImageView.contentMode = .scaleAspectFill
-        profileImageView.frame = CGRect(x: 0, y: 0, width: 37, height: 37)
-        profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
-        //profileImageView.layer.masksToBounds = true
-        profileImageView.clipsToBounds = true
-        containView.addSubview(profileImageView)
-        navigationItem.titleView = containView
-
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(showMoreOfPartner))
-        navigationItem.titleView?.addGestureRecognizer(gesture)
-    }
+    
     
     @objc func showMoreOfPartner(){
 
-        
+        print("Show profile")
         
     }
     
@@ -196,8 +222,6 @@ class ChatVC: UIViewController {
         let maxHeight: CGFloat = message_textField.font!.lineHeight * amountOfLinesToBeShown
         message_textField.sizeThatFits(CGSize(width: message_textField.frame.size.width, height: maxHeight))
     }
-    
-    
     
     @objc func handleKeyboard(_ notification: Notification){
         
@@ -325,6 +349,11 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 }
             }
             
+            // Check if the message contains a link
+//            let attributedString = NSMutableAttributedString(string: "Want to learn iOS? You should visit the best source of free iOS tutorials!")
+//            attributedString.addAttribute(.link, value: "https://www.hackingwithswift.com", range: NSRange(location: 19, length: 55))
+//            
+//            textView.attributedText = attributedString
             
             return cell
             
@@ -377,8 +406,12 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let annotation = MKPointAnnotation()
             annotation.coordinate = message.coordinate!
-            //MARK: TODO - Implement this
-            //annotation.text = ""
+            
+            if message.is_sender! {
+                annotation.title = NSLocalizedString("You", comment: "The pronoun")
+            }else{
+                annotation.title = master?.chats[indexOfUser].fullname
+            }
             
             cell.map.addAnnotation(annotation)
             cell.map.setRegion(region, animated: false)
@@ -463,8 +496,21 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let source = MKMapItem(placemark: placemark)
             
+            if message.is_sender! {
+                source.name = NSLocalizedString("You", comment: "The pronoun")
+            }else{
+                source.name = master?.chats[indexOfUser].fullname
+            }
+            
             MKMapItem.openMaps(with: [source], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])
             
+        }
+        
+        if master?.chats[indexOfUser].chat[indexPath.row] is ImageMessage {
+            
+//            let secondViewController: ImagePreviewFullViewCell = ImagePreviewFullViewCell()
+//
+//            self.navigationController?.pushViewController(secondViewController, animated: true)
         }
     }
 }
@@ -473,6 +519,9 @@ extension ChatVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         master?.chats[indexOfUser].chat.append(TextMessage(text: textField.text!, is_sender: arc4random() % 2 == 0))
         updateTableView(animated: true)
+        
+        //Internet.sendText(message: "ajfnsd", type: "TextMessage", sender: master.uid, receiver: master?.chats[indexOfUser].uid)
+        
         textField.text = ""
         
         return true

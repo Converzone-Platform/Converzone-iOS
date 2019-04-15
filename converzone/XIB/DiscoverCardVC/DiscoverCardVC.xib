@@ -35,7 +35,6 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="9ex-Yb-qBY"/>
                         <constraint firstItem="0gk-kK-BKT" firstAttribute="centerX" secondItem="hQm-o6-BX5" secondAttribute="centerX" id="Z8Q-uV-TtN"/>
@@ -47,14 +46,16 @@
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yXQ-1H-K8b">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="637"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <outlet property="dataSource" destination="-1" id="8Jh-eD-Kxa"/>
                                 <outlet property="delegate" destination="-1" id="FLu-MP-ESu"/>
                             </connections>
                         </tableView>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="yXQ-1H-K8b" secondAttribute="bottom" id="B8V-zD-xYp"/>
                         <constraint firstItem="yXQ-1H-K8b" firstAttribute="top" secondItem="DWT-WN-z62" secondAttribute="top" id="DUb-w1-3yG"/>

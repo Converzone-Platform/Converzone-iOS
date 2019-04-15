@@ -22,10 +22,15 @@
 		4A1C985D21BC720A00F99D62 /* LanguagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C985C21BC720A00F99D62 /* LanguagesVC.swift */; };
 		4A337EEF21B549CA002A12EF /* StandardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A337EEE21B549CA002A12EF /* StandardView.swift */; };
 		4A46A0CC222428FF00324A93 /* RandomDiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */; };
+		4A5A618422563A1B00CBA4F8 /* ChatSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */; };
 		4A5D856721B29F07004E3E79 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856621B29F07004E3E79 /* Colors.swift */; };
 		4A5D856B21B31341004E3E79 /* StandardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856A21B31341004E3E79 /* StandardLabel.swift */; };
 		4A5D856D21B3135F004E3E79 /* StandardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856C21B3135F004E3E79 /* StandardButton.swift */; };
 		4A5D856F21B315D3004E3E79 /* StandardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856E21B315D3004E3E79 /* StandardTextField.swift */; };
+		4A5F59AF22608E3B0065F47B /* login_client.php in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F59AE22608E3B0065F47B /* login_client.php */; };
+		4A5F59B122636B540065F47B /* register_client.php in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F59B022636B540065F47B /* register_client.php */; };
+		4A5F59B3226388320065F47B /* insert.sql in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F59B2226388320065F47B /* insert.sql */; };
+		4A5F59B5226497000065F47B /* login_client.php in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F59B4226496FF0065F47B /* login_client.php */; };
 		4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */; };
 		4A6C1DE12240E3310055B5A5 /* StatusCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C1DE02240E3310055B5A5 /* StatusCodes.swift */; };
 		4A6C1DE322451D140055B5A5 /* TextMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C1DE222451D140055B5A5 /* TextMessageCell.xib */; };
@@ -38,6 +43,7 @@
 		4A950C85222E64600089754D /* BlockAndReportProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C84222E64600089754D /* BlockAndReportProfileCell.xib */; };
 		4A950C87222FB3C30089754D /* InterestsProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C86222FB3C30089754D /* InterestsProfileCell.xib */; };
 		4A950C8A222FF1960089754D /* ReflectionsProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C89222FF1960089754D /* ReflectionsProfileCell.xib */; };
+		4A971BAB225DC46900D038AA /* GalleryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A971BAA225DC46900D038AA /* GalleryVC.swift */; };
 		4AA2FC1B22281AD000A10A4A /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA2FC1A22281AD000A10A4A /* ChatCell.swift */; };
 		4AA2FC1F22281BC600A10A4A /* ConversationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA2FC1E22281BC600A10A4A /* ConversationsVC.swift */; };
 		4AA32887222925DD00AB79C4 /* DiscoverCardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AA32886222925DD00AB79C4 /* DiscoverCardVC.xib */; };
@@ -99,10 +105,15 @@
 		4A1C985F21BD47BA00F99D62 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		4A337EEE21B549CA002A12EF /* StandardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardView.swift; sourceTree = "<group>"; };
 		4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomDiscoverCell.swift; sourceTree = "<group>"; };
+		4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsVC.swift; sourceTree = "<group>"; };
 		4A5D856621B29F07004E3E79 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		4A5D856A21B31341004E3E79 /* StandardLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardLabel.swift; sourceTree = "<group>"; };
 		4A5D856C21B3135F004E3E79 /* StandardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardButton.swift; sourceTree = "<group>"; };
 		4A5D856E21B315D3004E3E79 /* StandardTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTextField.swift; sourceTree = "<group>"; };
+		4A5F59AE22608E3B0065F47B /* login_client.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; name = login_client.php; path = ../../../../../../../Desktop/login_client.php; sourceTree = "<group>"; };
+		4A5F59B022636B540065F47B /* register_client.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = register_client.php; sourceTree = "<group>"; };
+		4A5F59B2226388320065F47B /* insert.sql */ = {isa = PBXFileReference; lastKnownFileType = text; path = insert.sql; sourceTree = "<group>"; };
+		4A5F59B4226496FF0065F47B /* login_client.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = login_client.php; sourceTree = "<group>"; };
 		4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		4A6C1DE02240E3310055B5A5 /* StatusCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusCodes.swift; sourceTree = "<group>"; };
 		4A6C1DE222451D140055B5A5 /* TextMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextMessageCell.xib; sourceTree = "<group>"; };
@@ -115,6 +126,7 @@
 		4A950C84222E64600089754D /* BlockAndReportProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockAndReportProfileCell.xib; sourceTree = "<group>"; };
 		4A950C86222FB3C30089754D /* InterestsProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InterestsProfileCell.xib; sourceTree = "<group>"; };
 		4A950C89222FF1960089754D /* ReflectionsProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReflectionsProfileCell.xib; sourceTree = "<group>"; };
+		4A971BAA225DC46900D038AA /* GalleryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryVC.swift; sourceTree = "<group>"; };
 		4AA2FC1A22281AD000A10A4A /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		4AA2FC1E22281BC600A10A4A /* ConversationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsVC.swift; sourceTree = "<group>"; };
 		4AA32886222925DD00AB79C4 /* DiscoverCardVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiscoverCardVC.xib; sourceTree = "<group>"; };
@@ -197,6 +209,9 @@
 		4A1C985621BC1BF300F99D62 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4A5F59B4226496FF0065F47B /* login_client.php */,
+				4A5F59B022636B540065F47B /* register_client.php */,
+				4A5F59B2226388320065F47B /* insert.sql */,
 				4AD6F87B223BD49200138EAD /* Account and Profile */,
 				4AA873A02214952F006035A3 /* WebVC.swift */,
 				4AD7D686221A090A000E4660 /* DiscoverVC.swift */,
@@ -296,8 +311,8 @@
 			isa = PBXGroup;
 			children = (
 				4AAED91A218336F400968E3E /* Info.plist */,
-				4AAED912218336F400968E3E /* converzone.xcdatamodeld */,
 				4AAED90B218336F400968E3E /* AppDelegate.swift */,
+				4AAED912218336F400968E3E /* converzone.xcdatamodeld */,
 				4A1C985621BC1BF300F99D62 /* View */,
 				4AAED90F218336F400968E3E /* Main.storyboard */,
 				4AAED917218336F400968E3E /* LaunchScreen.storyboard */,
@@ -332,6 +347,7 @@
 			isa = PBXGroup;
 			children = (
 				4AAED90D218336F400968E3E /* LoginVC.swift */,
+				4A5F59AE22608E3B0065F47B /* login_client.php */,
 				4A0A2A6721B9238200EB2232 /* ContinentVC.swift */,
 				4A1C985821BC288F00F99D62 /* CountryVC.swift */,
 				4A1C985A21BC5D7800F99D62 /* UsersLanguagesVC.swift */,
@@ -347,6 +363,8 @@
 			children = (
 				4AA2FC1E22281BC600A10A4A /* ConversationsVC.swift */,
 				4AA3288A22294E4700AB79C4 /* ChatVC.swift */,
+				4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */,
+				4A971BAA225DC46900D038AA /* GalleryVC.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -460,6 +478,7 @@
 				4A950C7F222D4D360089754D /* SendMessageProfileCell.xib in Resources */,
 				4A950C85222E64600089754D /* BlockAndReportProfileCell.xib in Resources */,
 				4A6C1DE72246A2900055B5A5 /* InformationMessageCell.xib in Resources */,
+				4A5F59B122636B540065F47B /* register_client.php in Resources */,
 				4A950C8A222FF1960089754D /* ReflectionsProfileCell.xib in Resources */,
 				4AAED919218336F400968E3E /* LaunchScreen.storyboard in Resources */,
 				4AD6F87A223B9B5A00138EAD /* ImageMessageCell.xib in Resources */,
@@ -470,8 +489,11 @@
 				4AA3288D2229D3B300AB79C4 /* ImageProfileCell.xib in Resources */,
 				4A950C83222DA2640089754D /* StatusProfileCell.xib in Resources */,
 				4AAED911218336F400968E3E /* Main.storyboard in Resources */,
+				4A5F59AF22608E3B0065F47B /* login_client.php in Resources */,
 				4A6C1DE322451D140055B5A5 /* TextMessageCell.xib in Resources */,
 				4A950C81222D583E0089754D /* GeneralProfileCell.xib in Resources */,
+				4A5F59B5226497000065F47B /* login_client.php in Resources */,
+				4A5F59B3226388320065F47B /* insert.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,6 +541,7 @@
 			files = (
 				4A5D856721B29F07004E3E79 /* Colors.swift in Sources */,
 				4AA328892229269500AB79C4 /* DiscoverCardVC.swift in Sources */,
+				4A5A618422563A1B00CBA4F8 /* ChatSettingsVC.swift in Sources */,
 				4AD7D6832217292A000E4660 /* Genders.swift in Sources */,
 				4A337EEF21B549CA002A12EF /* StandardView.swift in Sources */,
 				4AAED90E218336F400968E3E /* LoginVC.swift in Sources */,
@@ -527,6 +550,7 @@
 				4A016FDA21B6B1B200095E26 /* Person.swift in Sources */,
 				4AAED914218336F400968E3E /* converzone.xcdatamodeld in Sources */,
 				4A950C72222D17A80089754D /* ProfileCells.swift in Sources */,
+				4A971BAB225DC46900D038AA /* GalleryVC.swift in Sources */,
 				4AD7D687221A090A000E4660 /* DiscoverVC.swift in Sources */,
 				4AA2FC1B22281AD000A10A4A /* ChatCell.swift in Sources */,
 				4AA8739F2214816B006035A3 /* WelcomeVC.swift in Sources */,

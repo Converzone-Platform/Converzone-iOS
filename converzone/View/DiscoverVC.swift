@@ -38,6 +38,8 @@ class DiscoverVC: UIViewController {
         super.viewDidLoad()
         
         setUpNavBar()
+        
+        self.view.backgroundColor = Colors.backgroundGrey
     }
     
     func removeCard(){
