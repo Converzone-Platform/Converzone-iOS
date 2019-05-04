@@ -16,6 +16,6 @@ class ChatSettingsVC: UIViewController {
     }
     
     override func viewDidLoad() {
-        self.navigationItem.title = master?.chats[indexOfUser].fullname
+        self.navigationItem.title = master?.conversations[indexOfUser].fullname
     }
 }

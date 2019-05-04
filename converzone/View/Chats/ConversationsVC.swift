@@ -8,16 +8,15 @@
 
 import UIKit
 
+var filtered_converations: [User]? = nil
+
 class ConversationsVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var filtered_converations: [User]? = nil
-    
     override func viewDidLoad() {
         
         setUpNavBar()
-        setUpFakeUsers()
         
         self.view.backgroundColor = Colors.backgroundGrey
         
@@ -30,40 +29,42 @@ class ConversationsVC: UIViewController {
         
         let user_1 = User(firstname: "John", lastname: "Jefferson", gender: .male, birthdate: Date())
         
-        user_1.chat.append(TextMessage(text: "Hey! I am John!", is_sender: false))
-        user_1.chat.append(TextMessage(text: "How are you doing, John?", is_sender: true))
+        user_1.conversation.append(TextMessage(text: "Hey! I am John!", is_sender: false))
+        user_1.conversation.append(TextMessage(text: "How are you doing, John?", is_sender: true))
         
         
         let user_2 = User(firstname: "Jack", lastname: "Miller", gender: .male, birthdate: Date())
-        
-        user_2.chat.append(TextMessage(text: "Hello!", is_sender: false))
-        user_2.chat.append(TextMessage(text: "How are you?", is_sender: false))
-        user_2.chat.append(ImageMessage(image: UIImage(named: "1")!, is_sender: true))
-        
+
+        user_2.conversation.append(TextMessage(text: "Hello!", is_sender: false))
+        user_2.conversation.append(TextMessage(text: "How are you?", is_sender: false))
+        user_2.conversation.append(ImageMessage(image: UIImage(named: "1")!, is_sender: true))
+
         let user_3 = User(firstname: "Lebrone", lastname: "Hasher", gender: .male, birthdate: Date())
+
+        user_3.conversation.append(TextMessage(text: "Bonjour mon ami!", is_sender: false))
+        user_3.conversation.append(TextMessage(text: "Comment ça va?", is_sender: false))
+        user_3.conversation.append(ImageMessage(image: UIImage(named: "4")!, is_sender: true))
+        user_3.conversation.append(ImageMessage(image: UIImage(named: "6")!, is_sender: false))
+        user_3.conversation.append(ImageMessage(image: UIImage(named: "0")!, is_sender: true))
+        user_3.conversation.append(ImageMessage(image: UIImage(named: "2")!, is_sender: false))
+        user_3.conversation.append(ImageMessage(image: UIImage(named: "8")!, is_sender: true))
+        user_3.conversation.append(ImageMessage(image: UIImage(named: "1")!, is_sender: true))
+
+        //let user_4 = User(firstname: "Nick", lastname: "Paul", gender: .male, birthdate: Date())
         
-        user_3.chat.append(TextMessage(text: "Bonjour mon ami!", is_sender: false))
-        user_3.chat.append(TextMessage(text: "Comment ça va?", is_sender: false))
-        user_3.chat.append(ImageMessage(image: UIImage(named: "4")!, is_sender: true))
-        user_3.chat.append(ImageMessage(image: UIImage(named: "6")!, is_sender: false))
-        user_3.chat.append(ImageMessage(image: UIImage(named: "0")!, is_sender: true))
-        user_3.chat.append(ImageMessage(image: UIImage(named: "2")!, is_sender: false))
-        user_3.chat.append(ImageMessage(image: UIImage(named: "8")!, is_sender: true))
-        user_3.chat.append(ImageMessage(image: UIImage(named: "1")!, is_sender: true))
-        
-        master?.chats.append(user_1)
-        master?.chats.append(user_2)
-        master?.chats.append(user_3)
+        master?.conversations.append(user_1)
+        master?.conversations.append(user_2)
+        master?.conversations.append(user_3)
+        //master?.conversations.append(user_4)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-        setUpFakeUsers()
-        filtered_converations = master?.chats
-        
-        master?.chats.sort(by: { (user1, user2) -> Bool in
-            return (user1.chat.last?.date?.isGreaterThan((user2.chat.last?.date)!))!  
-            
+        filtered_converations = master?.conversations
+
+        master?.conversations.sort(by: { (user1, user2) -> Bool in
+            return (user1.conversation.last?.date?.isGreaterThan((user2.conversation.last?.date)!))!
+
         })
         
         //MARK: TODO - Reloading the whole tableview might be too much
@@ -91,7 +92,7 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         
         cell.name.text = (filtered_converations![indexPath.row].firstname)! + " " + (filtered_converations![indexPath.row].lastname)!
         cell.profileImage.image = UIImage(named: String(arc4random_uniform(14)))
-        cell.lastMessageType.backgroundColor = master?.chats[indexPath.row].chat.last?.color
+        cell.lastMessageType.backgroundColor = master?.conversations[indexPath.row].conversation.last?.color
         
         cell.profileImage.layer.cornerRadius = cell.profileImage.layer.frame.width / 2
         cell.profileImage.layer.masksToBounds = true
@@ -147,12 +148,12 @@ extension ConversationsVC: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         guard !searchText.isEmpty else {
-            filtered_converations = master?.chats
+            filtered_converations = master?.conversations
             tableView.reloadData()
             return
         }
         
-        filtered_converations = master?.chats.filter({ (user) -> Bool in
+        filtered_converations = master?.conversations.filter({ (user) -> Bool in
             return (user.fullname?.lowercased().contains(searchText.lowercased()))!
         })
         
@@ -162,7 +163,7 @@ extension ConversationsVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.endEditing(true)
         
-        filtered_converations = master?.chats
+        filtered_converations = master?.conversations
         tableView.reloadData()
     }
 }

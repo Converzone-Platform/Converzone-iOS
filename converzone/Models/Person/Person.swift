@@ -31,9 +31,10 @@ class Person {
     internal var continent: String?
     internal var country: Country?
     internal var coordinate: CLLocationCoordinate2D?
+    internal var timezone: String?
     
     //Platform Informations
-    internal var interests: String?
+    internal var interests: NSAttributedString?
     internal var status: NSAttributedString?
     internal var link_to_profile_image: String?
     internal var reflections: [Reflection] = []

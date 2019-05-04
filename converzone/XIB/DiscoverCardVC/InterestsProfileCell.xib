@@ -31,7 +31,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zF6-VN-Qwy">
-                                <rect key="frame" x="8" y="61" width="309" height="68"/>
+                                <rect key="frame" x="16" y="61" width="293" height="68"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Label">
                                         <attributes>
@@ -46,10 +46,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="jnw-Kp-tjF" firstAttribute="top" secondItem="eFw-GH-rIo" secondAttribute="top" constant="19" id="E1a-4r-BBg"/>
-                            <constraint firstAttribute="trailing" secondItem="zF6-VN-Qwy" secondAttribute="trailing" constant="8" id="Idn-c8-f8I"/>
+                            <constraint firstAttribute="trailing" secondItem="zF6-VN-Qwy" secondAttribute="trailing" constant="16" id="Idn-c8-f8I"/>
                             <constraint firstAttribute="bottom" secondItem="zF6-VN-Qwy" secondAttribute="bottom" constant="18" id="Ko0-Mg-ZUM"/>
                             <constraint firstItem="jnw-Kp-tjF" firstAttribute="leading" secondItem="eFw-GH-rIo" secondAttribute="leading" constant="40" id="LPN-Qv-DSb"/>
-                            <constraint firstItem="zF6-VN-Qwy" firstAttribute="leading" secondItem="eFw-GH-rIo" secondAttribute="leading" constant="8" id="gYD-sU-WU2"/>
+                            <constraint firstItem="zF6-VN-Qwy" firstAttribute="leading" secondItem="eFw-GH-rIo" secondAttribute="leading" constant="16" id="gYD-sU-WU2"/>
                             <constraint firstItem="zF6-VN-Qwy" firstAttribute="top" secondItem="jnw-Kp-tjF" secondAttribute="bottom" constant="15" id="wWN-cI-tpr"/>
                             <constraint firstAttribute="trailing" secondItem="jnw-Kp-tjF" secondAttribute="trailing" constant="24" id="zUG-aG-lL6"/>
                         </constraints>

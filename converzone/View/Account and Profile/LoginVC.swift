@@ -13,17 +13,14 @@ var master: Master? = Master("", "")
 
 class LoginVC: UIViewController {
     
-    //Design/Label
     @IBOutlet weak var welcome_label: UILabel!
     @IBOutlet weak var continue_outlet: UIButton!
     @IBOutlet weak var login_outlet: StandardButton!
     @IBOutlet weak var register_outlet: StandardButton!
     
-    //TextFields
     @IBOutlet weak var email_textfield: StandardTextField!
     @IBOutlet weak var password_textfield: StandardTextField!
     
-    //Buttons
     @IBAction func forgot_button(_ sender: Any) {
         
     }
@@ -51,9 +48,7 @@ class LoginVC: UIViewController {
                     
                     // hash of "1": $2y$10$vDEhAhrg0KDcLj7tjEMFE.oU4Ul8ib98VlZlz8fH9fIFCZkTTMbua
                     
-//                INSERT INTO USERS (USERID, PASSWORD, FIRSTNAME, LASTNAME, GENDER, FIRSTJOIN, BIRTHDAY, , EMAIL, INTRESTS, BIO, COUNTRYID, BLOCKEDBYTHESYSTEM)
-//
-//                    VALUES (1, '$2y$10$vDEhAhrg0KDcLj7tjEMFE.oU4Ul8ib98VlZlz8fH9fIFCZkTTMbua', 'Goga', 'Barabadze',TO_DATE('14/12/2015', 'DD/MM/YYYY'), '1');
+//                INSERT INTO USERS (USERID, PASSWORD, FIRSTNAME, LASTNAME, GENDER, FIRSTJOIN, BIRTHDAY, , EMAIL, INTRESTS, BIO, COUNTRYID, BLOCKEDBYTHESYSTEM) VALUES (1, '$2y$10$vDEhAhrg0KDcLj7tjEMFE.oU4Ul8ib98VlZlz8fH9fIFCZkTTMbua', 'Goga', 'Barabadze',TO_DATE('14/12/2015', 'DD/MM/YYYY'), '1');
                     
                 
                     
@@ -66,6 +61,9 @@ class LoginVC: UIViewController {
                     master?.lastname = data?["LASTNAME"] as? String
                     master?.uid = data?["USERID"] as? Int
 //                    master?.gender =
+                    
+                    //Continue to conversations
+                    
                 }
             }
         }
@@ -142,6 +140,7 @@ class LoginVC: UIViewController {
         login_outlet.isEnabled = true
     }
     
+    // No need to translate this. This is meant to be in English for all
     func renderWelcomeMessage(){
         let attributedString = NSMutableAttributedString(string: "Chat with the world.")
         

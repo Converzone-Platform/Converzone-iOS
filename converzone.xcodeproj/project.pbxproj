@@ -27,10 +27,9 @@
 		4A5D856B21B31341004E3E79 /* StandardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856A21B31341004E3E79 /* StandardLabel.swift */; };
 		4A5D856D21B3135F004E3E79 /* StandardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856C21B3135F004E3E79 /* StandardButton.swift */; };
 		4A5D856F21B315D3004E3E79 /* StandardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856E21B315D3004E3E79 /* StandardTextField.swift */; };
-		4A5F59AF22608E3B0065F47B /* login_client.php in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F59AE22608E3B0065F47B /* login_client.php */; };
-		4A5F59B122636B540065F47B /* register_client.php in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F59B022636B540065F47B /* register_client.php */; };
-		4A5F59B3226388320065F47B /* insert.sql in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F59B2226388320065F47B /* insert.sql */; };
-		4A5F59B5226497000065F47B /* login_client.php in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F59B4226496FF0065F47B /* login_client.php */; };
+		4A5F59BC2264D8C70065F47B /* AddConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5F59BB2264D8C70065F47B /* AddConversation.swift */; };
+		4A5F59BE2264DF810065F47B /* AddConversationCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5F59BD2264DF810065F47B /* AddConversationCells.swift */; };
+		4A5F59C0226CA5B40065F47B /* CountryProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F59BF226CA5B40065F47B /* CountryProfileCell.xib */; };
 		4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */; };
 		4A6C1DE12240E3310055B5A5 /* StatusCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C1DE02240E3310055B5A5 /* StatusCodes.swift */; };
 		4A6C1DE322451D140055B5A5 /* TextMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C1DE222451D140055B5A5 /* TextMessageCell.xib */; };
@@ -42,7 +41,7 @@
 		4A950C83222DA2640089754D /* StatusProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C82222DA2640089754D /* StatusProfileCell.xib */; };
 		4A950C85222E64600089754D /* BlockAndReportProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C84222E64600089754D /* BlockAndReportProfileCell.xib */; };
 		4A950C87222FB3C30089754D /* InterestsProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C86222FB3C30089754D /* InterestsProfileCell.xib */; };
-		4A950C8A222FF1960089754D /* ReflectionsProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C89222FF1960089754D /* ReflectionsProfileCell.xib */; };
+		4A950C8A222FF1960089754D /* ReflectionProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C89222FF1960089754D /* ReflectionProfileCell.xib */; };
 		4A971BAB225DC46900D038AA /* GalleryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A971BAA225DC46900D038AA /* GalleryVC.swift */; };
 		4AA2FC1B22281AD000A10A4A /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA2FC1A22281AD000A10A4A /* ChatCell.swift */; };
 		4AA2FC1F22281BC600A10A4A /* ConversationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA2FC1E22281BC600A10A4A /* ConversationsVC.swift */; };
@@ -61,6 +60,7 @@
 		4AAED919218336F400968E3E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AAED917218336F400968E3E /* LaunchScreen.storyboard */; };
 		4AAED924218336F400968E3E /* converzoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED923218336F400968E3E /* converzoneTests.swift */; };
 		4AAED92F218336F400968E3E /* converzoneUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED92E218336F400968E3E /* converzoneUITests.swift */; };
+		4AC0A6062271AF36007FA5AB /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5F59B92264CE680065F47B /* libz.tbd */; };
 		4AD6F878223B9AD400138EAD /* MessageCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD6F877223B9AD400138EAD /* MessageCells.swift */; };
 		4AD6F87A223B9B5A00138EAD /* ImageMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AD6F879223B9B5A00138EAD /* ImageMessageCell.xib */; };
 		4AD7D6832217292A000E4660 /* Genders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD7D6822217292A000E4660 /* Genders.swift */; };
@@ -110,10 +110,10 @@
 		4A5D856A21B31341004E3E79 /* StandardLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardLabel.swift; sourceTree = "<group>"; };
 		4A5D856C21B3135F004E3E79 /* StandardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardButton.swift; sourceTree = "<group>"; };
 		4A5D856E21B315D3004E3E79 /* StandardTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTextField.swift; sourceTree = "<group>"; };
-		4A5F59AE22608E3B0065F47B /* login_client.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; name = login_client.php; path = ../../../../../../../Desktop/login_client.php; sourceTree = "<group>"; };
-		4A5F59B022636B540065F47B /* register_client.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = register_client.php; sourceTree = "<group>"; };
-		4A5F59B2226388320065F47B /* insert.sql */ = {isa = PBXFileReference; lastKnownFileType = text; path = insert.sql; sourceTree = "<group>"; };
-		4A5F59B4226496FF0065F47B /* login_client.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = login_client.php; sourceTree = "<group>"; };
+		4A5F59B92264CE680065F47B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		4A5F59BB2264D8C70065F47B /* AddConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConversation.swift; sourceTree = "<group>"; };
+		4A5F59BD2264DF810065F47B /* AddConversationCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConversationCells.swift; sourceTree = "<group>"; };
+		4A5F59BF226CA5B40065F47B /* CountryProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CountryProfileCell.xib; sourceTree = "<group>"; };
 		4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		4A6C1DE02240E3310055B5A5 /* StatusCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusCodes.swift; sourceTree = "<group>"; };
 		4A6C1DE222451D140055B5A5 /* TextMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextMessageCell.xib; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 		4A950C82222DA2640089754D /* StatusProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatusProfileCell.xib; sourceTree = "<group>"; };
 		4A950C84222E64600089754D /* BlockAndReportProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockAndReportProfileCell.xib; sourceTree = "<group>"; };
 		4A950C86222FB3C30089754D /* InterestsProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InterestsProfileCell.xib; sourceTree = "<group>"; };
-		4A950C89222FF1960089754D /* ReflectionsProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReflectionsProfileCell.xib; sourceTree = "<group>"; };
+		4A950C89222FF1960089754D /* ReflectionProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReflectionProfileCell.xib; sourceTree = "<group>"; };
 		4A971BAA225DC46900D038AA /* GalleryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryVC.swift; sourceTree = "<group>"; };
 		4AA2FC1A22281AD000A10A4A /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		4AA2FC1E22281BC600A10A4A /* ConversationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsVC.swift; sourceTree = "<group>"; };
@@ -164,6 +164,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AC0A6062271AF36007FA5AB /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,9 +210,6 @@
 		4A1C985621BC1BF300F99D62 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				4A5F59B4226496FF0065F47B /* login_client.php */,
-				4A5F59B022636B540065F47B /* register_client.php */,
-				4A5F59B2226388320065F47B /* insert.sql */,
 				4AD6F87B223BD49200138EAD /* Account and Profile */,
 				4AA873A02214952F006035A3 /* WebVC.swift */,
 				4AD7D686221A090A000E4660 /* DiscoverVC.swift */,
@@ -245,6 +243,14 @@
 			path = "UI Elements";
 			sourceTree = "<group>";
 		};
+		4A5F59B82264CE680065F47B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4A5F59B92264CE680065F47B /* libz.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4A950C88222FBB0A0089754D /* DiscoverCardVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,10 +258,11 @@
 				4AA3288C2229D3B300AB79C4 /* ImageProfileCell.xib */,
 				4A950C7E222D4D360089754D /* SendMessageProfileCell.xib */,
 				4A950C80222D583E0089754D /* GeneralProfileCell.xib */,
+				4A5F59BF226CA5B40065F47B /* CountryProfileCell.xib */,
 				4A950C82222DA2640089754D /* StatusProfileCell.xib */,
 				4A950C86222FB3C30089754D /* InterestsProfileCell.xib */,
+				4A950C89222FF1960089754D /* ReflectionProfileCell.xib */,
 				4A950C84222E64600089754D /* BlockAndReportProfileCell.xib */,
-				4A950C89222FF1960089754D /* ReflectionsProfileCell.xib */,
 			);
 			path = DiscoverCardVC;
 			sourceTree = "<group>";
@@ -283,6 +290,7 @@
 				4AA2FC1A22281AD000A10A4A /* ChatCell.swift */,
 				4A950C71222D17A80089754D /* ProfileCells.swift */,
 				4AD6F877223B9AD400138EAD /* MessageCells.swift */,
+				4A5F59BD2264DF810065F47B /* AddConversationCells.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -294,6 +302,7 @@
 				4AAED922218336F400968E3E /* converzoneTests */,
 				4AAED92D218336F400968E3E /* converzoneUITests */,
 				4AAED909218336F400968E3E /* Products */,
+				4A5F59B82264CE680065F47B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -347,7 +356,6 @@
 			isa = PBXGroup;
 			children = (
 				4AAED90D218336F400968E3E /* LoginVC.swift */,
-				4A5F59AE22608E3B0065F47B /* login_client.php */,
 				4A0A2A6721B9238200EB2232 /* ContinentVC.swift */,
 				4A1C985821BC288F00F99D62 /* CountryVC.swift */,
 				4A1C985A21BC5D7800F99D62 /* UsersLanguagesVC.swift */,
@@ -365,6 +373,7 @@
 				4AA3288A22294E4700AB79C4 /* ChatVC.swift */,
 				4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */,
 				4A971BAA225DC46900D038AA /* GalleryVC.swift */,
+				4A5F59BB2264D8C70065F47B /* AddConversation.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -478,8 +487,7 @@
 				4A950C7F222D4D360089754D /* SendMessageProfileCell.xib in Resources */,
 				4A950C85222E64600089754D /* BlockAndReportProfileCell.xib in Resources */,
 				4A6C1DE72246A2900055B5A5 /* InformationMessageCell.xib in Resources */,
-				4A5F59B122636B540065F47B /* register_client.php in Resources */,
-				4A950C8A222FF1960089754D /* ReflectionsProfileCell.xib in Resources */,
+				4A950C8A222FF1960089754D /* ReflectionProfileCell.xib in Resources */,
 				4AAED919218336F400968E3E /* LaunchScreen.storyboard in Resources */,
 				4AD6F87A223B9B5A00138EAD /* ImageMessageCell.xib in Resources */,
 				4A07981F224D661E00C39927 /* LocationMessageCell.xib in Resources */,
@@ -488,12 +496,10 @@
 				4AAED916218336F400968E3E /* Assets.xcassets in Resources */,
 				4AA3288D2229D3B300AB79C4 /* ImageProfileCell.xib in Resources */,
 				4A950C83222DA2640089754D /* StatusProfileCell.xib in Resources */,
+				4A5F59C0226CA5B40065F47B /* CountryProfileCell.xib in Resources */,
 				4AAED911218336F400968E3E /* Main.storyboard in Resources */,
-				4A5F59AF22608E3B0065F47B /* login_client.php in Resources */,
 				4A6C1DE322451D140055B5A5 /* TextMessageCell.xib in Resources */,
 				4A950C81222D583E0089754D /* GeneralProfileCell.xib in Resources */,
-				4A5F59B5226497000065F47B /* login_client.php in Resources */,
-				4A5F59B3226388320065F47B /* insert.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,7 +583,9 @@
 				4AA8739C22143AE7006035A3 /* NormalInputCells.swift in Sources */,
 				4AA873A12214952F006035A3 /* WebVC.swift in Sources */,
 				4AD7D68B221B2FFA000E4660 /* SettingsVC.swift in Sources */,
+				4A5F59BC2264D8C70065F47B /* AddConversation.swift in Sources */,
 				4A016FE021B6B78B00095E26 /* Message.swift in Sources */,
+				4A5F59BE2264DF810065F47B /* AddConversationCells.swift in Sources */,
 				4A1C985221BA639C00F99D62 /* World.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

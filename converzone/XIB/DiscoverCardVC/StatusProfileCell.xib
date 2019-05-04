@@ -31,7 +31,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="go5-qg-mpk">
-                                <rect key="frame" x="14" y="54" width="297" height="157"/>
+                                <rect key="frame" x="16" y="54" width="293" height="157"/>
                                 <attributedString key="attributedText">
                                     <fragment>
                                         <string key="content">“Just take my hand, lead, dance with me…and I will simply follow the blueness of the water, the white waves rolling free…where the earth beneath my feet and stars make my heart whole again…in long and priceless moments of shared solitude…” 
@@ -64,10 +64,10 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Pbt-qi-LEm" secondAttribute="trailing" constant="8" id="5z0-XJ-wHj"/>
                             <constraint firstItem="Pbt-qi-LEm" firstAttribute="top" secondItem="Nkx-MT-PvM" secondAttribute="top" constant="19" id="FZC-uJ-rz2"/>
-                            <constraint firstItem="go5-qg-mpk" firstAttribute="leading" secondItem="Nkx-MT-PvM" secondAttribute="leading" constant="14" id="WYd-pP-WSv"/>
+                            <constraint firstItem="go5-qg-mpk" firstAttribute="leading" secondItem="Nkx-MT-PvM" secondAttribute="leading" constant="16" id="WYd-pP-WSv"/>
                             <constraint firstAttribute="bottom" secondItem="go5-qg-mpk" secondAttribute="bottom" constant="24" id="fCB-9T-HUz"/>
                             <constraint firstItem="Pbt-qi-LEm" firstAttribute="leading" secondItem="Nkx-MT-PvM" secondAttribute="leading" constant="40" id="fbE-pC-Asu"/>
-                            <constraint firstAttribute="trailing" secondItem="go5-qg-mpk" secondAttribute="trailing" constant="14" id="lC8-EG-UO6"/>
+                            <constraint firstAttribute="trailing" secondItem="go5-qg-mpk" secondAttribute="trailing" constant="16" id="lC8-EG-UO6"/>
                             <constraint firstItem="go5-qg-mpk" firstAttribute="top" secondItem="Pbt-qi-LEm" secondAttribute="bottom" constant="8" id="lkN-Kg-C1C"/>
                         </constraints>
                     </view>

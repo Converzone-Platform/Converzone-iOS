@@ -17,7 +17,7 @@ class Master: Person {
     internal var password: String
     
     //All people with whom the master has chats with
-    internal var chats: [User] = []
+    internal var conversations: [User] = []
     
     //Platform
     internal var profile_images: [UIImage]?
@@ -27,8 +27,21 @@ class Master: Person {
         self.password = password
         
         super.init(firstname: "Unknown", lastname: "Unknown", gender: .non_binary, birthdate: Date(timeIntervalSince1970: 0))
-        
-        
+    }
+    
+    // Get count of conversations which were deleted
+    internal var count_hidden_conversations: Int{
+        get{
+            var count = 0
+            
+            for conversation in conversations{
+                if conversation.conversation.count == 0{
+                    count+=1
+                }
+            }
+            
+            return count
+        }
     }
 }
 

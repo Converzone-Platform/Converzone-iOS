@@ -11,7 +11,7 @@ import UIKit
 //MARK: BUG - First item is not shown
 let names = ["Agnarr Aydan", "Aradhana Nkiruka", "Avgust Wiola", "Feodosiy Aleksi", "Meena Leatrice", "Mirte Chana", "Andrea Marita", "Sacagawea Iovis", "Vladimira Carme", "Siran Patsy", "Lech Leonidas", "Jimmy Ozzy", "Charna Astraia", "'Isam Rakesh", "Lila Jézabel", "Þórný Lykos", "Tatjana Ercanbald", "Echo Nevio", "Marta Chibueze", "Bohumila Melpomene", "Marjan Sigrun", "Demetria Ayanda", "Florentine Dagfinnr", "Agnarr Aydan", "Aradhana Nkiruka", "Avgust Wiola", "Feodosiy Aleksi", "Meena Leatrice", "Mirte Chana", "Andrea Marita", "Sacagawea Iovis", "Vladimira Carme", "Siran Patsy", "Lech Leonidas", "Jimmy Ozzy", "Charna Astraia", "'Isam Rakesh", "Lila Jézabel", "Þórný Lykos", "Tatjana Ercanbald", "Echo Nevio", "Marta Chibueze", "Bohumila Melpomene", "Marjan Sigrun", "Demetria Ayanda", "Florentine Dagfinnr"]
 
-let types = [3, 0, 2, 1, 0, 2, 0, 1, 0, 2, 2, 1, 0, 2, 1, 1, 0, 2, 0, 1, 0, 2, 1, 0, 2, 0, 1, 0, 2, 2, 1, 0, 2, 1, 1, 0, 2, 0, 1,0, 2, 1, 0, 2, 0, 1, 0, 2, 2, 1, 0, 2, 1, 1, 0, 2, 0, 1, 0, 2, 1, 0, 2, 0, 1, 0, 2, 2, 1, 0, 2, 1, 1, 0, 2, 0, 1]
+let types = [2, 0, 2, 1, 0, 2, 0, 1, 0, 2, 2, 1, 0, 2, 1, 1, 0, 2, 0, 1, 0, 2, 1, 0, 2, 0, 1, 0, 2, 2, 1, 0, 2, 1, 1, 0, 2, 0, 1,0, 2, 1, 0, 2, 0, 1, 0, 2, 2, 1, 0, 2, 1, 1, 0, 2, 0, 1, 0, 2, 1, 0, 2, 0, 1, 0, 2, 2, 1, 0, 2, 1, 1, 0, 2, 0, 1]
 
 class DiscoverVC: UIViewController {
     
@@ -212,9 +212,12 @@ class DiscoverVC: UIViewController {
     func setUpNavBar(){
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        let searchBar = UISearchController(searchResultsController: nil)
-        navigationItem.searchController = searchBar
-        navigationItem.hidesSearchBarWhenScrolling = false
+        // This is not finished yet
+//        let searchBar = UISearchController(searchResultsController: nil)
+//        navigationItem.searchController = searchBar
+//        navigationItem.hidesSearchBarWhenScrolling = false
+        
+        //let filter_button = UIBarButtonItem(title: NSLocalizedString("Filter", comment: "Button text for Filter Discover"), style: .plain, target: self, action: nil)
     }
 }
 
@@ -222,7 +225,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if (indexPath.row == 0) { return }
+        if (types[indexPath.row] == 3) { return }
         
         setUpCard()
         animateTransitionIfNeeded(state: nextState, duration: 0.9)

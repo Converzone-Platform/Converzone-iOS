@@ -9,8 +9,7 @@
 import SystemConfiguration
 import UIKit
 
-//Base url
-var baseURL = "http://converzone.htl-perg.ac.at/"
+var baseURL = "https://converzone.htl-perg.ac.at/"
 
 public class Internet {
     
@@ -110,11 +109,44 @@ public class Internet {
     
     class func sendText(message: String){
         
+        var json = [String: Any]()
+        json["name"] = "Goga"
+        json["message"] = message
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        json["time"] = dateFormatter.string(from: NSDate() as Date)
+        
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted);
+            if let string = String(data: jsonData, encoding: String.Encoding.utf8){
+                
+                
+                // Send here
+                
+                
+            } else {
+                print("Couldn't create json string");
+            }
+        } catch let error {
+            print("Couldn't create json data: \(error)");
+        }
+
+        
+    }
+    
+    func handleMessage(jsonString:String){
+        if let data = jsonString.data(using: String.Encoding.utf8){
+            do {
+                let JSON = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
+                print("We've successfully parsed the message into a Dictionary! Yay!\n\(JSON)")
+            } catch let error{
+                print("Error parsing json: \(error)")
+            }
+        }
     }
     
     class func sendImage(message: UIImage){
         
     }
 }
-
-

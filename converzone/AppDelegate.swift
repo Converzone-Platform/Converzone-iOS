@@ -14,13 +14,14 @@ import CoreData
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        //MARK: TODO - Delete this
+        ConversationsVC().setUpFakeUsers()
         
         return true
     }
 
     // MARK: - Core Data stack
-    //MARK: TODO - persistentContainer and saveContext work differently since iOS 10. Find a way for older versions
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
