@@ -65,7 +65,7 @@ class ChatVC: UIViewController {
                     locationMessage.coordinate = master?.coordinate
                     locationMessage.date = Date()
                     
-                    filtered_converations![indexOfUser].conversation.append(locationMessage)
+                    master?.conversations[indexOfUser].conversation.append(locationMessage)
                     
                     self.updateTableView(animated: true)
                     
@@ -250,8 +250,12 @@ class ChatVC: UIViewController {
     
     func scrollToBottom(animated: Bool){
         DispatchQueue.main.async {
-            let indexPath = IndexPath(row: (filtered_converations![indexOfUser].conversation.count)-1, section: 0)
-            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
+            let indexPath = IndexPath(row: ((master?.conversations[indexOfUser].conversation.count)!)-1, section: 0)
+            
+            if (master?.conversations[indexOfUser].conversation.count != 0){
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
+            }
+            
         }
     }
     
@@ -262,7 +266,7 @@ class ChatVC: UIViewController {
         screenshot_message.text = NSLocalizedString("You", comment: "The pronoun") + " " + NSLocalizedString("took a screenshot!", comment: "Message when the master or the partner takes a screenshot")
         screenshot_message.date = NSDate() as Date
         
-        filtered_converations![indexOfUser].conversation.append(screenshot_message)
+        master?.conversations[indexOfUser].conversation.append(screenshot_message)
         
         //MARK: TODO - Send this to the partner
         
@@ -274,18 +278,18 @@ class ChatVC: UIViewController {
 extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (filtered_converations![indexOfUser].conversation.count)
+        return ((master?.conversations[indexOfUser].conversation.count)!)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch filtered_converations![indexOfUser].conversation[indexPath.row]{
+        switch master?.conversations[indexOfUser].conversation[indexPath.row]{
             
         case is TextMessage:
             
             let cell = Bundle.main.loadNibNamed("TextMessageCell", owner: self, options: nil)?.first as! TextMessageCell
             
-            let message = filtered_converations![indexOfUser].conversation[indexPath.row] as! TextMessage
+            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! TextMessage
             
             cell.message_label.text = message.text!
             cell.selectionStyle = .none
@@ -362,7 +366,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let cell = Bundle.main.loadNibNamed("ImageMessageCell", owner: self, options: nil)?.first as! ImageMessageCell
             
-            let message = filtered_converations![indexOfUser].conversation[indexPath.row] as! ImageMessage
+            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! ImageMessage
             
             //cell.message_imageView.download(from: message.link!)
             cell.message_imageView.image = message.image
@@ -395,14 +399,10 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         case is LocationMessage:
             let cell = Bundle.main.loadNibNamed("LocationMessageCell", owner: self, options: nil)?.first as! LocationMessageCell
             
-            let message = filtered_converations![indexOfUser].conversation[indexPath.row] as! LocationMessage
+            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! LocationMessage
             
             let latitude: CLLocationDegrees = (message.coordinate?.latitude)!
             let longitude: CLLocationDegrees = (message.coordinate?.longitude)!
-//            let latDelta:CLLocationDegrees = 180
-//            let lonDelta:CLLocationDegrees = 180
-//
-//            cell.map.mapType = .standard
             
             let latDelta:CLLocationDegrees = 0.01
             let lonDelta:CLLocationDegrees = 0.01
@@ -417,7 +417,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             if message.is_sender! {
                 annotation.title = NSLocalizedString("You", comment: "The pronoun")
             }else{
-                annotation.title = filtered_converations![indexOfUser].fullname
+                annotation.title = master?.conversations[indexOfUser].fullname
             }
             
             cell.map.addAnnotation(annotation)
@@ -449,7 +449,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let cell = Bundle.main.loadNibNamed("InformationMessageCell", owner: self, options: nil)?.first as! InformationMessageCell
             
-            let message = filtered_converations![indexOfUser].conversation[indexPath.row] as! InformationMessage
+            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! InformationMessage
             
             cell.information.text = message.text
             
@@ -472,7 +472,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        switch filtered_converations![indexOfUser].conversation[indexPath.row]{
+        switch master?.conversations[indexOfUser].conversation[indexPath.row]{
         case is ImageMessage:
             if (self.view.frame.width < self.view.frame.height){
                 return self.view.frame.width
@@ -495,9 +495,9 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //Direct to maps if the message is a location
-        if filtered_converations![indexOfUser].conversation[indexPath.row] is LocationMessage {
+        if master?.conversations[indexOfUser].conversation[indexPath.row] is LocationMessage {
             
-            let message = filtered_converations![indexOfUser].conversation[indexPath.row] as! LocationMessage
+            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! LocationMessage
             
             let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: (message.coordinate?.latitude)!, longitude: (message.coordinate?.longitude)!))
             
@@ -506,14 +506,14 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             if message.is_sender! {
                 source.name = NSLocalizedString("You", comment: "The pronoun")
             }else{
-                source.name = filtered_converations![indexOfUser].fullname
+                source.name = master?.conversations[indexOfUser].fullname
             }
             
             MKMapItem.openMaps(with: [source], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])
             
         }
         
-        if filtered_converations![indexOfUser].conversation[indexPath.row] is ImageMessage {
+        if master?.conversations[indexOfUser].conversation[indexPath.row] is ImageMessage {
             
 //            let secondViewController: ImagePreviewFullViewCell = ImagePreviewFullViewCell()
 //
@@ -524,13 +524,11 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
 
 extension ChatVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        filtered_converations![indexOfUser].conversation.append(TextMessage(text: textField.text!, is_sender: arc4random() % 2 == 0))
-        updateTableView(animated: true)
+        master?.conversations[indexOfUser].conversation.append(TextMessage(text: textField.text!, is_sender: true))
         
-        Internet.init()
         Internet.sendText(message: textField.text!)
         
-        //Internet.sendText(message: "ajfnsd", type: "TextMessage", sender: master.uid, receiver: master?.chats[indexOfUser].uid)
+        updateTableView(animated: true)
         
         textField.text = ""
         
@@ -545,7 +543,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
             let image = UIImagePickerController()
             image.delegate = self
             image.sourceType = UIImagePickerController.SourceType.photoLibrary
-            image.mediaTypes = ["public.movie", "public.image"]
+            image.mediaTypes = [/*"public.movie",*/ "public.image"]
             image.allowsEditing = true
             self.present(image, animated: true, completion: nil)
         }
@@ -568,7 +566,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         
         // Display sent image in chat
         let message = ImageMessage(image: image as! UIImage, is_sender: true)
-        filtered_converations![indexOfUser].conversation.append(message)
+        master?.conversations[indexOfUser].conversation.append(message)
         
         updateTableView(animated: true)
         
@@ -611,4 +609,17 @@ extension ChatVC: CLLocationManagerDelegate {
             locationManager.requestLocation()
         }
     }
+}
+
+//Disable Auto Rotation
+extension ChatVC {
+    
+    override var shouldAutorotate: Bool{
+        return false
+    }
+    
+    func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
 }

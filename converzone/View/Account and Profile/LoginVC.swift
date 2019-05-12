@@ -31,10 +31,10 @@ class LoginVC: UIViewController {
         master?.email = email_textfield.text!
         master?.password = password_textfield.text!
         
-        Internet.database(url: baseURL + "login_client.php", parameters: ["email": email, "password": password]) { (data, response, error) in
+        Internet.database(url: baseURL + "/login_client.php", parameters: ["email": email, "password": password]) { (data, response, error) in
             
             if error != nil {
-                print(error!)
+                print(error!.localizedDescription)
             }
             
             //Did the server give back an error?
@@ -43,24 +43,35 @@ class LoginVC: UIViewController {
                 if !(httpResponse.statusCode == 200) {
                     
                     DispatchQueue.main.async {
-                        self.alert("Error", String(httpResponse.statusCode))
+                        
+                        self.alert((data?.values.first)! as! String, "")
                     }
                     
-                    // hash of "1": $2y$10$vDEhAhrg0KDcLj7tjEMFE.oU4Ul8ib98VlZlz8fH9fIFCZkTTMbua
-                    
-//                INSERT INTO USERS (USERID, PASSWORD, FIRSTNAME, LASTNAME, GENDER, FIRSTJOIN, BIRTHDAY, , EMAIL, INTRESTS, BIO, COUNTRYID, BLOCKEDBYTHESYSTEM) VALUES (1, '$2y$10$vDEhAhrg0KDcLj7tjEMFE.oU4Ul8ib98VlZlz8fH9fIFCZkTTMbua', 'Goga', 'Barabadze',TO_DATE('14/12/2015', 'DD/MM/YYYY'), '1');
-                    
-                
-                    
-                    //UPDATE USERS SET PASSWORD="$2y$10$vDEhAhrg0KDcLj7tjEMFE.oU4Ul8ib98VlZlz8fH9fIFCZkTTMbua" FROM USERS WHERE EMAIL="tmail@skl";
-                    
                 }else{
+                    
+                    // Check if banned
+                    if (data?["BANNED"] as? String == "t"){
+                        DispatchQueue.main.async {
+                            self.alert("Banned", "Sorry but you can't access converzone anymore. Contact our team.")
+                        }
+                        return
+                    }
+                    
                     //Login was successful
-                    print(data)
                     master?.firstname = data?["FIRSTNAME"] as? String
                     master?.lastname = data?["LASTNAME"] as? String
                     master?.uid = data?["USERID"] as? Int
-//                    master?.gender =
+                    master?.gender = self.genderConverter(gender: (data?["GENDER"] as? String)!)
+                    master?.status = data?["STATUS"] as? NSAttributedString
+                    master?.interests = data?["INTERESTS"] as? NSAttributedString
+                    master?.country = Country(name: (data?["COUNTRY"] as? String)!)
+                    
+                    let string_date = data?["BIRTHDATE"] as? String
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "dd/MM/yy"
+                    master?.birthdate = dateFormatter.date(from: string_date!)
+                    
+                    print(master?.birthdate)
                     
                     //Continue to conversations
                     
@@ -69,34 +80,47 @@ class LoginVC: UIViewController {
         }
     }
     
+    func genderConverter(gender: String) -> Gender{
+        switch gender {
+        case "f":
+            return Gender.female
+        case "m":
+            return Gender.male
+        case "n":
+            return Gender.non_binary
+        default:
+            return Gender.non_binary
+        }
+    }
+    
     @IBAction func continue_button(_ sender: Any) {
         
         guard let email = email_textfield.text          else { return }
         guard let password = password_textfield.text    else { return }
         
-//        if(email_textfield.text == "" || password_textfield.text == ""){
-//         alert(NSLocalizedString("Fill in both fields", comment: "Error title when the user doesn't fill in password and email"),
-//         NSLocalizedString("Please make sure that you fill in a password and an email address", comment: "Error message when the user doesn't fill in password and email"))
-//         return
-//         }
-//
-//         if(!Internet.isOnline()){
-//         alert(NSLocalizedString("Your device is offline", comment: "Error title the user gets when device is not connected to the internet"),
-//         NSLocalizedString("Please make sure that your device is connected to the internet in order to proceed.", comment: "Error message the user gets when device is not connected to the internet"))
-//         return
-//         }
-//
-//         if(!email_textfield.isValidEmail()){
-//         alert(NSLocalizedString("Email Address", comment: "Error title when the user enters a invalid email address"),
-//         NSLocalizedString("Please make sure that you enter a valid email address.", comment: "Error message when the user enters a invalid email address"))
-//         return
-//         }
-//
-//         if(!password_textfield.isValidPassword()){
-//         alert(NSLocalizedString("Password", comment: "Error title when the user enters a wrong password"),
-//         NSLocalizedString("Please make sure that you enter a strong password. \n\n • 8 to 20 characters \n • Upper and Lower Case\n • One number", comment: "Error message when the user enters a wrong password"))
-//         return
-//         }
+        if(email_textfield.text == "" || password_textfield.text == ""){
+         alert(NSLocalizedString("Fill in both fields", comment: "Error title when the user doesn't fill in password and email"),
+         NSLocalizedString("Please make sure that you fill in a password and an email address", comment: "Error message when the user doesn't fill in password and email"))
+         return
+         }
+
+         if(!Internet.isOnline()){
+         alert(NSLocalizedString("Your device is offline", comment: "Error title the user gets when device is not connected to the internet"),
+         NSLocalizedString("Please make sure that your device is connected to the internet in order to proceed.", comment: "Error message the user gets when device is not connected to the internet"))
+         return
+         }
+
+         if(!email_textfield.isValidEmail()){
+         alert(NSLocalizedString("Email Address", comment: "Error title when the user enters a invalid email address"),
+         NSLocalizedString("Please make sure that you enter a valid email address.", comment: "Error message when the user enters a invalid email address"))
+         return
+         }
+
+         if(!password_textfield.isValidPassword()){
+         alert(NSLocalizedString("Password", comment: "Error title when the user enters a wrong password"),
+         NSLocalizedString("Please make sure that you enter a strong password. \n\n • 8 to 20 characters \n • Upper and Lower Case\n • One number", comment: "Error message when the user enters a wrong password"))
+         return
+         }
         
         
         if(login_outlet.isEnabled == false) {
@@ -198,19 +222,7 @@ class LoginVC: UIViewController {
     func alert(_ title: String, _ message: String){
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-            switch action.style{
-            case .default:
-                print("")
-                
-            case .cancel:
-                print("")
-                
-            case .destructive:
-                print("")
-                
-                
-            }}))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
         
     }

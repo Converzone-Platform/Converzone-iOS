@@ -8,10 +8,47 @@
 
 import SystemConfiguration
 import UIKit
+import SocketIO
 
-var baseURL = "https://converzone.htl-perg.ac.at/"
+var baseURL = "http://converzone.htl-perg.ac.at"
+
+let manager = SocketManager(socketURL: URL(string: baseURL + ":3000")!, config: [.log(true), .compress])
+let socket = manager.defaultSocket
+
+var temp = [TextMessage]()
 
 public class Internet {
+    
+    init() {
+        
+        socket.on(clientEvent: .connect) {data, ack in
+            print("socket connected")
+        }
+        
+        socket.on(clientEvent: .disconnect) { (data, ack) in
+            print("disconnected from server")
+        }
+        
+        socket.on("message") { (data, ack) in
+            
+            let dic = data[0] as? [String: Any]
+            
+            let text_message = TextMessage(text: dic!["message"] as! String, is_sender: false)
+            
+            let string_date = dic!["time"] as? String
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .full
+            
+            text_message.date = dateFormatter.date(from: string_date!)
+            
+            
+            print(text_message.text)
+            //master?.conversations.first?.conversation.append(text_message)
+            //ChatVC().updateTableView(animated: true)
+        }
+        
+        socket.connect()
+    }
     
     class func isOnline() -> Bool {
         
@@ -107,31 +144,55 @@ public class Internet {
         
     }
     
+    class func databaseWithMultibleReturn(url: String = baseURL, parameters: [String: Any], completionHandler: @escaping (_ json: [[String: Any]]?, _ response: URLResponse?, _ error: Error?) -> ()) {
+        
+        var request = URLRequest(url: URL(string: url)! )
+        
+        request.httpMethod = "POST"
+        
+        request.httpBody = parameters.percentEscaped().data(using: .utf8)
+        
+        URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+            
+            if error != nil{
+                
+                completionHandler(nil, response, error)
+                
+                return
+            }
+            
+            do {
+                
+                let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                
+                guard let jsonArray = json as? [[String: Any]] else {
+                    
+                    completionHandler(nil, response, error)
+                    
+                    return
+                }
+                
+                completionHandler(jsonArray, response, error)
+                
+            } catch {
+                completionHandler(nil, response, error)
+            }
+            
+            }.resume()
+        
+    }
+    
     class func sendText(message: String){
         
-        var json = [String: Any]()
-        json["name"] = "Goga"
-        json["message"] = message
+        var data = [String: Any]()
+        data["uid"] = master?.uid
+        data["message"] = message
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        json["time"] = dateFormatter.string(from: NSDate() as Date)
+        dateFormatter.dateStyle = .full
+        data["time"] = dateFormatter.string(from: NSDate() as Date)
         
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted);
-            if let string = String(data: jsonData, encoding: String.Encoding.utf8){
-                
-                
-                // Send here
-                
-                
-            } else {
-                print("Couldn't create json string");
-            }
-        } catch let error {
-            print("Couldn't create json data: \(error)");
-        }
-
+        socket.emit("message", data)
         
     }
     

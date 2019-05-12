@@ -36,15 +36,19 @@ class Person {
     //Platform Informations
     internal var interests: NSAttributedString?
     internal var status: NSAttributedString?
+    
+    internal let cache = NSCache<NSString, UIImage>()
     internal var link_to_profile_image: String?
+    
     internal var reflections: [Reflection] = []
     internal var uid: Int?
     
-    init (firstname: String, lastname: String, gender: Gender, birthdate: Date){
+    init (firstname: String, lastname: String, gender: Gender, birthdate: Date, uid: Int){
         self.firstname = firstname
         self.lastname = lastname
         self.gender = gender
         self.birthdate = birthdate
+        self.uid = uid
     }
     
     init(){
@@ -60,6 +64,39 @@ class Person {
         
         self.learn_languages.sort{
             $0.name.localizedCaseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending
+        }
+        
+    }
+    
+    
+    private func downloadImage(with url: String, completion: @escaping (_ image: UIImage?)->()){
+        
+        URLSession.shared.dataTask(with: URL(string: url)!) { (data, response, error) in
+            
+            var downloadedImage: UIImage?
+            
+            if let data = data{
+                downloadedImage = UIImage(data: data)
+            }
+            
+            if downloadedImage != nil {
+                self.cache.setObject(downloadedImage!, forKey: url as NSString)
+            }
+            
+            DispatchQueue.main.async {
+                completion(downloadedImage)
+            }
+            
+        }.resume()
+        
+    }
+    
+    func getImage(with url: String, completion: @escaping (_ image: UIImage?)->()){
+        
+        if let image = cache.object(forKey: url as NSString){
+            completion(image)
+        }else{
+            downloadImage(with: url, completion: completion)
         }
         
     }

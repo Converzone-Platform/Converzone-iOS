@@ -19,4 +19,6 @@ class User: Person {
     
     // Save if chat was deleted
     internal var deleted_chat: Bool = false
+    
+    internal var discover_style: Int = 0
 }

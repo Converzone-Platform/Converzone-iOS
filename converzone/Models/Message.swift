@@ -29,6 +29,7 @@ class TextMessage: Message {
             // Don't do anything here
         }
     }
+    
     internal var is_sender: Bool?
     
     init(text: String, is_sender: Bool) {

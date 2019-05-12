@@ -11,8 +11,6 @@ import MapKit
 
 class DiscoverCardVC: UIViewController {
     
-    var profile_of: User!
-    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var design_view: UIView!
     @IBOutlet weak var handleArea_view: UIView!
@@ -24,36 +22,13 @@ class DiscoverCardVC: UIViewController {
         design_view.layer.cornerRadius = 3
         design_view.layer.masksToBounds = true
         
-        setUpUser()
+        //setUpUser()
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 1000
         
         self.view.backgroundColor = Colors.backgroundGrey
         handleArea_view.backgroundColor = Colors.backgroundGrey
-    }
-    
-    func setUpUser(){
-        
-        profile_of = User()
-        
-        profile_of.firstname = "Jaden"
-        profile_of.lastname = "Stone"
-        profile_of.country = Country(name: "France")
-        profile_of.country?.flag_name = "france"
-        profile_of.status = NSAttributedString(string: "No temptation has overtaken you that is not common to man. God is faithful, and he will not let you be tempted beyond your ability, but with the temptation he will also provide the way of escape, that you may be able to endure it.No temptation has overtaken you that is not common to man. God is faithful, and he will not let you be tempted beyond your ability, but with the temptation he will also provide the way of escape, that you may be able to endure it.")
-        profile_of.interests = NSAttributedString(string: "Hobbies provide many mental and physical health benefits, including bolstered optimism, increased creativity and a better ability to deal with stress. Sharing hobbies with others also keeps teens socially engaged with people who have similar interests. The type of hobby a teen is interested in is limited only by the imagination of the person.")
-        
-        profile_of.reflections.append(Reflection(text: NSAttributedString(string: "You are more fun than anyone or anything I know, including bubble wrap."), user_name: "Anya Knack", user_id: "123", date: Date(timeIntervalSince1970: 0)))
-        
-        profile_of.reflections.append(Reflection(text: NSAttributedString(string: "You make me float up like I’m on millions of bubbles (We got this one from one of our kids after he got a new coat.)"), user_name: "Shaneka Ostby", user_id: "312", date: Date(timeIntervalSince1970: 0)))
-        
-        profile_of.reflections.append(Reflection(text: NSAttributedString(string: "You are a great parent. You can tell just by looking at how thoughtful your kids are (A two-for-one compliment)"), user_name: "Clair Grosvenor", user_id: "1231", date: Date(timeIntervalSince1970: 0)))
-        
-        profile_of.reflections.append(Reflection(text: NSAttributedString(string: "I know that you will always have my back, because that is the kind of person you are."), user_name: "Rayna Healy", user_id: "123123", date: Date(timeIntervalSince1970: 0)))
-        
-        profile_of.learn_languages = [Language(name: "German"), Language(name: "Spanish")]
-        profile_of.speak_languages = [Language(name: "French"), Language(name: "English"), Language(name: "Swedish")]
     }
 }
 
@@ -66,6 +41,9 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.row {
         case 0:
             return self.view.frame.height / 2
+        //MARK: TODO - Delete this when implementing reflections
+        case 6:
+            return 0
         default:
             return UITableView.automaticDimension
         }
@@ -77,7 +55,9 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 0:
             let cell = Bundle.main.loadNibNamed("ImageProfileCell", owner: self, options: nil)?.first as! ImageProfileCell
             
-            cell.profileImage.image = UIImage(named: String(arc4random_uniform(14)))
+            profileOf!.getImage(with: profileOf!.link_to_profile_image!, completion: { (image) in
+                cell.profileImage.image = image
+            })
             
             cell.profileImage.contentMode = .scaleAspectFill
             cell.profileImage.clipsToBounds = true
@@ -95,7 +75,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 1:
             let cell = Bundle.main.loadNibNamed("SendMessageProfileCell", owner: self, options: nil)?.first as! SendMessageProfileCell
             
-            cell.sendMessage.setTitle("Bonjour", for: .normal)
+            cell.sendMessage.setTitle("Send a message", for: .normal)
             cell.sendMessage.backgroundColor = Colors.blue
             cell.sendMessage.layer.cornerRadius = 10
             
@@ -104,6 +84,8 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             cell.sendMessage.layer.shadowOpacity = 0.2
             cell.sendMessage.layer.shadowRadius = 4.0
             
+            cell.selectionStyle = .none
+            
             return cell
             
         case 2:
@@ -111,9 +93,9 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             
 //            cell.country.text = profile_of.country?.name
 //            cell.flag.image = UIImage(named: (profile_of.country?.flag_name)!)
-            cell.name.text = profile_of.firstname! + " " + profile_of.lastname!
-            cell.speaks.text = addLanguagesTo(level: "Speaks", languages: profile_of.speak_languages)
-            cell.learning.text = addLanguagesTo(level: "Learning", languages: profile_of.learn_languages)
+            cell.name.text = profileOf!.firstname! + " " + profileOf!.lastname!
+            cell.speaks.text = addLanguagesTo(level: "Speaks", languages: profileOf!.speak_languages)
+            cell.learning.text = addLanguagesTo(level: "Learning", languages: profileOf!.learn_languages)
         
             cell.view.layer.cornerRadius = 23
             cell.view.layer.shadowColor = UIColor.black.cgColor
@@ -128,7 +110,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 3:
             let cell = Bundle.main.loadNibNamed("CountryProfileCell", owner: self, options: nil)?.first as! CountryProfileCell
             
-            cell.name.text = profile_of.country!.name
+            cell.name.text = profileOf!.country!.name
             cell.timezone.text = ""
             
             cell.view.layer.cornerRadius = 23
@@ -138,7 +120,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             cell.view.layer.shadowRadius = 4.0
             
             if Internet.isOnline(){
-                locationManager.getLocation(forPlaceCalled: profile_of!.country!.name!) { (placemark) in
+                locationManager.getLocation(forPlaceCalled: profileOf!.country!.name!) { (placemark) in
 
                     cell.map.mapType = .standard
 
@@ -162,7 +144,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
                         if let placemark_zone = placemarks?[0] {
 
                             cell.timezone.text = placemark_zone.timeZone?.abbreviation()
-                            self.profile_of.timezone = placemark_zone.timeZone?.abbreviation()
+                            profileOf!.timezone = placemark_zone.timeZone?.abbreviation()
                         }
                     }
 
@@ -183,7 +165,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 4:
             let cell = Bundle.main.loadNibNamed("StatusProfileCell", owner: self, options: nil)?.first as! StatusProfileCell
             
-            cell.status.attributedText = profile_of.status
+            cell.status.attributedText = profileOf!.status
             cell.status.setLineSpacing(lineSpacing: 3, lineHeightMultiple: 2)
             cell.status.textAlignment = .center
             
@@ -200,7 +182,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 5:
             let cell = Bundle.main.loadNibNamed("InterestsProfileCell", owner: self, options: nil)?.first as! InterestsProfileCell
             
-            cell.interests.attributedText = profile_of.interests
+            cell.interests.attributedText = profileOf!.interests
             cell.interests.setLineSpacing(lineSpacing: 3, lineHeightMultiple: 2)
             cell.interests.textAlignment = .center
             
@@ -218,11 +200,11 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             
             let cell = Bundle.main.loadNibNamed("ReflectionProfileCell", owner: self, options: nil)?.first as! ReflectionProfileCell
             
-            cell.reflection.attributedText = profile_of.reflections.last!.text
+            cell.reflection.attributedText = profileOf!.reflections.last!.text
             cell.reflection.setLineSpacing(lineSpacing: 3, lineHeightMultiple: 2)
             cell.reflection.textAlignment = .center
             
-            cell.writer_of_reflection.setTitle("~" + profile_of.reflections.first!.user_name!, for: .normal)
+            cell.writer_of_reflection.setTitle("~" + profileOf!.reflections.first!.user_name!, for: .normal)
             
             cell.view.layer.cornerRadius = 23
             cell.view.layer.shadowColor = UIColor.black.cgColor

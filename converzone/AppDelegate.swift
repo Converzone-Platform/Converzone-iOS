@@ -18,6 +18,9 @@ import CoreData
         //MARK: TODO - Delete this
         ConversationsVC().setUpFakeUsers()
         
+        // Don't delete this though
+        _ = Internet.init()
+        
         return true
     }
 
@@ -63,4 +66,5 @@ import CoreData
             }
         }
     }
+    
 }

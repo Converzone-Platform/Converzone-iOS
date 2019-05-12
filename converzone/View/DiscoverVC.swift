@@ -8,12 +8,15 @@
 
 import UIKit
 
-//MARK: BUG - First item is not shown
-let names = ["Agnarr Aydan", "Aradhana Nkiruka", "Avgust Wiola", "Feodosiy Aleksi", "Meena Leatrice", "Mirte Chana", "Andrea Marita", "Sacagawea Iovis", "Vladimira Carme", "Siran Patsy", "Lech Leonidas", "Jimmy Ozzy", "Charna Astraia", "'Isam Rakesh", "Lila Jézabel", "Þórný Lykos", "Tatjana Ercanbald", "Echo Nevio", "Marta Chibueze", "Bohumila Melpomene", "Marjan Sigrun", "Demetria Ayanda", "Florentine Dagfinnr", "Agnarr Aydan", "Aradhana Nkiruka", "Avgust Wiola", "Feodosiy Aleksi", "Meena Leatrice", "Mirte Chana", "Andrea Marita", "Sacagawea Iovis", "Vladimira Carme", "Siran Patsy", "Lech Leonidas", "Jimmy Ozzy", "Charna Astraia", "'Isam Rakesh", "Lila Jézabel", "Þórný Lykos", "Tatjana Ercanbald", "Echo Nevio", "Marta Chibueze", "Bohumila Melpomene", "Marjan Sigrun", "Demetria Ayanda", "Florentine Dagfinnr"]
+let numberOfItemsPerFetch = 15
 
-let types = [2, 0, 2, 1, 0, 2, 0, 1, 0, 2, 2, 1, 0, 2, 1, 1, 0, 2, 0, 1, 0, 2, 1, 0, 2, 0, 1, 0, 2, 2, 1, 0, 2, 1, 1, 0, 2, 0, 1,0, 2, 1, 0, 2, 0, 1, 0, 2, 2, 1, 0, 2, 1, 1, 0, 2, 0, 1, 0, 2, 1, 0, 2, 0, 1, 0, 2, 2, 1, 0, 2, 1, 1, 0, 2, 0, 1]
+var discover_users: [User] = []
+
+var profileOf: User? = nil
 
 class DiscoverVC: UIViewController {
+    
+    @IBOutlet weak var tableView: UITableView!
     
     enum CardState {
         case expanded
@@ -40,6 +43,61 @@ class DiscoverVC: UIViewController {
         setUpNavBar()
         
         self.view.backgroundColor = Colors.backgroundGrey
+        
+        fetchUsers()
+        
+    }
+    
+    func fetchUsers(){
+        Internet.databaseWithMultibleReturn(url: baseURL + "/discover.php", parameters: ["min_id" : discover_users.count + 1, "max_id": discover_users.count + numberOfItemsPerFetch]) { (data, response, error) in
+            
+            print(discover_users.count + numberOfItemsPerFetch - 1)
+            
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            
+            //Did the server give back an error?
+            if let httpResponse = response as? HTTPURLResponse {
+                
+                DispatchQueue.main.async {
+                    if !(httpResponse.statusCode == 200) {
+                        
+                        print(httpResponse.statusCode)
+                    }else{
+                        
+                        var temp: [User] = []
+                        
+                        for i in data! {
+                            let user = User()
+                            
+                            user.firstname = i["FIRSTNAME"] as? String
+                            user.lastname = i["LASTNAME"] as? String
+                            user.link_to_profile_image = i["PROFILE_PICTURE_URL"] as? String
+                            user.uid = i["USERID"] as? Int
+                            user.interests = NSAttributedString(string: (i["INTERESTS"] as? String)!)
+                            user.status = NSAttributedString(string: (i["STATUS"] as? String)!)
+                            user.country = Country(name: (i["COUNTRY"] as? String)!)
+                            
+                            user.discover_style = Int(arc4random_uniform(2))
+                            
+                            user.learn_languages.append(Language(name: "Georgian"))
+                            user.speak_languages.append(Language(name: "Georgian"))
+                            user.reflections.append(Reflection(text: NSAttributedString(string: ""), user_name: "", user_id: "1", date: Date()))
+                            
+                            temp.append(user)
+                        }
+                        
+                        temp.sort(by: {_,_ in arc4random() % 2 == 0})
+                        
+                        discover_users.append(contentsOf: temp)
+                        
+                        self.tableView.reloadData()
+                        
+                    }
+                }
+            }
+        }
     }
     
     func removeCard(){
@@ -225,24 +283,47 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if (types[indexPath.row] == 3) { return }
+        //if (types[indexPath.row] == 3) { return }
+        
+        profileOf = discover_users[indexPath.row]
         
         setUpCard()
         animateTransitionIfNeeded(state: nextState, duration: 0.9)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return names.count
+        
+        if discover_users.count != 0{
+            
+            //self.tableView.backgroundView = nil
+            
+            return discover_users.count
+        }
+        
+//        let noDataLabel: UILabel = UILabel(frame: CGRect(0, 0, self.tableView.bounds.size.width, self.tableView.bounds.size.height))
+//
+//        noDataLabel.text = "No one here? Weird..."
+//        noDataLabel.numberOfLines = 0
+//
+//        noDataLabel.textColor = Colors.black
+//        noDataLabel.textAlignment = NSTextAlignment.center
+//        self.tableView.backgroundView = noDataLabel
+        
+        return 0
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch types[indexPath.row] {
+        switch discover_users[indexPath.row].discover_style {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PicDiscoverCell") as! PicDiscoverCell
             
-            cell.name.text = names[indexPath.row]
-            cell.profileImage.image = UIImage(named: String(arc4random_uniform(14)))
+            cell.name.text = discover_users[indexPath.row].fullname
+            
+            discover_users[indexPath.row].getImage(with: discover_users[indexPath.row].link_to_profile_image!, completion: { (image) in
+                cell.profileImage.image = image
+            })
             
             cell.profileImage.contentMode = .scaleAspectFill
             cell.profileImage.clipsToBounds = true
@@ -261,8 +342,10 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "StatusDiscoverCell") as! StatusDiscoverCell
             
-            cell.name.text = names[indexPath.row]
-            cell.profileImage.image = UIImage(named: String(arc4random_uniform(14)))
+            cell.name.text = discover_users[indexPath.row].fullname
+            discover_users[indexPath.row].getImage(with: discover_users[indexPath.row].link_to_profile_image!, completion: { (image) in
+                cell.profileImage.image = image
+            })
             
             cell.profileImage.layer.cornerRadius = cell.profileImage.layer.frame.width / 2
             cell.profileImage.layer.masksToBounds = true
@@ -274,15 +357,17 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             cell.view.layer.shadowOpacity = 0.2
             cell.view.layer.shadowRadius = 4.0
             
-            cell.status.text = "That’s why they call it the American Dream, because you have to be asleep to believe it. George Carlin -- If you’re too open-minded; your brains will fall out. Lawrence Ferlinghetti"
+            cell.status.text = discover_users[indexPath.row].status?.string
             
             return cell
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ReflectionDiscoverCell") as! ReflectionDiscoverCell
             
-            cell.name.text = names[indexPath.row ]
-            cell.profileImage.image = UIImage(named: String(arc4random_uniform(14)))
+            cell.name.text = discover_users[indexPath.row].fullname
+            discover_users[indexPath.row].getImage(with: discover_users[indexPath.row].link_to_profile_image!, completion: { (image) in
+                cell.profileImage.image = image
+            })
             
             cell.profileImage.layer.cornerRadius = 23
             cell.profileImage.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -297,8 +382,6 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             
             cell.reflection.text = "That’s why they call it the American Dream, because you have to be asleep to believe it. George Carlin -- If you’re too open-minded; your brains will fall out. Lawrence Ferlinghetti"
             cell.reflectionWriter.text = "~ George Long"
-            
-            cell.name.text = names[indexPath.row]
             
             return cell
             
@@ -326,7 +409,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         
-        switch types[indexPath.row] {
+        switch discover_users[indexPath.row].discover_style {
             case 0:
                 let cell = tableView.cellForRow(at: indexPath) as! PicDiscoverCell
                 
@@ -356,7 +439,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
-        switch types[indexPath.row] {
+        switch discover_users[indexPath.row].discover_style {
             case 0:
                 let cell = tableView.cellForRow(at: indexPath) as! PicDiscoverCell
                 
@@ -386,7 +469,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        switch (types[indexPath.row]){
+        switch discover_users[indexPath.row].discover_style{
         case 0:
             return 250
         case 1:
@@ -400,4 +483,17 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        // UITableView only moves in one direction, y axis
+        let currentOffset = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        
+        // Change 10.0 to adjust the distance from bottom
+        if maximumOffset - currentOffset <= 10.0 {
+            
+            //offset += numberOfItemsPerFetch
+            
+            fetchUsers()
+        }
+    }
 }

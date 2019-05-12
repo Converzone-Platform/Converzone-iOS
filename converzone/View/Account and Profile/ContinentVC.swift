@@ -16,11 +16,15 @@ class ContinentVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     let locationManager = CLLocationManager()
     
-    @IBAction func back(_ sender: Any) {
+    fileprivate func extractedFunc() {
         //Go back to login view controller
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
+        let newViewController = storyBoard.instantiateViewController(withIdentifier: "LoginVC")
         self.present(newViewController, animated: true, completion: nil)
+    }
+    
+    @IBAction func back(_ sender: Any) {
+        extractedFunc()
     }
     
 }

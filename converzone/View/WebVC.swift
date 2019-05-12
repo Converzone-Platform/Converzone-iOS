@@ -79,8 +79,6 @@ class WebVC: UIViewController, WKUIDelegate {
             myURL = URL(string: search)!
         }
         
-        
-        
         if search.isURL() {
             
             myURL = URL(string: search)!
@@ -113,7 +111,7 @@ class WebVC: UIViewController, WKUIDelegate {
 extension WebVC: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        var offset = scrollView.contentOffset.y / view.frame.height
+        let offset = scrollView.contentOffset.y / view.frame.height
         
         if offset > 1 {
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {

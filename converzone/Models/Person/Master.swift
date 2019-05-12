@@ -26,7 +26,7 @@ class Master: Person {
         self.email = email
         self.password = password
         
-        super.init(firstname: "Unknown", lastname: "Unknown", gender: .non_binary, birthdate: Date(timeIntervalSince1970: 0))
+        super.init(firstname: "Unknown", lastname: "Unknown", gender: .non_binary, birthdate: Date(timeIntervalSince1970: 0), uid: 1)
     }
     
     // Get count of conversations which were deleted
