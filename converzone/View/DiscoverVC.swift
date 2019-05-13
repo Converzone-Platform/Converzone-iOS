@@ -8,7 +8,7 @@
 
 import UIKit
 
-let numberOfItemsPerFetch = 15
+let numberOfItemsPerFetch = 7
 
 var discover_users: [User] = []
 
@@ -51,8 +51,6 @@ class DiscoverVC: UIViewController {
     func fetchUsers(){
         Internet.databaseWithMultibleReturn(url: baseURL + "/discover.php", parameters: ["min_id" : discover_users.count + 1, "max_id": discover_users.count + numberOfItemsPerFetch]) { (data, response, error) in
             
-            print(discover_users.count + numberOfItemsPerFetch - 1)
-            
             if error != nil {
                 print(error!.localizedDescription)
             }
@@ -74,21 +72,57 @@ class DiscoverVC: UIViewController {
                             user.firstname = i["FIRSTNAME"] as? String
                             user.lastname = i["LASTNAME"] as? String
                             user.link_to_profile_image = i["PROFILE_PICTURE_URL"] as? String
-                            user.uid = i["USERID"] as? Int
+                            
+                            if let str = i["USERID"] as? String, let uid = Int(str) {
+                                user.uid = uid
+                            }
+                            
                             user.interests = NSAttributedString(string: (i["INTERESTS"] as? String)!)
                             user.status = NSAttributedString(string: (i["STATUS"] as? String)!)
                             user.country = Country(name: (i["COUNTRY"] as? String)!)
                             
-                            user.discover_style = Int(arc4random_uniform(2))
+                            if Int(arc4random_uniform(100)) <= 10{
+                                user.discover_style = 1
+                            }else{
+                                user.discover_style = 0
+                            }
                             
-                            user.learn_languages.append(Language(name: "Georgian"))
-                            user.speak_languages.append(Language(name: "Georgian"))
+                            // Get languages
+                            Internet.databaseWithMultibleReturn(url: baseURL + "/languages.php", parameters: ["id": user.uid! as Any], completionHandler: { (languages, response, error) in
+                                
+                                if let httpResponse = response as? HTTPURLResponse {
+                                    
+                                    if !(httpResponse.statusCode == 200) {
+                                        
+                                        print(httpResponse.statusCode)
+                                    }
+                                    
+                                }
+                                
+                                if languages != nil{
+                                    
+                                    for language in languages!{
+                                        
+                                        let languageToAdd = Language(name: (language["LANGUAGE"] as? String)!)
+                                        
+                                        if language["PROFICIENCY"] as? String == "l"{
+                                            user.learn_languages.append(languageToAdd)
+                                        }else{
+                                            user.speak_languages.append(languageToAdd)
+                                        }
+                                        
+                                    }
+                                }
+                                
+                            })
+                            
                             user.reflections.append(Reflection(text: NSAttributedString(string: ""), user_name: "", user_id: "1", date: Date()))
                             
                             temp.append(user)
                         }
                         
-                        temp.sort(by: {_,_ in arc4random() % 2 == 0})
+                        //temp.sort(by: {_,_ in arc4random() % 2 == 0})
+                        temp.shuffle()
                         
                         discover_users.append(contentsOf: temp)
                         
@@ -489,9 +523,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
         
         // Change 10.0 to adjust the distance from bottom
-        if maximumOffset - currentOffset <= 10.0 {
-            
-            //offset += numberOfItemsPerFetch
+        if maximumOffset - currentOffset <= 5.0 {
             
             fetchUsers()
         }

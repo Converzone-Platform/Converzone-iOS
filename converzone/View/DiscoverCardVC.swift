@@ -91,9 +91,8 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 2:
             let cell = Bundle.main.loadNibNamed("GeneralProfileCell", owner: self, options: nil)?.first as! GeneralProfileCell
             
-//            cell.country.text = profile_of.country?.name
-//            cell.flag.image = UIImage(named: (profile_of.country?.flag_name)!)
             cell.name.text = profileOf!.firstname! + " " + profileOf!.lastname!
+            
             cell.speaks.text = addLanguagesTo(level: "Speaks", languages: profileOf!.speak_languages)
             cell.learning.text = addLanguagesTo(level: "Learning", languages: profileOf!.learn_languages)
         
@@ -234,7 +233,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         
         var new_label = level + ": "
         
-        for i in 0...languages.endIndex-1{
+        for i in 0...languages.endIndex-1 {
             
             if i == languages.endIndex-1 && languages.count > 1{
                 new_label += " & "
