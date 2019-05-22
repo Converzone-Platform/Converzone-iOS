@@ -9,14 +9,18 @@
 import UIKit
 import MapKit
 import CoreLocation
+import SocketIO
 
 var indexOfUser: Int = 0
 
-class ChatVC: UIViewController {
+class ChatVC: UIViewController, UpdateDelegate {
     
     @IBOutlet weak var messageInputBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var inputMessage: UIView!
     @IBOutlet weak var message_textField: UITextField!
+    
+    // To update the table view from the Internet class
+    let updates = Internet()
     
     //Location purposes
     let locationManager = CLLocationManager()
@@ -99,9 +103,16 @@ class ChatVC: UIViewController {
         
         setUpInfoButton()
         
-        navigationItem.titleView = navTitleWithImageAndText(titleText: master!.conversations[indexOfUser].fullname!, imageName: "4")
+        navigationItem.titleView = navTitleWithImageAndText(titleText: master!.conversations[indexOfUser].fullname!, imageLink: master!.conversations[indexOfUser].link_to_profile_image!)
         
-        changeBackBarButton(title: "")
+        updates.delegate = self
+    }
+    
+    func didUpdate(sender: Internet) {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.scrollToBottom(animated: true)
+        }
     }
     
     func changeBackBarButton(title: String){
@@ -115,16 +126,19 @@ class ChatVC: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.prefersLargeTitles = false
         scrollToBottom(animated: false)
+        
+        changeBackBarButton(title: "")
     }
     
     @objc func goToConversations(){
         //Go to next view controller
+        
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let conversations = storyBoard.instantiateViewController(withIdentifier: "ConversationsVC")
         self.navigationController?.pushViewController(conversations, animated: true)
     }
     
-    func navTitleWithImageAndText(titleText: String, imageName: String) -> UIView {
+    func navTitleWithImageAndText(titleText: String, imageLink: String) -> UIView {
         
         // Creates a new UIView
         let titleView = UIView()
@@ -137,8 +151,11 @@ class ChatVC: UIViewController {
         label.textAlignment = NSTextAlignment.center
         
         // Creates the image view
-        let image = UIImageView()
-        image.image = UIImage(named: imageName)
+        let imageView = UIImageView()
+        
+        master!.conversations[indexOfUser].getImage(with: imageLink, completion: { (image) in
+            imageView.image = image
+        })
         
         let imageWidth = label.frame.size.height * 1.3
         let imageHeight = label.frame.size.height * 1.3
@@ -146,15 +163,15 @@ class ChatVC: UIViewController {
         let imageX = label.frame.origin.x - label.frame.size.height * 1.3 - 8
         let imageY = label.frame.origin.y - 3
         
-        image.frame = CGRect(x: imageX, y: imageY, width: imageWidth, height: imageHeight)
+        imageView.frame = CGRect(x: imageX, y: imageY, width: imageWidth, height: imageHeight)
         
-        image.contentMode = .scaleAspectFill
-        image.clipsToBounds = true
-        image.layer.cornerRadius = image.frame.width / 2
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = imageView.frame.width / 2
         
         // Adds both the label and image view to the titleView
         titleView.addSubview(label)
-        titleView.addSubview(image)
+        titleView.addSubview(imageView)
         
         // Sets the titleView frame to fit within the UINavigation Title
         titleView.sizeToFit()
@@ -278,7 +295,8 @@ class ChatVC: UIViewController {
 extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ((master?.conversations[indexOfUser].conversation.count)!)
+        
+        return (master?.conversations[indexOfUser].conversation.count)!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -522,11 +540,13 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: Send message
+
 extension ChatVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         master?.conversations[indexOfUser].conversation.append(TextMessage(text: textField.text!, is_sender: true))
         
-        Internet.sendText(message: textField.text!)
+        Internet.sendText(message: textField.text!, to: (master?.conversations[indexOfUser].uid)!)
         
         updateTableView(animated: true)
         
@@ -554,7 +574,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
             let image = UIImagePickerController()
             image.delegate = self
             image.sourceType = UIImagePickerController.SourceType.camera
-            image.mediaTypes = ["public.movie", "public.image"]
+            image.mediaTypes = [/*"public.movie",*/ "public.image"]
             image.allowsEditing = true
             image.cameraCaptureMode = .photo
             self.present(image, animated: true, completion: nil)
@@ -569,8 +589,6 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         master?.conversations[indexOfUser].conversation.append(message)
         
         updateTableView(animated: true)
-        
-        Internet.sendImage(message: image as! UIImage)
         
         picker.dismiss(animated: true, completion: nil)
     }
@@ -622,4 +640,9 @@ extension ChatVC {
         return .portrait
     }
     
+}
+
+// To update the table view from another class
+protocol UpdateDelegate {
+    func didUpdate(sender: Internet)
 }

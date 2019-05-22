@@ -25,21 +25,11 @@ class ConversationsVC: UIViewController {
         
     }
     
-    func setUpFakeUsers(){
-        
-        let user = User(firstname: "Some", lastname: "Name", gender: .non_binary, birthdate: Date(timeIntervalSince1970: 0), uid: 19)
-        
-        master?.conversations.append(user)
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
+    override func viewWillLayoutSubviews() {
         //filtered_converations = master?.conversations
-
         master?.conversations.sort(by: { (user1, user2) -> Bool in
             return (user1.conversation.last?.date?.isGreaterThan((user2.conversation.last?.date)!))!
-
+            
         })
         
         //MARK: TODO - Reloading the whole tableview might be too much
@@ -66,8 +56,14 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell") as! ChatCell
         
-        cell.name.text = (master?.conversations[indexPath.row].firstname)! + " " + (master?.conversations[indexPath.row].lastname)!
-        cell.profileImage.image = UIImage(named: String(arc4random_uniform(14)))
+        cell.name.text = master?.conversations[indexPath.row].fullname
+        
+        master?.conversations[indexPath.row].getImage(with: (master?.conversations[indexPath.row].link_to_profile_image)!, completion: { (image) in
+            
+            cell.profileImage.image = image
+            
+        })
+        
         cell.lastMessageType.backgroundColor = master?.conversations[indexPath.row].conversation.last?.color
         
         cell.profileImage.layer.cornerRadius = cell.profileImage.layer.frame.width / 2
@@ -105,20 +101,7 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension Date {
-    
-    func isEqualTo(_ date: Date) -> Bool {
-        return self == date
-    }
-    
-    func isGreaterThan(_ date: Date) -> Bool {
-        return self > date
-    }
-    
-    func isSmallerThan(_ date: Date) -> Bool {
-        return self < date
-    }
-}
+
 
 //extension ConversationsVC: UISearchBarDelegate {
 //    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

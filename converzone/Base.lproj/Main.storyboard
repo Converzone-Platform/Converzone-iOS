@@ -1392,7 +1392,7 @@
         <!--ChatVC-->
         <scene sceneID="3iX-G4-nqQ">
             <objects>
-                <viewController storyboardIdentifier="ChatVC" id="79Y-ib-yzy" customClass="ChatVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="79Y-ib-yzy" customClass="ChatVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="udA-CH-xkb"/>
                         <viewControllerLayoutGuide type="bottom" id="zJ3-Ux-cdp"/>
@@ -1412,9 +1412,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tXT-JD-PUI">
                                 <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y2l-3X-338">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y2l-3X-338">
                                         <rect key="frame" x="0.0" y="0.0" width="49" height="49"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Y2l-3X-338" secondAttribute="height" multiplier="1:1" id="NW7-qU-lTc"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="KohinoorTelugu-Light" family="Kohinoor Telugu" pointSize="46"/>
                                         <state key="normal" title="+"/>
                                         <connections>
@@ -1435,7 +1437,10 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="Y2l-3X-338" firstAttribute="top" secondItem="tXT-JD-PUI" secondAttribute="top" id="8HH-Df-wWu"/>
                                     <constraint firstAttribute="height" constant="49" id="EBD-qc-6FJ"/>
+                                    <constraint firstItem="Y2l-3X-338" firstAttribute="leading" secondItem="tXT-JD-PUI" secondAttribute="leading" id="bEi-4U-FUS"/>
+                                    <constraint firstAttribute="bottom" secondItem="Y2l-3X-338" secondAttribute="bottom" id="u6w-Gn-kPQ"/>
                                 </constraints>
                             </view>
                         </subviews>

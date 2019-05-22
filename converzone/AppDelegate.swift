@@ -15,15 +15,23 @@ import CoreData
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        //MARK: TODO - Delete this
-        ConversationsVC().setUpFakeUsers()
-        
-        // Don't delete this though
         _ = Internet.init()
         
         return true
     }
-
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        socket.connect()
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        socket.disconnect()
+    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        socket.disconnect()
+    }
+    
     // MARK: - Core Data stack
     lazy var persistentContainer: NSPersistentContainer = {
         /*

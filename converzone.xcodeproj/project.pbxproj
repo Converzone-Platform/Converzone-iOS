@@ -22,7 +22,7 @@
 		4A1C985D21BC720A00F99D62 /* LanguagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C985C21BC720A00F99D62 /* LanguagesVC.swift */; };
 		4A337EEF21B549CA002A12EF /* StandardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A337EEE21B549CA002A12EF /* StandardView.swift */; };
 		4A46A0CC222428FF00324A93 /* RandomDiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */; };
-		4A4AE38522855C30005A59D7 /* discover.php in Resources */ = {isa = PBXBuildFile; fileRef = 4A4AE38422855C30005A59D7 /* discover.php */; };
+		4A4AE38522855C30005A59D7 /* chat.js in Resources */ = {isa = PBXBuildFile; fileRef = 4A4AE38422855C30005A59D7 /* chat.js */; };
 		4A5A618422563A1B00CBA4F8 /* ChatSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */; };
 		4A5D856721B29F07004E3E79 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856621B29F07004E3E79 /* Colors.swift */; };
 		4A5D856B21B31341004E3E79 /* StandardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856A21B31341004E3E79 /* StandardLabel.swift */; };
@@ -111,7 +111,7 @@
 		4A1C985C21BC720A00F99D62 /* LanguagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesVC.swift; sourceTree = "<group>"; };
 		4A337EEE21B549CA002A12EF /* StandardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardView.swift; sourceTree = "<group>"; };
 		4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomDiscoverCell.swift; sourceTree = "<group>"; };
-		4A4AE38422855C30005A59D7 /* discover.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = discover.php; sourceTree = "<group>"; };
+		4A4AE38422855C30005A59D7 /* chat.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = chat.js; sourceTree = "<group>"; };
 		4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsVC.swift; sourceTree = "<group>"; };
 		4A5D856621B29F07004E3E79 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		4A5D856A21B31341004E3E79 /* StandardLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardLabel.swift; sourceTree = "<group>"; };
@@ -316,7 +316,7 @@
 		4AAED8FF218336F400968E3E = {
 			isa = PBXGroup;
 			children = (
-				4A4AE38422855C30005A59D7 /* discover.php */,
+				4A4AE38422855C30005A59D7 /* chat.js */,
 				4AAED90A218336F400968E3E /* converzone */,
 				4AAED922218336F400968E3E /* converzoneTests */,
 				4AAED92D218336F400968E3E /* converzoneUITests */,
@@ -527,7 +527,7 @@
 				4A950C85222E64600089754D /* BlockAndReportProfileCell.xib in Resources */,
 				4A6C1DE72246A2900055B5A5 /* InformationMessageCell.xib in Resources */,
 				4A950C8A222FF1960089754D /* ReflectionProfileCell.xib in Resources */,
-				4A4AE38522855C30005A59D7 /* discover.php in Resources */,
+				4A4AE38522855C30005A59D7 /* chat.js in Resources */,
 				4AAED919218336F400968E3E /* LaunchScreen.storyboard in Resources */,
 				4AD6F87A223B9B5A00138EAD /* ImageMessageCell.xib in Resources */,
 				4A07981F224D661E00C39927 /* LocationMessageCell.xib in Resources */,

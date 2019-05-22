@@ -12,41 +12,41 @@ import SocketIO
 
 var baseURL = "http://converzone.htl-perg.ac.at"
 
-let manager = SocketManager(socketURL: URL(string: baseURL + ":3000")!, config: [.log(true), .compress])
+let manager = SocketManager(socketURL: URL(string: baseURL + ":5134")!, config: [.log(true), .compress])
+
 let socket = manager.defaultSocket
 
-var temp = [TextMessage]()
-
 public class Internet {
+    
+    // Maybe "weak" here?!
+    var delegate: UpdateDelegate?
     
     init() {
         
         socket.on(clientEvent: .connect) {data, ack in
-            print("socket connected")
+            socket.emit("add-user", with: [["id": master?.uid]])
         }
-        
+
         socket.on(clientEvent: .disconnect) { (data, ack) in
             print("disconnected from server")
         }
-        
-        socket.on("message") { (data, ack) in
-            
+
+        socket.on("chat-message") {  data, ack in
+
             let dic = data[0] as? [String: Any]
-            
+
             let text_message = TextMessage(text: dic!["message"] as! String, is_sender: false)
-            
+
             let string_date = dic!["time"] as? String
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .full
-            
+
             text_message.date = dateFormatter.date(from: string_date!)
-            
-            
-            print(text_message.text)
-            //master?.conversations.first?.conversation.append(text_message)
-            //ChatVC().updateTableView(animated: true)
+
+            master?.conversations.first?.conversation.append(text_message)
+            self.delegate?.didUpdate(sender: self)
         }
-        
+
         socket.connect()
     }
     
@@ -182,29 +182,48 @@ public class Internet {
         
     }
     
-    class func sendText(message: String){
+    class func databaseWithoutReturn(url: String = baseURL, parameters: [String: Any], completionHandler: @escaping (_ response: URLResponse?, _ error: Error?) -> ()) {
+        
+        var request = URLRequest(url: URL(string: url)! )
+        
+        request.httpMethod = "POST"
+        
+        request.httpBody = parameters.percentEscaped().data(using: .utf8)
+        
+        URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+            
+            if error != nil{
+                
+                completionHandler(response, error)
+                
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                
+                if !(httpResponse.statusCode == 200) {
+                    
+                    print(httpResponse.statusCode)
+                }
+                
+            }
+            
+        }.resume()
+        
+    }
+    
+    class func sendText(message: String, to: Int){
         
         var data = [String: Any]()
-        data["uid"] = master?.uid
+        data["sender"] = master?.uid
         data["message"] = message
+        data["receiver"] = to
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .full
         data["time"] = dateFormatter.string(from: NSDate() as Date)
         
-        socket.emit("message", data)
-        
-    }
-    
-    func handleMessage(jsonString:String){
-        if let data = jsonString.data(using: String.Encoding.utf8){
-            do {
-                let JSON = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
-                print("We've successfully parsed the message into a Dictionary! Yay!\n\(JSON)")
-            } catch let error{
-                print("Error parsing json: \(error)")
-            }
-        }
+        socket.emit("chat-message", data)
     }
     
     class func sendImage(message: UIImage){

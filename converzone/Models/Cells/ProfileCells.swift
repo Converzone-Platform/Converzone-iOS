@@ -75,9 +75,8 @@ class StatusProfileCell: UITableViewCell {
 
 class BlockAndReportProfileCell: UITableViewCell {
     
+    @IBOutlet weak var blockAndReportOutlet: UIButton!
     @IBAction func blockAndReport(_ sender: Any) {
-        
-        print("Block and Report")
         
     }
     

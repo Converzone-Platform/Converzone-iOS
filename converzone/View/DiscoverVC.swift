@@ -67,6 +67,7 @@ class DiscoverVC: UIViewController {
                         var temp: [User] = []
                         
                         for i in data! {
+                            
                             let user = User()
                             
                             user.firstname = i["FIRSTNAME"] as? String
@@ -99,7 +100,7 @@ class DiscoverVC: UIViewController {
                                     
                                 }
                                 
-                                if languages != nil{
+                                if languages != nil {
                                     
                                     for language in languages!{
                                         
@@ -116,12 +117,9 @@ class DiscoverVC: UIViewController {
                                 
                             })
                             
-                            user.reflections.append(Reflection(text: NSAttributedString(string: ""), user_name: "", user_id: "1", date: Date()))
-                            
                             temp.append(user)
                         }
                         
-                        //temp.sort(by: {_,_ in arc4random() % 2 == 0})
                         temp.shuffle()
                         
                         discover_users.append(contentsOf: temp)

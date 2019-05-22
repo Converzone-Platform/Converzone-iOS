@@ -22,8 +22,6 @@ class DiscoverCardVC: UIViewController {
         design_view.layer.cornerRadius = 3
         design_view.layer.masksToBounds = true
         
-        //setUpUser()
-        
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 1000
         
@@ -41,11 +39,45 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.row {
         case 0:
             return self.view.frame.height / 2
+            
         //MARK: TODO - Delete this when implementing reflections
         case 6:
             return 0
         default:
             return UITableView.automaticDimension
+        }
+    }
+    
+    fileprivate func getLocationInformation(_ cell: CountryProfileCell) {
+        
+        locationManager.getLocation(forPlaceCalled: profileOf!.country!.name!) { (placemark) in
+            
+            cell.map.mapType = .standard
+            
+            let latDelta:CLLocationDegrees = 180
+            let lonDelta:CLLocationDegrees = 180
+            
+            let span = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
+            let location = CLLocationCoordinate2DMake((placemark?.coordinate.latitude)!, (placemark?.coordinate.longitude)!)
+            let region = MKCoordinateRegion(center: location, span: span)
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = (placemark?.coordinate)!
+            
+            cell.map.addAnnotation(annotation)
+            cell.map.setRegion(region, animated: false)
+            cell.map.setCenter((placemark?.coordinate)!, animated: true)
+            
+            // Time Zone
+            let geoCoder = CLGeocoder()
+            geoCoder.reverseGeocodeLocation(placemark!) { (placemarks, err) in
+                if let placemark_zone = placemarks?[0] {
+                    
+                    cell.timezone.text = placemark_zone.timeZone?.abbreviation()
+                    profileOf!.timezone = placemark_zone.timeZone?.abbreviation()
+                }
+            }
+            
         }
     }
     
@@ -78,6 +110,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             cell.sendMessage.setTitle("Send a message", for: .normal)
             cell.sendMessage.backgroundColor = Colors.blue
             cell.sendMessage.layer.cornerRadius = 10
+            cell.sendMessage.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
             
             cell.sendMessage.layer.shadowColor = UIColor.black.cgColor
             cell.sendMessage.layer.shadowOffset = CGSize(width: 3, height: 3)
@@ -92,6 +125,9 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             let cell = Bundle.main.loadNibNamed("GeneralProfileCell", owner: self, options: nil)?.first as! GeneralProfileCell
             
             cell.name.text = profileOf!.firstname! + " " + profileOf!.lastname!
+            
+            cell.speaks.numberOfLines = 0
+            cell.learning.numberOfLines = 0
             
             cell.speaks.text = addLanguagesTo(level: "Speaks", languages: profileOf!.speak_languages)
             cell.learning.text = addLanguagesTo(level: "Learning", languages: profileOf!.learn_languages)
@@ -119,35 +155,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             cell.view.layer.shadowRadius = 4.0
             
             if Internet.isOnline(){
-                locationManager.getLocation(forPlaceCalled: profileOf!.country!.name!) { (placemark) in
-
-                    cell.map.mapType = .standard
-
-                    let latDelta:CLLocationDegrees = 180
-                    let lonDelta:CLLocationDegrees = 180
-
-                    let span = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
-                    let location = CLLocationCoordinate2DMake((placemark?.coordinate.latitude)!, (placemark?.coordinate.longitude)!)
-                    let region = MKCoordinateRegion(center: location, span: span)
-
-                    let annotation = MKPointAnnotation()
-                    annotation.coordinate = (placemark?.coordinate)!
-
-                    cell.map.addAnnotation(annotation)
-                    cell.map.setRegion(region, animated: false)
-                    cell.map.setCenter((placemark?.coordinate)!, animated: true)
-
-                    // Time Zone
-                    let geoCoder = CLGeocoder()
-                    geoCoder.reverseGeocodeLocation(placemark!) { (placemarks, err) in
-                        if let placemark_zone = placemarks?[0] {
-
-                            cell.timezone.text = placemark_zone.timeZone?.abbreviation()
-                            profileOf!.timezone = placemark_zone.timeZone?.abbreviation()
-                        }
-                    }
-
-                }
+                getLocationInformation(cell)
             }
             
             cell.map.layer.cornerRadius = 23
@@ -195,29 +203,30 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             
             return cell
             
-        case 6:
-            
-            let cell = Bundle.main.loadNibNamed("ReflectionProfileCell", owner: self, options: nil)?.first as! ReflectionProfileCell
-            
-            cell.reflection.attributedText = profileOf!.reflections.last!.text
-            cell.reflection.setLineSpacing(lineSpacing: 3, lineHeightMultiple: 2)
-            cell.reflection.textAlignment = .center
-            
-            cell.writer_of_reflection.setTitle("~" + profileOf!.reflections.first!.user_name!, for: .normal)
-            
-            cell.view.layer.cornerRadius = 23
-            cell.view.layer.shadowColor = UIColor.black.cgColor
-            cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
-            cell.view.layer.shadowOpacity = 0.2
-            cell.view.layer.shadowRadius = 4.0
-            
-            cell.selectionStyle = .none
-            
-            return cell
+//        case 6:
+//
+//            let cell = Bundle.main.loadNibNamed("ReflectionProfileCell", owner: self, options: nil)?.first as! ReflectionProfileCell
+//
+//            cell.reflection.attributedText = profileOf!.reflections.last!.text
+//            cell.reflection.setLineSpacing(lineSpacing: 3, lineHeightMultiple: 2)
+//            cell.reflection.textAlignment = .center
+//
+//            cell.writer_of_reflection.setTitle("~" + profileOf!.reflections.first!.user_name!, for: .normal)
+//
+//            cell.view.layer.cornerRadius = 23
+//            cell.view.layer.shadowColor = UIColor.black.cgColor
+//            cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
+//            cell.view.layer.shadowOpacity = 0.2
+//            cell.view.layer.shadowRadius = 4.0
+//
+//            cell.selectionStyle = .none
+//
+//            return cell
             
         case 7:
             let cell = Bundle.main.loadNibNamed("BlockAndReportProfileCell", owner: self, options: nil)?.first as! BlockAndReportProfileCell
             
+            cell.blockAndReportOutlet.addTarget(self, action: #selector(blockandReport), for: UIControl.Event.touchUpInside)
             
             return cell
             
@@ -229,7 +238,72 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         
     }
     
+    @objc func handleSendMessage(){
+    
+        let info = InformationMessage()
+        
+        info.text = "Be creative with the first message :)"
+        info.date = Date(timeIntervalSince1970: 0)
+        
+        profileOf?.conversation.append(info)
+        
+        master?.conversations.append(profileOf!)
+    
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let dViewController = storyboard.instantiateViewController(withIdentifier: "ChatVC") as! ChatVC
+        let thirdTabNavController = self.tabBarController?.viewControllers?[0] as! UINavigationController
+        
+        thirdTabNavController.pushViewController(dViewController, animated: true)
+        
+        self.tabBarController?.selectedIndex = 0
+        
+    }
+    
+    @objc func blockandReport(){
+        let alertController = UIAlertController(title: "What do you want to do?",
+                                                message: "Please help us make our platform a little better. Choose 'Block' if it is something personal and 'Block and Report' if it is something that others might dislike too",
+                                                preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let blockAndReport = UIAlertAction(title: "Block and Report", style: .destructive) { (action) in
+            
+            self.blockAndReport(title: "Report user", message: "Tell us why you want to report this user.")
+        }
+        alertController.addAction(blockAndReport)
+        
+        let block = UIAlertAction(title: "Block", style: .destructive) { (action) in
+        
+            Internet.databaseWithMultibleReturn(url: baseURL + "/blockAndReport.php", parameters: ["blocker_id" : master!.uid!, "blockeduser_id": profileOf!.uid!], completionHandler: { (data, response, error) in
+                
+                if error != nil{
+                    print(error as Any)
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse {
+                    
+                    if !(httpResponse.statusCode == 200) {
+                        
+                        print(httpResponse.statusCode)
+                    }
+                    
+                }
+                
+            })
+            
+        }
+        
+        alertController.addAction(block)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     func addLanguagesTo(level: String, languages: [Language]) -> String{
+        
+        if languages.count == 0{
+            return ""
+        }
         
         var new_label = level + ": "
         
@@ -247,5 +321,43 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         }
         
         return new_label
+    }
+    
+    func blockAndReport(title: String, message: String) {
+        
+        var saveTextField: UITextField? = nil
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        
+        let action = UIAlertAction(title: "Send", style: .default) { (alertAction) in
+            saveTextField = alert.textFields![0] as UITextField
+            
+            Internet.databaseWithMultibleReturn(url: baseURL + "/blockAndReport.php", parameters: ["blocker_id" : master!.uid!, "blockeduser_id": profileOf!.uid!, "reason_for_report": saveTextField!.text!], completionHandler: { (data, response, error) in
+                
+                if error != nil{
+                    print(error as Any)
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse {
+                    
+                    if !(httpResponse.statusCode == 200) {
+                        
+                        print(httpResponse.statusCode)
+                    }
+                    
+                }
+                
+            })
+        }
+        
+        alert.addTextField { (textField) in
+            textField.placeholder = "Describe what's wrong"
+            saveTextField = textField
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        alert.addAction(action)
+        self.present(alert, animated:true, completion: nil)
     }
 }
