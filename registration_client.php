@@ -1,10 +1,19 @@
+
 <?php
 
-$min_id = $_POST["min_id"];
-$max_id = $_POST["max_id"];
-$self_id = $_POST["self_id"];
+$firstname = $_POST["firstname"];
+$lastname = $_POST["lastname"];
+$gender = $_POST["gender"];
+$birthdate = $_POST["birthdate"];
+$interests = $_POST["interests"];
+$status = $_POST["status"];
+$country = $_POST["country"];
+$discoverable = $_POST["discoverable"];
+    
+$email = $_POST["email"];
+$password = $_POST["password"];
 
-if(empty($min_id) || empty($max_id) || empty($self_id)){
+if(empty($email)){
     header("HTTP/1.0 510");
     exit;
 }
@@ -19,7 +28,7 @@ if (!$conn) {
     exit;
 }
 
-$sql = oci_parse($conn, "SELECT FIRSTNAME, LASTNAME, USERID, GENDER, EMAIL, STATUS, INTERESTS, COUNTRY, PROFILE_PICTURE_URL FROM USERS WHERE USERID >=$min_id AND USERID <=$max_id AND USERID !=1");
+$sql = oci_parse($conn, "SELECT * FROM USERS WHERE EMAIL='".$email."'");
 
 if (!$sql) {
     // Replace "517" with something suitable
@@ -43,17 +52,20 @@ while ($row = oci_fetch_array($sql, OCI_ASSOC+OCI_RETURN_NULLS)) {
     array_push($store_rows, $row);
 }
 
-if (empty($store_rows[0])){
+if (!empty($store_rows[0])){
     header("HTTP/1.0 520");
-    echo json_encode(array("discover_error" => "No users in the database"));
+    echo json_encode(array("login_error" => "Email already exists"));
     exit;
 }
 
-echo json_encode($store_rows);
-
+echo json_encode(array("success" => "Email doesn't exist yet!"));
+    
 //Close connection to database
 oci_close($conn);
 oci_free_statement($sql);
-
 ?>
+
+
+
+
 

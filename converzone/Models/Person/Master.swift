@@ -22,6 +22,8 @@ class Master: Person {
     //Platform
     internal var profile_images: [UIImage]?
     
+    internal var discoverable: Bool = true
+    
     init(_ email: String, _ password: String) {
         self.email = email
         self.password = password

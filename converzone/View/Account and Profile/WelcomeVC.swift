@@ -25,7 +25,7 @@ class WelcomeVC: UIViewController {
             self.welcomeMessage_label.alpha = 0
             
         }, completion: { (bool) in
-            self.welcomeMessage_label.text = "And I like you a lot <3"
+            self.welcomeMessage_label.text = "Hey :)"
             self.welcomeMessage_label.layer.position.y = self.view.frame.height / 2
         })
         

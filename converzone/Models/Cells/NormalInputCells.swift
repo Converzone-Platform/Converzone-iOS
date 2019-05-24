@@ -38,6 +38,7 @@ class BooleanInputCell: UITableViewCell {
 
 class InputLongTextCell: UITableViewCell {
     
+    @IBOutlet weak var input: UILabel!
     @IBOutlet weak var title: UILabel!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {

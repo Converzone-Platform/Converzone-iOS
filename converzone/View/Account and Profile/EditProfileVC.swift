@@ -12,7 +12,13 @@ class EditProfileVC: UIViewController{
     
     @IBOutlet weak var profile_image: UIImageView!
     
-    var titlesOfCells = ["First name", "Last name", "Gender", "Birthdate", "Interests", "Status", "Discoverable"]
+    var titlesOfCells = ["First name",
+                         "Last name",
+                         "Gender",
+                         "Birthdate",
+                         "Interests",
+                         "Status",
+                         "Discoverable"]
     
     let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(endEditing))
     
@@ -28,6 +34,10 @@ class EditProfileVC: UIViewController{
         self.navigationItem.rightBarButtonItem = doneButton
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
     @objc func endEditing() {
         view.endEditing(true)
         
@@ -35,7 +45,14 @@ class EditProfileVC: UIViewController{
     }
     
     @objc func donePressed(){
-        print("Save everything and send to server!")
+        
+        // Give the server all information about the master and get an (u)id back
+     
+        Internet.database(url: baseURL + "/register_user.php", parameters: ["":""]) { (data, response, error) in
+            
+            
+            
+        }
     }
     
     @objc func pickDate (datePicker: UIDatePicker){
@@ -50,6 +67,10 @@ class EditProfileVC: UIViewController{
         
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
 }
 
 extension EditProfileVC: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -59,18 +80,30 @@ extension EditProfileVC: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return Gender.allCases.count
+        return Gender.allCases.count + 1
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
-        return Gender.allCases[row].toString()
+        if row == 0{
+            return "Choose your gender"
+        }
+        
+        return Gender.allCases[row-1].toString()
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        if row == 0 {
+            
+            pickerView.selectRow(1, inComponent: component, animated: true)
+        }
+        
         let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as! InputGenderCell
-        cell.gender.text = Gender.allCases[row].toString()
+        cell.gender.text = Gender.allCases[row-1].toString()
     }
+    
+    
 }
 
 extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
@@ -90,8 +123,15 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
         
         if tableView.globalIndexPath(for: indexPath as NSIndexPath) == 4 || tableView.globalIndexPath(for: indexPath as NSIndexPath) == 5 {
             
+            if tableView.globalIndexPath(for: indexPath as NSIndexPath) == 4{
+                longTextInputFor = .interests
+            }else{
+                longTextInputFor = .status
+            }
+            
             let vc = storyboard?.instantiateViewController(withIdentifier: "LongTextEditVC")
             self.navigationController?.pushViewController(vc!, animated: true)
+            
         }
         
     }
@@ -120,70 +160,90 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch indexPath.section {
+        switch tableView.globalIndexPath(for: indexPath as NSIndexPath){
             
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "NormalInputCell") as! NormalInputCell
             
             cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            cell.input?.placeholder = "First name"
             
             return cell
-            
         case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NormalInputCell") as! NormalInputCell
             
-            if indexPath.row == 0 {
-                
-                let cell = tableView.dequeueReusableCell(withIdentifier: "InputGenderCell") as! InputGenderCell
-                
-                cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
-                
-                let picker = UIPickerView()
-                picker.delegate = self
-                
-                cell.gender.inputView = picker
-                
-                return cell
-                
+            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            cell.input?.placeholder = "Last name"
+            
+            return cell
+        case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "InputGenderCell") as! InputGenderCell
+            
+            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            
+            cell.gender.placeholder = "Gender"
+            
+            let picker = UIPickerView()
+            picker.delegate = self
+            
+            cell.gender.inputView = picker
+            
+            return cell
+        case 3:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "InputDateCell") as! InputDateCell
+            
+            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            
+            // Setup date picker
+            let datePicker = UIDatePicker()
+            datePicker.datePickerMode = .date
+            datePicker.locale = NSLocale(localeIdentifier: Locale.current.languageCode!) as Locale
+            
+            let calendar = Calendar(identifier: .gregorian)
+            var comps = DateComponents()
+            comps.year = 0
+            let maxDate = calendar.date(byAdding: comps, to: Date())
+            comps.year = -150
+            let minDate = calendar.date(byAdding: comps, to: Date())
+            
+            datePicker.minimumDate = minDate
+            datePicker.maximumDate = maxDate
+            
+            cell.date.inputView = datePicker
+            
+            datePicker.addTarget(self, action: #selector(pickDate(datePicker:)), for: .valueChanged)
+            
+            return cell
+        case 4:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "InputLongTextCell") as! InputLongTextCell
+            
+            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            
+            if master?.interests?.string == nil {
+                cell.input.text = "Your interests"
+                cell.input.textColor = Colors.grey
             }else{
-                
-                let cell = tableView.dequeueReusableCell(withIdentifier: "InputDateCell") as! InputDateCell
-                
-                cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
-                
-                // Setup date picker
-                let datePicker = UIDatePicker()
-                datePicker.datePickerMode = .date
-                datePicker.locale = NSLocale(localeIdentifier: Locale.current.languageCode!) as Locale
-                
-                let calendar = Calendar(identifier: .gregorian)
-                var comps = DateComponents()
-                comps.year = 0
-                let maxDate = calendar.date(byAdding: comps, to: Date())
-                comps.year = -150
-                let minDate = calendar.date(byAdding: comps, to: Date())
-                
-                datePicker.minimumDate = minDate
-                datePicker.maximumDate = maxDate
-                
-                cell.date.inputView = datePicker
-                
-                datePicker.addTarget(self, action: #selector(pickDate(datePicker:)), for: .valueChanged)
-                
-                return cell
-                
+                cell.input.text = master?.interests?.string
+                cell.input.textColor = Colors.black
             }
             
-            
-            
-        case 2:
+            return cell
+        case 5:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "InputLongTextCell") as! InputLongTextCell
             
             cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
             
-            return cell
+            if master?.status?.string == nil {
+                cell.input.text = "Tell the world something"
+                cell.input.textColor = Colors.grey
+            }else{
+                cell.input.text = master?.status?.string
+                cell.input.textColor = Colors.black
+            }
             
-        case 3:
+            return cell
+        case 6:
             let cell = tableView.dequeueReusableCell(withIdentifier: "BooleanInputCell") as! BooleanInputCell
             
             cell.discoverable.isOn = true
@@ -191,13 +251,13 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
             
             return cell
-        
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "NormalInputCell") as! NormalInputCell
             
             cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
             
             return cell
+            
         }
     }
     

@@ -1,0 +1,41 @@
+"use strict";
+
+const apn = require('apn');
+
+let options = {
+token: {
+key: "key.p8",
+// Replace keyID and teamID with the values you've previously saved.
+keyId: "F659H42J2K",
+teamId: "M3493F96B3"
+},
+sandbox: true
+};
+
+let apnProvider = new apn.Provider(options);
+//E3B7DC9D945E34353E2F385FCDC3767337B57F1D2F20EBAFAE333531E8DA7477
+//484752927FD8680A439F021B1760B114040C047A5C6911B24B07242BB22BD182 -> Schwarzl
+
+// Replace deviceToken with your particular token:
+let deviceToken = "E3B7DC9D945E34353E2F385FCDC3767337B57F1D2F20EBAFAE333531E8DA7477";
+
+// Prepare the notifications
+let notification = new apn.Notification();
+notification.expiry = Math.floor(Date.now() / 1000) + 24 * 3600; // will expire in 24 hours from now
+notification.badge = 1;
+notification.sound = "ping.aiff";
+notification.alert = "Baum";
+notification.payload = {'messageFrom': 'Schwarzl'};
+
+// Replace this with your app bundle ID:
+notification.topic = "com.hashtag.oct.converzone";
+
+
+// Send the actual notification
+apnProvider.send(notification, deviceToken).then( result => {
+// Show the result of the send operation:
+console.log(result);
+});
+
+// Close the server
+apnProvider.shutdown();

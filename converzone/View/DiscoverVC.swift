@@ -8,7 +8,7 @@
 
 import UIKit
 
-let numberOfItemsPerFetch = 7
+let numberOfItemsPerFetch = 30
 
 var discover_users: [User] = []
 
@@ -44,12 +44,16 @@ class DiscoverVC: UIViewController {
         
         self.view.backgroundColor = Colors.backgroundGrey
         
-        fetchUsers()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if discover_users.isEmpty {
+            fetchUsers()
+        }
     }
     
     func fetchUsers(){
-        Internet.databaseWithMultibleReturn(url: baseURL + "/discover.php", parameters: ["min_id" : discover_users.count + 1, "max_id": discover_users.count + numberOfItemsPerFetch]) { (data, response, error) in
+        Internet.databaseWithMultibleReturn(url: baseURL + "/discover.php", parameters: ["min_id" : discover_users.count + 1, "max_id": discover_users.count + numberOfItemsPerFetch, "self_id": master!.uid]) { (data, response, error) in
             
             if error != nil {
                 print(error!.localizedDescription)

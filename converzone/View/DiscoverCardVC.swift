@@ -361,3 +361,4 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         self.present(alert, animated:true, completion: nil)
     }
 }
+

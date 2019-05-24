@@ -43,8 +43,7 @@ class LoginVC: UIViewController {
                 if !(httpResponse.statusCode == 200) {
                     
                     DispatchQueue.main.async {
-                        
-                        self.alert((data?.values.first)! as! String, "")
+                        self.alert("Error: " + String(httpResponse.statusCode), "")
                     }
                     
                 }else{
@@ -136,6 +135,39 @@ class LoginVC: UIViewController {
             
             // Continue to further registration
             
+            Internet.database(url: baseURL + "/check_email.php", parameters: ["email" : email]) { (data, response, error) in
+                
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+                
+                //Did the server give back an error?
+                if let httpResponse = response as? HTTPURLResponse {
+                    
+                    if httpResponse.statusCode == 520{
+                        DispatchQueue.main.async {
+                            self.alert("Choose another email address or login", "It seems like we already have saved this email address in our database. Maybe try to login instead?")
+                        }
+                        return
+                    }
+                    
+                    if !(httpResponse.statusCode == 200) {
+                        
+                        DispatchQueue.main.async {
+                            self.alert("Error: " + String(httpResponse.statusCode), "")
+                        }
+                        
+                    }else{
+                        
+                        DispatchQueue.main.async {
+                            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "ContinentNC") as! UINavigationController
+                            UIApplication.shared.keyWindow?.rootViewController = viewController
+                        }
+                        
+                    }
+                }
+            }
         }
     }
     

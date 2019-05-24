@@ -43,6 +43,8 @@ class Person {
     internal var reflections: [Reflection] = []
     internal var uid: Int?
     
+    internal var deviceToken: String?
+    
     init (firstname: String, lastname: String, gender: Gender, birthdate: Date, uid: Int){
         self.firstname = firstname
         self.lastname = lastname

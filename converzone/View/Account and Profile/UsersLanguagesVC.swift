@@ -31,19 +31,19 @@ class UsersLanguagesVC: UIViewController {
     
     @objc func continuePressed(){
         
-//        // Check if there is at least one language selected which the master speaks
-//        
-//        if ((master?.speak_languages.count)! > 0){
-//            
-//            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//            let newViewController = storyBoard.instantiateViewController(withIdentifier: "ProfileNavigationBar")
-//            self.present(newViewController, animated: true, completion: nil)
-//            
-//        }else{
-//            
-//            //Display warning
-//            alert("At least one language", "Please select at least one language which you speak.")
-//        }
+        // Check if there is at least one language selected which the master speaks
+        
+        if ((master?.speak_languages.count)! > 0){
+            
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewController = storyBoard.instantiateViewController(withIdentifier: "ProfileNavigationBar")
+            self.present(newViewController, animated: true, completion: nil)
+            
+        }else{
+            
+            //Display warning
+            alert("At least one language", "Please select at least one language which you speak.")
+        }
     }
     
     func alert(_ title: String, _ message: String){
