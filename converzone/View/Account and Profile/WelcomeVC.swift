@@ -25,7 +25,7 @@ class WelcomeVC: UIViewController {
             self.welcomeMessage_label.alpha = 0
             
         }, completion: { (bool) in
-            self.welcomeMessage_label.text = "Hey :)"
+            self.welcomeMessage_label.text = "Have fun :)"
             self.welcomeMessage_label.layer.position.y = self.view.frame.height / 2
         })
         
@@ -35,7 +35,11 @@ class WelcomeVC: UIViewController {
             
         }){ (bool) in
         
-            print("All animations are finished")
+            master?.changingData = .editing
+            
+            // Animate to actual app
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainTBC")
+            self.present(vc!, animated: true, completion: nil)
             
         }
     }

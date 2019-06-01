@@ -1,59 +1,94 @@
-<?php
+"use strict";
 
-$min_id = $_POST["min_id"];
-$max_id = $_POST["max_id"];
-$self_id = $_POST["self_id"];
+const apn = require('apn');
 
-if(empty($min_id) || empty($max_id) || empty($self_id)){
-    header("HTTP/1.0 510");
-    exit;
+var express = require('express');
+
+var app = express();
+var server = app.listen(5134);
+
+app.use(express.static('public'));
+var socket = require('socket.io');
+var io = socket(server);
+
+// Here is an array of all connections to the server
+var connections = {};
+
+// Show that the websocket is running
+var today = new Date();
+var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+console.log("Listening on 5134" + " ( " + date + " )");
+
+io.sockets.on('connection', newConnection);
+
+function newConnection(socket){
+    
+    console.log(socket.id + " connected.");
+    
+    socket.on('add-user', function(user){
+              
+              connections[user.id] = {
+              "socket": socket.id
+              };
+              });
+    
+    socket.on('chat-message', function(message){
+              
+              console.log(message);
+              
+              if (connections[message.receiver]){
+              
+              console.log("Send to: " + connections[message.receiver].socket);
+              io.sockets.connected[connections[message.receiver].socket].emit("chat-message", message);
+              
+              }else{
+              console.log("Send push notification")
+              sendPushNotificationToIOS(message.senderName, message, message.deviceToken, message.sound)
+              }
+              });
+    //Removing the socket on disconnect
+    socket.on('disconnect', function() {
+              for(var id in connections) {
+              if(connections[id].socket === socket.id) {
+              delete connections[id];
+              break;
+              }
+              }
+              })
 }
 
-// Connect to Database
-$conn = oci_connect('jeff', 'zoneconveer_2000', '10.114.57.135/XE');
-if (!$conn) {
-    header("HTTP/1.0 503");
-    $e = oci_error();
-    echo json_encode(array("oracle_connect_error" => $e['message']));
-    die("Database unavailable");
-    exit;
+
+function sendPushNotificationToIOS(alert, data, token, sound){
+    let options = {
+    token: {
+    key: "key.p8",
+    keyId: "F659H42J2K",
+    teamId: "M3493F96B3"
+    },
+    sandbox: true
+    };
+    
+    let apnProvider = new apn.Provider(options);
+    //E3B7DC9D945E34353E2F385FCDC3767337B57F1D2F20EBAFAE333531E8DA7477
+    
+    // Replace deviceToken with your particular token:
+    let deviceToken = token;
+    
+    // Prepare the notifications
+    let notification = new apn.Notification();
+    notification.expiry = Math.floor(Date.now() / 1000) + 24 * 3600 * 30; // will expire in 24 * 30 hours from now
+    notification.badge = 1;
+    notification.sound = sound;
+    notification.alert = alert;
+    notification.payload = data;
+    
+    notification.topic = "com.hashtag.oct.converzone";
+    
+    apnProvider.send(notification, deviceToken).then( result => {
+                                                     // Show the result of the send operation:
+                                                     console.log(result);
+                                                     });
+    
+    // Close the server
+    apnProvider.shutdown();
 }
-
-$sql = oci_parse($conn, "SELECT FIRSTNAME, LASTNAME, USERID, GENDER, EMAIL, STATUS, INTERESTS, COUNTRY, PROFILE_PICTURE_URL FROM USERS WHERE USERID >=$min_id AND USERID <=$max_id AND USERID !=1");
-
-if (!$sql) {
-    // Replace "517" with something suitable
-    header("HTTP/1.0 517");
-    $e = oci_error($sql);
-    echo json_encode(array("oracle_parse_error" => $e["message"]));
-    exit;
-}
-
-$query = oci_execute($sql);
-
-if (!$query) {
-    header("HTTP/1.0 519");
-    $e = oci_error($sql);
-    echo json_encode(array("oracle_execute_error" => $e["message"]));
-    exit;
-}
-
-$store_rows = array();
-while ($row = oci_fetch_array($sql, OCI_ASSOC+OCI_RETURN_NULLS)) {
-    array_push($store_rows, $row);
-}
-
-if (empty($store_rows[0])){
-    header("HTTP/1.0 520");
-    echo json_encode(array("discover_error" => "No users in the database"));
-    exit;
-}
-
-echo json_encode($store_rows);
-
-//Close connection to database
-oci_close($conn);
-oci_free_statement($sql);
-
-?>
-

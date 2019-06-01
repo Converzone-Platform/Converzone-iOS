@@ -9,10 +9,11 @@
 import SystemConfiguration
 import UIKit
 import SocketIO
+import NotificationBannerSwift
 
-var baseURL = "http://converzone.htl-perg.ac.at"
+var baseURL = "https://converzone.htl-perg.ac.at"
 
-let manager = SocketManager(socketURL: URL(string: baseURL + ":5134")!, config: [.log(true), .compress])
+let manager = SocketManager(socketURL: URL(string: "wss://converzone.htl-perg.ac.at" + ":5134")!, config: [.log(true), .compress])
 
 let socket = manager.defaultSocket
 
@@ -24,7 +25,10 @@ public class Internet {
     init() {
         
         socket.on(clientEvent: .connect) {data, ack in
-            socket.emit("add-user", with: [["id": master?.uid]])
+            
+            if master!.uid != nil{
+                socket.emit("add-user", with: [["id": master?.uid]])
+            }
         }
 
         socket.on(clientEvent: .disconnect) { (data, ack) in
@@ -43,7 +47,18 @@ public class Internet {
 
             text_message.date = dateFormatter.date(from: string_date!)
 
-            master?.conversations.first?.conversation.append(text_message)
+            // Find a user for this message
+            let user = master?.conversations.last(where: {$0.uid == dic!["sender"] as? Int})
+            
+            if user != nil{
+                user?.conversation.append(text_message)
+            }else{
+                // Create a new user
+                
+            }
+            
+            
+            
             self.delegate?.didUpdate(sender: self)
         }
 
@@ -212,18 +227,42 @@ public class Internet {
         
     }
     
-    class func sendText(message: String, to: Int){
+    class func sendText(message: String, to: User){
         
         var data = [String: Any]()
         data["sender"] = master?.uid
         data["message"] = message
-        data["receiver"] = to
+        data["receiver"] = to.uid
+        data["deviceToken"] = to.deviceToken
+        data["sound"] = "ping.aiff"
+        data["senderName"] = master?.fullname
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .full
         data["time"] = dateFormatter.string(from: NSDate() as Date)
         
         socket.emit("chat-message", data)
+        
+        var temp = TextMessage()
+        
+        temp.text = "This is text"
+        
+        //self.showBannerFor(message: temp)
+        
+    }
+    
+    class func showBannerFor(message: Message){
+        
+        // Load xib
+        
+        let inAppNotification = InAppNotification(nibName: "InAppNotification", bundle: nil)
+        
+        inAppNotification.text.text = "sdklamsd"
+        
+        inAppNotification.typeOfMessage.backgroundColor = message.color
+        
+        let banner = NotificationBanner(customView: inAppNotification.notificationView)
+        banner.show(bannerPosition: .bottom)
     }
     
     class func sendImage(message: UIImage){

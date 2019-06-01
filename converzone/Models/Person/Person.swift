@@ -15,8 +15,8 @@ import MapKit
 class Person {
     
     //Personal Details
-    internal var firstname: String?
-    internal var lastname: String?
+    internal var firstname: String? = nil
+    internal var lastname: String? = nil
     
     internal var fullname: String?{
         return firstname! + " " + lastname!

@@ -24,20 +24,27 @@ class UsersLanguagesVC: UIViewController {
         guessSpeakLanguages()
         
         //Add a continue button
-        let continueButton = UIBarButtonItem(title: "Continue", style: .done, target: self, action: #selector(continuePressed))
-        self.navigationItem.rightBarButtonItem = continueButton
+        if master?.changingData == .registration {
+            var continueButton = UIBarButtonItem(title: "Continue", style: .done, target: self, action: #selector(continuePressed))
+            self.navigationItem.rightBarButtonItem = continueButton
+        }
         
     }
     
     @objc func continuePressed(){
         
         // Check if there is at least one language selected which the master speaks
-        
         if ((master?.speak_languages.count)! > 0){
             
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let newViewController = storyBoard.instantiateViewController(withIdentifier: "ProfileNavigationBar")
-            self.present(newViewController, animated: true, completion: nil)
+            if master?.changingData == .registration {
+                
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let newViewController = storyBoard.instantiateViewController(withIdentifier: "EditProfileVC")
+                self.navigationController?.pushViewController(newViewController, animated: true)
+            }else{
+                self.navigationController?.popViewController(animated: true)
+            }
+            
             
         }else{
             

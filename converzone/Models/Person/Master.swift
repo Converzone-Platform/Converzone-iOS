@@ -10,7 +10,14 @@
 
 import UIKit
 
+enum ChangingData {
+    case editing
+    case registration
+}
+
 class Master: Person {
+    
+    var changingData: ChangingData = .registration
     
     //Login Information
     internal var email: String
@@ -46,5 +53,3 @@ class Master: Person {
         }
     }
 }
-
-

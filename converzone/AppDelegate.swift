@@ -40,8 +40,7 @@ import UserNotifications
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
-        print("success in registering for remote notifications with token \(deviceTokenString)")
-        
+        print("success in registering for remote notifications with token: ", deviceTokenString)
         master?.deviceToken = deviceTokenString
     }
     
@@ -52,6 +51,8 @@ import UserNotifications
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         print("Received push notification: \(userInfo)")
         let aps = userInfo["aps"] as! [String: Any]
+        
+        
         
         print("\(aps)")
     }

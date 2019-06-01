@@ -21,16 +21,17 @@ class ConversationsVC: UIViewController {
         self.view.backgroundColor = Colors.backgroundGrey
         
         //navigationItem.searchController?.searchBar.delegate = self
-        
+        socket.connect()
+        socket.emit("add-user", with: [["id": master?.uid]])
         
     }
     
     override func viewWillLayoutSubviews() {
         //filtered_converations = master?.conversations
-        master?.conversations.sort(by: { (user1, user2) -> Bool in
-            return (user1.conversation.last?.date?.isGreaterThan((user2.conversation.last?.date)!))!
-            
-        })
+//        master?.conversations.sort(by: { (user1, user2) -> Bool in
+//            return (user1.conversation.last?.date?.isGreaterThan((user2.conversation.last?.date)!))!
+//
+//        })
         
         //MARK: TODO - Reloading the whole tableview might be too much
         tableView.reloadData()
@@ -49,6 +50,14 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //return (filtered_converations?.count)!
+        
+        if master?.conversations.count == 0 {
+            tableView.setEmptyView(title: "No conversations yet.", message: "Text a random person in the discover tab")
+        }
+        else {
+            tableView.restore()
+        }
+        
         return (master?.conversations.count)!
     }
     

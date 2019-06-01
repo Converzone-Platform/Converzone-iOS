@@ -45,6 +45,15 @@ extension CountryVC: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         master?.country = filteredCountries![indexPath.row]
+        
+        if master?.changingData == .editing{
+            self.navigationController?.popViewController(animated: true)
+            self.navigationController?.popViewController(animated: true)
+        }else{
+            let vc = storyboard?.instantiateViewController(withIdentifier: "UsersLanguagesVC")
+            self.navigationController?.pushViewController(vc!, animated: true)
+        }
+        
     }
     
     func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage? {

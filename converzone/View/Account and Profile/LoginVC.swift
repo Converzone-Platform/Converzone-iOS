@@ -43,7 +43,15 @@ class LoginVC: UIViewController {
                 if !(httpResponse.statusCode == 200) {
                     
                     DispatchQueue.main.async {
-                        self.alert("Error: " + String(httpResponse.statusCode), "")
+                        
+                        switch httpResponse.statusCode{
+                        case 520:
+                            alert("Wrong Email", "Please check if you typed your email correctly. Otherwise please register", self)
+                        case 521:
+                            alert("Wrong Password", "Please check if you typed your password correctly", self)
+                        default:
+                            alert("Unknown Error: " + String(httpResponse.statusCode), "Please contact us under feeedbackme@gmail.com", self)
+                        }
                     }
                     
                 }else{
@@ -51,7 +59,8 @@ class LoginVC: UIViewController {
                     // Check if banned
                     if (data?["BANNED"] as? String == "t"){
                         DispatchQueue.main.async {
-                            self.alert("Banned", "Sorry but you can't access converzone anymore. Contact our team.")
+                            
+                            alert("Banned", "Sorry but you can't access converzone anymore. Contact our team.", self)
                         }
                         return
                     }
@@ -59,20 +68,26 @@ class LoginVC: UIViewController {
                     //Login was successful
                     master?.firstname = data?["FIRSTNAME"] as? String
                     master?.lastname = data?["LASTNAME"] as? String
-                    master?.uid = data?["USERID"] as? Int
+                    master?.uid = Int((data?["USERID"] as? String)!)
                     master?.gender = self.genderConverter(gender: (data?["GENDER"] as? String)!)
-                    master?.status = data?["STATUS"] as? NSAttributedString
-                    master?.interests = data?["INTERESTS"] as? NSAttributedString
+                    master?.status = NSAttributedString(string: (data?["STATUS"] as? String)!)
+                    master?.interests = NSAttributedString(string: (data?["INTERESTS"] as? String)!)
                     master?.country = Country(name: (data?["COUNTRY"] as? String)!)
+                    master?.deviceToken = data?["NOTIFICATIONTOKEN"] as? String
+                    master?.discoverable = data?["DISCOVERABLE"] as? String == "t" ? true : false
+                    master?.link_to_profile_image = data?["PROFILE_PICTURE_URL"] as? String
                     
                     let string_date = data?["BIRTHDATE"] as? String
                     let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "dd/MM/yy"
+                    dateFormatter.dateFormat = "dd/MM/yyyy"
+                    dateFormatter.timeZone = TimeZone(secondsFromGMT: TimeZone.current.secondsFromGMT())
                     master?.birthdate = dateFormatter.date(from: string_date!)
                     
-                    print(master?.birthdate)
-                    
-                    //Continue to conversations
+                    DispatchQueue.main.async {
+                        //Continue to conversations
+                        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainTBC")
+                        self.present(vc!, animated: true, completion: nil)
+                    }
                     
                 }
             }
@@ -99,25 +114,25 @@ class LoginVC: UIViewController {
         
         if(email_textfield.text == "" || password_textfield.text == ""){
          alert(NSLocalizedString("Fill in both fields", comment: "Error title when the user doesn't fill in password and email"),
-         NSLocalizedString("Please make sure that you fill in a password and an email address", comment: "Error message when the user doesn't fill in password and email"))
+               NSLocalizedString("Please make sure that you fill in a password and an email address", comment: "Error message when the user doesn't fill in password and email"), self)
          return
          }
 
          if(!Internet.isOnline()){
          alert(NSLocalizedString("Your device is offline", comment: "Error title the user gets when device is not connected to the internet"),
-         NSLocalizedString("Please make sure that your device is connected to the internet in order to proceed.", comment: "Error message the user gets when device is not connected to the internet"))
+               NSLocalizedString("Please make sure that your device is connected to the internet in order to proceed.", comment: "Error message the user gets when device is not connected to the internet"), self)
          return
          }
 
          if(!email_textfield.isValidEmail()){
          alert(NSLocalizedString("Email Address", comment: "Error title when the user enters a invalid email address"),
-         NSLocalizedString("Please make sure that you enter a valid email address.", comment: "Error message when the user enters a invalid email address"))
+               NSLocalizedString("Please make sure that you enter a valid email address.", comment: "Error message when the user enters a invalid email address"), self)
          return
          }
 
          if(!password_textfield.isValidPassword()){
          alert(NSLocalizedString("Password", comment: "Error title when the user enters a wrong password"),
-         NSLocalizedString("Please make sure that you enter a strong password. \n\n • 8 to 20 characters \n • Upper and Lower Case\n • One number", comment: "Error message when the user enters a wrong password"))
+               NSLocalizedString("Please make sure that you enter a strong password. \n\n • 8 to 20 characters \n • Upper and Lower Case\n • One number", comment: "Error message when the user enters a wrong password"), self)
          return
          }
         
@@ -146,7 +161,7 @@ class LoginVC: UIViewController {
                     
                     if httpResponse.statusCode == 520{
                         DispatchQueue.main.async {
-                            self.alert("Choose another email address or login", "It seems like we already have saved this email address in our database. Maybe try to login instead?")
+                            alert("Choose another email address or login", "It seems like we already have saved this email address in our database. Maybe try to login instead?", self)
                         }
                         return
                     }
@@ -154,7 +169,7 @@ class LoginVC: UIViewController {
                     if !(httpResponse.statusCode == 200) {
                         
                         DispatchQueue.main.async {
-                            self.alert("Error: " + String(httpResponse.statusCode), "")
+                            alert("Error: " + String(httpResponse.statusCode), "", self)
                         }
                         
                     }else{
@@ -194,6 +209,11 @@ class LoginVC: UIViewController {
         
         register_outlet.isEnabled = false
         login_outlet.isEnabled = true
+        
+        // Let's delete all the data from the old master
+        master?.conversations.removeAll()
+        
+        master?.changingData = .registration
     }
     
     // No need to translate this. This is meant to be in English for all
@@ -250,13 +270,4 @@ class LoginVC: UIViewController {
     func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return .portrait
     }
-    
-    func alert(_ title: String, _ message: String){
-        
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-        
-    }
-    
 }

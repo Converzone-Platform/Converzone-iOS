@@ -8,7 +8,7 @@
 
 import UIKit
 
-let numberOfItemsPerFetch = 30
+let numberOfItemsPerFetch = 11
 
 var discover_users: [User] = []
 
@@ -53,7 +53,7 @@ class DiscoverVC: UIViewController {
     }
     
     func fetchUsers(){
-        Internet.databaseWithMultibleReturn(url: baseURL + "/discover.php", parameters: ["min_id" : discover_users.count + 1, "max_id": discover_users.count + numberOfItemsPerFetch, "self_id": master!.uid]) { (data, response, error) in
+        Internet.databaseWithMultibleReturn(url: baseURL + "/discover.php", parameters: ["min_id" : discover_users.count + 1, "max_id": discover_users.count + numberOfItemsPerFetch, "self_id": master!.uid as Any]) { (data, response, error) in
             
             if error != nil {
                 print(error!.localizedDescription)
@@ -77,6 +77,7 @@ class DiscoverVC: UIViewController {
                             user.firstname = i["FIRSTNAME"] as? String
                             user.lastname = i["LASTNAME"] as? String
                             user.link_to_profile_image = i["PROFILE_PICTURE_URL"] as? String
+                            user.deviceToken = i["NOTIFICATIONTOKEN"] as? String
                             
                             if let str = i["USERID"] as? String, let uid = Int(str) {
                                 user.uid = uid

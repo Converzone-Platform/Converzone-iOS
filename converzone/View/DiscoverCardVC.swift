@@ -240,15 +240,37 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
     
     @objc func handleSendMessage(){
     
-        let info = InformationMessage()
+        // Does this user already exist?
+        let userExists = master?.conversations.last(where: {$0.uid == profileOf!.uid})
         
-        info.text = "Be creative with the first message :)"
-        info.date = Date(timeIntervalSince1970: 0)
+        print(userExists)
         
-        profileOf?.conversation.append(info)
+        if userExists == nil{
+            let info = InformationMessage()
+            
+            info.text = "Be creative with the first message :)"
+            info.date = Date()
+            
+            profileOf?.conversation.append(info)
+            
+            master?.conversations.append(profileOf!)
+        }else{
+            
+            // Set indexOfUser
+            
+            var index: Int = 0
+            
+            for i in master!.conversations {
+                if i.uid == profileOf!.uid {
+                    
+                    indexOfUser = index
+                    
+                }
+                index += 1
+            }
+            
+        }
         
-        master?.conversations.append(profileOf!)
-    
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let dViewController = storyboard.instantiateViewController(withIdentifier: "ChatVC") as! ChatVC
         let thirdTabNavController = self.tabBarController?.viewControllers?[0] as! UINavigationController

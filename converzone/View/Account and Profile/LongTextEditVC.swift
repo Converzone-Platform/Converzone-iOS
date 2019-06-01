@@ -48,6 +48,14 @@ class LongTextEditVC: UIViewController {
         )
         
         setUpSaveButton()
+        
+        if text.text.count == 0{
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+        }else{
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+        }
+        
+        self.navigationItem.largeTitleDisplayMode = .never
     }
     
     func setUpSaveButton(){

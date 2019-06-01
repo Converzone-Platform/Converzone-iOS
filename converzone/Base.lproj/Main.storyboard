@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0NX-P2-7IM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -183,7 +183,7 @@
         <!--Where do you live?-->
         <scene sceneID="xmq-ku-KDZ">
             <objects>
-                <viewController id="2Cj-8R-hCu" customClass="ContinentVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ContinentVC" id="2Cj-8R-hCu" customClass="ContinentVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uUN-V2-GFn"/>
                         <viewControllerLayoutGuide type="bottom" id="BKR-UG-8KY"/>
@@ -248,13 +248,7 @@
                             <constraint firstItem="f8u-6X-Vtx" firstAttribute="leading" secondItem="cdt-d6-7RR" secondAttribute="leading" id="sok-sF-Udc"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Where do you live?" id="Otc-fK-Hlx">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="5wL-xI-Nvr">
-                            <connections>
-                                <action selector="back:" destination="2Cj-8R-hCu" id="414-Xf-Ucz"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Where do you live?" id="Otc-fK-Hlx"/>
                     <connections>
                         <segue destination="csk-FX-6pN" kind="show" id="Iid-4S-LK8"/>
                     </connections>
@@ -303,9 +297,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="1ky-PN-Kja" kind="show" id="v2y-P9-vBb"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -545,9 +536,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="mw8-Jc-B30">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="mw8-Jc-B30">
                                 <rect key="frame" x="0.0" y="202" width="375" height="465"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
@@ -695,12 +685,23 @@
                                     <outlet property="delegate" destination="1hu-sH-cdN" id="7mE-Nb-fdc"/>
                                 </connections>
                             </tableView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user" translatesAutoresizingMaskIntoConstraints="NO" id="BRy-un-mtq">
-                                <rect key="frame" x="132" y="84" width="110" height="110"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user" translatesAutoresizingMaskIntoConstraints="NO" id="BRy-un-mtq">
+                                <rect key="frame" x="132.5" y="84" width="110" height="110"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="110" id="MSX-kk-JOp"/>
+                                    <constraint firstAttribute="height" constant="110" id="WVG-Or-49F"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="mw8-Jc-B30" firstAttribute="leading" secondItem="dw4-JV-dYO" secondAttribute="leading" id="0wi-wV-opB"/>
+                            <constraint firstItem="BRy-un-mtq" firstAttribute="centerX" secondItem="dw4-JV-dYO" secondAttribute="centerX" id="1W9-3g-vyJ"/>
+                            <constraint firstItem="BRy-un-mtq" firstAttribute="top" secondItem="pJ8-Km-sVr" secondAttribute="bottom" constant="20" id="dgx-X8-12U"/>
+                            <constraint firstItem="mRk-cB-sG0" firstAttribute="top" secondItem="mw8-Jc-B30" secondAttribute="bottom" id="gc2-Ns-YJa"/>
+                            <constraint firstItem="mw8-Jc-B30" firstAttribute="top" secondItem="BRy-un-mtq" secondAttribute="bottom" constant="8" id="hTG-VX-xTN"/>
+                            <constraint firstAttribute="trailing" secondItem="mw8-Jc-B30" secondAttribute="trailing" id="oL6-SQ-Gqx"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" largeTitleDisplayMode="always" id="KZQ-Xk-hgX"/>
                     <connections>
@@ -715,7 +716,7 @@
         <!--WelcomeVC-->
         <scene sceneID="xqq-p7-L8S">
             <objects>
-                <viewController id="snm-Hc-Lnc" customClass="WelcomeVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WelcomeVC" id="snm-Hc-Lnc" customClass="WelcomeVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="48H-Dp-HDK"/>
                         <viewControllerLayoutGuide type="bottom" id="A5f-ta-Tdu"/>
@@ -1156,12 +1157,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="5" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GFa-wJ-UMO">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" sectionIndexMinimumDisplayRowCount="5" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="GFa-wJ-UMO">
                                 <rect key="frame" x="0.0" y="116" width="375" height="502"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SettingsCell" textLabel="zkt-4A-IvH" detailTextLabel="9JN-hj-QHo" style="IBUITableViewCellStyleSubtitle" id="sUB-9t-NLb">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sUB-9t-NLb" id="H0C-b1-aWe">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -1523,7 +1524,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="BvW-kS-1Xj">
             <objects>
-                <tabBarController id="0NX-P2-7IM" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTBC" id="0NX-P2-7IM" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="TDa-in-Kv1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1599,7 +1600,7 @@
         <!--Settings-->
         <scene sceneID="API-Xc-TM2">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hFk-gY-rhq" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="SettingsNC" automaticallyAdjustsScrollViewInsets="NO" id="hFk-gY-rhq" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="settings_nav" id="pFo-kf-ry5"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="ep9-aC-Jjz">
@@ -1608,7 +1609,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="jKe-6v-3Qb" kind="relationship" relationship="rootViewController" id="kUJ-S4-xic"/>
+                        <segue destination="jKe-6v-3Qb" kind="relationship" relationship="rootViewController" id="kbz-4G-bfy"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N4F-5S-aAM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1645,7 +1646,6 @@
         <image name="web_nav" width="612" height="792"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="cr7-NE-Gpk"/>
         <segue reference="Iid-4S-LK8"/>
     </inferredMetricsTieBreakers>
 </document>

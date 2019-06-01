@@ -72,6 +72,8 @@ class ChatVC: UIViewController, UpdateDelegate {
                     
                     self.updateTableView(animated: true)
                     
+                default:
+                    print("That's weird. Check me out. I am on line: ", #line)
                 }
             } else {
                 print("Location services are not enabled")
@@ -100,7 +102,7 @@ class ChatVC: UIViewController, UpdateDelegate {
         
         message_textField.delegate = self
         
-        setUpInfoButton()
+        //setUpInfoButton()
         
         navigationItem.titleView = navTitleWithImageAndText(titleText: master!.conversations[indexOfUser].fullname!, imageLink: master!.conversations[indexOfUser].link_to_profile_image!)
         
@@ -124,9 +126,11 @@ class ChatVC: UIViewController, UpdateDelegate {
         setUpLocationServices()
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.tableView.reloadData()
         scrollToBottom(animated: false)
         
-        changeBackBarButton(title: "")
+        changeBackBarButton(title: " ")
+        //self.navigationController?.navigationBar.topItem?.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     }
     
     @objc func goToConversations(){
@@ -545,7 +549,7 @@ extension ChatVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         master?.conversations[indexOfUser].conversation.append(TextMessage(text: textField.text!, is_sender: true))
         
-        Internet.sendText(message: textField.text!, to: (master?.conversations[indexOfUser].uid)!)
+        Internet.sendText(message: textField.text!, to: ((master?.conversations[indexOfUser])!))
         
         updateTableView(animated: true)
         
