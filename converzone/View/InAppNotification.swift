@@ -8,15 +8,18 @@
 
 import UIKit
 
-class InAppNotification: UIViewController {
-
-    @IBOutlet weak var typeOfMessage: UIView!
-    @IBOutlet weak var notificationView: UIView!
-    @IBOutlet weak var text: UILabel!
-    @IBOutlet weak var profileView: UIImageView!
+class InAppNotification: UIView {
     
-    override func viewWillAppear(_ animated: Bool) {
-        print(123)
+    
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var message: UILabel!
+    @IBOutlet weak var typeOfMessage: UIView!
+    @IBOutlet weak var notification: UIView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
     }
     
 }
+
+

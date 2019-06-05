@@ -21,9 +21,15 @@ class ConversationsVC: UIViewController {
         self.view.backgroundColor = Colors.backgroundGrey
         
         //navigationItem.searchController?.searchBar.delegate = self
-        socket.connect()
-        socket.emit("add-user", with: [["id": master?.uid]])
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.title = "Conversations"
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.title = ""
     }
     
     override func viewWillLayoutSubviews() {
@@ -73,7 +79,11 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
             
         })
         
-        cell.lastMessageType.backgroundColor = master?.conversations[indexPath.row].conversation.last?.color
+        if (master?.conversations[indexPath.row].openedChat)! {
+            cell.lastMessageType.backgroundColor = Colors.white
+        }else{
+            cell.lastMessageType.backgroundColor = master?.conversations[indexPath.row].conversation.last?.color
+        }
         
         cell.profileImage.layer.cornerRadius = cell.profileImage.layer.frame.width / 2
         cell.profileImage.layer.masksToBounds = true

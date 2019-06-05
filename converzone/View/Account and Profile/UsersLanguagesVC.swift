@@ -25,7 +25,7 @@ class UsersLanguagesVC: UIViewController {
         
         //Add a continue button
         if master?.changingData == .registration {
-            var continueButton = UIBarButtonItem(title: "Continue", style: .done, target: self, action: #selector(continuePressed))
+            let continueButton = UIBarButtonItem(title: "Continue", style: .done, target: self, action: #selector(continuePressed))
             self.navigationItem.rightBarButtonItem = continueButton
         }
         

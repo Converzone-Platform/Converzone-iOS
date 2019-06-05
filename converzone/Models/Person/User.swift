@@ -21,4 +21,6 @@ class User: Person {
     internal var deleted_chat: Bool = false
     
     internal var discover_style: Int = 0
+    
+    internal var openedChat: Bool = false
 }

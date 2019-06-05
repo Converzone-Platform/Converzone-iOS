@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import NotificationCenter
+import NotificationBannerSwift
 
 class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -78,6 +80,8 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
         }
         
+        cell!.selectionStyle = .none
+        
         return cell!
     }
     
@@ -105,12 +109,13 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC")
             present(vc!, animated: true, completion: nil)
             self.tabBarController?.tabBar.isHidden = true
+            
+            // Clear the notification queue
+            NotificationBannerQueue.default.removeAll()
+            
         default:
             print("No action here")
         }
-        
-        
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

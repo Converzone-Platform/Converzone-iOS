@@ -71,23 +71,27 @@ class WebVC: UIViewController, WKUIDelegate {
     
     func loadWebsite(search: String){
         
+        if !Internet.isOnline(){
+            return
+        }
+        
         var myURL: URL
         
         if search.isEmpty{
             myURL = URL(string: "https://www.duckduckgo.com")!
         }else{
-            myURL = URL(string: search)!
+            if search.isURL() {
+                
+                myURL = URL(string: search)!
+                
+            }else{
+                
+                myURL = URL(string: fromSimpleWordsToSearch(simpleWords: search))!
+                
+            }
         }
         
-        if search.isURL() {
-            
-            myURL = URL(string: search)!
-            
-        }else{
-            
-            myURL = URL(string: fromSimpleWordsToSearch(simpleWords: search))!
-            
-        }
+        
         
         let myRequest = URLRequest(url: myURL)
         webView.load(myRequest)

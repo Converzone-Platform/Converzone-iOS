@@ -146,7 +146,7 @@ let countries_europe = [
     NSLocalizedString("Bulgaria",comment: "Country"),
     NSLocalizedString("Croatia",comment: "Country"),
     NSLocalizedString("Cyprus",comment: "Country"),
-    NSLocalizedString("Czech Republic",comment: "Country"),
+    NSLocalizedString("Czech Republic",comment: NSLocalizedString("Country", comment: "")),
     NSLocalizedString("Denmark",comment: "Country"),
     NSLocalizedString("Estonia",comment: "Country"),
     NSLocalizedString("Finland",comment: "Country"),
@@ -663,8 +663,8 @@ let all_languages = [
     NSLocalizedString("Tibetan", comment: "Language"),
     NSLocalizedString("Tigre", comment: "Language"),
     NSLocalizedString("Tigrinya", comment: "Language"),
-    NSLocalizedString("Tlingit", comment: "Language"),
     
+    NSLocalizedString("Tlingit", comment: "Language"),
     NSLocalizedString("Tok Pisin", comment: "Language"),
     NSLocalizedString("Tonga", comment: "Language"),
     NSLocalizedString("Tongan", comment: "Language"),

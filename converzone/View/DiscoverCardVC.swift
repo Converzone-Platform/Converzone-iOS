@@ -243,12 +243,9 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         // Does this user already exist?
         let userExists = master?.conversations.last(where: {$0.uid == profileOf!.uid})
         
-        print(userExists)
-        
         if userExists == nil{
-            let info = InformationMessage()
+            let info = FirstInformationMessage()
             
-            info.text = "Be creative with the first message :)"
             info.date = Date()
             
             profileOf?.conversation.append(info)
@@ -273,6 +270,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let dViewController = storyboard.instantiateViewController(withIdentifier: "ChatVC") as! ChatVC
+        
         let thirdTabNavController = self.tabBarController?.viewControllers?[0] as! UINavigationController
         
         thirdTabNavController.pushViewController(dViewController, animated: true)

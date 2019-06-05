@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "converzone/View/InAppNotification.swift"
-            timestampString = "581095978.998662"
+            filePath = "converzone/Supporting Files/Internet.swift"
+            timestampString = "581464345.577768"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
-            landmarkName = "viewWillAppear(_:)"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

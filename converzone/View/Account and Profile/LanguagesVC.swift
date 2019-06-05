@@ -79,8 +79,6 @@ extension LanguagesVC: UITableViewDelegate, UITableViewDataSource {
         
         if(addingForType == .speaking){
             
-            print(selected_speaking_languages)
-            
             if selected_speaking_languages.contains(where:{ $0.name == tableView.cellForRow(at: indexPath)!.textLabel!.text }){
                 
                 //Remove it

@@ -79,9 +79,37 @@ class LoginVC: UIViewController {
                     
                     let string_date = data?["BIRTHDATE"] as? String
                     let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "dd/MM/yyyy"
+                    dateFormatter.dateFormat = "dd/MM/yy"
                     dateFormatter.timeZone = TimeZone(secondsFromGMT: TimeZone.current.secondsFromGMT())
                     master?.birthdate = dateFormatter.date(from: string_date!)
+                    
+                    
+//                    Internet.databaseWithMultibleReturn(url: baseURL + "/getInformationOfUser.php", parameters: ["idd" : 1], completionHandler: { (languages, lang_response, lang_error) in
+//
+//                        if lang_error != nil{
+//                            print(lang_error!.localizedDescription)
+//                        }
+//
+//                        if let httpResponse = response as? HTTPURLResponse {
+//
+//                            if !(httpResponse.statusCode == 200) {
+//
+//                                DispatchQueue.main.async {
+//
+//                                    alert("Languages", "Could not download your languages", self)
+//                                    return
+//                                }
+//                            }
+//
+//                        }
+//
+//
+//                        for language in languages!{
+//                            print(language)
+//                        }
+//                    })
+                    
+                    
                     
                     DispatchQueue.main.async {
                         //Continue to conversations
@@ -175,6 +203,9 @@ class LoginVC: UIViewController {
                     }else{
                         
                         DispatchQueue.main.async {
+                            
+                            socket.emit("add-user", with: [["id": master?.uid]])
+                            
                             let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                             let viewController = mainStoryboard.instantiateViewController(withIdentifier: "ContinentNC") as! UINavigationController
                             UIApplication.shared.keyWindow?.rootViewController = viewController

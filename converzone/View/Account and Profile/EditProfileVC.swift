@@ -125,25 +125,29 @@ class EditProfileVC: UIViewController{
         
         // Get inputs
         
-        let firstname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! NormalInputCell).input!.text
+        var firstname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! NormalInputCell).input!.text
+        firstname = firstname?.trimmingCharacters(in: .whitespacesAndNewlines)
         if firstname == "" {
             alert("Firstname", "Please tell us your first name", self)
             return
         }
         
-        let lastname = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! NormalInputCell).input!.text
+        var lastname = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! NormalInputCell).input!.text
+        lastname = lastname?.trimmingCharacters(in: .whitespacesAndNewlines)
         if lastname == "" {
             alert("Lastname", "Please tell us your last name", self)
             return
         }
         
-        let gender = (tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as! InputGenderCell).gender.text
+        var gender = (tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as! InputGenderCell).gender.text
+        gender = gender?.trimmingCharacters(in: .whitespacesAndNewlines)
         if gender == "" {
             alert("Gender", "Please tell us your gender", self)
             return
         }
         
-        let date = (tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as! InputDateCell).date.text
+        var date = (tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as! InputDateCell).date.text
+        date = date?.trimmingCharacters(in: .whitespacesAndNewlines)
         if date == "" {
             alert("Birthdate", "Please tell us your birthdate", self)
             return
@@ -175,17 +179,11 @@ class EditProfileVC: UIViewController{
 //        }
         
         if master?.changingData == .registration {
-            
             // Go to welcome screen
-            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "WelcomeVC") as! WelcomeVC
-            
+            let viewController = storyboard!.instantiateViewController(withIdentifier: "WelcomeVC") as! WelcomeVC
             present(viewController, animated: true, completion: nil)
         }else{
-            let nav = storyboard!.instantiateViewController(withIdentifier: "MainTBC") as! UITabBarController
-            nav.tabBarController?.selectedIndex = 3
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.window?.rootViewController = nav
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -225,7 +223,7 @@ class EditProfileVC: UIViewController{
         
         switch section {
         case 3:
-            return "Disable this if you don't want new people to text you"
+            return "Disable this if you don't want new people to text you. This set on \"off\" will make sure you are not visible for others in the discover tab"
         default:
             return ""
         }

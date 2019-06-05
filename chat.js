@@ -16,40 +16,45 @@ var connections = {};
 
 // Show that the websocket is running
 var today = new Date();
-var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
 console.log("Listening on 5134" + " ( " + date + " )");
 
 io.sockets.on('connection', newConnection);
 
-function newConnection(socket){
+function newConnection(socket) {
     
     console.log(socket.id + " connected.");
     
-    socket.on('add-user', function(user){
+    socket.on('add-user', function(user) {
               
-              connections[user.id] = {
-              "socket": socket.id
-              };
-              });
+              // Only add if it doesn't already exist
+              if (connections[user.id] == undefined) {
+                  connections[user.id] = {
+                    "socket": socket.id
+                  };
+              }
+              
+    });
     
-    socket.on('chat-message', function(message){
+    socket.on('chat-message', function(message) {
               
               console.log(message);
               
-              if (connections[message.receiver]){
+              if (connections[message.receiver]) {
               
               console.log("Send to: " + connections[message.receiver].socket);
               io.sockets.connected[connections[message.receiver].socket].emit("chat-message", message);
               
-              }else{
+              } else {
               console.log("Send push notification")
               sendPushNotificationToIOS(message.senderName, message, message.deviceToken, message.sound)
               }
               });
     //Removing the socket on disconnect
     socket.on('disconnect', function() {
-              for(var id in connections) {
-              if(connections[id].socket === socket.id) {
+              
+              for (var id in connections) {
+              if (connections[id].socket === socket.id) {
               delete connections[id];
               break;
               }
@@ -57,8 +62,7 @@ function newConnection(socket){
               })
 }
 
-
-function sendPushNotificationToIOS(alert, data, token, sound){
+function sendPushNotificationToIOS(alert, data, token, sound) {
     let options = {
     token: {
     key: "key.p8",
@@ -84,7 +88,7 @@ function sendPushNotificationToIOS(alert, data, token, sound){
     
     notification.topic = "com.hashtag.oct.converzone";
     
-    apnProvider.send(notification, deviceToken).then( result => {
+    apnProvider.send(notification, deviceToken).then(result => {
                                                      // Show the result of the send operation:
                                                      console.log(result);
                                                      });

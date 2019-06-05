@@ -204,6 +204,19 @@ class InformationMessage: Message{
     }
 }
 
+// Color: blue
+class FirstInformationMessage: InformationMessage {
+    
+    override init(){
+        super.init()
+        
+        self.color = Colors.blue
+        
+        super.text = "Be creative with the first message :)"
+    }
+    
+}
+
 // Color: red
 class CannotDisplayMessage: Message {
     // The user needs to update the app to see this message

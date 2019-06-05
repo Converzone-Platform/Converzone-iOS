@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import NotificationBannerSwift
 
 var indexOfUser: Int = 0
 
@@ -107,6 +108,10 @@ class ChatVC: UIViewController, UpdateDelegate {
         navigationItem.titleView = navTitleWithImageAndText(titleText: master!.conversations[indexOfUser].fullname!, imageLink: master!.conversations[indexOfUser].link_to_profile_image!)
         
         updates.delegate = self
+        
+        master?.conversations[indexOfUser].openedChat = true
+        
+        
     }
     
     func didUpdate(sender: Internet) {
@@ -116,12 +121,6 @@ class ChatVC: UIViewController, UpdateDelegate {
         }
     }
     
-    func changeBackBarButton(title: String){
-        let backButton = UIBarButtonItem()
-        backButton.title = title
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         setUpLocationServices()
         self.tabBarController?.tabBar.isHidden = true
@@ -129,15 +128,11 @@ class ChatVC: UIViewController, UpdateDelegate {
         self.tableView.reloadData()
         scrollToBottom(animated: false)
         
-        changeBackBarButton(title: " ")
-        //self.navigationController?.navigationBar.topItem?.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     }
     
     @objc func goToConversations(){
-        //Go to next view controller
         
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let conversations = storyBoard.instantiateViewController(withIdentifier: "ConversationsVC")
+        let conversations = storyboard!.instantiateViewController(withIdentifier: "ConversationsVC")
         self.navigationController?.pushViewController(conversations, animated: true)
     }
     
@@ -184,6 +179,8 @@ class ChatVC: UIViewController, UpdateDelegate {
         
         titleView.addGestureRecognizer(gesture)
         
+        self.navigationController?.navigationBar.topItem?.title = ""
+        
         return titleView
         
     }
@@ -191,6 +188,7 @@ class ChatVC: UIViewController, UpdateDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
     }
+    
     
     func setUpInfoButton(){
         let infoButton = UIBarButtonItem(title: "More", style: .plain, target: self, action: #selector(handleInfoButton))
@@ -229,8 +227,6 @@ class ChatVC: UIViewController, UpdateDelegate {
         )
     }
     
-    
-    
     @objc func showMoreOfPartner(){
 
         print("Show profile")
@@ -252,12 +248,16 @@ class ChatVC: UIViewController, UpdateDelegate {
             self.messageInputBottomConstraint.constant = keyboardFrame.size.height
         }else{
             self.messageInputBottomConstraint.constant = 0
+            
         }
         
         UIView.animate(withDuration: 0, delay: 0, options: .curveEaseInOut, animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
-        scrollToBottom(animated: true)
+        
+        // Let's find a way to not call this when we are transitioning to another screen
+        self.scrollToBottom(animated: true)
+        
     }
     
     func updateTableView(animated: Bool){
@@ -268,29 +268,43 @@ class ChatVC: UIViewController, UpdateDelegate {
         scrollToBottom(animated: true)
     }
     
-    func scrollToBottom(animated: Bool){
-        DispatchQueue.main.async {
-            let indexPath = IndexPath(row: ((master?.conversations[indexOfUser].conversation.count)!)-1, section: 0)
+//    func scrollToBottom(animated: Bool){
+//
+//        DispatchQueue.main.async {
+//
+//            if ((master?.conversations[indexOfUser].conversation.count)! > 0){
+//                let indexPath = IndexPath(row: ((master?.conversations[indexOfUser].conversation.count)!)-1, section: 0)
+//                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
+//            }
+//
+//        }
+//    }
+    
+    func scrollToBottom(animated: Bool = true, delay: Double = 0.0) {
+        let numberOfRows = tableView.numberOfRows(inSection: tableView.numberOfSections - 1) - 1
+        guard numberOfRows > 0 else { return }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [unowned self] in
             
-            if (master?.conversations[indexOfUser].conversation.count != 0){
-                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
-            }
-            
+            let indexPath = IndexPath(
+                row: numberOfRows,
+                section: self.tableView.numberOfSections - 1)
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
         }
     }
     
     @objc func didTakeScreenshot(){
         
-        let screenshot_message = InformationMessage()
-        
-        screenshot_message.text = NSLocalizedString("You", comment: "The pronoun") + " " + NSLocalizedString("took a screenshot!", comment: "Message when the master or the partner takes a screenshot")
-        screenshot_message.date = NSDate() as Date
-        
-        master?.conversations[indexOfUser].conversation.append(screenshot_message)
-        
-        //MARK: TODO - Send this to the partner
-        
-        updateTableView(animated: true)
+//        let screenshot_message = InformationMessage()
+//
+//        screenshot_message.text = NSLocalizedString("You", comment: "The pronoun") + " " + NSLocalizedString("took a screenshot!", comment: "Message when the master or the partner takes a screenshot")
+//        screenshot_message.date = NSDate() as Date
+//
+//        master?.conversations[indexOfUser].conversation.append(screenshot_message)
+//
+//        //MARK: TODO - Send this to the partner
+//
+//        updateTableView(animated: true)
         
     }
 }
@@ -466,6 +480,8 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             return cell
             
+        case is FirstInformationMessage:
+            fallthrough
         case is InformationMessage:
             
             let cell = Bundle.main.loadNibNamed("InformationMessageCell", owner: self, options: nil)?.first as! InformationMessageCell
@@ -547,13 +563,21 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
 
 extension ChatVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        // Let's delete the FirstInformationMessage in case we haven't already
+        if master?.conversations[indexOfUser].conversation.first is FirstInformationMessage {
+            _ = master?.conversations[indexOfUser].conversation.removeLast()
+            tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
+            
+        }
+        
         master?.conversations[indexOfUser].conversation.append(TextMessage(text: textField.text!, is_sender: true))
         
         Internet.sendText(message: textField.text!, to: ((master?.conversations[indexOfUser])!))
         
-        updateTableView(animated: true)
-        
         textField.text = ""
+        
+        updateTableView(animated: true)
         
         return true
     }
@@ -644,6 +668,7 @@ extension ChatVC {
     }
     
 }
+
 
 // To update the table view from another class
 protocol UpdateDelegate {

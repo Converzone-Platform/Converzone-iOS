@@ -29,10 +29,16 @@ public class Internet {
             if master!.uid != nil{
                 socket.emit("add-user", with: [["id": master?.uid]])
             }
+            
+            let banner = StatusBarNotificationBanner(title: "", style: .success, colors: nil)
+            banner.bannerHeight = 10
+            banner.show()
         }
 
         socket.on(clientEvent: .disconnect) { (data, ack) in
-            print("disconnected from server")
+            let banner = StatusBarNotificationBanner(title: "", style: .danger, colors: nil)
+            banner.bannerHeight = 10
+            banner.show()
         }
 
         socket.on("chat-message") {  data, ack in
@@ -52,17 +58,100 @@ public class Internet {
             
             if user != nil{
                 user?.conversation.append(text_message)
+                user?.openedChat = false
             }else{
-                // Create a new user
+                
+//                // Create a new user
+//                
+//                let temp_dic = Internet.getInformationAboutUserWith(id: (dic!["sender"] as? Int)!)
+//                
+//                let new_user = User()
+//                //new_user.firstname =
+//                
+//                new_user.openedChat = false
+//                master?.conversations.append(new_user)
                 
             }
             
-            
+            self.displayNotificationBanner(sender: "Sender", typeOfMessage: text_message.color!, profilePictureURL: (user?.link_to_profile_image!)!)
             
             self.delegate?.didUpdate(sender: self)
         }
 
         socket.connect()
+    }
+    
+    func displayNotificationBanner(sender: String, typeOfMessage: UIColor, profilePictureURL: String){
+        
+        let notificationView = UINib(nibName: "InAppNotification", bundle: nil).instantiate(withOwner: self, options: nil).first as! InAppNotification
+        
+        notificationView.notification.layer.masksToBounds = true
+        notificationView.notification.layer.cornerRadius = 14
+        
+        notificationView.notification.layer.shadowColor = UIColor.black.cgColor
+        notificationView.notification.layer.shadowOffset = CGSize(width: 3, height: 3)
+        notificationView.notification.layer.shadowOpacity = 0.7
+        notificationView.notification.layer.shadowRadius = 10
+        
+        notificationView.profileImage.image = resizeImageWithAspect(image: UIImage(named: "11")!, scaledToMaxWidth: 37, maxHeight: 37)
+        notificationView.profileImage.layer.masksToBounds = true
+        notificationView.profileImage.layer.cornerRadius = 37 / 2
+        
+        notificationView.message.text = sender
+        notificationView.message.textColor = Colors.black
+        
+        notificationView.typeOfMessage.backgroundColor = typeOfMessage
+        notificationView.typeOfMessage.layer.masksToBounds = true
+        notificationView.typeOfMessage.layer.cornerRadius = 2
+        
+        let banner = NotificationBanner(customView: notificationView.notification)
+        banner.show()
+    }
+    
+    func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage? {
+        let oldWidth = image.size.width;
+        let oldHeight = image.size.height;
+        
+        let scaleFactor = (oldWidth > oldHeight) ? width / oldWidth : height / oldHeight;
+        
+        let newHeight = oldHeight * scaleFactor;
+        let newWidth = oldWidth * scaleFactor;
+        let newSize = CGSize(width: newWidth, height: newHeight)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize,false,UIScreen.main.scale);
+        
+        image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height));
+        let newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return newImage
+    }
+    
+    class func getInformationAboutUserWith(id: Int) -> [String: Any]{
+
+        var temp_data: [String: Any]? = nil
+        
+        Internet.database(url: baseURL + "/getInformationOfUser.php", parameters: ["id": id]) { (data, response, error) in
+            
+            if error != nil {
+                print(error!.localizedDescription)
+                return
+            }
+            
+            //Did the server give back an error?
+            if let httpResponse = response as? HTTPURLResponse {
+                
+                if !(httpResponse.statusCode == 200) {
+                    
+                    fatalError("error on line: \(#line)")
+                    
+                }
+            }
+            
+            temp_data = data
+            
+        }
+        
+        return temp_data!
     }
     
     class func isOnline() -> Bool {
@@ -139,7 +228,6 @@ public class Internet {
             }
             
             do {
-                
                 let json = try JSONSerialization.jsonObject(with: data!, options: [])
                 
                 guard let jsonArray = json as? [String: Any] else {
@@ -177,7 +265,6 @@ public class Internet {
             }
             
             do {
-                
                 let json = try JSONSerialization.jsonObject(with: data!, options: [])
                 
                 guard let jsonArray = json as? [[String: Any]] else {
@@ -207,7 +294,7 @@ public class Internet {
         
         URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
             
-            if error != nil{
+            if error != nil {
                 
                 completionHandler(response, error)
                 
@@ -236,18 +323,14 @@ public class Internet {
         data["deviceToken"] = to.deviceToken
         data["sound"] = "ping.aiff"
         data["senderName"] = master?.fullname
-        
+
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .full
         data["time"] = dateFormatter.string(from: NSDate() as Date)
-        
+
         socket.emit("chat-message", data)
         
-        var temp = TextMessage()
-        
-        temp.text = "This is text"
-        
-        //self.showBannerFor(message: temp)
+        //Internet.getInformationAboutUserWith(id: 1)
         
     }
     
@@ -255,14 +338,17 @@ public class Internet {
         
         // Load xib
         
-        let inAppNotification = InAppNotification(nibName: "InAppNotification", bundle: nil)
+        //let inAppNotification = InAppNotification(nibName: "InAppNotification", bundle: nil)
         
-        inAppNotification.text.text = "sdklamsd"
+        //inAppNotification.text.text = "sdklamsd"
         
-        inAppNotification.typeOfMessage.backgroundColor = message.color
+        //inAppNotification.typeOfMessage.backgroundColor = message.color
         
-        let banner = NotificationBanner(customView: inAppNotification.notificationView)
-        banner.show(bannerPosition: .bottom)
+        //let banner = NotificationBanner(customView: inAppNotification.notificationView)
+        
+//        let banner = NotificationBanner(title: message., subtitle: "", style: .success)
+//
+//        banner.show(bannerPosition: .bottom)
     }
     
     class func sendImage(message: UIImage){

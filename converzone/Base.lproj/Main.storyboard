@@ -583,12 +583,16 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R6f-Qj-pzG">
-                                                    <rect key="frame" x="309" y="6" width="49" height="31"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R6f-Qj-pzG">
+                                                    <rect key="frame" x="307" y="6" width="51" height="31"/>
                                                     <color key="onTintColor" red="0.16862745100000001" green="0.55294117649999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </switch>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="R6f-Qj-pzG" secondAttribute="bottom" constant="6.5" id="Ybm-my-o90"/>
+                                                <constraint firstItem="R6f-Qj-pzG" firstAttribute="top" secondItem="efL-nu-rDL" secondAttribute="top" constant="6" id="lBV-tp-loe"/>
+                                                <constraint firstAttribute="trailing" secondItem="R6f-Qj-pzG" secondAttribute="trailing" constant="19" id="veS-QX-BcL"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="discoverable" destination="R6f-Qj-pzG" id="jej-bL-WfK"/>
@@ -697,8 +701,12 @@
                         <constraints>
                             <constraint firstItem="mw8-Jc-B30" firstAttribute="leading" secondItem="dw4-JV-dYO" secondAttribute="leading" id="0wi-wV-opB"/>
                             <constraint firstItem="BRy-un-mtq" firstAttribute="centerX" secondItem="dw4-JV-dYO" secondAttribute="centerX" id="1W9-3g-vyJ"/>
+                            <constraint firstItem="mw8-Jc-B30" firstAttribute="top" secondItem="BRy-un-mtq" secondAttribute="bottom" constant="8" id="C0v-TP-lbP"/>
+                            <constraint firstItem="mw8-Jc-B30" firstAttribute="leading" secondItem="dw4-JV-dYO" secondAttribute="leading" id="Jzq-RY-mOg"/>
                             <constraint firstItem="BRy-un-mtq" firstAttribute="top" secondItem="pJ8-Km-sVr" secondAttribute="bottom" constant="20" id="dgx-X8-12U"/>
+                            <constraint firstAttribute="trailing" secondItem="mw8-Jc-B30" secondAttribute="trailing" id="f20-PH-Mw7"/>
                             <constraint firstItem="mRk-cB-sG0" firstAttribute="top" secondItem="mw8-Jc-B30" secondAttribute="bottom" id="gc2-Ns-YJa"/>
+                            <constraint firstItem="mRk-cB-sG0" firstAttribute="top" secondItem="mw8-Jc-B30" secondAttribute="bottom" id="hAY-kO-k5x"/>
                             <constraint firstItem="mw8-Jc-B30" firstAttribute="top" secondItem="BRy-un-mtq" secondAttribute="bottom" constant="8" id="hTG-VX-xTN"/>
                             <constraint firstAttribute="trailing" secondItem="mw8-Jc-B30" secondAttribute="trailing" id="oL6-SQ-Gqx"/>
                         </constraints>
