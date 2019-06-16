@@ -10,6 +10,7 @@ import SystemConfiguration
 import UIKit
 import SocketIO
 import NotificationBannerSwift
+import NotificationCenter
 
 var baseURL = "https://converzone.htl-perg.ac.at"
 
@@ -17,17 +18,20 @@ let manager = SocketManager(socketURL: URL(string: "wss://converzone.htl-perg.ac
 
 let socket = manager.defaultSocket
 
-public class Internet {
+public class Internet: NSObject {
     
     // Maybe "weak" here?!
     var delegate: UpdateDelegate?
     
-    init() {
+    override init() {
+        
+        super.init()
         
         socket.on(clientEvent: .connect) {data, ack in
             
-            if master!.uid != nil{
+            if master!.uid != nil && master!.addedUserSinceLastConnect == false{
                 socket.emit("add-user", with: [["id": master?.uid]])
+                master?.addedUserSinceLastConnect = true
             }
             
             let banner = StatusBarNotificationBanner(title: "", style: .success, colors: nil)
@@ -38,7 +42,10 @@ public class Internet {
         socket.on(clientEvent: .disconnect) { (data, ack) in
             let banner = StatusBarNotificationBanner(title: "", style: .danger, colors: nil)
             banner.bannerHeight = 10
-            banner.show()
+            //banner.show()
+            
+            master?.addedUserSinceLastConnect = false
+            
         }
 
         socket.on("chat-message") {  data, ack in
@@ -49,7 +56,7 @@ public class Internet {
 
             let string_date = dic!["time"] as? String
             let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .full
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss:SSSXXXXX"
 
             text_message.date = dateFormatter.date(from: string_date!)
 
@@ -57,28 +64,119 @@ public class Internet {
             let user = master?.conversations.last(where: {$0.uid == dic!["sender"] as? Int})
             
             if user != nil{
+                
+                // Make duplicates disappear
+                var temp = user?.conversation.count
+                user?.conversation.removeAll(where: { (message) -> Bool in
+                    return message.hashValue == text_message.hashValue
+                })
+                
+                if temp == user?.conversation.count{
+                    if !(indexOfUser == user!.uid) {
+                        self.displayNotificationBanner(sender: (user?.fullname)!, typeOfMessage: text_message.color!, profilePictureURL: user!.link_to_profile_image!)
+                    }
+                }
+                
                 user?.conversation.append(text_message)
                 user?.openedChat = false
+                
+                self.delegate?.didUpdate(sender: self)
             }else{
                 
 //                // Create a new user
-//                
-//                let temp_dic = Internet.getInformationAboutUserWith(id: (dic!["sender"] as? Int)!)
-//                
-//                let new_user = User()
-//                //new_user.firstname =
-//                
-//                new_user.openedChat = false
-//                master?.conversations.append(new_user)
+                Internet.databaseWithMultibleReturn(url: baseURL + "/getInformationOfUser.php",parameters: ["id": dic!["sender"] as! Int], completionHandler: { (user_data, response, error) in
+                    
+                    if error != nil {
+                        print(error!.localizedDescription)
+                        return
+                    }
+                    
+                    //Did the server give back an error?
+                    if let httpResponse = response as? HTTPURLResponse {
+                        
+                        if !(httpResponse.statusCode == 200) {
+                            
+                            print(httpResponse.statusCode)
+                            
+                        }
+                    }
+                    
+                    let new_user_data = user_data![0]
+                    
+                    user?.firstname = new_user_data["FIRSTNAME"] as? String
+                    user?.lastname = new_user_data["LASTNAME"] as? String
+                    user?.uid = Int((new_user_data["USERID"] as? String)!)
+                    user?.gender = self.genderConverter(gender: (new_user_data["GENDER"] as? String)!)
+                    user?.status = NSAttributedString(string: (new_user_data["STATUS"] as? String)!)
+                    user?.interests = NSAttributedString(string: (new_user_data["INTERESTS"] as? String)!)
+                    user?.country = Country(name: (new_user_data["COUNTRY"] as? String)!)
+                    user?.deviceToken = new_user_data["NOTIFICATIONTOKEN"] as? String
+                    user?.link_to_profile_image = new_user_data["PROFILE_PICTURE_URL"] as? String
+                    
+                    let string_date = new_user_data["BIRTHDATE"] as? String
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "dd/MM/yy"
+                    dateFormatter.timeZone = TimeZone(secondsFromGMT: TimeZone.current.secondsFromGMT())
+                    user?.birthdate = dateFormatter.date(from: string_date!)
+                    
+                    
+                    Internet.databaseWithMultibleReturn(url: baseURL + "/languages.php", parameters: ["id": user?.uid as! Int], completionHandler: { (languages, response, error) in
+                        
+                        if let httpResponse = response as? HTTPURLResponse {
+                            
+                            if !(httpResponse.statusCode == 200) {
+                                
+                                print(httpResponse.statusCode)
+                            }
+                            
+                        }
+                        
+                        if languages != nil {
+                            
+                            for language in languages!{
+                                
+                                let languageToAdd = Language(name: (language["LANGUAGE"] as? String)!)
+                                
+                                if language["PROFICIENCY"] as? String == "l"{
+                                    user!.learn_languages.append(languageToAdd)
+                                }else{
+                                    user!.speak_languages.append(languageToAdd)
+                                }
+                                
+                            }
+                        }
+                        
+                    })
+                    
+                    user!.openedChat = false
+                    master?.conversations.append(user!)
+                    
+                    //self.displayNotificationBanner(sender: (user?.fullname)!, typeOfMessage: text_message.color!, profilePictureURL: user!.link_to_profile_image!)
+                    
+                    self.delegate?.didUpdate(sender: self)
+                })
+                
+                
+                //user.firstname =
+                
                 
             }
-            
-            self.displayNotificationBanner(sender: "Sender", typeOfMessage: text_message.color!, profilePictureURL: (user?.link_to_profile_image!)!)
-            
-            self.delegate?.didUpdate(sender: self)
         }
 
         socket.connect()
+    }
+    
+    func genderConverter(gender: String) -> Gender{
+        switch gender {
+        case "f":
+            return Gender.female
+        case "m":
+            return Gender.male
+        case "n":
+            return Gender.non_binary
+        default:
+            return Gender.non_binary
+        }
     }
     
     func displayNotificationBanner(sender: String, typeOfMessage: UIColor, profilePictureURL: String){
@@ -93,9 +191,11 @@ public class Internet {
         notificationView.notification.layer.shadowOpacity = 0.7
         notificationView.notification.layer.shadowRadius = 10
         
-        notificationView.profileImage.image = resizeImageWithAspect(image: UIImage(named: "11")!, scaledToMaxWidth: 37, maxHeight: 37)
-        notificationView.profileImage.layer.masksToBounds = true
-        notificationView.profileImage.layer.cornerRadius = 37 / 2
+        master?.getImage(with: profilePictureURL, completion: { (image) in
+            notificationView.profileImage.image = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 37, maxHeight: 37)
+            notificationView.profileImage.layer.masksToBounds = true
+            notificationView.profileImage.layer.cornerRadius = 37 / 2
+        })
         
         notificationView.message.text = sender
         notificationView.message.textColor = Colors.black
@@ -105,6 +205,7 @@ public class Internet {
         notificationView.typeOfMessage.layer.cornerRadius = 2
         
         let banner = NotificationBanner(customView: notificationView.notification)
+        
         banner.show()
     }
     
@@ -124,34 +225,6 @@ public class Internet {
         let newImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         return newImage
-    }
-    
-    class func getInformationAboutUserWith(id: Int) -> [String: Any]{
-
-        var temp_data: [String: Any]? = nil
-        
-        Internet.database(url: baseURL + "/getInformationOfUser.php", parameters: ["id": id]) { (data, response, error) in
-            
-            if error != nil {
-                print(error!.localizedDescription)
-                return
-            }
-            
-            //Did the server give back an error?
-            if let httpResponse = response as? HTTPURLResponse {
-                
-                if !(httpResponse.statusCode == 200) {
-                    
-                    fatalError("error on line: \(#line)")
-                    
-                }
-            }
-            
-            temp_data = data
-            
-        }
-        
-        return temp_data!
     }
     
     class func isOnline() -> Bool {
@@ -323,32 +396,14 @@ public class Internet {
         data["deviceToken"] = to.deviceToken
         data["sound"] = "ping.aiff"
         data["senderName"] = master?.fullname
+        data["type"] = ""
 
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .full
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss:SSSXXXXX"
         data["time"] = dateFormatter.string(from: NSDate() as Date)
 
         socket.emit("chat-message", data)
         
-        //Internet.getInformationAboutUserWith(id: 1)
-        
-    }
-    
-    class func showBannerFor(message: Message){
-        
-        // Load xib
-        
-        //let inAppNotification = InAppNotification(nibName: "InAppNotification", bundle: nil)
-        
-        //inAppNotification.text.text = "sdklamsd"
-        
-        //inAppNotification.typeOfMessage.backgroundColor = message.color
-        
-        //let banner = NotificationBanner(customView: inAppNotification.notificationView)
-        
-//        let banner = NotificationBanner(title: message., subtitle: "", style: .success)
-//
-//        banner.show(bannerPosition: .bottom)
     }
     
     class func sendImage(message: UIImage){

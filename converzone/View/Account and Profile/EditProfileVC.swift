@@ -35,7 +35,7 @@ class EditProfileVC: UIViewController{
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(donePressed))
         self.navigationItem.rightBarButtonItem = doneButton
         
-        if master?.changingData == .editing{
+        if master?.changingData == .editing && Internet.isOnline(){
             
             master?.getImage(with: master!.link_to_profile_image!, completion: { (image) in
                 self.profile_image.image = image
@@ -44,6 +44,8 @@ class EditProfileVC: UIViewController{
             profile_image.layer.masksToBounds = true
             profile_image.layer.cornerRadius = profile_image.frame.width / 2
         }
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = false
         
     }
     
@@ -480,7 +482,7 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
     
     @objc func imageTapped(){
         
-        let alert = UIAlertController(title: "", message: "What do you want to do?", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: "Choose a picture from your library", style: .default, handler: { action in
             

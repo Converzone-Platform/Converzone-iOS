@@ -28,7 +28,7 @@ enum Colors {
 
 func randomColor() -> UIColor{
     
-    let random = arc4random_uniform(6)
+    let random = Int.random(in: 0...5)
     
     switch random {
     case 0:

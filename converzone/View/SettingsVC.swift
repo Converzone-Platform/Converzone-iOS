@@ -12,16 +12,19 @@ import NotificationBannerSwift
 
 class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var settings = ["", "Languages", "Country", "Recommend", "Sign out"]
+    @IBOutlet weak var tableView: UITableView!
     
-    override func viewDidLoad() {
-        
-        self.title = "Settings"
-        master?.changingData = .editing
-    }
+    var settings = ["", "Languages", "Country", "Recommend", "Sign out"]
     
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        
+        self.title = "Settings"
+        self.tabBarController?.cleanTitles()
+        
+        master?.changingData = .editing
+        
+        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -50,7 +53,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             cell?.textLabel?.text = master?.fullname
             cell?.detailTextLabel?.text = master?.status?.string
             
-            if cell?.imageView!.image == nil{
+            if cell?.imageView!.image == nil && Internet.isOnline(){
                 master?.getImage(with: master!.link_to_profile_image!, completion: { (image) in
                     cell?.imageView!.image = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 50, maxHeight: 50)
                     
@@ -113,6 +116,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             // Clear the notification queue
             NotificationBannerQueue.default.removeAll()
             
+            // Delete discover users
+            discover_users.removeAll()
+            
+            master?.addedUserSinceLastConnect = false
         default:
             print("No action here")
         }

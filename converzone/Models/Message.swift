@@ -9,12 +9,19 @@
 import Foundation
 import MapKit
 
-class Message {
+class Message: Hashable {
+    
+    static func == (lhs: Message, rhs: Message) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    var hashValue: Int {
+        return self.date!.hashValue ^ self.color.hashValue ^ self.sent.hashValue
+    }
     
     internal var date: Date?
-    internal var sent: Bool?
+    internal var sent: Bool? = true
     internal var color: UIColor?
-    
 }
 
 //Color: blue
@@ -30,7 +37,7 @@ class TextMessage: Message {
         }
     }
     
-    internal var is_sender: Bool?
+    internal var is_sender: Bool? = false
     
     init(text: String, is_sender: Bool) {
         super.init()
@@ -48,6 +55,10 @@ class TextMessage: Message {
         super.init()
         
         self.color = Colors.blue
+    }
+    
+    override var hashValue: Int {
+        return super.hashValue ^ self.text!.hashValue
     }
 }
 
@@ -81,6 +92,7 @@ class ImageMessage: Message {
         
         self.image = image
         self.is_sender = is_sender
+        
         //MARK: TODO - Change this to the received time
         self.date = Date()
         
@@ -202,6 +214,10 @@ class InformationMessage: Message{
         
         self.color = Colors.red
     }
+    
+    override var hashValue: Int {
+        return super.hashValue ^ self.text!.hashValue
+    }
 }
 
 // Color: blue
@@ -214,7 +230,6 @@ class FirstInformationMessage: InformationMessage {
         
         super.text = "Be creative with the first message :)"
     }
-    
 }
 
 // Color: red

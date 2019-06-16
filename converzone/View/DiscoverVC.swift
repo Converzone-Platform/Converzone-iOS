@@ -18,24 +18,7 @@ class DiscoverVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    enum CardState {
-        case expanded
-        case collapsed
-    }
-    
-    var discoverCardVC: DiscoverCardVC!
-    var visualEffectView: UIVisualEffectView!
-    
-    var cardHeight: CGFloat = 600
-    let cardHandleAreaHeight: CGFloat = 30
-    
-    var cardVisible = false
-    var nextState: CardState {
-        return cardVisible ? .collapsed : .expanded
-    }
-    
-    var runningAnimations = [UIViewPropertyAnimator]()
-    var animationProcessWhenInterrupted: CGFloat = 0
+    var discoverCard: DicoverCard!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +30,7 @@ class DiscoverVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if discover_users.isEmpty {
+        if discover_users.isEmpty && Internet.isOnline(){
             fetchUsers()
         }
     }
@@ -87,7 +70,7 @@ class DiscoverVC: UIViewController {
                             user.status = NSAttributedString(string: (i["STATUS"] as? String)!)
                             user.country = Country(name: (i["COUNTRY"] as? String)!)
                             
-                            if Int(arc4random_uniform(100)) <= 10{
+                            if Int.random(in: 0...100) <= 20{
                                 user.discover_style = 1
                             }else{
                                 user.discover_style = 0
@@ -125,7 +108,7 @@ class DiscoverVC: UIViewController {
                             temp.append(user)
                         }
                         
-                        temp.shuffle()
+                        temp = temp.shuffled()
                         
                         discover_users.append(contentsOf: temp)
                         
@@ -137,172 +120,6 @@ class DiscoverVC: UIViewController {
         }
     }
     
-    func removeCard(){
-        
-        self.discoverCardVC.removeFromParent()
-        self.visualEffectView.removeFromSuperview()
-    }
-    
-    func setUpCard() {
-        
-        visualEffectView = UIVisualEffectView()
-        visualEffectView.frame = self.view.frame
-        self.view.addSubview(visualEffectView)
-        
-        discoverCardVC = DiscoverCardVC(nibName: "DiscoverCardVC", bundle: nil)
-        
-        self.addChild(discoverCardVC)
-        self.view.addSubview(discoverCardVC.view)
-        
-        discoverCardVC.view.frame = CGRect(x: 0, y: self.view.frame.height - (self.navigationController?.navigationBar.frame.height)! + self.cardHandleAreaHeight - 20, width: self.view.bounds.width, height: cardHeight)
-       
-        
-        discoverCardVC.view.clipsToBounds = true
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DiscoverVC.handleCardTap(recognizer:)))
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(DiscoverVC.handleCardPan(recognizer:)))
-        
-        discoverCardVC.handleArea_view.addGestureRecognizer(tapGestureRecognizer)
-        discoverCardVC.handleArea_view.addGestureRecognizer(panGestureRecognizer)
-        
-        cardHeight = self.view.frame.height - 30
-        
-        animateTransitionIfNeeded(state: .expanded, duration: 0.9)
-    }
-    
-    @objc func handleCardTap(recognizer: UITapGestureRecognizer ){
-        
-        switch recognizer.state {
-            
-        case .ended:
-            animateTransitionIfNeeded(state: nextState, duration: 0.9)
-        default:
-            break
-        }
-        
-    }
-    
-    @objc func handleCardPan(recognizer: UIPanGestureRecognizer ) {
-        
-        switch recognizer.state {
-            
-        case .began:
-            startInteractiveTransition(state: nextState, duration: 0.9)
-            
-        case .changed:
-            let transition = recognizer.translation(in: self.discoverCardVC.handleArea_view)
-            var fractionCompleted = transition.y / cardHeight
-            fractionCompleted = cardVisible ? fractionCompleted : -fractionCompleted
-            updateInteractiveTransition(fractionCompleted: fractionCompleted)
-            
-        case .ended:
-            continueInteractiveTransition()
-            
-        default:
-            print("Something bad happened with the handleCardPan")
-            break
-            
-        }
-    }
-    
-    func animateTransitionIfNeeded(state: CardState, duration: TimeInterval){
-        
-        if runningAnimations.isEmpty {
-            let frameAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
-                
-                switch state {
-                case .expanded:
-                    self.discoverCardVC.view.frame.origin.y = self.view.frame.height - self.cardHeight
-                case .collapsed:
-                    self.discoverCardVC.view.frame.origin.y = self.view.frame.height
-                }
-            }
-            
-            frameAnimator.addCompletion { (_) in
-                self.cardVisible = !self.cardVisible
-                self.runningAnimations.removeAll()
-            }
-            
-            frameAnimator.startAnimation()
-            runningAnimations.append(frameAnimator)
-            
-            let cornerRadiusAnimator = UIViewPropertyAnimator(duration: duration, curve: .linear) {
-                
-                switch state {
-                case .expanded:
-                    self.discoverCardVC.view.layer.cornerRadius = 23
-                    self.discoverCardVC.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-                case .collapsed:
-                    self.discoverCardVC.view.layer.cornerRadius = 0
-                }
-                
-            }
-            
-            cornerRadiusAnimator.startAnimation()
-            runningAnimations.append(cornerRadiusAnimator)
-            
-            let blurAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
-                
-                switch state {
-                case .expanded:
-                    self.visualEffectView.effect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-                case .collapsed:
-                    self.visualEffectView.effect = nil
-                }
-                
-            }
-            
-            blurAnimator.startAnimation()
-            runningAnimations.append(blurAnimator)
-            
-            let navAnimation = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
-                
-                switch state {
-                case .expanded:
-                    self.navigationController?.isNavigationBarHidden = true
-                case .collapsed:
-                    self.navigationController?.isNavigationBarHidden = false
-                }
-                
-            }
-            
-            navAnimation.startAnimation()
-            runningAnimations.append(navAnimation)
-            
-            navAnimation.addCompletion { (_) in
-                
-                if( state == .collapsed ){
-                    self.removeCard()
-                }
-                
-            }
-        }
-        
-    }
-        
-    func startInteractiveTransition(state: CardState, duration: TimeInterval){
-        if runningAnimations.isEmpty {
-            animateTransitionIfNeeded(state: state, duration: duration)
-        }
-        
-        for animator in runningAnimations {
-            animator.pauseAnimation()
-            animationProcessWhenInterrupted = animator.fractionComplete
-        }
-    }
-    
-    func  updateInteractiveTransition(fractionCompleted: CGFloat){
-        
-        for animator in runningAnimations {
-            animator.fractionComplete = fractionCompleted + animationProcessWhenInterrupted
-        }
-    }
-    
-    func continueInteractiveTransition(){
-        for animator in runningAnimations {
-            animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
-        }
-    }
     
     func setUpNavBar(){
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -324,11 +141,18 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
         
         profileOf = discover_users[indexPath.row]
         
-        setUpCard()
-        animateTransitionIfNeeded(state: nextState, duration: 0.9)
+        self.discoverCard = DicoverCard()
+        self.discoverCard.setUpCard(caller: self)
+        self.discoverCard.animateTransitionIfNeeded(state: self.discoverCard.nextState, duration: 0.9)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if master?.conversations.count == 0 {
+            //tableView.setEmptyView(title: "No one to discover.", message: "Are you connected to the internet?")
+        }else {
+            tableView.restore()
+        }
         
         if discover_users.count != 0{
             
@@ -528,7 +352,9 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
         // Change 10.0 to adjust the distance from bottom
         if maximumOffset - currentOffset <= 5.0 {
             
-            fetchUsers()
+            if Internet.isOnline(){
+                fetchUsers()
+            }
         }
     }
 }

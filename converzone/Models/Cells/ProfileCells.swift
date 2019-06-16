@@ -28,7 +28,7 @@ class SendMessageProfileCell: UITableViewCell {
     @IBOutlet weak var sendMessage: UIButton!
     
     @IBAction func sendMessage(_ sender: Any) {
-        print("Send message")
+       
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {

@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 import NotificationBannerSwift
+import AVFoundation
 
 var indexOfUser: Int = 0
 
@@ -18,6 +19,11 @@ class ChatVC: UIViewController, UpdateDelegate {
     @IBOutlet weak var messageInputBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var inputMessage: UIView!
     @IBOutlet weak var message_textField: UITextField!
+    
+    var discoverCard: DicoverCard!
+    
+    // Declare gesture recognizer
+    var tapGestureRecognizer: UITapGestureRecognizer!
     
     // To update the table view from the Internet class
     let updates = Internet()
@@ -34,53 +40,53 @@ class ChatVC: UIViewController, UpdateDelegate {
         let alert = UIAlertController()
         
         
-        alert.addAction(UIAlertAction(title: "Camera", style: .default , handler:{ (UIAlertAction)in
-            
-            self.getImageFromCamera()
-            
-        }))
+//        alert.addAction(UIAlertAction(title: "Camera", style: .default , handler:{ (UIAlertAction)in
+//
+//            self.getImageFromCamera()
+//
+//        }))
         
-        alert.addAction(UIAlertAction(title: "Photo or Video", style: .default , handler:{ (UIAlertAction)in
-            
-            self.getImageFromLibrary()
-            
-        }))
+//        alert.addAction(UIAlertAction(title: "Photo or Video", style: .default , handler:{ (UIAlertAction)in
+//
+//            self.getImageFromLibrary()
+//
+//        }))
         
-        alert.addAction(UIAlertAction(title: "Contact", style: .default , handler:{ (UIAlertAction)in
-            
-            
-            
-        }))
-        
+//        alert.addAction(UIAlertAction(title: "Contact", style: .default , handler:{ (UIAlertAction)in
+//
+//
+//
+//        }))
+//
         alert.addAction(UIAlertAction(title: "Location", style: .default , handler:{ (UIAlertAction)in
-            
+
             self.setUpLocationServices()
-            
+
             if CLLocationManager.locationServicesEnabled() {
                 switch CLLocationManager.authorizationStatus() {
                 case .notDetermined, .restricted, .denied:
                     print("No access")
                 case .authorizedAlways, .authorizedWhenInUse:
-                    
+
                     let locationMessage = LocationMessage()
                     locationMessage.is_sender = true
-                    
+
                     self.locationManager.requestLocation()
                     locationMessage.coordinate = master?.coordinate
                     locationMessage.date = Date()
-                    
+
                     master?.conversations[indexOfUser].conversation.append(locationMessage)
-                    
+
                     self.updateTableView(animated: true)
-                    
+
                 default:
                     print("That's weird. Check me out. I am on line: ", #line)
                 }
             } else {
                 print("Location services are not enabled")
             }
-            
-            
+
+
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (UIAlertAction)in
@@ -112,8 +118,9 @@ class ChatVC: UIViewController, UpdateDelegate {
         master?.conversations[indexOfUser].openedChat = true
         
         
+        
     }
-    
+   
     func didUpdate(sender: Internet) {
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -128,6 +135,12 @@ class ChatVC: UIViewController, UpdateDelegate {
         self.tableView.reloadData()
         scrollToBottom(animated: false)
         
+        // Add gesture recognizer to the navigation bar when the view is about to appear
+        tapGestureRecognizer = UITapGestureRecognizer(target:self, action: #selector(self.showMoreOfPartner(_:)))
+        self.navigationController?.navigationBar.addGestureRecognizer(tapGestureRecognizer)
+        
+        // This allows controlls in the navigation bar to continue receiving touches
+        tapGestureRecognizer.cancelsTouchesInView = false
     }
     
     @objc func goToConversations(){
@@ -174,19 +187,14 @@ class ChatVC: UIViewController, UpdateDelegate {
         // Sets the titleView frame to fit within the UINavigation Title
         titleView.sizeToFit()
         
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(showMoreOfPartner))
-        navigationItem.titleView?.addGestureRecognizer(gesture)
-        
-        titleView.addGestureRecognizer(gesture)
-        
-        self.navigationController?.navigationBar.topItem?.title = ""
-        
         return titleView
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
+        
+        self.navigationController?.navigationBar.removeGestureRecognizer(tapGestureRecognizer)
     }
     
     
@@ -227,9 +235,17 @@ class ChatVC: UIViewController, UpdateDelegate {
         )
     }
     
-    @objc func showMoreOfPartner(){
+    @objc func showMoreOfPartner(_ sender: UITapGestureRecognizer){
 
-        print("Show profile")
+        // Make sure that a button is not tapped.
+        let location = sender.location(in: self.navigationController?.navigationBar)
+        let hitView = self.navigationController?.navigationBar.hitTest(location, with: nil)
+        
+        guard !(hitView is UIControl) else { return }
+        
+        self.discoverCard = DicoverCard()
+        self.discoverCard.setUpCard(caller: self)
+        self.discoverCard.animateTransitionIfNeeded(state: self.discoverCard.nextState, duration: 0.9)
         
     }
     
@@ -268,18 +284,6 @@ class ChatVC: UIViewController, UpdateDelegate {
         scrollToBottom(animated: true)
     }
     
-//    func scrollToBottom(animated: Bool){
-//
-//        DispatchQueue.main.async {
-//
-//            if ((master?.conversations[indexOfUser].conversation.count)! > 0){
-//                let indexPath = IndexPath(row: ((master?.conversations[indexOfUser].conversation.count)!)-1, section: 0)
-//                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
-//            }
-//
-//        }
-//    }
-    
     func scrollToBottom(animated: Bool = true, delay: Double = 0.0) {
         let numberOfRows = tableView.numberOfRows(inSection: tableView.numberOfSections - 1) - 1
         guard numberOfRows > 0 else { return }
@@ -316,6 +320,19 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         return (master?.conversations[indexOfUser].conversation.count)!
     }
     
+    func animateBubbleWithRainbowColors(times: Int, cell: TextMessageCell){
+        
+        if times == 0{
+            return
+        }
+        
+        UIView.animate(withDuration: 1.5, delay: 0, options: .curveEaseInOut, animations: {
+            cell.view.backgroundColor = randomColor()
+        }) { (finished) in
+            self.animateBubbleWithRainbowColors(times: times-1, cell: cell)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch master?.conversations[indexOfUser].conversation[indexPath.row]{
@@ -325,6 +342,10 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             let cell = Bundle.main.loadNibNamed("TextMessageCell", owner: self, options: nil)?.first as! TextMessageCell
             
             let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! TextMessage
+            
+            // Add Long pressure gesture
+            let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))
+            cell.addGestureRecognizer(longPressRecognizer)
             
             cell.message_label.text = message.text!
             cell.selectionStyle = .none
@@ -389,11 +410,10 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 }
             }
             
-            // Check if the message contains a link
-//            let attributedString = NSMutableAttributedString(string: "Want to learn iOS? You should visit the best source of free iOS tutorials!")
-//            attributedString.addAttribute(.link, value: "https://www.hackingwithswift.com", range: NSRange(location: 19, length: 55))
-//
-//            textView.attributedText = attributedString
+            // Animate
+            if cell.message_label.text!.contains("Lucie <3") || cell.message_label.text!.contains((master?.conversations[indexOfUser].firstname)! + " <3") || cell.message_label.text!.contains((master?.firstname)! + " <3"){
+                animateBubbleWithRainbowColors(times: 7, cell: cell)
+            }
             
             return cell
             
@@ -450,7 +470,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             annotation.coordinate = message.coordinate!
             
             if message.is_sender! {
-                annotation.title = NSLocalizedString("You", comment: "The pronoun")
+                annotation.title = master?.fullname
             }else{
                 annotation.title = master?.conversations[indexOfUser].fullname
             }
@@ -507,6 +527,68 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         return Bundle.main.loadNibNamed("ImageMessageCell", owner: self, options: nil)?.first as! ImageMessageCell
     }
     
+    @objc func longPressed(sender: UILongPressGestureRecognizer) {
+        
+        if sender.state == UIGestureRecognizer.State.began {
+            
+            let touchPoint = sender.location(in: self.tableView)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+                
+                var message = master?.conversations[indexOfUser].conversation[indexPath.row]
+                
+                switch master?.conversations[indexOfUser].conversation[indexPath.row]{
+                case is TextMessage:
+                    
+                    message = message as! TextMessage
+                    
+                let alertController = UIAlertController(title: nil,
+                                                            message: nil,
+                                                            preferredStyle: .actionSheet)
+                    
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                alertController.addAction(cancelAction)
+                
+                let copy = UIAlertAction(title: "Copy", style: .default) { (action) in
+                    
+                    UIPasteboard.general.string = (message as! TextMessage).text
+                    
+                }
+                let speak = UIAlertAction(title: "Speak", style: .default) { (action) in
+                    
+                    // Line 1. Create an instance of AVSpeechSynthesizer.
+                    let speechSynthesizer = AVSpeechSynthesizer()
+                    // Line 2. Create an instance of AVSpeechUtterance and pass in a String to be spoken.
+                    let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: (message as! TextMessage).text!)
+                    //Line 3. Specify the speech utterance rate. 1 = speaking extremely the higher the values the slower speech patterns. The default rate, AVSpeechUtteranceDefaultSpeechRate is 0.5
+                    //speechUtterance.rate = AVSpeechUtteranceMaximumSpeechRate / 4.0
+                    // Line 4. Specify the voice. It is explicitly set to English here, but it will use the device default if not specified.
+                    
+                    if let language = NSLinguisticTagger.dominantLanguage(for: (message as! TextMessage).text!) {
+                        speechUtterance.voice = AVSpeechSynthesisVoice(language: language)
+                    } else {
+                        speechUtterance.voice = AVSpeechSynthesisVoice(language: Locale.preferredLanguages[0])
+                    }
+                    
+                    
+                    // Line 5. Pass in the urrerance to the synthesizer to actually speak.
+                    speechSynthesizer.speak(speechUtterance)
+                    
+                }
+                    
+                alertController.addAction(speak)
+                alertController.addAction(copy)
+                
+                self.present(alertController, animated: true, completion: nil)
+                
+                    
+                default:
+                    print("Not implemented yet")
+                }
+                
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         switch master?.conversations[indexOfUser].conversation[indexPath.row]{
@@ -557,6 +639,8 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
 //            self.navigationController?.pushViewController(secondViewController, animated: true)
         }
     }
+    
+    
 }
 
 // MARK: Send message
@@ -566,10 +650,15 @@ extension ChatVC: UITextFieldDelegate {
         
         // Let's delete the FirstInformationMessage in case we haven't already
         if master?.conversations[indexOfUser].conversation.first is FirstInformationMessage {
-            _ = master?.conversations[indexOfUser].conversation.removeLast()
+            _ = master?.conversations[indexOfUser].conversation.removeAll(where: { (message) -> Bool in
+                return message is FirstInformationMessage
+            })
             tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
             
         }
+        
+        // Did the master use the word "fuck"? If yes let's replace it with something more appropriate -> "🦆"
+        textField.text = textField.text?.replacingOccurrences(of: "fuck", with: "🦆")
         
         master?.conversations[indexOfUser].conversation.append(TextMessage(text: textField.text!, is_sender: true))
         

@@ -84,32 +84,33 @@ class LoginVC: UIViewController {
                     master?.birthdate = dateFormatter.date(from: string_date!)
                     
                     
-//                    Internet.databaseWithMultibleReturn(url: baseURL + "/getInformationOfUser.php", parameters: ["idd" : 1], completionHandler: { (languages, lang_response, lang_error) in
-//
-//                        if lang_error != nil{
-//                            print(lang_error!.localizedDescription)
-//                        }
-//
-//                        if let httpResponse = response as? HTTPURLResponse {
-//
-//                            if !(httpResponse.statusCode == 200) {
-//
-//                                DispatchQueue.main.async {
-//
-//                                    alert("Languages", "Could not download your languages", self)
-//                                    return
-//                                }
-//                            }
-//
-//                        }
-//
-//
-//                        for language in languages!{
-//                            print(language)
-//                        }
-//                    })
+                Internet.databaseWithMultibleReturn(url: baseURL + "/languages.php", parameters: ["id": master?.uid as! Int], completionHandler: { (languages, response, error) in
                     
+                    if let httpResponse = response as? HTTPURLResponse {
+                        
+                        if !(httpResponse.statusCode == 200) {
+                            
+                            print(httpResponse.statusCode)
+                        }
+                        
+                    }
                     
+                    if languages != nil {
+                        
+                        for language in languages!{
+                            
+                            let languageToAdd = Language(name: (language["LANGUAGE"] as? String)!)
+                            
+                            if language["PROFICIENCY"] as? String == "l"{
+                                master!.learn_languages.append(languageToAdd)
+                            }else{
+                                master!.speak_languages.append(languageToAdd)
+                            }
+                            
+                        }
+                    }
+                    
+                })
                     
                     DispatchQueue.main.async {
                         //Continue to conversations
@@ -241,10 +242,16 @@ class LoginVC: UIViewController {
         register_outlet.isEnabled = false
         login_outlet.isEnabled = true
         
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         // Let's delete all the data from the old master
         master?.conversations.removeAll()
-        
+        master?.speak_languages.removeAll()
+        master?.learn_languages.removeAll()
         master?.changingData = .registration
+        
     }
     
     // No need to translate this. This is meant to be in English for all

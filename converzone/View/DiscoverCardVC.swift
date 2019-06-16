@@ -9,6 +9,202 @@
 import UIKit
 import MapKit
 
+class DicoverCard {
+    
+    var discoverCard: DiscoverVC!
+    var caller: UIViewController!
+    
+    enum CardState {
+        case expanded
+        case collapsed
+    }
+    
+    var discoverCardVC: DiscoverCardVC!
+    var visualEffectView: UIVisualEffectView!
+    
+    var cardHeight: CGFloat = 600
+    let cardHandleAreaHeight: CGFloat = 30
+    
+    var cardVisible = false
+    var nextState: CardState {
+        return cardVisible ? .collapsed : .expanded
+    }
+    
+    var runningAnimations = [UIViewPropertyAnimator]()
+    var animationProcessWhenInterrupted: CGFloat = 0
+    
+    func removeCard(){
+        
+        self.discoverCardVC.removeFromParent()
+        self.visualEffectView.removeFromSuperview()
+    }
+    
+    func setUpCard(caller: UIViewController) {
+        
+        self.caller = caller
+        
+        visualEffectView = UIVisualEffectView()
+        visualEffectView.frame = caller.view.frame
+        caller.view.addSubview(visualEffectView)
+        
+        discoverCardVC = DiscoverCardVC(nibName: "DiscoverCardVC", bundle: nil)
+        
+        caller.addChild(discoverCardVC)
+        caller.view.addSubview(discoverCardVC.view)
+        
+        cardHeight = self.caller.view.frame.height
+        cardHeight -= self.caller.view.frame.height * 0.10
+        
+        discoverCardVC.view.frame = CGRect(x: 0, y: self.caller.view.frame.height - (self.caller.navigationController?.navigationBar.frame.height)! + self.cardHandleAreaHeight - 20, width: self.caller.view.bounds.width, height: cardHeight)
+        
+        discoverCardVC.view.clipsToBounds = true
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleCardTap(recognizer:)))
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleCardPan(recognizer:)))
+        
+        discoverCardVC.handleArea_view.addGestureRecognizer(tapGestureRecognizer)
+        discoverCardVC.handleArea_view.addGestureRecognizer(panGestureRecognizer)
+        
+        animateTransitionIfNeeded(state: .expanded, duration: 0.9)
+    }
+    
+    @objc func handleCardTap(recognizer: UITapGestureRecognizer ){
+        
+        switch recognizer.state {
+            
+        case .ended:
+            animateTransitionIfNeeded(state: nextState, duration: 0.9)
+        default:
+            break
+        }
+        
+    }
+    
+    @objc func handleCardPan(recognizer: UIPanGestureRecognizer ) {
+        
+        switch recognizer.state {
+            
+        case .began:
+            startInteractiveTransition(state: nextState, duration: 0.9)
+            
+        case .changed:
+            let transition = recognizer.translation(in: self.discoverCardVC.handleArea_view)
+            var fractionCompleted = transition.y / cardHeight
+            fractionCompleted = cardVisible ? fractionCompleted : -fractionCompleted
+            updateInteractiveTransition(fractionCompleted: fractionCompleted)
+            
+        case .ended:
+            continueInteractiveTransition()
+            
+        default:
+            print("Something bad happened with the handleCardPan")
+            break
+            
+        }
+    }
+    
+    func animateTransitionIfNeeded(state: CardState, duration: TimeInterval){
+        
+        if runningAnimations.isEmpty {
+            let frameAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
+                
+                switch state {
+                case .expanded:
+                    self.discoverCardVC.view.frame.origin.y = self.caller.view.frame.height - self.cardHeight
+                case .collapsed:
+                    self.discoverCardVC.view.frame.origin.y = self.caller.view.frame.height
+                }
+            }
+            
+            frameAnimator.addCompletion { (_) in
+                self.cardVisible = !self.cardVisible
+                self.runningAnimations.removeAll()
+            }
+            
+            frameAnimator.startAnimation()
+            runningAnimations.append(frameAnimator)
+            
+            let cornerRadiusAnimator = UIViewPropertyAnimator(duration: duration, curve: .linear) {
+                
+                switch state {
+                case .expanded:
+                    self.discoverCardVC.view.layer.cornerRadius = 23
+                    self.discoverCardVC.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+                case .collapsed:
+                    self.discoverCardVC.view.layer.cornerRadius = 0
+                }
+                
+            }
+            
+            cornerRadiusAnimator.startAnimation()
+            runningAnimations.append(cornerRadiusAnimator)
+            
+            let blurAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
+                
+                switch state {
+                case .expanded:
+                    self.visualEffectView.effect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+                case .collapsed:
+                    self.visualEffectView.effect = nil
+                }
+                
+            }
+            
+            blurAnimator.startAnimation()
+            runningAnimations.append(blurAnimator)
+            
+            let navAnimation = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
+                
+                switch state {
+                case .expanded:
+                    self.caller.navigationController?.isNavigationBarHidden = true
+                case .collapsed:
+                    self.caller.navigationController?.isNavigationBarHidden = false
+                }
+                
+            }
+            
+            navAnimation.startAnimation()
+            runningAnimations.append(navAnimation)
+            
+            navAnimation.addCompletion { (_) in
+                
+                if( state == .collapsed ){
+                    self.removeCard()
+                }
+                
+            }
+        }
+        
+    }
+    
+    func startInteractiveTransition(state: CardState, duration: TimeInterval){
+        if runningAnimations.isEmpty {
+            animateTransitionIfNeeded(state: state, duration: duration)
+        }
+        
+        for animator in runningAnimations {
+            animator.pauseAnimation()
+            animationProcessWhenInterrupted = animator.fractionComplete
+        }
+    }
+    
+    func  updateInteractiveTransition(fractionCompleted: CGFloat){
+        
+        for animator in runningAnimations {
+            animator.fractionComplete = fractionCompleted + animationProcessWhenInterrupted
+        }
+    }
+    
+    func continueInteractiveTransition(){
+        for animator in runningAnimations {
+            animator.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+        }
+    }
+    
+    
+}
+
 class DiscoverCardVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
@@ -39,6 +235,14 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.row {
         case 0:
             return self.view.frame.height / 2
+            
+        case 1:
+            // Don't show the send message button if this is opened from the chat
+            if (tabBarController?.tabBar.isHidden)! {
+                return 0
+            }else{
+                return UITableView.automaticDimension
+            }
             
         //MARK: TODO - Delete this when implementing reflections
         case 6:
@@ -239,7 +443,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func handleSendMessage(){
-    
+        
         // Does this user already exist?
         let userExists = master?.conversations.last(where: {$0.uid == profileOf!.uid})
         
@@ -251,21 +455,17 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             profileOf?.conversation.append(info)
             
             master?.conversations.append(profileOf!)
-        }else{
+        }
+        
+        // Find the right index of the chat
+        var index = 0
             
-            // Set indexOfUser
-            
-            var index: Int = 0
-            
-            for i in master!.conversations {
-                if i.uid == profileOf!.uid {
-                    
-                    indexOfUser = index
-                    
-                }
-                index += 1
+        for user in master!.conversations {
+            if user.uid == profileOf?.uid {
+                indexOfUser = index
             }
             
+            index+=1
         }
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

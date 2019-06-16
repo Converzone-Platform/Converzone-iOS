@@ -31,6 +31,7 @@ class WebVC: UIViewController, WKUIDelegate {
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
         searchBar.autocapitalizationType = .none
+        searchBar.returnKeyType = .search
         
     }
     
@@ -118,15 +119,14 @@ extension WebVC: UIScrollViewDelegate {
         let offset = scrollView.contentOffset.y / view.frame.height
         
         if offset > 1 {
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
-                //self.searchBar.alpha = 0
-                
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
+                self.searchBar.alpha = 0
+                self.searchBarTopConstraint.constant = -self.searchBar.frame.height
             }, completion: nil)
-            self.searchBarTopConstraint.constant = -offset/self.searchBar.frame.height
             
         }else{
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
-                //self.searchBar.alpha = 1
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
+                self.searchBar.alpha = 1
                 self.searchBarTopConstraint.constant = 0
             }, completion: nil)
         }

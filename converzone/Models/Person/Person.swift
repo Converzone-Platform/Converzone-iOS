@@ -95,6 +95,11 @@ class Person {
     
     func getImage(with url: String, completion: @escaping (_ image: UIImage?)->()){
         
+        // Are we connected to the internet?
+        if !Internet.isOnline(){
+            return
+        }
+        
         if let image = cache.object(forKey: url as NSString){
             completion(image)
         }else{

@@ -22,25 +22,28 @@ class ConversationsVC: UIViewController {
         
         //navigationItem.searchController?.searchBar.delegate = self
         
+        if master?.addedUserSinceLastConnect == false{
+            master?.addedUserSinceLastConnect = true
+            socket.emit("add-user", with: [["id": master?.uid]])
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.title = "Conversations"
+        self.tabBarController?.cleanTitles()
+        //filtered_converations = master?.conversations
+                master?.conversations.sort(by: { (user1, user2) -> Bool in
+                    return (user1.conversation.last?.date?.isGreaterThan((user2.conversation.last?.date)!))!
+        
+                })
+        
+        //MARK: TODO - Reloading the whole tableview might be too much
+        tableView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.title = ""
-    }
-    
-    override func viewWillLayoutSubviews() {
-        //filtered_converations = master?.conversations
-//        master?.conversations.sort(by: { (user1, user2) -> Bool in
-//            return (user1.conversation.last?.date?.isGreaterThan((user2.conversation.last?.date)!))!
-//
-//        })
-        
-        //MARK: TODO - Reloading the whole tableview might be too much
-        tableView.reloadData()
     }
     
     func setUpNavBar(){

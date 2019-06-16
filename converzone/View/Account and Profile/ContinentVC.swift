@@ -93,7 +93,6 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
             
         }else{
             
-            //MARK: - TODO Set this for Master
             master?.continent = world.continents[indexPath.row].name
         }
     }

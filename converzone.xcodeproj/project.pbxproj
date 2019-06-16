@@ -239,13 +239,13 @@
 		4A1C985621BC1BF300F99D62 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4AD6A0BF22997A2C0018614D /* InAppNotification.swift */,
 				4AD6F87B223BD49200138EAD /* Account and Profile */,
 				4AA873A02214952F006035A3 /* WebVC.swift */,
 				4AD7D686221A090A000E4660 /* DiscoverVC.swift */,
 				4AA328882229269500AB79C4 /* DiscoverCardVC.swift */,
 				4AD7D68A221B2FFA000E4660 /* SettingsVC.swift */,
 				4AD6F87C223BD5D500138EAD /* Chats */,
-				4AD6A0BF22997A2C0018614D /* InAppNotification.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

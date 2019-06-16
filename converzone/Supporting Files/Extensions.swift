@@ -322,3 +322,22 @@ extension UITableView {
         self.separatorStyle = .singleLine
     }
 }
+
+extension UITabBarController {
+    func cleanTitles() {
+        guard let items = self.tabBar.items else {
+            return
+        }
+        for item in items {
+            item.title = ""
+            item.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
+        }
+    }
+}
+
+extension UIDevice {
+    var hasNotch: Bool {
+        let bottom = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+        return bottom > 0
+    }
+}

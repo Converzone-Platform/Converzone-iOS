@@ -19,6 +19,9 @@ class Master: Person {
     
     var changingData: ChangingData = .registration
     
+    // For adding the user to the websocket
+    internal var addedUserSinceLastConnect = false
+    
     //Login Information
     internal var email: String
     internal var password: String

@@ -1210,6 +1210,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="kLi-Lg-nhf"/>
+                    <connections>
+                        <outlet property="tableView" destination="GFa-wJ-UMO" id="hLM-Q5-Pj1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hfd-C9-i42" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

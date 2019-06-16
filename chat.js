@@ -17,6 +17,7 @@ var connections = {};
 // Show that the websocket is running
 var today = new Date();
 var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
 console.log("Listening on 5134" + " ( " + date + " )");
 
 io.sockets.on('connection', newConnection);
@@ -27,14 +28,11 @@ function newConnection(socket) {
     
     socket.on('add-user', function(user) {
               
-              // Only add if it doesn't already exist
-              if (connections[user.id] == undefined) {
-                  connections[user.id] = {
-                    "socket": socket.id
-                  };
-              }
+              connections[user.id] = {
+              "socket": socket.id
+              };
               
-    });
+              });
     
     socket.on('chat-message', function(message) {
               
@@ -43,16 +41,20 @@ function newConnection(socket) {
               if (connections[message.receiver]) {
               
               console.log("Send to: " + connections[message.receiver].socket);
-              io.sockets.connected[connections[message.receiver].socket].emit("chat-message", message);
+              //io.sockets.connected[connections[message.receiver].socket].emit("chat-message", message);
+              
+              io.to(connections[message.receiver].socket).emit('chat-message', message);
               
               } else {
               console.log("Send push notification")
               sendPushNotificationToIOS(message.senderName, message, message.deviceToken, message.sound)
               }
               });
+    
     //Removing the socket on disconnect
     socket.on('disconnect', function() {
-              
+              console.log("The client disconnected");
+              console.log("The new list of clients is: " + connections)
               for (var id in connections) {
               if (connections[id].socket === socket.id) {
               delete connections[id];
@@ -61,7 +63,6 @@ function newConnection(socket) {
               }
               })
 }
-
 function sendPushNotificationToIOS(alert, data, token, sound) {
     let options = {
     token: {

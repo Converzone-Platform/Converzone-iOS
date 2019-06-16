@@ -21,10 +21,12 @@ class UsersLanguagesVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
-        guessSpeakLanguages()
+        
         
         //Add a continue button
         if master?.changingData == .registration {
+            guessSpeakLanguages()
+            
             let continueButton = UIBarButtonItem(title: "Continue", style: .done, target: self, action: #selector(continuePressed))
             self.navigationItem.rightBarButtonItem = continueButton
         }
