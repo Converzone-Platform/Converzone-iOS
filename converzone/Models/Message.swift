@@ -27,10 +27,10 @@ class Message: Hashable {
 //Color: blue
 class TextMessage: Message {
     
-    internal var text: String?
+    internal var text: NSMutableAttributedString?
     internal var only_emojies: Bool?{
         get{
-            return text?.containsOnlyEmoji
+            return text?.string.containsOnlyEmoji
         }
         set{
             // Don't do anything here
@@ -39,7 +39,7 @@ class TextMessage: Message {
     
     internal var is_sender: Bool? = false
     
-    init(text: String, is_sender: Bool) {
+    init(text: NSMutableAttributedString, is_sender: Bool) {
         super.init()
         
         self.text = text

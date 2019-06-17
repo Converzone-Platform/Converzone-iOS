@@ -11,6 +11,7 @@ import UIKit
 import SocketIO
 import NotificationBannerSwift
 import NotificationCenter
+import Network
 
 var baseURL = "https://converzone.htl-perg.ac.at"
 
@@ -32,17 +33,18 @@ public class Internet: NSObject {
             if master!.uid != nil && master!.addedUserSinceLastConnect == false{
                 socket.emit("add-user", with: [["id": master?.uid]])
                 master?.addedUserSinceLastConnect = true
+                
+                let banner = StatusBarNotificationBanner(title: "", style: .success, colors: nil)
+                banner.bannerHeight = 10
+                banner.show()
             }
-            
-            let banner = StatusBarNotificationBanner(title: "", style: .success, colors: nil)
-            banner.bannerHeight = 10
-            banner.show()
         }
 
         socket.on(clientEvent: .disconnect) { (data, ack) in
+            
             let banner = StatusBarNotificationBanner(title: "", style: .danger, colors: nil)
             banner.bannerHeight = 10
-            //banner.show()
+            banner.show()
             
             master?.addedUserSinceLastConnect = false
             
@@ -52,7 +54,7 @@ public class Internet: NSObject {
 
             let dic = data[0] as? [String: Any]
 
-            let text_message = TextMessage(text: dic!["message"] as! String, is_sender: false)
+            let text_message = TextMessage(text: NSMutableAttributedString(string: dic!["message"] as! String), is_sender: false)
 
             let string_date = dic!["time"] as? String
             let dateFormatter = DateFormatter()
@@ -66,7 +68,7 @@ public class Internet: NSObject {
             if user != nil{
                 
                 // Make duplicates disappear
-                var temp = user?.conversation.count
+                let temp = user?.conversation.count
                 user?.conversation.removeAll(where: { (message) -> Bool in
                     return message.hashValue == text_message.hashValue
                 })
@@ -78,7 +80,7 @@ public class Internet: NSObject {
                 }
                 
                 user?.conversation.append(text_message)
-                user?.openedChat = false
+                user?.openedChat = true
                 
                 self.delegate?.didUpdate(sender: self)
             }else{
@@ -148,7 +150,7 @@ public class Internet: NSObject {
                         
                     })
                     
-                    user!.openedChat = false
+                    user!.openedChat = true
                     master?.conversations.append(user!)
                     
                     //self.displayNotificationBanner(sender: (user?.fullname)!, typeOfMessage: text_message.color!, profilePictureURL: user!.link_to_profile_image!)
@@ -259,6 +261,7 @@ public class Internet: NSObject {
         return ret
         
     }
+    
     
     class func isConnectedToWifi() -> Bool {
         var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))

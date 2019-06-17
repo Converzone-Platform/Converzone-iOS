@@ -113,7 +113,6 @@ class DiscoverVC: UIViewController {
                         discover_users.append(contentsOf: temp)
                         
                         self.tableView.reloadData()
-                        
                     }
                 }
             }
@@ -148,27 +147,15 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if master?.conversations.count == 0 {
-            //tableView.setEmptyView(title: "No one to discover.", message: "Are you connected to the internet?")
-        }else {
+        if discover_users.count != 0 {
             tableView.restore()
-        }
-        
-        if discover_users.count != 0{
             
-            //self.tableView.backgroundView = nil
+            tableView.separatorStyle = .none
             
             return discover_users.count
         }
         
-//        let noDataLabel: UILabel = UILabel(frame: CGRect(0, 0, self.tableView.bounds.size.width, self.tableView.bounds.size.height))
-//
-//        noDataLabel.text = "No one here? Weird..."
-//        noDataLabel.numberOfLines = 0
-//
-//        noDataLabel.textColor = Colors.black
-//        noDataLabel.textAlignment = NSTextAlignment.center
-//        self.tableView.backgroundView = noDataLabel
+        tableView.setEmptyView(title: "No one to discover.", message: "Are you connected to the internet?")
         
         return 0
         
@@ -349,7 +336,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
         let currentOffset = scrollView.contentOffset.y
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
         
-        // Change 10.0 to adjust the distance from bottom
+        // Change 5.0 to adjust the distance from bottom
         if maximumOffset - currentOffset <= 5.0 {
             
             if Internet.isOnline(){

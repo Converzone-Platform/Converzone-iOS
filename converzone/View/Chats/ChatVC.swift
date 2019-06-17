@@ -58,10 +58,13 @@ class ChatVC: UIViewController, UpdateDelegate {
 //
 //        }))
 //
+        // Is there a location available? Might be that the location in the simluator is disabled
+        
+        
         alert.addAction(UIAlertAction(title: "Location", style: .default , handler:{ (UIAlertAction)in
 
             self.setUpLocationServices()
-
+            
             if CLLocationManager.locationServicesEnabled() {
                 switch CLLocationManager.authorizationStatus() {
                 case .notDetermined, .restricted, .denied:
@@ -247,6 +250,7 @@ class ChatVC: UIViewController, UpdateDelegate {
         self.discoverCard.setUpCard(caller: self)
         self.discoverCard.animateTransitionIfNeeded(state: self.discoverCard.nextState, duration: 0.9)
         
+        view.endEditing(true)
     }
     
     func setUpMessageTextField(){
@@ -257,21 +261,30 @@ class ChatVC: UIViewController, UpdateDelegate {
     
     @objc func handleKeyboard(_ notification: Notification){
         
-        let info = notification.userInfo!
-        let keyboardFrame: CGRect = (info[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        
-        if notification.name == UIResponder.keyboardWillShowNotification{
-            self.messageInputBottomConstraint.constant = keyboardFrame.size.height
-        }else{
-            self.messageInputBottomConstraint.constant = 0
-            
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let newHeight: CGFloat
+            let duration:TimeInterval = (notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0
+            let animationCurveRawNSN = notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
+            let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIView.AnimationOptions.curveEaseInOut.rawValue
+            let animationCurve:UIView.AnimationOptions = UIView.AnimationOptions(rawValue: animationCurveRaw)
+            if #available(iOS 11.0, *) {
+                newHeight = keyboardFrame.cgRectValue.height - self.view.safeAreaInsets.bottom
+            } else {
+                newHeight = keyboardFrame.cgRectValue.height
+            }
+            let keyboardHeight = newHeight /*+ 10*/ // **10 is bottom margin of View**  and **this newHeight will be keyboard height**
+            UIView.animate(withDuration: duration,
+                           delay: TimeInterval(0),
+                           options: animationCurve,
+                           animations: {
+                            self.messageInputBottomConstraint.constant = keyboardHeight
+                            
+                            self.view.layoutIfNeeded()
+                            
+            },
+                           completion: nil)
         }
         
-        UIView.animate(withDuration: 0, delay: 0, options: .curveEaseInOut, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: nil)
-        
-        // Let's find a way to not call this when we are transitioning to another screen
         self.scrollToBottom(animated: true)
         
     }
@@ -311,14 +324,6 @@ class ChatVC: UIViewController, UpdateDelegate {
 //        updateTableView(animated: true)
         
     }
-}
-
-extension ChatVC: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return (master?.conversations[indexOfUser].conversation.count)!
-    }
     
     func animateBubbleWithRainbowColors(times: Int, cell: TextMessageCell){
         
@@ -331,6 +336,14 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         }) { (finished) in
             self.animateBubbleWithRainbowColors(times: times-1, cell: cell)
         }
+    }
+}
+
+extension ChatVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return (master?.conversations[indexOfUser].conversation.count)!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -347,7 +360,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))
             cell.addGestureRecognizer(longPressRecognizer)
             
-            cell.message_label.text = message.text!
+            cell.message_label.attributedText = message.text!
             cell.selectionStyle = .none
             
             if (message.only_emojies == false){
@@ -369,7 +382,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 
             }else{
                 
-                if message.text!.count <= 5{
+                if message.text!.string.count <= 5{
                     cell.message_label.font = UIFont.systemFont(ofSize: 50)
                 }else{
                     cell.message_label.font = UIFont.systemFont(ofSize: 30)
@@ -550,7 +563,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 
                 let copy = UIAlertAction(title: "Copy", style: .default) { (action) in
                     
-                    UIPasteboard.general.string = (message as! TextMessage).text
+                    UIPasteboard.general.string = (message as! TextMessage).text?.string
                     
                 }
                 let speak = UIAlertAction(title: "Speak", style: .default) { (action) in
@@ -558,12 +571,12 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                     // Line 1. Create an instance of AVSpeechSynthesizer.
                     let speechSynthesizer = AVSpeechSynthesizer()
                     // Line 2. Create an instance of AVSpeechUtterance and pass in a String to be spoken.
-                    let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: (message as! TextMessage).text!)
+                    let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: ((message as! TextMessage).text?.string)!)
                     //Line 3. Specify the speech utterance rate. 1 = speaking extremely the higher the values the slower speech patterns. The default rate, AVSpeechUtteranceDefaultSpeechRate is 0.5
                     //speechUtterance.rate = AVSpeechUtteranceMaximumSpeechRate / 4.0
                     // Line 4. Specify the voice. It is explicitly set to English here, but it will use the device default if not specified.
                     
-                    if let language = NSLinguisticTagger.dominantLanguage(for: (message as! TextMessage).text!) {
+                    if let language = NSLinguisticTagger.dominantLanguage(for: (message as! TextMessage).text!.string) {
                         speechUtterance.voice = AVSpeechSynthesisVoice(language: language)
                     } else {
                         speechUtterance.voice = AVSpeechSynthesisVoice(language: Locale.preferredLanguages[0])
@@ -660,7 +673,13 @@ extension ChatVC: UITextFieldDelegate {
         // Did the master use the word "fuck"? If yes let's replace it with something more appropriate -> "🦆"
         textField.text = textField.text?.replacingOccurrences(of: "fuck", with: "🦆")
         
-        master?.conversations[indexOfUser].conversation.append(TextMessage(text: textField.text!, is_sender: true))
+        // Text Formatters
+        
+        let text = NSMutableAttributedString(string: textField.text!)
+        
+        let attributed = TextFormatter.formatAll(text: text)
+        
+         master?.conversations[indexOfUser].conversation.append(TextMessage(text: attributed, is_sender: true))
         
         Internet.sendText(message: textField.text!, to: ((master?.conversations[indexOfUser])!))
         
