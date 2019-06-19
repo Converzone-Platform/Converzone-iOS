@@ -21,13 +21,13 @@ class TextFormatter {
             
             new_text = TextFormatter.formatter(text: new_text, indicator: "/", attributes: [NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-Italic", size: 17)!])
             
-            new_text = TextFormatter.formatter(text: new_text, indicator: "&", attributes: [NSAttributedString.Key.font : UIFont(name: "SnellRoundhand", size: 17)!])
+            new_text = TextFormatter.formatter(text: new_text, indicator: "&", attributes: [NSAttributedString.Key.font : UIFont(name: "SnellRoundhand", size: 20)!])
             
             new_text = TextFormatter.formatter(text: new_text, indicator: "_", attributes: [NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue])
             
             new_text = TextFormatter.formatter(text: new_text, indicator: "-", attributes: [NSAttributedString.Key.strikethroughStyle : NSUnderlineStyle.single.rawValue])
             
-            new_text = TextFormatter.formatCaps(text: new_text, indicator: "$")
+            new_text = TextFormatter.formatter(text: TextFormatter.formatCaps(text: new_text, indicator: "$"), indicator: "!", attributes: [NSAttributedString.Key.font : UIFont(name: "HelveticaNeue", size: 25)!])
             
         }
         

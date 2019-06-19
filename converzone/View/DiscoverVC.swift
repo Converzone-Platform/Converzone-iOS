@@ -8,7 +8,8 @@
 
 import UIKit
 
-let numberOfItemsPerFetch = 11
+let numberOfItemsPerFetch = 4
+var fetchedCount = 0
 
 var discover_users: [User] = []
 
@@ -36,7 +37,7 @@ class DiscoverVC: UIViewController {
     }
     
     func fetchUsers(){
-        Internet.databaseWithMultibleReturn(url: baseURL + "/discover.php", parameters: ["min_id" : discover_users.count + 1, "max_id": discover_users.count + numberOfItemsPerFetch, "self_id": master?.uid as! Int]) { (data, response, error) in
+        Internet.databaseWithMultibleReturn(url: baseURL + "/discover.php", parameters: ["min_id" : fetchedCount + 1, "max_id": fetchedCount + numberOfItemsPerFetch, "self_id": master?.uid as! Int]) { (data, response, error) in
             
             if error != nil {
                 print(error!.localizedDescription)
@@ -112,11 +113,21 @@ class DiscoverVC: UIViewController {
                         
                         discover_users.append(contentsOf: temp)
                         
-                        self.tableView.reloadData()
+                        // Index Path array
+                        var indexPath: [IndexPath]? = [IndexPath]()
+                        
+                        for i in 0...temp.count-1{
+                            
+                            indexPath?.append(IndexPath(row: self.tableView.numberOfRows(inSection: 0) + i , section: 0))
+                        }
+                        
+                        self.tableView.insertRows(at: indexPath!, with: .fade)
                     }
                 }
             }
         }
+        
+        fetchedCount += numberOfItemsPerFetch
     }
     
     
@@ -341,6 +352,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             
             if Internet.isOnline(){
                 fetchUsers()
+                
             }
         }
     }

@@ -390,7 +390,7 @@ public class Internet: NSObject {
         
     }
     
-    class func sendText(message: String, to: User){
+    class func sendText(message: String, to: User, completion: @escaping (_ ack: [Any]) -> ()){
         
         var data = [String: Any]()
         data["sender"] = master?.uid
@@ -399,13 +399,23 @@ public class Internet: NSObject {
         data["deviceToken"] = to.deviceToken
         data["sound"] = "ping.aiff"
         data["senderName"] = master?.fullname
-        data["type"] = ""
+        data["type"] = "TextMessage"
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss:SSSXXXXX"
         data["time"] = dateFormatter.string(from: NSDate() as Date)
 
-        socket.emit("chat-message", data)
+        //socket.emit("chat-message", data)
+        
+//        socket.emit("chat-message", data) {
+//            print("Sent message!")
+//        }
+        
+        socket.emitWithAck("chat-message", data).timingOut(after: 1) { (ack) in
+            
+            completion(ack)
+            
+        }
         
     }
     

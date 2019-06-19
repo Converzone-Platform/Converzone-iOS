@@ -35,40 +35,62 @@ class ChatVC: UIViewController, UpdateDelegate {
         print("Send audio message")
     }
     
+    fileprivate func deleteFirstMessage() {
+        // Let's delete the FirstInformationMessage in case we haven't already
+        if master?.conversations[indexOfUser].conversation.first is FirstInformationMessage {
+            _ = master?.conversations[indexOfUser].conversation.removeAll(where: { (message) -> Bool in
+                return message is FirstInformationMessage
+            })
+            self.tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
+        }
+    }
+    
     @IBAction func more_button(_ sender: Any) {
         
-        let alert = UIAlertController()
+        // Is this supposed to be the one of the first messages?
+        if master?.conversations[indexOfUser].conversation[0] is FirstInformationMessage{
+            
+            let message = master?.conversations[indexOfUser].conversation[0] as! FirstInformationMessage
+            
+            if message.text == "Be creative with the first message :)"{
+                alert("Not yet", "Please talk with your partner a little more before sending one of these", self)
+                return
+            }
+        }
+        
+        let location_alert = UIAlertController()
         
         
 //        alert.addAction(UIAlertAction(title: "Camera", style: .default , handler:{ (UIAlertAction)in
 //
 //            self.getImageFromCamera()
-//
+//            self.deleteFirstMessage()
 //        }))
         
 //        alert.addAction(UIAlertAction(title: "Photo or Video", style: .default , handler:{ (UIAlertAction)in
 //
 //            self.getImageFromLibrary()
-//
+//            self.deleteFirstMessage()
 //        }))
         
 //        alert.addAction(UIAlertAction(title: "Contact", style: .default , handler:{ (UIAlertAction)in
 //
-//
+//              self.deleteFirstMessage()
 //
 //        }))
 //
-        // Is there a location available? Might be that the location in the simluator is disabled
         
-        
-        alert.addAction(UIAlertAction(title: "Location", style: .default , handler:{ (UIAlertAction)in
+        location_alert.addAction(UIAlertAction(title: "Location", style: .default , handler:{ (UIAlertAction)in
 
             self.setUpLocationServices()
             
             if CLLocationManager.locationServicesEnabled() {
                 switch CLLocationManager.authorizationStatus() {
                 case .notDetermined, .restricted, .denied:
-                    print("No access")
+                
+                    alert("No access to the location services", "Please go into the settings and enable the location services for this app. You can chose \"always\" or just \"when in use\" there.", self)
+                    
+                    
                 case .authorizedAlways, .authorizedWhenInUse:
 
                     let locationMessage = LocationMessage()
@@ -81,6 +103,8 @@ class ChatVC: UIViewController, UpdateDelegate {
                     master?.conversations[indexOfUser].conversation.append(locationMessage)
 
                     self.updateTableView(animated: true)
+                    
+                    self.deleteFirstMessage()
 
                 default:
                     print("That's weird. Check me out. I am on line: ", #line)
@@ -88,17 +112,13 @@ class ChatVC: UIViewController, UpdateDelegate {
             } else {
                 print("Location services are not enabled")
             }
-
-
         }))
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (UIAlertAction)in
+        location_alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (UIAlertAction)in
             
         }))
         
-        self.present(alert, animated: true, completion: {
-            
-        })
+        self.present(location_alert, animated: true, completion: nil)
         
     }
     
@@ -267,11 +287,13 @@ class ChatVC: UIViewController, UpdateDelegate {
             let animationCurveRawNSN = notification.userInfo![UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
             let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIView.AnimationOptions.curveEaseInOut.rawValue
             let animationCurve:UIView.AnimationOptions = UIView.AnimationOptions(rawValue: animationCurveRaw)
+            
             if #available(iOS 11.0, *) {
                 newHeight = keyboardFrame.cgRectValue.height - self.view.safeAreaInsets.bottom
             } else {
                 newHeight = keyboardFrame.cgRectValue.height
             }
+            
             let keyboardHeight = newHeight /*+ 10*/ // **10 is bottom margin of View**  and **this newHeight will be keyboard height**
             UIView.animate(withDuration: duration,
                            delay: TimeInterval(0),
@@ -306,6 +328,7 @@ class ChatVC: UIViewController, UpdateDelegate {
             let indexPath = IndexPath(
                 row: numberOfRows,
                 section: self.tableView.numberOfSections - 1)
+            
             self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
         }
     }
@@ -355,6 +378,9 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             let cell = Bundle.main.loadNibNamed("TextMessageCell", owner: self, options: nil)?.first as! TextMessageCell
             
             let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! TextMessage
+            
+            // Format the text
+            message.text = TextFormatter.formatAll(text: message.text!)
             
             // Add Long pressure gesture
             let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))
@@ -427,6 +453,10 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             if cell.message_label.text!.contains("Lucie <3") || cell.message_label.text!.contains((master?.conversations[indexOfUser].firstname)! + " <3") || cell.message_label.text!.contains((master?.firstname)! + " <3"){
                 animateBubbleWithRainbowColors(times: 7, cell: cell)
             }
+            
+            cell.alpha = 0
+            
+            
             
             return cell
             
@@ -661,27 +691,31 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
 extension ChatVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        // Let's delete the FirstInformationMessage in case we haven't already
-        if master?.conversations[indexOfUser].conversation.first is FirstInformationMessage {
-            _ = master?.conversations[indexOfUser].conversation.removeAll(where: { (message) -> Bool in
-                return message is FirstInformationMessage
-            })
-            tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
-            
-        }
+        deleteFirstMessage()
         
         // Did the master use the word "fuck"? If yes let's replace it with something more appropriate -> "🦆"
-        textField.text = textField.text?.replacingOccurrences(of: "fuck", with: "🦆")
+        textField.text = textField.text?.replacingOccurrences(of: "fuck", with: "🦆", options: .caseInsensitive, range: nil)
         
-        // Text Formatters
+        let attributed = NSMutableAttributedString(string: textField.text!)
         
-        let text = NSMutableAttributedString(string: textField.text!)
+        master?.conversations[indexOfUser].conversation.append(TextMessage(text: attributed, is_sender: true))
         
-        let attributed = TextFormatter.formatAll(text: text)
-        
-         master?.conversations[indexOfUser].conversation.append(TextMessage(text: attributed, is_sender: true))
-        
-        Internet.sendText(message: textField.text!, to: ((master?.conversations[indexOfUser])!))
+        Internet.sendText(message: textField.text!, to: (master?.conversations[indexOfUser])!) { (ack) in
+            
+            if (ack[0] as! String) == "Success"{
+                
+                // Let animate the message cell to alpha 1
+                let indexPath = NSIndexPath(row: self.tableView.numberOfRows(inSection: 0) - 1, section: 0) as IndexPath
+                
+                let cell = self.tableView.cellForRow(at: indexPath)
+                
+                UIView.animate(withDuration: 1, animations: {
+                    cell!.alpha = 1
+                })
+                
+            }
+            
+        }
         
         textField.text = ""
         
@@ -776,7 +810,6 @@ extension ChatVC {
     }
     
 }
-
 
 // To update the table view from another class
 protocol UpdateDelegate {
