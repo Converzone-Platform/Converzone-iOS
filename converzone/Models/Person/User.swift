@@ -8,7 +8,15 @@
 
 import UIKit
 
-class User: Person {
+class User: Person, Hashable {
+    
+    static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    var hashValue: Int {
+        return self.uid!.hashValue
+    }
     
     //Platform Informations
     internal var blocked: Bool = false

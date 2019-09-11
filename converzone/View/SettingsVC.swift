@@ -53,10 +53,21 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             cell?.textLabel?.text = master?.fullname
             cell?.detailTextLabel?.text = master?.status?.string
             
-            if cell?.imageView!.image == nil && Internet.isOnline(){
-                master?.getImage(with: master!.link_to_profile_image!, completion: { (image) in
-                    cell?.imageView!.image = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 50, maxHeight: 50)
+            if master!.changed_image{
+                master?.changed_image = false
+                
+                cell?.imageView?.image = nil
+            }
+            
+            if cell?.imageView!.image == nil{
+                master?.getImage(with: "http://converzone.htl-perg.ac.at/profile_images/" + (master?.lastname)! + "_" + String(master!.uid!) + "_profile_image", completion: { (image) in
                     
+                    if image == nil{
+                        return
+                    }
+                    
+                    cell?.imageView!.image = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 50, maxHeight: 50)
+
                     tableView.reloadData()
                 })
             }
@@ -120,6 +131,9 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             discover_users.removeAll()
             
             master?.addedUserSinceLastConnect = false
+            
+            master?.cache.removeAllObjects()
+            
         default:
             print("No action here")
         }

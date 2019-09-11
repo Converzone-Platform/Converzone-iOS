@@ -14,7 +14,7 @@ import AVFoundation
 
 var indexOfUser: Int = 0
 
-class ChatVC: UIViewController, UpdateDelegate {
+class ChatVC: UIViewController, ChatUpdateDelegate {
     
     @IBOutlet weak var messageInputBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var inputMessage: UIView!
@@ -136,7 +136,7 @@ class ChatVC: UIViewController, UpdateDelegate {
         
         navigationItem.titleView = navTitleWithImageAndText(titleText: master!.conversations[indexOfUser].fullname!, imageLink: master!.conversations[indexOfUser].link_to_profile_image!)
         
-        updates.delegate = self
+        updates.chat_delegate = self
         
         master?.conversations[indexOfUser].openedChat = true
         
@@ -271,6 +271,7 @@ class ChatVC: UIViewController, UpdateDelegate {
         self.discoverCard.animateTransitionIfNeeded(state: self.discoverCard.nextState, duration: 0.9)
         
         view.endEditing(true)
+        self.loadViewIfNeeded()
     }
     
     func setUpMessageTextField(){
@@ -702,18 +703,18 @@ extension ChatVC: UITextFieldDelegate {
         
         Internet.sendText(message: textField.text!, to: (master?.conversations[indexOfUser])!) { (ack) in
             
-            if (ack[0] as! String) == "Success"{
-                
-                // Let animate the message cell to alpha 1
-                let indexPath = NSIndexPath(row: self.tableView.numberOfRows(inSection: 0) - 1, section: 0) as IndexPath
-                
-                let cell = self.tableView.cellForRow(at: indexPath)
-                
-                UIView.animate(withDuration: 1, animations: {
-                    cell!.alpha = 1
-                })
-                
-            }
+//            if (ack[0] as! String) == "Success"{
+//                
+//                // Let animate the message cell to alpha 1
+//                let indexPath = NSIndexPath(row: self.tableView.numberOfRows(inSection: 0) - 1, section: 0) as IndexPath
+//                
+//                let cell = self.tableView.cellForRow(at: indexPath)
+//                
+//                UIView.animate(withDuration: 1, animations: {
+//                    cell!.alpha = 1
+//                })
+//                
+//            }
             
         }
         
@@ -812,6 +813,6 @@ extension ChatVC {
 }
 
 // To update the table view from another class
-protocol UpdateDelegate {
+protocol ChatUpdateDelegate {
     func didUpdate(sender: Internet)
 }

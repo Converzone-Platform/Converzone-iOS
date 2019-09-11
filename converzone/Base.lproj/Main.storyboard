@@ -1443,7 +1443,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tXT-JD-PUI">
                                 <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y2l-3X-338">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y2l-3X-338">
                                         <rect key="frame" x="0.0" y="0.0" width="49" height="49"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Y2l-3X-338" secondAttribute="height" multiplier="1:1" id="NW7-qU-lTc"/>

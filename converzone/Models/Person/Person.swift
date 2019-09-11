@@ -38,8 +38,8 @@ class Person {
     internal var status: NSAttributedString?
     
     internal let cache = NSCache<NSString, UIImage>()
-    internal var link_to_profile_image: String?
     
+    internal var link_to_profile_image: String?
     internal var reflections: [Reflection] = []
     internal var uid: Int?
     
@@ -71,7 +71,7 @@ class Person {
     }
     
     
-    private func downloadImage(with url: String, completion: @escaping (_ image: UIImage?)->()){
+    func downloadImage(with url: String, completion: @escaping (_ image: UIImage?)->()){
         
         URLSession.shared.dataTask(with: URL(string: url)!) { (data, response, error) in
             

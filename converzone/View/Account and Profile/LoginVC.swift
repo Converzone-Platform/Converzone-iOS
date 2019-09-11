@@ -117,7 +117,6 @@ class LoginVC: UIViewController {
                         let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainTBC")
                         self.present(vc!, animated: true, completion: nil)
                     }
-                    
                 }
             }
         }
@@ -165,6 +164,8 @@ class LoginVC: UIViewController {
          return
          }
         
+        // Start the activity indicator
+        showActivityIndicatory(uiView: self.view)
         
         if(login_outlet.isEnabled == false) {
             
@@ -252,6 +253,46 @@ class LoginVC: UIViewController {
         master?.learn_languages.removeAll()
         master?.changingData = .registration
         
+        self.email_textfield.text = "goga.barabadze73@gmail.com"
+        self.password_textfield.text = "Qwertz73!"
+        
+        if !self.email_textfield.text!.isEmpty{
+            register_outlet.isEnabled = !register_outlet.isEnabled
+            login_outlet.isEnabled = !login_outlet.isEnabled
+            
+            login_outlet.setTitleColor(Colors.black, for: .normal)
+            register_outlet.setTitleColor(Colors.darkGrey, for: .normal)
+        }
+    }
+    
+    func showActivityIndicatory(uiView: UIView) {
+        //Create Activity Indicator
+        let myActivityIndicator = UIActivityIndicatorView(style: .white)
+        
+        myActivityIndicator.color = Colors.black
+        
+        // Position Activity Indicator in the center of the main view
+        myActivityIndicator.center = view.center
+        
+        // If needed, you can prevent Acivity Indicator from hiding when stopAnimating() is called
+        myActivityIndicator.hidesWhenStopped = false
+        
+        // Start Activity Indicator
+        myActivityIndicator.startAnimating()
+        
+        // Call stopAnimating() when need to stop activity indicator
+        //myActivityIndicator.stopAnimating()
+        
+        let container = UIView()
+        container.frame = CGRect(0, 0, 80, 80)
+        container.center = self.view.center
+        container.backgroundColor = Colors.white
+        container.clipsToBounds = true
+        container.layer.cornerRadius = 10
+        container.alpha = 0.7
+        
+        view.addSubview(container)
+        view.addSubview(myActivityIndicator)
     }
     
     // No need to translate this. This is meant to be in English for all

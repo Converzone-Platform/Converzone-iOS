@@ -10,9 +10,18 @@ import UIKit
 
 //var filtered_converations: [User]? = nil
 
-class ConversationsVC: UIViewController {
+class ConversationsVC: UIViewController, ConversationUpdateDelegate {
+    
+    func didUpdate(sender: Internet) {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     
     @IBOutlet weak var tableView: UITableView!
+    
+    let updates = Internet()
     
     override func viewDidLoad() {
         
@@ -21,6 +30,8 @@ class ConversationsVC: UIViewController {
         self.view.backgroundColor = Colors.backgroundGrey
         
         //navigationItem.searchController?.searchBar.delegate = self
+        
+        updates.conversations_delegate = self
         
         if master?.addedUserSinceLastConnect == false{
             master?.addedUserSinceLastConnect = true
@@ -195,3 +206,8 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
 //        tableView.reloadData()
 //    }
 //}
+
+// To update the table view from another class
+protocol ConversationUpdateDelegate {
+    func didUpdate(sender: Internet)
+}

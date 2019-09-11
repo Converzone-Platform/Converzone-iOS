@@ -8,12 +8,13 @@
 
 import UIKit
 
-let numberOfItemsPerFetch = 4
+let numberOfItemsPerFetch = 11
 var fetchedCount = 0
-
+var reachedTheEnd = false
 var discover_users: [User] = []
-
 var profileOf: User? = nil
+
+private let refreshControl = UIRefreshControl()
 
 class DiscoverVC: UIViewController {
     
@@ -33,7 +34,25 @@ class DiscoverVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         if discover_users.isEmpty && Internet.isOnline(){
             fetchUsers()
+            fetchedCount = 0
         }
+    }
+    
+    @objc func refreshUsers(sender: UIRefreshControl){
+        
+        sender.beginRefreshing()
+        
+        // Delete the old ones
+        discover_users.removeAll()
+
+        // Update the table view
+        self.tableView.reloadData()
+        
+        fetchedCount = 0
+        fetchUsers()
+        
+        sender.endRefreshing()
+        
     }
     
     func fetchUsers(){
@@ -50,7 +69,14 @@ class DiscoverVC: UIViewController {
                     if !(httpResponse.statusCode == 200) {
                         
                         print(httpResponse.statusCode)
+                        
+                        if httpResponse.statusCode == 520{
+                            reachedTheEnd = true
+                        }
+                        
                     }else{
+                        
+                        reachedTheEnd = false
                         
                         var temp: [User] = []
                         
@@ -140,6 +166,9 @@ class DiscoverVC: UIViewController {
 //        navigationItem.hidesSearchBarWhenScrolling = false
         
         //let filter_button = UIBarButtonItem(title: NSLocalizedString("Filter", comment: "Button text for Filter Discover"), style: .plain, target: self, action: nil)
+        
+        refreshControl.addTarget(self, action: #selector(refreshUsers( sender:)), for: .valueChanged)
+        self.tableView.refreshControl = refreshControl
     }
 }
 
@@ -170,6 +199,28 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
         
         return 0
         
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        // Don't display if we have reached the end
+        if reachedTheEnd == true{
+            
+            tableView.tableFooterView = nil
+            return
+        }
+        
+        let lastSectionIndex = tableView.numberOfSections - 1
+        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
+            
+            let spinner = UIActivityIndicatorView(style: .gray)
+            spinner.startAnimating()
+            spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
+            
+            tableView.tableFooterView = spinner
+            tableView.tableFooterView?.isHidden = false
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -347,13 +398,13 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
         let currentOffset = scrollView.contentOffset.y
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
         
-        // Change 5.0 to adjust the distance from bottom
-        if maximumOffset - currentOffset <= 5.0 {
+        if maximumOffset - currentOffset <= 500 {
             
             if Internet.isOnline(){
                 fetchUsers()
-                
             }
         }
+        
+        
     }
 }

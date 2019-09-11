@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class EditProfileVC: UIViewController{
     
@@ -106,7 +107,7 @@ class EditProfileVC: UIViewController{
             let calendar = Calendar.current
             let components = calendar.dateComponents([.year, .month, .day, .timeZone, .calendar], from: newDate)
             
-            // Let's check if the components can be correct preactically
+            // Let's check if the components can be correct practically
             if components.year! > 3000{
                 alert("Wow", "Are you from the future?", self)
                 return false
@@ -156,7 +157,7 @@ class EditProfileVC: UIViewController{
         }
         
         if master?.interests == nil || (master?.interests?.string.isEmpty)! {
-            alert("Interests", "Please tell about your intersts", self)
+            alert("Interests", "Please tell us about your intersts", self)
             return
         }
         
@@ -172,15 +173,125 @@ class EditProfileVC: UIViewController{
         master?.discoverable = (tableView.cellForRow(at: IndexPath(row: 0, section: 3)) as! BooleanInputCell).discoverable.isOn
         
         // Give the server all information about the master and get an (u)id back
-     
-//        Internet.database(url: baseURL + "/register_user.php", parameters: ["":""]) { (data, response, error) in
-//
-//
-//
-//
-//        }
+        // Let's create a user
+        //2019-06-20 11:23:10:721 +02:00 ... "yyyy-MM-dd HH:mm:ss:SSS XXXXX"
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        var one_letter_gender = ""
+        
+        switch master?.gender?.toString() {
+        case "female":
+            one_letter_gender = "f"
+        case "male":
+            one_letter_gender = "m"
+        case "non binary":
+            one_letter_gender = "n"
+        default:
+            one_letter_gender = "f"
+        }
+        
+        let data: [String: Any] = [
+            "FIRSTNAME": master!.firstname!,
+            "LASTNAME": master!.lastname!,
+            "GENDER": one_letter_gender,
+            "FIRSTJOIN": formatter.string(from: Date()),
+            "BIRTHDATE": formatter.string(from: master!.birthdate!),
+            "INTERESTS": master!.interests!,
+            "STATUS": master!.status!,
+            "COUNTRY": master!.country!.name!,
+            
+            // Everyone is a pro in the first version
+            "PRO": "t",
+            "DISCOVERABLE": master!.discoverable ? "t" : "f",
+            "NOTIFICATIONTOKEN": master?.deviceToken ?? "TEMP_TOKEN",
+            "EMAIL": master!.email,
+            "PASSWORD": master!.password,
+        ]
+
+        Internet.database(url: baseURL + "/register_client.php", parameters: data) { (data_back, response, error) in
+
+            
+            print(data_back)
+            
+            master!.uid = Int((data_back?["USERID"] as? String)!)
+
+            if master?.changingData == .registration {
+                
+                // Send languages
+                Internet.database(url: baseURL + "/deleteAllLanguages.php", parameters: ["USERID" : master!.uid!]) { (backdata, response, error) in
+                    
+                    if error != nil{
+                        print(error!.localizedDescription)
+                    }
+                    
+                    if let httpResponse = response as? HTTPURLResponse {
+                        
+                        if httpResponse.statusCode != 200{
+                            print(httpResponse)
+                        }
+                        
+                    }
+                    
+                }
+                for language in master!.speak_languages{
+                    
+                    let language_data: [String : Any] = [
+                        "USERID": master!.uid!,
+                        "PROFICIENCY": "s",
+                        "LANGUAGE": language.name
+                    ]
+                    
+                    Internet.database(url: baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
+                        
+                        if error != nil{
+                            print(error!.localizedDescription)
+                        }
+                        
+                        if let httpResponse = response as? HTTPURLResponse {
+                            
+                            if httpResponse.statusCode != 200{
+                                print(httpResponse)
+                            }
+                            
+                        }
+                        
+                        print(backdata)
+                        
+                    }
+                }
+                for language in master!.learn_languages{
+                    
+                    let language_data: [String : Any] = [
+                        "USERID": master!.uid!,
+                        "PROFICIENCY": "l",
+                        "LANGUAGE": language.name
+                    ]
+                    
+                    Internet.database(url: baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
+                        
+                        if error != nil{
+                            print(error!.localizedDescription)
+                        }
+                        
+                        if let httpResponse = response as? HTTPURLResponse {
+                            
+                            if httpResponse.statusCode != 200{
+                                print(httpResponse)
+                            }
+                            
+                        }
+                        
+                        // Upload Image
+                        self.uploadProfileImage(profileImage: self.profile_image.image!)
+                        
+                    }
+                }
+            }
+        }
         
         if master?.changingData == .registration {
+            
             // Go to welcome screen
             let viewController = storyboard!.instantiateViewController(withIdentifier: "WelcomeVC") as! WelcomeVC
             present(viewController, animated: true, completion: nil)
@@ -188,6 +299,60 @@ class EditProfileVC: UIViewController{
             self.navigationController?.popViewController(animated: true)
         }
     }
+    
+    func uploadProfileImage(profileImage: UIImage){
+        
+        let imageData = profile_image.image?.jpegData(compressionQuality: 1)
+        
+        // https://stackoverflow.com/a/40521003
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            
+            multipartFormData.append("\(master!.uid)".data(using: String.Encoding.utf8)!, withName: "USERID")
+            
+            multipartFormData.append(imageData!, withName: "uploaded_file", fileName: (master?.lastname)! + "_" + String(master!.uid!) + "_profile_image", mimeType: "image/jpg")
+            
+            
+        }, to: baseURL + "/uploadImage.php") { (result) in
+            switch result {
+            case .success(let upload, _, _):
+                upload.uploadProgress(closure: { (progress) in
+                    print("Upload Progress: \(progress.fractionCompleted)")
+                })
+                
+//                upload.responseJSON { response in
+//                    switch response.result {
+//                    case .success(let value):
+//                        print(response.result.value)
+//                    case .failure(let error):
+//                        if (response.data?.count)! > 0 {print(error)}
+//                    }
+//                }
+                
+                upload.responseString(completionHandler: { (response) in
+                    switch response.result {
+                    case .success(let value):
+                        print(response.result.value)
+                        
+                        master?.link_to_profile_image = "http://converzone.htl-perg.ac.at/profile_images/" + (master?.lastname)! + "_" + String(master!.uid!) + "_profile_image"
+                        
+                        master?.changed_image = true
+                        
+                        master?.cache.removeAllObjects()
+                        
+                    case .failure(let error):
+                        if (response.data?.count)! > 0 {print(error)}
+                    }
+                })
+                
+            case .failure(let encodingError):
+                print("Error")
+                print(encodingError)
+            }
+        }
+        
+    }
+    
+    
     
     func genderConveter(gender: String) -> Gender{
         
@@ -332,7 +497,9 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
             cell.input?.placeholder = "First name"
             
-            if master?.firstname != nil{
+            cell.input?.addTarget(self, action: #selector(firstNameTextFieldChanged), for: .editingChanged)
+            
+            if !(master?.firstname?.isEmpty ?? false) {
                 cell.input!.text = master?.firstname
             }
             
@@ -343,7 +510,9 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
             cell.input?.placeholder = "Last name"
             
-            if master?.lastname != nil{
+            cell.input?.addTarget(self, action: #selector(lastNameTextFieldChanged), for: .editingChanged)
+            
+            if !(master?.lastname?.isEmpty ?? false)  {
                 cell.input!.text = master?.lastname
             }
             
@@ -455,6 +624,14 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
         return 44
     }
     
+    @objc func firstNameTextFieldChanged(){
+        master?.firstname = tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel!.text
+    }
+    
+    @objc func lastNameTextFieldChanged(){
+        master?.lastname = tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel!.text
+    }
+    
 }
 
 extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -484,13 +661,13 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        alert.addAction(UIAlertAction(title: "Choose a picture from your library", style: .default, handler: { action in
+        alert.addAction(UIAlertAction(title: "Library", style: .default, handler: { action in
             
             self.getImageFromLibrary()
             
         }))
         
-        alert.addAction(UIAlertAction(title: "Take a picture now", style: .default, handler: { action in
+        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { action in
             
             self.getImageFromCamera()
             
@@ -505,9 +682,12 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[UIImagePickerController.InfoKey.editedImage]
         
-        profile_image.image = image as? UIImage
+        profile_image.image = cropToBounds(image: image as! UIImage, width: 500, height: 500)
         profile_image.layer.cornerRadius = profile_image.layer.frame.width / 2
         profile_image.layer.masksToBounds = true
+        
+        // Delete the old cached image
+        master!.cache.removeAllObjects()
         
         picker.dismiss(animated: true, completion: nil)
     }
@@ -515,4 +695,38 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
+}
+
+func cropToBounds(image: UIImage, width: Double, height: Double) -> UIImage {
+    
+    let cgimage = image.cgImage!
+    let contextImage: UIImage = UIImage(cgImage: cgimage)
+    let contextSize: CGSize = contextImage.size
+    var posX: CGFloat = 0.0
+    var posY: CGFloat = 0.0
+    var cgwidth: CGFloat = CGFloat(width)
+    var cgheight: CGFloat = CGFloat(height)
+    
+    // See what size is longer and create the center off of that
+    if contextSize.width > contextSize.height {
+        posX = ((contextSize.width - contextSize.height) / 2)
+        posY = 0
+        cgwidth = contextSize.height
+        cgheight = contextSize.height
+    } else {
+        posX = 0
+        posY = ((contextSize.height - contextSize.width) / 2)
+        cgwidth = contextSize.width
+        cgheight = contextSize.width
+    }
+    
+    let rect: CGRect = CGRect(x: posX, y: posY, width: cgwidth, height: cgheight)
+    
+    // Create bitmap image from context using the rect
+    let imageRef: CGImage = cgimage.cropping(to: rect)!
+    
+    // Create a new image based on the imageRef and rotate back to the original orientation
+    let image: UIImage = UIImage(cgImage: imageRef, scale: image.scale, orientation: image.imageOrientation)
+    
+    return image
 }

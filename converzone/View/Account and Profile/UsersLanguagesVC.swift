@@ -22,7 +22,6 @@ class UsersLanguagesVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         
-        
         //Add a continue button
         if master?.changingData == .registration {
             guessSpeakLanguages()
@@ -69,6 +68,80 @@ class UsersLanguagesVC: UIViewController {
         master?.sortLanguagesAlphabetically()
         
         tableView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        if master?.changingData == .editing{
+            // Send languages
+            Internet.database(url: baseURL + "/deleteAllLanguages.php", parameters: ["USERID" : master!.uid!]) { (backdata, response, error) in
+                
+                if error != nil{
+                    print(error!.localizedDescription)
+                }
+                
+                if let httpResponse = response as? HTTPURLResponse {
+                    
+                    if httpResponse.statusCode != 200{
+                        print(httpResponse)
+                    }
+                    
+                }
+                
+            }
+            for language in master!.speak_languages{
+                
+                let language_data: [String : Any] = [
+                    "USERID": master!.uid!,
+                    "PROFICIENCY": "s",
+                    "LANGUAGE": language.name
+                ]
+                
+                Internet.database(url: baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
+                    
+                    if error != nil{
+                        print(error!.localizedDescription)
+                    }
+                    
+                    if let httpResponse = response as? HTTPURLResponse {
+                        
+                        if httpResponse.statusCode != 200{
+                            print(httpResponse)
+                        }
+                        
+                    }
+                    
+                    print(backdata)
+                    
+                }
+            }
+            for language in master!.learn_languages{
+                
+                let language_data: [String : Any] = [
+                    "USERID": master!.uid!,
+                    "PROFICIENCY": "l",
+                    "LANGUAGE": language.name
+                ]
+                
+                Internet.database(url: baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
+                    
+                    if error != nil{
+                        print(error!.localizedDescription)
+                    }
+                    
+                    if let httpResponse = response as? HTTPURLResponse {
+                        
+                        if httpResponse.statusCode != 200{
+                            print(httpResponse)
+                        }
+                        
+                    }
+                    
+                    print(backdata)
+                    
+                }
+            }
+        }
     }
     
     func guessSpeakLanguages(){
