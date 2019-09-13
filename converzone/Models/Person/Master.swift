@@ -20,25 +20,18 @@ class Master: Person {
     var changingData: ChangingData = .registration
     
     // For adding the user to the websocket
-    internal var addedUserSinceLastConnect = false
+    internal static var addedUserSinceLastConnect = false
     
     //Login Information
-    internal var email: String
-    internal var password: String
+    internal static var email: String?
+    internal static var password: String?
     
     //All people with whom the master has chats with
-    internal var conversations: [User] = []
+    internal static var conversations: [User] = []
     
     //Platform
-    internal var profile_images: UIImage?
-    internal var changed_image: Bool = false
+    internal static var profile_images: UIImage?
+    internal static var changed_image: Bool = false
     
-    internal var discoverable: Bool = true
-    
-    init(_ email: String, _ password: String) {
-        self.email = email
-        self.password = password
-        
-        super.init()
-    }
+    internal static var discoverable: Bool = true
 }

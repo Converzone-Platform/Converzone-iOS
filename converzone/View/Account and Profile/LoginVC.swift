@@ -8,9 +8,6 @@
 
 import UIKit
 
-//Create main user aka Master
-var master: Master? = Master("", "")
-
 class LoginVC: UIViewController {
     
     @IBOutlet weak var welcome_label: UILabel!
