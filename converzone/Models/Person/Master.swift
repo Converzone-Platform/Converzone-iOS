@@ -30,7 +30,7 @@ class Master: Person {
     internal var conversations: [User] = []
     
     //Platform
-    internal var profile_images: [UIImage]?
+    internal var profile_images: UIImage?
     internal var changed_image: Bool = false
     
     internal var discoverable: Bool = true
@@ -40,20 +40,5 @@ class Master: Person {
         self.password = password
         
         super.init()
-    }
-    
-    // Get count of conversations which were deleted
-    internal var count_hidden_conversations: Int{
-        get{
-            var count = 0
-            
-            for conversation in conversations{
-                if conversation.conversation.count == 0{
-                    count+=1
-                }
-            }
-            
-            return count
-        }
     }
 }

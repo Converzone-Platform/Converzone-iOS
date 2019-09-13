@@ -14,14 +14,16 @@ import UserNotifications
 
     var window: UIWindow?
     
+    fileprivate func getNotificationPermissionFromTheUser(_ application: UIApplication) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound], completionHandler: {(granted, error) in})
+        application.registerForRemoteNotifications()
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         _ = Internet.init()
         
-        // Ask if we can send notifications
-        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound], completionHandler: {(granted, error) in})
-        
-        application.registerForRemoteNotifications()
+        getNotificationPermissionFromTheUser(application)
         
         return true
     }
@@ -40,7 +42,6 @@ import UserNotifications
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
-        print("success in registering for remote notifications with token: ", deviceTokenString)
         master?.deviceToken = deviceTokenString
     }
     
@@ -50,11 +51,6 @@ import UserNotifications
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         print("Received push notification: \(userInfo)")
-        let aps = userInfo["aps"] as! [String: Any]
-        
-        
-        
-        print("\(aps)")
     }
     
     // MARK: - Core Data stack
