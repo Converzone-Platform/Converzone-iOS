@@ -109,7 +109,7 @@ public class Internet: NSObject {
                     user?.firstname = new_user_data["FIRSTNAME"] as! String
                     user?.lastname = new_user_data["LASTNAME"] as! String
                     user?.uid = Int((user_data![0]["USERID"] as! NSString).doubleValue)
-                    user?.gender = self.genderConverter(gender: (new_user_data["GENDER"] as! String))
+                    user?.gender = Gender.toGender(gender: (new_user_data["GENDER"] as! String))
                     user?.status = NSAttributedString(string: (new_user_data["STATUS"] as! String))
                     user?.interests = NSAttributedString(string: (new_user_data["INTERESTS"] as! String))
                     user?.country = Country(name: (new_user_data["COUNTRY"] as! String))
@@ -221,7 +221,7 @@ public class Internet: NSObject {
         banner.show()
     }
     
-    func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage? {
+    func resizeImageWithAspect(image: UIImage, scaledToMaxWidth width:CGFloat, maxHeight height :CGFloat)->UIImage? {
         let oldWidth = image.size.width;
         let oldHeight = image.size.height;
         
@@ -421,10 +421,6 @@ public class Internet: NSObject {
             completion(ack)
             
         }
-        
-    }
-    
-    class func sendImage(message: UIImage){
         
     }
 }

@@ -20,4 +20,23 @@ enum Gender: Int, CaseIterable {
         return genderStrings[self.rawValue]
     }
     
+    static func toGender(gender: String) -> Gender {
+        
+        switch gender {
+            
+        case "f":
+            fallthrough
+        case "female":
+            return Gender.female
+           
+        case "m":
+            fallthrough
+        case "male":
+            return Gender.male
+            
+        default:
+            return Gender.non_binary
+        }
+        
+    }
 }
