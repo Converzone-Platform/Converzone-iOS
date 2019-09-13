@@ -79,6 +79,7 @@
 		4AD7D687221A090A000E4660 /* DiscoverVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD7D686221A090A000E4660 /* DiscoverVC.swift */; };
 		4AD7D689221A19A4000E4660 /* StatusDiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD7D688221A19A4000E4660 /* StatusDiscoverCell.swift */; };
 		4AD7D68B221B2FFA000E4660 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD7D68A221B2FFA000E4660 /* SettingsVC.swift */; };
+		4AE35A78232C3BF60098320C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE35A77232C3BF60098320C /* WebKit.framework */; };
 		66FFDDBC461D8B204C38B49F /* Pods_converzone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAD40D8AEA15DA82C953B1 /* Pods_converzone.framework */; };
 		70FF92AAB74600C4B77523F2 /* Pods_converzoneUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 946B7DD54271449BEA8D61B5 /* Pods_converzoneUITests.framework */; };
 		A40749364057A422638A8CEA /* Pods_converzoneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D0D0AE14D34555E48487DB /* Pods_converzoneTests.framework */; };
@@ -185,6 +186,7 @@
 		4AD7D686221A090A000E4660 /* DiscoverVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverVC.swift; sourceTree = "<group>"; };
 		4AD7D688221A19A4000E4660 /* StatusDiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusDiscoverCell.swift; sourceTree = "<group>"; };
 		4AD7D68A221B2FFA000E4660 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		4AE35A77232C3BF60098320C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		63D0D0AE14D34555E48487DB /* Pods_converzoneTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_converzoneTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ACAB697A06921313C55196C /* Pods-converzone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-converzone.release.xcconfig"; path = "Pods/Target Support Files/Pods-converzone/Pods-converzone.release.xcconfig"; sourceTree = "<group>"; };
 		946B7DD54271449BEA8D61B5 /* Pods_converzoneUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_converzoneUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,6 +199,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AE35A78232C3BF60098320C /* WebKit.framework in Frameworks */,
 				4AC0A6062271AF36007FA5AB /* libz.tbd in Frameworks */,
 				66FFDDBC461D8B204C38B49F /* Pods_converzone.framework in Frameworks */,
 			);
@@ -286,6 +289,7 @@
 		4A5F59B82264CE680065F47B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4AE35A77232C3BF60098320C /* WebKit.framework */,
 				4A5F59B92264CE680065F47B /* libz.tbd */,
 				E3BAD40D8AEA15DA82C953B1 /* Pods_converzone.framework */,
 				63D0D0AE14D34555E48487DB /* Pods_converzoneTests.framework */,
