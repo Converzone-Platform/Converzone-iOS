@@ -29,7 +29,6 @@
 		4A5D856B21B31341004E3E79 /* StandardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856A21B31341004E3E79 /* StandardLabel.swift */; };
 		4A5D856D21B3135F004E3E79 /* StandardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856C21B3135F004E3E79 /* StandardButton.swift */; };
 		4A5D856F21B315D3004E3E79 /* StandardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856E21B315D3004E3E79 /* StandardTextField.swift */; };
-		4A5F59BC2264D8C70065F47B /* AddConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5F59BB2264D8C70065F47B /* AddConversation.swift */; };
 		4A5F59BE2264DF810065F47B /* AddConversationCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5F59BD2264DF810065F47B /* AddConversationCells.swift */; };
 		4A5F59C0226CA5B40065F47B /* CountryProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F59BF226CA5B40065F47B /* CountryProfileCell.xib */; };
 		4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */; };
@@ -131,7 +130,6 @@
 		4A5D856C21B3135F004E3E79 /* StandardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardButton.swift; sourceTree = "<group>"; };
 		4A5D856E21B315D3004E3E79 /* StandardTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTextField.swift; sourceTree = "<group>"; };
 		4A5F59B92264CE680065F47B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		4A5F59BB2264D8C70065F47B /* AddConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConversation.swift; sourceTree = "<group>"; };
 		4A5F59BD2264DF810065F47B /* AddConversationCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConversationCells.swift; sourceTree = "<group>"; };
 		4A5F59BF226CA5B40065F47B /* CountryProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CountryProfileCell.xib; sourceTree = "<group>"; };
 		4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
@@ -376,11 +374,11 @@
 				4AAED91A218336F400968E3E /* Info.plist */,
 				4AAED90B218336F400968E3E /* AppDelegate.swift */,
 				4AAED912218336F400968E3E /* converzone.xcdatamodeld */,
-				4A1C985621BC1BF300F99D62 /* View */,
 				4AAED90F218336F400968E3E /* Main.storyboard */,
 				4AAED917218336F400968E3E /* LaunchScreen.storyboard */,
 				4AA32885222925B500AB79C4 /* XIB */,
 				4AAED915218336F400968E3E /* Assets.xcassets */,
+				4A1C985621BC1BF300F99D62 /* View */,
 				4A1C985721BC1C1400F99D62 /* Supporting Files */,
 				4A1C985321BBF2CA00F99D62 /* Models */,
 				4A5D857121B31AFF004E3E79 /* UI Elements */,
@@ -428,7 +426,6 @@
 				4AA3288A22294E4700AB79C4 /* ChatVC.swift */,
 				4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */,
 				4A971BAA225DC46900D038AA /* GalleryVC.swift */,
-				4A5F59BB2264D8C70065F47B /* AddConversation.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -755,7 +752,6 @@
 				4AA8739C22143AE7006035A3 /* NormalInputCells.swift in Sources */,
 				4AA873A12214952F006035A3 /* WebVC.swift in Sources */,
 				4AD7D68B221B2FFA000E4660 /* SettingsVC.swift in Sources */,
-				4A5F59BC2264D8C70065F47B /* AddConversation.swift in Sources */,
 				4A016FE021B6B78B00095E26 /* Message.swift in Sources */,
 				4A5F59BE2264DF810065F47B /* AddConversationCells.swift in Sources */,
 				4A1C985221BA639C00F99D62 /* World.swift in Sources */,
