@@ -9,7 +9,6 @@
 import SystemConfiguration
 import UIKit
 import SocketIO
-import NotificationBannerSwift
 import NotificationCenter
 import Network
 
@@ -34,18 +33,10 @@ public class Internet: NSObject {
             if master!.uid != nil && master!.addedUserSinceLastConnect == false{
                 socket.emit("add-user", with: [["id": master?.uid]])
                 master?.addedUserSinceLastConnect = true
-                
-                let banner = StatusBarNotificationBanner(title: "", style: .success, colors: nil)
-                banner.bannerHeight = 10
-                banner.show()
             }
         }
 
         socket.on(clientEvent: .disconnect) { (data, ack) in
-            
-            let banner = StatusBarNotificationBanner(title: "", style: .danger, colors: nil)
-            banner.bannerHeight = 10
-            banner.show()
             
             master?.addedUserSinceLastConnect = false
             
@@ -71,11 +62,12 @@ public class Internet: NSObject {
                 // Make duplicates disappear
                 let temp = user?.conversation.count
                 
-                if temp == user?.conversation.count{
-                    if !(indexOfUser == user!.uid) {
-                        self.displayNotificationBanner(sender: (user?.fullname)!, typeOfMessage: text_message.color!, profilePictureURL: user!.link_to_profile_image!)
-                    }
-                }
+                // we use the standard iOS Notification banners from now on
+//                if temp == user?.conversation.count{
+//                    if !(indexOfUser == user!.uid) {
+//                        self.displayNotificationBanner(sender: (user?.fullname)!, typeOfMessage: text_message.color!, profilePictureURL: user!.link_to_profile_image!)
+//                    }
+//                }
                 
                 user?.conversation.append(text_message)
                 
@@ -186,40 +178,7 @@ public class Internet: NSObject {
         }
     }
     
-    func displayNotificationBanner(sender: String, typeOfMessage: UIColor, profilePictureURL: String){
-        
-        let notificationView = UINib(nibName: "InAppNotification", bundle: nil).instantiate(withOwner: self, options: nil).first as! InAppNotification
-        
-        notificationView.notification.layer.masksToBounds = true
-        notificationView.notification.layer.cornerRadius = 14
-        
-        notificationView.notification.layer.shadowColor = UIColor.black.cgColor
-        notificationView.notification.layer.shadowOffset = CGSize(width: 3, height: 3)
-        notificationView.notification.layer.shadowOpacity = 0.7
-        notificationView.notification.layer.shadowRadius = 10
-        
-        master?.getImage(with: profilePictureURL, completion: { (image) in
-            
-            if image == nil{
-                return
-            }
-            
-            notificationView.profileImage.image = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 37, maxHeight: 37)
-            notificationView.profileImage.layer.masksToBounds = true
-            notificationView.profileImage.layer.cornerRadius = 37 / 2
-        })
-        
-        notificationView.message.text = sender
-        notificationView.message.textColor = Colors.black
-        
-        notificationView.typeOfMessage.backgroundColor = typeOfMessage
-        notificationView.typeOfMessage.layer.masksToBounds = true
-        notificationView.typeOfMessage.layer.cornerRadius = 2
-        
-        let banner = NotificationBanner(customView: notificationView.notification)
-        
-        banner.show()
-    }
+    
     
     func resizeImageWithAspect(image: UIImage, scaledToMaxWidth width:CGFloat, maxHeight height :CGFloat)->UIImage? {
         let oldWidth = image.size.width;

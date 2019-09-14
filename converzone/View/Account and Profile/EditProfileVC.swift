@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alamofire
 
 class EditProfileVC: UIViewController{
     
@@ -302,53 +301,6 @@ class EditProfileVC: UIViewController{
     
     func uploadProfileImage(profileImage: UIImage){
         
-        let imageData = profile_image.image?.jpegData(compressionQuality: 1)
-        
-        // https://stackoverflow.com/a/40521003
-        Alamofire.upload(multipartFormData: { (multipartFormData) in
-            
-            multipartFormData.append("\(master!.uid)".data(using: String.Encoding.utf8)!, withName: "USERID")
-            
-            multipartFormData.append(imageData!, withName: "uploaded_file", fileName: (master?.lastname)! + "_" + String(master!.uid!) + "_profile_image", mimeType: "image/jpg")
-            
-            
-        }, to: baseURL + "/uploadImage.php") { (result) in
-            switch result {
-            case .success(let upload, _, _):
-                upload.uploadProgress(closure: { (progress) in
-                    print("Upload Progress: \(progress.fractionCompleted)")
-                })
-                
-//                upload.responseJSON { response in
-//                    switch response.result {
-//                    case .success(let value):
-//                        print(response.result.value)
-//                    case .failure(let error):
-//                        if (response.data?.count)! > 0 {print(error)}
-//                    }
-//                }
-                
-                upload.responseString(completionHandler: { (response) in
-                    switch response.result {
-                    case .success(let value):
-                        print(response.result.value)
-                        
-                        master?.link_to_profile_image = "http://converzone.htl-perg.ac.at/profile_images/" + (master?.lastname)! + "_" + String(master!.uid!) + "_profile_image"
-                        
-                        master?.changed_image = true
-                        
-                        master?.cache.removeAllObjects()
-                        
-                    case .failure(let error):
-                        if (response.data?.count)! > 0 {print(error)}
-                    }
-                })
-                
-            case .failure(let encodingError):
-                print("Error")
-                print(encodingError)
-            }
-        }
         
     }
     

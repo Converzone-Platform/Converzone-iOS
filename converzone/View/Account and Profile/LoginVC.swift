@@ -8,6 +8,8 @@
 
 import UIKit
 
+var master: Master? = Master("", "")
+
 class LoginVC: UIViewController {
     
     @IBOutlet weak var welcome_label: UILabel!

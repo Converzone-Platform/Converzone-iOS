@@ -9,7 +9,6 @@
 import UIKit
 import MapKit
 import CoreLocation
-import NotificationBannerSwift
 import AVFoundation
 
 var indexOfUser: Int = 0

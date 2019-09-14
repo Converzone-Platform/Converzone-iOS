@@ -32,14 +32,11 @@
 		4A5F59BE2264DF810065F47B /* AddConversationCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5F59BD2264DF810065F47B /* AddConversationCells.swift */; };
 		4A5F59C0226CA5B40065F47B /* CountryProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F59BF226CA5B40065F47B /* CountryProfileCell.xib */; };
 		4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */; };
-		4A69FAF32296C79300C718DA /* registration_client.php in Resources */ = {isa = PBXBuildFile; fileRef = 4A69FAF22296C79300C718DA /* registration_client.php */; };
 		4A6C1DE12240E3310055B5A5 /* StatusCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C1DE02240E3310055B5A5 /* StatusCodes.swift */; };
 		4A6C1DE322451D140055B5A5 /* TextMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C1DE222451D140055B5A5 /* TextMessageCell.xib */; };
 		4A6C1DE72246A2900055B5A5 /* InformationMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C1DE62246A2900055B5A5 /* InformationMessageCell.xib */; };
 		4A7A70D1222405D80074BE5E /* ReflectionDiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A70D0222405D80074BE5E /* ReflectionDiscoverCell.swift */; };
 		4A7F14EE22BB6ED70046EFA2 /* KeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7F14ED22BB6ED70046EFA2 /* KeyChain.swift */; };
-		4A7F14F022BBD0360046EFA2 /* addLanguages.php in Resources */ = {isa = PBXBuildFile; fileRef = 4A7F14EF22BBD0360046EFA2 /* addLanguages.php */; };
-		4A7F14F222BC3A350046EFA2 /* getInformation.php in Resources */ = {isa = PBXBuildFile; fileRef = 4A7F14F122BC3A350046EFA2 /* getInformation.php */; };
 		4A85E5AC2299B37700AE5EE6 /* chat.js in Resources */ = {isa = PBXBuildFile; fileRef = 4A85E5AB2299B37700AE5EE6 /* chat.js */; };
 		4A950C72222D17A80089754D /* ProfileCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A950C71222D17A80089754D /* ProfileCells.swift */; };
 		4A950C7F222D4D360089754D /* SendMessageProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C7E222D4D360089754D /* SendMessageProfileCell.xib */; };
@@ -66,7 +63,6 @@
 		4AAED919218336F400968E3E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AAED917218336F400968E3E /* LaunchScreen.storyboard */; };
 		4AAED924218336F400968E3E /* converzoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED923218336F400968E3E /* converzoneTests.swift */; };
 		4AAED92F218336F400968E3E /* converzoneUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED92E218336F400968E3E /* converzoneUITests.swift */; };
-		4AB6A80922BCE17000F8BAF0 /* uploadImage.php in Resources */ = {isa = PBXBuildFile; fileRef = 4AB6A80822BCE17000F8BAF0 /* uploadImage.php */; };
 		4ABE1A3D2295F32400B958B9 /* sklad in Resources */ = {isa = PBXBuildFile; fileRef = 4ABE1A3C2295F32400B958B9 /* sklad */; };
 		4AC0A6062271AF36007FA5AB /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5F59B92264CE680065F47B /* libz.tbd */; };
 		4AC65935229F16F200BD2251 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC65934229F16F200BD2251 /* Alerts.swift */; };
@@ -570,8 +566,6 @@
 				4A950C7F222D4D360089754D /* SendMessageProfileCell.xib in Resources */,
 				4A950C85222E64600089754D /* BlockAndReportProfileCell.xib in Resources */,
 				4A6C1DE72246A2900055B5A5 /* InformationMessageCell.xib in Resources */,
-				4A69FAF32296C79300C718DA /* registration_client.php in Resources */,
-				4A7F14F222BC3A350046EFA2 /* getInformation.php in Resources */,
 				4A950C8A222FF1960089754D /* ReflectionProfileCell.xib in Resources */,
 				4AD6A0BE22981DB00018614D /* InAppNotification.xib in Resources */,
 				4A85E5AC2299B37700AE5EE6 /* chat.js in Resources */,
@@ -581,13 +575,11 @@
 				4AA32887222925DD00AB79C4 /* DiscoverCardVC.xib in Resources */,
 				4A950C87222FB3C30089754D /* InterestsProfileCell.xib in Resources */,
 				4AAED916218336F400968E3E /* Assets.xcassets in Resources */,
-				4AB6A80922BCE17000F8BAF0 /* uploadImage.php in Resources */,
 				4AA3288D2229D3B300AB79C4 /* ImageProfileCell.xib in Resources */,
 				4ABE1A3D2295F32400B958B9 /* sklad in Resources */,
 				4A950C83222DA2640089754D /* StatusProfileCell.xib in Resources */,
 				4A5F59C0226CA5B40065F47B /* CountryProfileCell.xib in Resources */,
 				4AAED911218336F400968E3E /* Main.storyboard in Resources */,
-				4A7F14F022BBD0360046EFA2 /* addLanguages.php in Resources */,
 				4A6C1DE322451D140055B5A5 /* TextMessageCell.xib in Resources */,
 				4A950C81222D583E0089754D /* GeneralProfileCell.xib in Resources */,
 			);
