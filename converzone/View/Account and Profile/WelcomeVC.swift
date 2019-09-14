@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WelcomeVC: UIViewController {
+class WelcomeVC: NoAutoRotateViewController {
     
     @IBOutlet weak var circle_imageView: UIImageView!
     @IBOutlet weak var welcomeMessage_label: UILabel!
@@ -59,9 +59,5 @@ class WelcomeVC: UIViewController {
     
     override var prefersStatusBarHidden: Bool{
         return true
-    }
-    
-    override var shouldAutorotate: Bool{
-        return false
     }
 }

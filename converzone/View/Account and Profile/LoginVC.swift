@@ -10,7 +10,7 @@ import UIKit
 
 var master: Master? = Master("", "")
 
-class LoginVC: NoAutoRotateVC {
+class LoginVC: NoAutoRotateViewController {
     
     @IBOutlet weak var welcome_label: UILabel!
     @IBOutlet weak var continue_outlet: UIButton!

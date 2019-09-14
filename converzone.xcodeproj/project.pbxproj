@@ -23,7 +23,8 @@
 		4A26B2622295AEC0001EA17E /* LongTextEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A26B2612295AEC0001EA17E /* LongTextEditVC.swift */; };
 		4A337EEF21B549CA002A12EF /* ViewForLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A337EEE21B549CA002A12EF /* ViewForLogin.swift */; };
 		4A36EBD3232D2ACE0053361F /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A36EBD2232D2ACE0053361F /* Navigation.swift */; };
-		4A36EBD5232D34C90053361F /* NoAutoRotateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A36EBD4232D34C90053361F /* NoAutoRotateVC.swift */; };
+		4A36EBD5232D34C90053361F /* NoAutoRotateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A36EBD4232D34C90053361F /* NoAutoRotateViewController.swift */; };
+		4A36EBD7232D37F60053361F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A36EBD6232D37F60053361F /* GoogleService-Info.plist */; };
 		4A46A0CC222428FF00324A93 /* RandomDiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */; };
 		4A5A618422563A1B00CBA4F8 /* ChatSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */; };
 		4A5D856721B29F07004E3E79 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856621B29F07004E3E79 /* Colors.swift */; };
@@ -115,7 +116,8 @@
 		4A26B2632295D9E9001EA17E /* converzone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = converzone.entitlements; sourceTree = "<group>"; };
 		4A337EEE21B549CA002A12EF /* ViewForLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewForLogin.swift; sourceTree = "<group>"; };
 		4A36EBD2232D2ACE0053361F /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
-		4A36EBD4232D34C90053361F /* NoAutoRotateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoAutoRotateVC.swift; sourceTree = "<group>"; };
+		4A36EBD4232D34C90053361F /* NoAutoRotateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoAutoRotateViewController.swift; sourceTree = "<group>"; };
+		4A36EBD6232D37F60053361F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomDiscoverCell.swift; sourceTree = "<group>"; };
 		4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsVC.swift; sourceTree = "<group>"; };
 		4A5D856621B29F07004E3E79 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -251,7 +253,7 @@
 				4A016FD121B585BF00095E26 /* Internet.swift */,
 				4A016FD321B6716800095E26 /* Extensions.swift */,
 				4A36EBD2232D2ACE0053361F /* Navigation.swift */,
-				4A36EBD4232D34C90053361F /* NoAutoRotateVC.swift */,
+				4A36EBD4232D34C90053361F /* NoAutoRotateViewController.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -348,6 +350,7 @@
 		4AAED90A218336F400968E3E /* converzone */ = {
 			isa = PBXGroup;
 			children = (
+				4A36EBD6232D37F60053361F /* GoogleService-Info.plist */,
 				4A26B2632295D9E9001EA17E /* converzone.entitlements */,
 				4AAED91A218336F400968E3E /* Info.plist */,
 				4AAED90B218336F400968E3E /* AppDelegate.swift */,
@@ -552,6 +555,7 @@
 				4AAED916218336F400968E3E /* Assets.xcassets in Resources */,
 				4AA3288D2229D3B300AB79C4 /* ImageProfileCell.xib in Resources */,
 				4A950C83222DA2640089754D /* StatusProfileCell.xib in Resources */,
+				4A36EBD7232D37F60053361F /* GoogleService-Info.plist in Resources */,
 				4A5F59C0226CA5B40065F47B /* CountryProfileCell.xib in Resources */,
 				4AAED911218336F400968E3E /* Main.storyboard in Resources */,
 				4A6C1DE322451D140055B5A5 /* TextMessageCell.xib in Resources */,
@@ -712,7 +716,7 @@
 				4A016FDE21B6B6A500095E26 /* Master.swift in Sources */,
 				4A1C985D21BC720A00F99D62 /* LanguagesVC.swift in Sources */,
 				4A46A0CC222428FF00324A93 /* RandomDiscoverCell.swift in Sources */,
-				4A36EBD5232D34C90053361F /* NoAutoRotateVC.swift in Sources */,
+				4A36EBD5232D34C90053361F /* NoAutoRotateViewController.swift in Sources */,
 				4AD7D689221A19A4000E4660 /* StatusDiscoverCell.swift in Sources */,
 				4A5D856B21B31341004E3E79 /* LabelForLogin.swift in Sources */,
 				4AA3288B22294E4700AB79C4 /* ChatVC.swift in Sources */,
