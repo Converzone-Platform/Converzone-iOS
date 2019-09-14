@@ -46,11 +46,10 @@ class StandardTextField: UITextField{
     }
     
     func textFieldDidBeginEditing() {
-        print("focused")
+        
         
     }
     func textFieldDidEndEditing() {
-        print("lost focus")
         
     }
 }

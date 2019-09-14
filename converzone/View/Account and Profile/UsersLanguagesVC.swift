@@ -39,11 +39,10 @@ class UsersLanguagesVC: UIViewController {
             
             if master?.changingData == .registration {
                 
-                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let newViewController = storyBoard.instantiateViewController(withIdentifier: "EditProfileVC")
-                self.navigationController?.pushViewController(newViewController, animated: true)
+                Navigation.push(viewController: "EditProfileVC", context: self)
+                
             }else{
-                self.navigationController?.popViewController(animated: true)
+                Navigation.pop(context: self)
             }
             
             
@@ -52,12 +51,6 @@ class UsersLanguagesVC: UIViewController {
             //Display warning
             alert("At least one language", "Please select at least one language which you speak.")
         }
-    }
-    
-    func alert(_ title: String, _ message: String){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in }))
-        self.present(alert, animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,7 +67,7 @@ class UsersLanguagesVC: UIViewController {
         
         if master?.changingData == .editing{
             // Send languages
-            Internet.database(url: baseURL + "/deleteAllLanguages.php", parameters: ["USERID" : master!.uid!]) { (backdata, response, error) in
+            Internet.database(url: Internet.baseURL + "/deleteAllLanguages.php", parameters: ["USERID" : master!.uid!]) { (backdata, response, error) in
                 
                 if error != nil{
                     print(error!.localizedDescription)
@@ -97,7 +90,7 @@ class UsersLanguagesVC: UIViewController {
                     "LANGUAGE": language.name
                 ]
                 
-                Internet.database(url: baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
+                Internet.database(url: Internet.baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
                     
                     if error != nil{
                         print(error!.localizedDescription)
@@ -110,8 +103,6 @@ class UsersLanguagesVC: UIViewController {
                         }
                         
                     }
-                    
-                    print(backdata)
                     
                 }
             }
@@ -123,7 +114,7 @@ class UsersLanguagesVC: UIViewController {
                     "LANGUAGE": language.name
                 ]
                 
-                Internet.database(url: baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
+                Internet.database(url: Internet.baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
                     
                     if error != nil{
                         print(error!.localizedDescription)
@@ -137,7 +128,6 @@ class UsersLanguagesVC: UIViewController {
                         
                     }
                     
-                    print(backdata)
                     
                 }
             }
@@ -236,8 +226,7 @@ extension UsersLanguagesVC: UITableViewDataSource, UITableViewDelegate {
         }
         
         //Let the user select the language
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "LanguagesVC") as! LanguagesVC
-        self.navigationController?.pushViewController(vc, animated: true)
+        Navigation.push(viewController: "LanguagesVC", context: self)
     }
 
 }

@@ -47,11 +47,10 @@ extension CountryVC: UITableViewDataSource, UITableViewDelegate{
         master?.country = filteredCountries![indexPath.row]
         
         if master?.changingData == .editing{
-            self.navigationController?.popViewController(animated: true)
-            self.navigationController?.popViewController(animated: true)
+            Navigation.pop(context: self)
+            Navigation.pop(context: self)
         }else{
-            let vc = storyboard?.instantiateViewController(withIdentifier: "UsersLanguagesVC")
-            self.navigationController?.pushViewController(vc!, animated: true)
+            Navigation.push(viewController: "UsersLanguagesVC", context: self)
         }
         
     }

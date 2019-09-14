@@ -18,9 +18,7 @@ class ContinentVC: UIViewController {
     
     fileprivate func goBack() {
         //Go back to login view controller
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "LoginVC")
-        self.present(newViewController, animated: true, completion: nil)
+        Navigation.present(controller: "LoginVC", context: self)
     }
     
     @IBAction func back(_ sender: Any) {
@@ -122,11 +120,7 @@ extension ContinentVC {
         
         let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
             if let url = URL(string: UIApplication.openSettingsURLString) {
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                } else {
-                    // Fallback on earlier versions
-                }
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
         alertController.addAction(openAction)
@@ -146,9 +140,7 @@ extension ContinentVC {
             master?.country = country
             
             //Go to next view controller
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let balanceViewController = storyBoard.instantiateViewController(withIdentifier: "UsersLanguagesVC")
-            self.navigationController?.pushViewController(balanceViewController, animated: true)
+            Navigation.push(viewController: "UsersLanguagesVC", context: self)
         }
         
         alertController.addAction(openAction)

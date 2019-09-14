@@ -35,7 +35,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         
         if master?.addedUserSinceLastConnect == false{
             master?.addedUserSinceLastConnect = true
-            socket.emit("add-user", with: [["id": master?.uid]])
+            Internet.socket.emit("add-user", with: [["id": master?.uid]])
         }
         
     }
@@ -174,9 +174,7 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         
         indexOfUser = indexPath.row
         
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let balanceViewController = storyBoard.instantiateViewController(withIdentifier: "ChatVC")
-        self.navigationController?.pushViewController(balanceViewController, animated: true)
+        Navigation.push(viewController: "ChatVC", context: self)
         
     }
 }

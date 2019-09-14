@@ -30,7 +30,7 @@ class LoginVC: UIViewController {
         master?.email = email_textfield.text!
         master?.password = password_textfield.text!
         
-        Internet.database(url: baseURL + "/login_client.php", parameters: ["email": email, "password": password]) { (data, response, error) in
+        Internet.database(url: Internet.baseURL + "/login_client.php", parameters: ["email": email, "password": password]) { (data, response, error) in
             
             if error != nil {
                 print(error!.localizedDescription)
@@ -68,7 +68,7 @@ class LoginVC: UIViewController {
                     master?.firstname = data?["FIRSTNAME"] as? String
                     master?.lastname = data?["LASTNAME"] as? String
                     master?.uid = Int((data?["USERID"] as? String)!)
-                    master?.gender = self.genderConverter(gender: (data?["GENDER"] as? String)!)
+                    master?.gender = Gender.toGender(gender: (data?["GENDER"] as? String)!)
                     master?.status = NSAttributedString(string: (data?["STATUS"] as? String)!)
                     master?.interests = NSAttributedString(string: (data?["INTERESTS"] as? String)!)
                     master?.country = Country(name: (data?["COUNTRY"] as? String)!)
@@ -83,7 +83,7 @@ class LoginVC: UIViewController {
                     master?.birthdate = dateFormatter.date(from: string_date!)
                     
                     
-                Internet.databaseWithMultibleReturn(url: baseURL + "/languages.php", parameters: ["id": master?.uid as! Int], completionHandler: { (languages, response, error) in
+                Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/languages.php", parameters: ["id": master?.uid as! Int], completionHandler: { (languages, response, error) in
                     
                     if let httpResponse = response as? HTTPURLResponse {
                         
@@ -112,25 +112,12 @@ class LoginVC: UIViewController {
                 })
                     
                     DispatchQueue.main.async {
+                        
                         //Continue to conversations
-                        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainTBC")
-                        self.present(vc!, animated: true, completion: nil)
+                        Navigation.present(controller: "MainTBC", context: self)
                     }
                 }
             }
-        }
-    }
-    
-    func genderConverter(gender: String) -> Gender{
-        switch gender {
-        case "f":
-            return Gender.female
-        case "m":
-            return Gender.male
-        case "n":
-            return Gender.non_binary
-        default:
-            return Gender.non_binary
         }
     }
     
@@ -179,7 +166,7 @@ class LoginVC: UIViewController {
             
             // Continue to further registration
             
-            Internet.database(url: baseURL + "/check_email.php", parameters: ["email" : email]) { (data, response, error) in
+            Internet.database(url: Internet.baseURL + "/check_email.php", parameters: ["email" : email]) { (data, response, error) in
                 
                 if error != nil {
                     print(error!.localizedDescription)
@@ -205,11 +192,9 @@ class LoginVC: UIViewController {
                         
                         DispatchQueue.main.async {
                             
-                            socket.emit("add-user", with: [["id": master?.uid]])
+                            Internet.socket.emit("add-user", with: [["id": master?.uid]])
                             
-                            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "ContinentNC") as! UINavigationController
-                            UIApplication.shared.keyWindow?.rootViewController = viewController
+                            Navigation.change(navigationController: "ContinentNC")
                         }
                         
                     }

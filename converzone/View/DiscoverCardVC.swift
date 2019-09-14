@@ -468,12 +468,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             index+=1
         }
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let dViewController = storyboard.instantiateViewController(withIdentifier: "ChatVC") as! ChatVC
-        
-        let thirdTabNavController = self.tabBarController?.viewControllers?[0] as! UINavigationController
-        
-        thirdTabNavController.pushViewController(dViewController, animated: true)
+        Navigation.push(viewController: "ChatVC", context: self.tabBarController?.viewControllers?[0] as! UINavigationController)
         
         self.tabBarController?.selectedIndex = 0
         
@@ -495,7 +490,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         
         let block = UIAlertAction(title: "Block", style: .destructive) { (action) in
         
-            Internet.databaseWithMultibleReturn(url: baseURL + "/blockAndReport.php", parameters: ["blocker_id" : master!.uid!, "blockeduser_id": profileOf!.uid!], completionHandler: { (data, response, error) in
+            Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/blockAndReport.php", parameters: ["blocker_id" : master!.uid!, "blockeduser_id": profileOf!.uid!], completionHandler: { (data, response, error) in
                 
                 if error != nil{
                     print(error as Any)
@@ -552,7 +547,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         let action = UIAlertAction(title: "Send", style: .default) { (alertAction) in
             saveTextField = alert.textFields![0] as UITextField
             
-            Internet.databaseWithMultibleReturn(url: baseURL + "/blockAndReport.php", parameters: ["blocker_id" : master!.uid!, "blockeduser_id": profileOf!.uid!, "reason_for_report": saveTextField!.text!], completionHandler: { (data, response, error) in
+            Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/blockAndReport.php", parameters: ["blocker_id" : master!.uid!, "blockeduser_id": profileOf!.uid!, "reason_for_report": saveTextField!.text!], completionHandler: { (data, response, error) in
                 
                 if error != nil{
                     print(error as Any)

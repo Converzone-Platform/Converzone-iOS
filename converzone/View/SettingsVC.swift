@@ -102,26 +102,20 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         switch tableView.globalIndexPath(for: indexPath as NSIndexPath){
         case 0:
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "EditProfileVC")
-            self.navigationController?.pushViewController(vc!, animated: true)
-            self.tabBarController?.tabBar.isHidden = true
+            
+            Navigation.push(viewController: "EditProfileVC", context: self)
+            
         case 1:
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "UsersLanguagesVC")
-            self.navigationController?.pushViewController(vc!, animated: true)
-            self.tabBarController?.tabBar.isHidden = true
+            Navigation.push(viewController: "UsersLanguagesVC", context: self)
         case 2:
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ContinentVC")
-            self.navigationController?.pushViewController(vc!, animated: true)
-            self.tabBarController?.tabBar.isHidden = true
+            Navigation.push(viewController: "ContinentVC", context: self)
         case 3:
             
             // MARK: TODO - This is probably not working! Change to correct link
             "Check this out: http://itunes.apple.com/app/id1465102094".share()
             
         case 4:
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC")
-            present(vc!, animated: true, completion: nil)
-            self.tabBarController?.tabBar.isHidden = true
+            Navigation.present(controller: "LoginVC", context: self)
             
             // Delete discover users
             discover_users.removeAll()
@@ -133,6 +127,8 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         default:
             print("No action here")
         }
+        
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

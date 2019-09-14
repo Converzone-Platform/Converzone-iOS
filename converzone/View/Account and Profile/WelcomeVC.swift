@@ -38,11 +38,10 @@ class WelcomeVC: UIViewController {
             master?.changingData = .editing
             
             // Emit
-            socket.emit("add-user", with: [["id": master?.uid]])
+            Internet.socket.emit("add-user", with: [["id": master?.uid]])
             
             // Animate to actual app
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "MainTBC")
-            self.present(vc!, animated: true, completion: nil)
+            Navigation.present(controller: "MainTBC", context: self)
             
         }
     }

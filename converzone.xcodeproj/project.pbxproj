@@ -22,6 +22,7 @@
 		4A1C985D21BC720A00F99D62 /* LanguagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C985C21BC720A00F99D62 /* LanguagesVC.swift */; };
 		4A26B2622295AEC0001EA17E /* LongTextEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A26B2612295AEC0001EA17E /* LongTextEditVC.swift */; };
 		4A337EEF21B549CA002A12EF /* StandardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A337EEE21B549CA002A12EF /* StandardView.swift */; };
+		4A36EBD3232D2ACE0053361F /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A36EBD2232D2ACE0053361F /* Navigation.swift */; };
 		4A46A0CC222428FF00324A93 /* RandomDiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */; };
 		4A5A618422563A1B00CBA4F8 /* ChatSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */; };
 		4A5D856721B29F07004E3E79 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856621B29F07004E3E79 /* Colors.swift */; };
@@ -42,7 +43,6 @@
 		4A950C85222E64600089754D /* BlockAndReportProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C84222E64600089754D /* BlockAndReportProfileCell.xib */; };
 		4A950C87222FB3C30089754D /* InterestsProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C86222FB3C30089754D /* InterestsProfileCell.xib */; };
 		4A950C8A222FF1960089754D /* ReflectionProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C89222FF1960089754D /* ReflectionProfileCell.xib */; };
-		4A971BAB225DC46900D038AA /* GalleryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A971BAA225DC46900D038AA /* GalleryVC.swift */; };
 		4AA2FC1B22281AD000A10A4A /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA2FC1A22281AD000A10A4A /* ChatCell.swift */; };
 		4AA2FC1F22281BC600A10A4A /* ConversationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA2FC1E22281BC600A10A4A /* ConversationsVC.swift */; };
 		4AA32887222925DD00AB79C4 /* DiscoverCardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AA32886222925DD00AB79C4 /* DiscoverCardVC.xib */; };
@@ -113,6 +113,7 @@
 		4A26B2612295AEC0001EA17E /* LongTextEditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongTextEditVC.swift; sourceTree = "<group>"; };
 		4A26B2632295D9E9001EA17E /* converzone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = converzone.entitlements; sourceTree = "<group>"; };
 		4A337EEE21B549CA002A12EF /* StandardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardView.swift; sourceTree = "<group>"; };
+		4A36EBD2232D2ACE0053361F /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
 		4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomDiscoverCell.swift; sourceTree = "<group>"; };
 		4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsVC.swift; sourceTree = "<group>"; };
 		4A5D856621B29F07004E3E79 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -134,7 +135,6 @@
 		4A950C84222E64600089754D /* BlockAndReportProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockAndReportProfileCell.xib; sourceTree = "<group>"; };
 		4A950C86222FB3C30089754D /* InterestsProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InterestsProfileCell.xib; sourceTree = "<group>"; };
 		4A950C89222FF1960089754D /* ReflectionProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReflectionProfileCell.xib; sourceTree = "<group>"; };
-		4A971BAA225DC46900D038AA /* GalleryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryVC.swift; sourceTree = "<group>"; };
 		4AA2FC1A22281AD000A10A4A /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		4AA2FC1E22281BC600A10A4A /* ConversationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsVC.swift; sourceTree = "<group>"; };
 		4AA32886222925DD00AB79C4 /* DiscoverCardVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiscoverCardVC.xib; sourceTree = "<group>"; };
@@ -248,6 +248,7 @@
 				4A5D856621B29F07004E3E79 /* Colors.swift */,
 				4A016FD121B585BF00095E26 /* Internet.swift */,
 				4A016FD321B6716800095E26 /* Extensions.swift */,
+				4A36EBD2232D2ACE0053361F /* Navigation.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -399,7 +400,6 @@
 				4AA2FC1E22281BC600A10A4A /* ConversationsVC.swift */,
 				4AA3288A22294E4700AB79C4 /* ChatVC.swift */,
 				4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */,
-				4A971BAA225DC46900D038AA /* GalleryVC.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -679,6 +679,7 @@
 				4A5D856721B29F07004E3E79 /* Colors.swift in Sources */,
 				4AA328892229269500AB79C4 /* DiscoverCardVC.swift in Sources */,
 				4A5A618422563A1B00CBA4F8 /* ChatSettingsVC.swift in Sources */,
+				4A36EBD3232D2ACE0053361F /* Navigation.swift in Sources */,
 				4AD7D6832217292A000E4660 /* Genders.swift in Sources */,
 				4A337EEF21B549CA002A12EF /* StandardView.swift in Sources */,
 				4AAED90E218336F400968E3E /* LoginVC.swift in Sources */,
@@ -687,7 +688,6 @@
 				4A016FDA21B6B1B200095E26 /* Person.swift in Sources */,
 				4AAED914218336F400968E3E /* converzone.xcdatamodeld in Sources */,
 				4A950C72222D17A80089754D /* ProfileCells.swift in Sources */,
-				4A971BAB225DC46900D038AA /* GalleryVC.swift in Sources */,
 				4AD7D687221A090A000E4660 /* DiscoverVC.swift in Sources */,
 				4AA2FC1B22281AD000A10A4A /* ChatCell.swift in Sources */,
 				4AA8739F2214816B006035A3 /* WelcomeVC.swift in Sources */,

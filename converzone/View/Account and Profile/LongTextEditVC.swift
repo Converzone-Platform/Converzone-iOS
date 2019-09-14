@@ -73,7 +73,7 @@ class LongTextEditVC: UIViewController {
         }
         
         // Go back to previous vc
-        self.navigationController?.popViewController(animated: true)
+        Navigation.pop(context: self)
     }
     
     @objc func handleKeyboard(_ notification: Notification){

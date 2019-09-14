@@ -56,7 +56,7 @@ class DiscoverVC: UIViewController {
     }
     
     func fetchUsers(){
-        Internet.databaseWithMultibleReturn(url: baseURL + "/discover.php", parameters: ["min_id" : fetchedCount + 1, "max_id": fetchedCount + numberOfItemsPerFetch, "self_id": master?.uid as! Int]) { (data, response, error) in
+        Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/discover.php", parameters: ["min_id" : fetchedCount + 1, "max_id": fetchedCount + numberOfItemsPerFetch, "self_id": master?.uid as! Int]) { (data, response, error) in
             
             if error != nil {
                 print(error!.localizedDescription)
@@ -104,7 +104,7 @@ class DiscoverVC: UIViewController {
                             }
                             
                             // Get languages
-                            Internet.databaseWithMultibleReturn(url: baseURL + "/languages.php", parameters: ["id": user.uid! as Any], completionHandler: { (languages, response, error) in
+                            Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/languages.php", parameters: ["id": user.uid! as Any], completionHandler: { (languages, response, error) in
                                 
                                 if let httpResponse = response as? HTTPURLResponse {
                                     

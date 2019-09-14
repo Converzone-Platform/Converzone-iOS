@@ -29,15 +29,15 @@ import UserNotifications
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-        socket.connect()
+        Internet.socket.connect()
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-        socket.disconnect()
+        Internet.socket.disconnect()
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        socket.disconnect()
+        Internet.socket.disconnect()
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

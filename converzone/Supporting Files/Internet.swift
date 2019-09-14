@@ -12,13 +12,11 @@ import SocketIO
 import NotificationCenter
 import Network
 
-var baseURL = "https://converzone.htl-perg.ac.at"
-
-let manager = SocketManager(socketURL: URL(string: "wss://converzone.htl-perg.ac.at" + ":5134")!, config: [.log(true), .compress])
-
-let socket = manager.defaultSocket
-
 public class Internet: NSObject {
+    
+    static var baseURL = "https://converzone.htl-perg.ac.at"
+    
+    static let socket = SocketManager(socketURL: URL(string: "wss://converzone.htl-perg.ac.at" + ":5134")!, config: [.log(true), .compress]).defaultSocket
     
     // Maybe "weak" here?!
     var chat_delegate: ChatUpdateDelegate?
@@ -28,21 +26,21 @@ public class Internet: NSObject {
         
         super.init()
         
-        socket.on(clientEvent: .connect) {data, ack in
+        Internet.socket.on(clientEvent: .connect) {data, ack in
             
             if master!.uid != nil && master!.addedUserSinceLastConnect == false{
-                socket.emit("add-user", with: [["id": master?.uid]])
+                Internet.socket.emit("add-user", with: [["id": master?.uid]])
                 master?.addedUserSinceLastConnect = true
             }
         }
 
-        socket.on(clientEvent: .disconnect) { (data, ack) in
+        Internet.socket.on(clientEvent: .disconnect) { (data, ack) in
             
             master?.addedUserSinceLastConnect = false
             
         }
 
-        socket.on("chat-message") {  data, ack in
+        Internet.socket.on("chat-message") {  data, ack in
 
             let dic = data[0] as? [String: Any]
 
@@ -77,7 +75,7 @@ public class Internet: NSObject {
             }else{
                 
                 // Create a new user
-                Internet.databaseWithMultibleReturn(url: baseURL + "/getInformationOfUser.php", parameters: ["id": dic!["sender"] as! Int], completionHandler: { (user_data, response, error) in
+                Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/getInformationOfUser.php", parameters: ["id": dic!["sender"] as! Int], completionHandler: { (user_data, response, error) in
                     
                     if error != nil {
                         print(error!.localizedDescription)
@@ -115,7 +113,7 @@ public class Internet: NSObject {
                     user?.birthdate = dateFormatter.date(from: string_date)
                     
                     
-                    Internet.databaseWithMultibleReturn(url: baseURL + "/languages.php", parameters: ["id": user?.uid as! Int], completionHandler: { (languages, language_response, language_error) in
+                    Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/languages.php", parameters: ["id": user?.uid as! Int], completionHandler: { (languages, language_response, language_error) in
 
                         if language_error != nil{
                             print(language_error?.localizedDescription)
@@ -162,7 +160,7 @@ public class Internet: NSObject {
             
         }
 
-        socket.connect()
+        Internet.socket.connect()
     }
     
     func genderConverter(gender: String) -> Gender{
@@ -311,7 +309,7 @@ public class Internet: NSObject {
             
             do {
                 let json = try JSONSerialization.jsonObject(with: data!, options: [])
-                print(json)
+                
                 guard let jsonArray = json as? [[String: Any]] else {
                     
                     completionHandler(nil, response, error)

@@ -167,8 +167,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     
     @objc func goToConversations(){
         
-        let conversations = storyboard!.instantiateViewController(withIdentifier: "ConversationsVC")
-        self.navigationController?.pushViewController(conversations, animated: true)
+        Navigation.push(viewController: "ConversationsVC", context: self)
     }
     
     func navTitleWithImageAndText(titleText: String, imageLink: String) -> UIView {
@@ -227,9 +226,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     
     @objc func handleInfoButton(){
         //Go to next view controller
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let chatSettingsVC = storyBoard.instantiateViewController(withIdentifier: "ChatSettingsVC")
-        self.navigationController?.pushViewController(chatSettingsVC, animated: true)
+        Navigation.push(viewController: "ChatSettingsVC", context: self)
     }
     
     func setUpTableView(){
@@ -288,11 +285,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
             let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIView.AnimationOptions.curveEaseInOut.rawValue
             let animationCurve:UIView.AnimationOptions = UIView.AnimationOptions(rawValue: animationCurveRaw)
             
-            if #available(iOS 11.0, *) {
-                newHeight = keyboardFrame.cgRectValue.height - self.view.safeAreaInsets.bottom
-            } else {
-                newHeight = keyboardFrame.cgRectValue.height
-            }
+            newHeight = keyboardFrame.cgRectValue.height - self.view.safeAreaInsets.bottom
             
             let keyboardHeight = newHeight /*+ 10*/ // **10 is bottom margin of View**  and **this newHeight will be keyboard height**
             UIView.animate(withDuration: duration,
@@ -378,9 +371,6 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             let cell = Bundle.main.loadNibNamed("TextMessageCell", owner: self, options: nil)?.first as! TextMessageCell
             
             let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! TextMessage
-            
-            // Format the text
-            message.text = TextFormatter.formatAll(text: message.text!)
             
             // Add Long pressure gesture
             let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))

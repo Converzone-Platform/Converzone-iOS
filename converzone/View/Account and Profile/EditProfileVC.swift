@@ -208,17 +208,15 @@ class EditProfileVC: UIViewController{
             "PASSWORD": master!.password,
         ]
 
-        Internet.database(url: baseURL + "/register_client.php", parameters: data) { (data_back, response, error) in
+        Internet.database(url: Internet.baseURL + "/register_client.php", parameters: data) { (data_back, response, error) in
 
-            
-            print(data_back)
             
             master!.uid = Int((data_back?["USERID"] as? String)!)
 
             if master?.changingData == .registration {
                 
                 // Send languages
-                Internet.database(url: baseURL + "/deleteAllLanguages.php", parameters: ["USERID" : master!.uid!]) { (backdata, response, error) in
+                Internet.database(url: Internet.baseURL + "/deleteAllLanguages.php", parameters: ["USERID" : master!.uid!]) { (backdata, response, error) in
                     
                     if error != nil{
                         print(error!.localizedDescription)
@@ -241,7 +239,7 @@ class EditProfileVC: UIViewController{
                         "LANGUAGE": language.name
                     ]
                     
-                    Internet.database(url: baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
+                    Internet.database(url: Internet.baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
                         
                         if error != nil{
                             print(error!.localizedDescription)
@@ -255,8 +253,6 @@ class EditProfileVC: UIViewController{
                             
                         }
                         
-                        print(backdata)
-                        
                     }
                 }
                 for language in master!.learn_languages{
@@ -267,7 +263,7 @@ class EditProfileVC: UIViewController{
                         "LANGUAGE": language.name
                     ]
                     
-                    Internet.database(url: baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
+                    Internet.database(url: Internet.baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
                         
                         if error != nil{
                             print(error!.localizedDescription)
@@ -292,10 +288,9 @@ class EditProfileVC: UIViewController{
         if master?.changingData == .registration {
             
             // Go to welcome screen
-            let viewController = storyboard!.instantiateViewController(withIdentifier: "WelcomeVC") as! WelcomeVC
-            present(viewController, animated: true, completion: nil)
+            Navigation.present(controller: "WelcomeVC", context: self)
         }else{
-            self.navigationController?.popViewController(animated: true)
+            Navigation.pop(context: self)
         }
     }
     
@@ -305,21 +300,6 @@ class EditProfileVC: UIViewController{
     }
     
     
-    
-    func genderConveter(gender: String) -> Gender{
-        
-        switch gender {
-        case "female":
-            return .female
-        case "male":
-            return .male
-        case "non binary":
-            return .non_binary
-        default:
-            return .non_binary
-        }
-        
-    }
     
     @objc func pickDate (datePicker: UIDatePicker){
         
@@ -410,31 +390,8 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
                 longTextInputFor = .status
             }
             
-            let vc = storyboard?.instantiateViewController(withIdentifier: "LongTextEditVC")
-            self.navigationController?.pushViewController(vc!, animated: true)
+            Navigation.push(viewController: "LongTextEditVC", context: self)
             
-        }
-        
-    }
-    
-    func getIndexOfTitles( indexPath: IndexPath ) -> Int{
-        
-        switch indexPath.section {
-        case 0:
-            if ( indexPath.row == 0) { return 0 }
-            
-            return 1
-        case 1:
-            if ( indexPath.row == 0) { return 2 }
-            
-            return 3
-        case 2:
-            if ( indexPath.row == 0) { return 4 }
-            return 5
-        case 3:
-            return 6
-        default:
-            return 1
         }
         
     }
