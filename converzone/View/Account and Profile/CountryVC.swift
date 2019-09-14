@@ -17,6 +17,8 @@ class CountryVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         currentCountries = world.getCountriesOf(master?.continent ?? "Europe")
         
         filteredCountries = currentCountries

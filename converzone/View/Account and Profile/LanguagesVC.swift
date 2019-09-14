@@ -20,6 +20,7 @@ class LanguagesVC: UIViewController {
     var selected_learning_languages: [Language] = []
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         currentLanguages = world.languages
         
@@ -39,6 +40,8 @@ class LanguagesVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         world.sortLanguagesAlphabetically()
     }
     

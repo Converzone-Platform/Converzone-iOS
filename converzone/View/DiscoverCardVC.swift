@@ -214,6 +214,7 @@ class DiscoverCardVC: UIViewController {
     private var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         design_view.layer.cornerRadius = 3
         design_view.layer.masksToBounds = true

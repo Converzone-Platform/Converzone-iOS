@@ -124,6 +124,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         setUpTableView()
         setUpMessageTextField()
@@ -151,6 +152,8 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         setUpLocationServices()
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.prefersLargeTitles = false
@@ -213,6 +216,8 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
         self.tabBarController?.tabBar.isHidden = false
         
         self.navigationController?.navigationBar.removeGestureRecognizer(tapGestureRecognizer)

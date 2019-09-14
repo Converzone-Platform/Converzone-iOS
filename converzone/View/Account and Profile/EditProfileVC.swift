@@ -27,6 +27,8 @@ class EditProfileVC: UIViewController{
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         profile_image.addGestureRecognizer(tapGesture)
         profile_image.isUserInteractionEnabled = true
@@ -50,6 +52,8 @@ class EditProfileVC: UIViewController{
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         tableView.reloadData()
     }
     
@@ -95,7 +99,7 @@ class EditProfileVC: UIViewController{
             alert("Gender", "Please make sure you enter one of the predefined genders", self)
             return false
         }else{
-            master?.gender = genderConveter(gender: gender.trimmingCharacters(in: .whitespaces))
+            master?.gender = Gender.toGender(gender: gender.trimmingCharacters(in: .whitespaces))
         }
         
         // 4. Can the date be correct?
@@ -403,7 +407,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "NormalInputCell") as! NormalInputCell
             
-            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             cell.input?.placeholder = "First name"
             
             cell.input?.addTarget(self, action: #selector(firstNameTextFieldChanged), for: .editingChanged)
@@ -416,7 +420,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "NormalInputCell") as! NormalInputCell
             
-            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             cell.input?.placeholder = "Last name"
             
             cell.input?.addTarget(self, action: #selector(lastNameTextFieldChanged), for: .editingChanged)
@@ -429,7 +433,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "InputGenderCell") as! InputGenderCell
             
-            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
             cell.gender.placeholder = "Gender"
             
@@ -446,7 +450,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "InputDateCell") as! InputDateCell
             
-            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
             // Setup date picker
             let datePicker = UIDatePicker()
@@ -481,7 +485,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "InputLongTextCell") as! InputLongTextCell
             
-            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
             if master?.interests?.string == nil {
                 cell.input.text = "Your interests"
@@ -496,7 +500,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "InputLongTextCell") as! InputLongTextCell
             
-            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
             if master?.status?.string == nil {
                 cell.input.text = "Tell the world something"
@@ -512,7 +516,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.discoverable.isOn = true
             
-            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
             if master?.discoverable != nil{
                 cell.discoverable.isOn = master!.discoverable
@@ -522,7 +526,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "NormalInputCell") as! NormalInputCell
             
-            cell.title?.text = titlesOfCells[getIndexOfTitles(indexPath: indexPath)]
+            cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
             return cell
             

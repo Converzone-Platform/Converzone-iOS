@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StandardView: UIView{
+class ViewForLogin: UIView{
     
     @IBInspectable open var cornerRadius: CGFloat = 1 {
         didSet {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class StandardButton : UIButton {
+open class ButtonForLogin : UIButton {
     @IBInspectable open var characterSpacing: CGFloat = 1 {
         didSet {
             updateWithSpacing()

@@ -21,6 +21,7 @@ class UsersLanguagesVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         //Add a continue button
         if master?.changingData == .registration {
@@ -49,11 +50,12 @@ class UsersLanguagesVC: UIViewController {
         }else{
             
             //Display warning
-            alert("At least one language", "Please select at least one language which you speak.")
+            alert("At least one language", "Please select at least one language which you speak.", self)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         master?.speak_languages.removeDuplicates()
         master?.learn_languages.removeDuplicates()
@@ -64,6 +66,7 @@ class UsersLanguagesVC: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
         if master?.changingData == .editing{
             // Send languages

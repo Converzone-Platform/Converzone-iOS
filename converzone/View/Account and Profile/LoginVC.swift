@@ -10,15 +10,15 @@ import UIKit
 
 var master: Master? = Master("", "")
 
-class LoginVC: UIViewController {
+class LoginVC: NoAutoRotateVC {
     
     @IBOutlet weak var welcome_label: UILabel!
     @IBOutlet weak var continue_outlet: UIButton!
-    @IBOutlet weak var login_outlet: StandardButton!
-    @IBOutlet weak var register_outlet: StandardButton!
+    @IBOutlet weak var login_outlet: ButtonForLogin!
+    @IBOutlet weak var register_outlet: ButtonForLogin!
     
-    @IBOutlet weak var email_textfield: StandardTextField!
-    @IBOutlet weak var password_textfield: StandardTextField!
+    @IBOutlet weak var email_textfield: TextFieldForLogin!
+    @IBOutlet weak var password_textfield: TextFieldForLogin!
     
     @IBAction func forgot_button(_ sender: Any) {
         
@@ -221,16 +221,18 @@ class LoginVC: UIViewController {
     
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         drawCircle()
         renderWelcomeMessage()
         
         register_outlet.isEnabled = false
         login_outlet.isEnabled = true
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         // Let's delete all the data from the old master
         master?.conversations.removeAll()
         master?.speak_languages.removeAll()
@@ -323,14 +325,5 @@ class LoginVC: UIViewController {
     //Close keyboard when touched somewhere else
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
-    }
-    
-    //Disable auto rotation
-    override var shouldAutorotate: Bool{
-        return false
-    }
-    
-    func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return .portrait
     }
 }

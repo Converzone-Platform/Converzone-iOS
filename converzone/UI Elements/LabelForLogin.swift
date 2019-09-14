@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class StandardLabel : UILabel {
+open class LabelForLogin : UILabel {
     @IBInspectable open var characterSpacing:CGFloat = 1 {
         didSet {
             updateWithSpacing()

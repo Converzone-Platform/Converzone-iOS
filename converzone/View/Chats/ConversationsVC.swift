@@ -24,6 +24,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     let updates = Internet()
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         setUpNavBar()
         
@@ -41,6 +42,8 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         self.title = "Conversations"
         self.tabBarController?.cleanTitles()
         //filtered_converations = master?.conversations
@@ -54,6 +57,8 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
         self.title = ""
     }
     

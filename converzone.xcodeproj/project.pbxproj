@@ -21,14 +21,15 @@
 		4A1C985B21BC5D7800F99D62 /* UsersLanguagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C985A21BC5D7800F99D62 /* UsersLanguagesVC.swift */; };
 		4A1C985D21BC720A00F99D62 /* LanguagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C985C21BC720A00F99D62 /* LanguagesVC.swift */; };
 		4A26B2622295AEC0001EA17E /* LongTextEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A26B2612295AEC0001EA17E /* LongTextEditVC.swift */; };
-		4A337EEF21B549CA002A12EF /* StandardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A337EEE21B549CA002A12EF /* StandardView.swift */; };
+		4A337EEF21B549CA002A12EF /* ViewForLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A337EEE21B549CA002A12EF /* ViewForLogin.swift */; };
 		4A36EBD3232D2ACE0053361F /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A36EBD2232D2ACE0053361F /* Navigation.swift */; };
+		4A36EBD5232D34C90053361F /* NoAutoRotateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A36EBD4232D34C90053361F /* NoAutoRotateVC.swift */; };
 		4A46A0CC222428FF00324A93 /* RandomDiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */; };
 		4A5A618422563A1B00CBA4F8 /* ChatSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */; };
 		4A5D856721B29F07004E3E79 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856621B29F07004E3E79 /* Colors.swift */; };
-		4A5D856B21B31341004E3E79 /* StandardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856A21B31341004E3E79 /* StandardLabel.swift */; };
-		4A5D856D21B3135F004E3E79 /* StandardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856C21B3135F004E3E79 /* StandardButton.swift */; };
-		4A5D856F21B315D3004E3E79 /* StandardTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856E21B315D3004E3E79 /* StandardTextField.swift */; };
+		4A5D856B21B31341004E3E79 /* LabelForLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856A21B31341004E3E79 /* LabelForLogin.swift */; };
+		4A5D856D21B3135F004E3E79 /* ButtonForLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856C21B3135F004E3E79 /* ButtonForLogin.swift */; };
+		4A5D856F21B315D3004E3E79 /* TextFieldForLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856E21B315D3004E3E79 /* TextFieldForLogin.swift */; };
 		4A5F59BE2264DF810065F47B /* AddConversationCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5F59BD2264DF810065F47B /* AddConversationCells.swift */; };
 		4A5F59C0226CA5B40065F47B /* CountryProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F59BF226CA5B40065F47B /* CountryProfileCell.xib */; };
 		4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */; };
@@ -112,14 +113,15 @@
 		4A1C985C21BC720A00F99D62 /* LanguagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesVC.swift; sourceTree = "<group>"; };
 		4A26B2612295AEC0001EA17E /* LongTextEditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongTextEditVC.swift; sourceTree = "<group>"; };
 		4A26B2632295D9E9001EA17E /* converzone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = converzone.entitlements; sourceTree = "<group>"; };
-		4A337EEE21B549CA002A12EF /* StandardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardView.swift; sourceTree = "<group>"; };
+		4A337EEE21B549CA002A12EF /* ViewForLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewForLogin.swift; sourceTree = "<group>"; };
 		4A36EBD2232D2ACE0053361F /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
+		4A36EBD4232D34C90053361F /* NoAutoRotateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoAutoRotateVC.swift; sourceTree = "<group>"; };
 		4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomDiscoverCell.swift; sourceTree = "<group>"; };
 		4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsVC.swift; sourceTree = "<group>"; };
 		4A5D856621B29F07004E3E79 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		4A5D856A21B31341004E3E79 /* StandardLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardLabel.swift; sourceTree = "<group>"; };
-		4A5D856C21B3135F004E3E79 /* StandardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardButton.swift; sourceTree = "<group>"; };
-		4A5D856E21B315D3004E3E79 /* StandardTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardTextField.swift; sourceTree = "<group>"; };
+		4A5D856A21B31341004E3E79 /* LabelForLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelForLogin.swift; sourceTree = "<group>"; };
+		4A5D856C21B3135F004E3E79 /* ButtonForLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonForLogin.swift; sourceTree = "<group>"; };
+		4A5D856E21B315D3004E3E79 /* TextFieldForLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldForLogin.swift; sourceTree = "<group>"; };
 		4A5F59B92264CE680065F47B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		4A5F59BD2264DF810065F47B /* AddConversationCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConversationCells.swift; sourceTree = "<group>"; };
 		4A5F59BF226CA5B40065F47B /* CountryProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CountryProfileCell.xib; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				4A016FD121B585BF00095E26 /* Internet.swift */,
 				4A016FD321B6716800095E26 /* Extensions.swift */,
 				4A36EBD2232D2ACE0053361F /* Navigation.swift */,
+				4A36EBD4232D34C90053361F /* NoAutoRotateVC.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -256,10 +259,10 @@
 		4A5D857121B31AFF004E3E79 /* UI Elements */ = {
 			isa = PBXGroup;
 			children = (
-				4A5D856A21B31341004E3E79 /* StandardLabel.swift */,
-				4A5D856C21B3135F004E3E79 /* StandardButton.swift */,
-				4A5D856E21B315D3004E3E79 /* StandardTextField.swift */,
-				4A337EEE21B549CA002A12EF /* StandardView.swift */,
+				4A5D856A21B31341004E3E79 /* LabelForLogin.swift */,
+				4A5D856C21B3135F004E3E79 /* ButtonForLogin.swift */,
+				4A5D856E21B315D3004E3E79 /* TextFieldForLogin.swift */,
+				4A337EEE21B549CA002A12EF /* ViewForLogin.swift */,
 			);
 			path = "UI Elements";
 			sourceTree = "<group>";
@@ -681,7 +684,7 @@
 				4A5A618422563A1B00CBA4F8 /* ChatSettingsVC.swift in Sources */,
 				4A36EBD3232D2ACE0053361F /* Navigation.swift in Sources */,
 				4AD7D6832217292A000E4660 /* Genders.swift in Sources */,
-				4A337EEF21B549CA002A12EF /* StandardView.swift in Sources */,
+				4A337EEF21B549CA002A12EF /* ViewForLogin.swift in Sources */,
 				4AAED90E218336F400968E3E /* LoginVC.swift in Sources */,
 				4A016FD221B585BF00095E26 /* Internet.swift in Sources */,
 				4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */,
@@ -703,14 +706,15 @@
 				4AD7D685221A0800000E4660 /* PicDiscoverCell.swift in Sources */,
 				4A7A70D1222405D80074BE5E /* ReflectionDiscoverCell.swift in Sources */,
 				4A016FDC21B6B61F00095E26 /* User.swift in Sources */,
-				4A5D856F21B315D3004E3E79 /* StandardTextField.swift in Sources */,
-				4A5D856D21B3135F004E3E79 /* StandardButton.swift in Sources */,
+				4A5D856F21B315D3004E3E79 /* TextFieldForLogin.swift in Sources */,
+				4A5D856D21B3135F004E3E79 /* ButtonForLogin.swift in Sources */,
 				4AA2FC1F22281BC600A10A4A /* ConversationsVC.swift in Sources */,
 				4A016FDE21B6B6A500095E26 /* Master.swift in Sources */,
 				4A1C985D21BC720A00F99D62 /* LanguagesVC.swift in Sources */,
 				4A46A0CC222428FF00324A93 /* RandomDiscoverCell.swift in Sources */,
+				4A36EBD5232D34C90053361F /* NoAutoRotateVC.swift in Sources */,
 				4AD7D689221A19A4000E4660 /* StatusDiscoverCell.swift in Sources */,
-				4A5D856B21B31341004E3E79 /* StandardLabel.swift in Sources */,
+				4A5D856B21B31341004E3E79 /* LabelForLogin.swift in Sources */,
 				4AA3288B22294E4700AB79C4 /* ChatVC.swift in Sources */,
 				4A26B2622295AEC0001EA17E /* LongTextEditVC.swift in Sources */,
 				4AA8739C22143AE7006035A3 /* NormalInputCells.swift in Sources */,

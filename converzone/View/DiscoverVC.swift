@@ -32,6 +32,8 @@ class DiscoverVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         if discover_users.isEmpty && Internet.isOnline(){
             fetchUsers()
             fetchedCount = 0

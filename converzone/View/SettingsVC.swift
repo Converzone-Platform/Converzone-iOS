@@ -16,6 +16,8 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var settings = ["", "Languages", "Country", "Recommend", "Sign out"]
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         self.tabBarController?.tabBar.isHidden = false
         
         self.title = "Settings"

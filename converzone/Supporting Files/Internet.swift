@@ -9,7 +9,6 @@
 import SystemConfiguration
 import UIKit
 import SocketIO
-import NotificationCenter
 import Network
 
 public class Internet: NSObject {

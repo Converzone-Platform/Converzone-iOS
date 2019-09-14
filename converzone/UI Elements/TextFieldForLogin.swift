@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StandardTextField: UITextField{
+class TextFieldForLogin: UITextField{
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
