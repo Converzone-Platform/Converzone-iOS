@@ -690,7 +690,13 @@ extension ChatVC: UITextFieldDelegate {
         
         // Did the master use the word "fuck"? If yes let's replace it with something more appropriate -> "🦆"
         textField.text = textField.text?.replacingOccurrences(of: "fuck", with: "🦆", options: .caseInsensitive, range: nil)
-        
+
+        if textField.text!.count > 1000 {
+
+            alert("Too long!", "Your message cannot include more than 1000 characteres.", self)
+            return
+        }
+
         let attributed = NSMutableAttributedString(string: textField.text!)
         
         master?.conversations[indexOfUser].conversation.append(TextMessage(text: attributed, is_sender: true))
