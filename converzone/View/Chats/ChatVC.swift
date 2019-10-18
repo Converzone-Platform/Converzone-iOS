@@ -694,7 +694,7 @@ extension ChatVC: UITextFieldDelegate {
         if textField.text!.count > 1000 {
 
             alert("Too long!", "Your message cannot include more than 1000 characteres.", self)
-            return
+            return false
         }
 
         let attributed = NSMutableAttributedString(string: textField.text!)
