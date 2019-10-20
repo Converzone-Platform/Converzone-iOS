@@ -21,23 +21,9 @@ import UserNotifications
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        _ = Internet.init()
-        
         getNotificationPermissionFromTheUser(application)
         
         return true
-    }
-    
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        Internet.socket.connect()
-    }
-    
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        Internet.socket.disconnect()
-    }
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-        Internet.socket.disconnect()
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
