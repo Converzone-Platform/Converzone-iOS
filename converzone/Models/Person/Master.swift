@@ -17,28 +17,22 @@ enum ChangingData {
 
 class Master: Person {
     
-    var changingData: ChangingData = .registration
+    static var changingData: ChangingData = .registration
     
     // For adding the user to the websocket
-    internal var addedUserSinceLastConnect = false
+    static internal var addedUserSinceLastConnect = false
     
     //Login Information
-    internal var email: String?
-    internal var password: String?
+    static internal var email: String?
+    static internal var password: String?
     
     //All people with whom the master has chats with
-    internal var conversations: [User] = []
+    static internal var conversations: [User] = []
     
     //Platform
-    internal var profile_images: UIImage?
-    internal var changed_image: Bool = false
+    static internal var profile_images: UIImage?
+    static internal var changed_image: Bool = false
     
-    internal var discoverable: Bool = true
+    static internal var discoverable: Bool = true
     
-    init(_ email: String, _ password: String) {
-        self.email = email
-        self.password = password
-        
-        super.init()
-    }
 }
