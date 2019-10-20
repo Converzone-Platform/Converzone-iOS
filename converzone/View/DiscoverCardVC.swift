@@ -292,9 +292,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 0:
             let cell = Bundle.main.loadNibNamed("ImageProfileCell", owner: self, options: nil)?.first as! ImageProfileCell
             
-            profileOf!.getImage(with: profileOf!.link_to_profile_image!, completion: { (image) in
-                cell.profileImage.image = image
-            })
+            // MARK: TODO - Profile image download
             
             cell.profileImage.contentMode = .scaleAspectFill
             cell.profileImage.clipsToBounds = true
@@ -491,22 +489,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         
         let block = UIAlertAction(title: "Block", style: .destructive) { (action) in
         
-            Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/blockAndReport.php", parameters: ["blocker_id" : master!.uid!, "blockeduser_id": profileOf!.uid!], completionHandler: { (data, response, error) in
-                
-                if error != nil{
-                    print(error as Any)
-                }
-                
-                if let httpResponse = response as? HTTPURLResponse {
-                    
-                    if !(httpResponse.statusCode == 200) {
-                        
-                        print(httpResponse.statusCode)
-                    }
-                    
-                }
-                
-            })
+            
             
         }
         
@@ -548,22 +531,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         let action = UIAlertAction(title: "Send", style: .default) { (alertAction) in
             saveTextField = alert.textFields![0] as UITextField
             
-            Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/blockAndReport.php", parameters: ["blocker_id" : master!.uid!, "blockeduser_id": profileOf!.uid!, "reason_for_report": saveTextField!.text!], completionHandler: { (data, response, error) in
-                
-                if error != nil{
-                    print(error as Any)
-                }
-                
-                if let httpResponse = response as? HTTPURLResponse {
-                    
-                    if !(httpResponse.statusCode == 200) {
-                        
-                        print(httpResponse.statusCode)
-                    }
-                    
-                }
-                
-            })
+            // MARK: TODO - Block and report this user
         }
         
         alert.addTextField { (textField) in

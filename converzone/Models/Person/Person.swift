@@ -69,42 +69,4 @@ class Person {
         }
         
     }
-    
-    
-    func downloadImage(with url: String, completion: @escaping (_ image: UIImage?)->()){
-        
-        URLSession.shared.dataTask(with: URL(string: url)!) { (data, response, error) in
-            
-            var downloadedImage: UIImage?
-            
-            if let data = data{
-                downloadedImage = UIImage(data: data)
-            }
-            
-            if downloadedImage != nil {
-                self.cache.setObject(downloadedImage!, forKey: url as NSString)
-            }
-            
-            DispatchQueue.main.async {
-                completion(downloadedImage)
-            }
-            
-        }.resume()
-        
-    }
-    
-    func getImage(with url: String, completion: @escaping (_ image: UIImage?)->()){
-        
-        // Are we connected to the internet?
-        if !Internet.isOnline(){
-            return
-        }
-        
-        if let image = cache.object(forKey: url as NSString){
-            completion(image)
-        }else{
-            downloadImage(with: url, completion: completion)
-        }
-        
-    }
 }

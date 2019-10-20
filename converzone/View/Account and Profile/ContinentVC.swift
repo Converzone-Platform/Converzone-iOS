@@ -16,13 +16,9 @@ class ContinentVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     let locationManager = CLLocationManager()
     
-    fileprivate func goBack() {
+    @IBAction func back(_ sender: Any) {
         //Go back to login view controller
         Navigation.present(controller: "LoginVC", context: self)
-    }
-    
-    @IBAction func back(_ sender: Any) {
-        goBack()
     }
     
 }

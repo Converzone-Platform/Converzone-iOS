@@ -30,95 +30,7 @@ class LoginVC: NoAutoRotateViewController {
         master?.email = email_textfield.text!
         master?.password = password_textfield.text!
         
-        Internet.database(url: Internet.baseURL + "/login_client.php", parameters: ["email": email, "password": password]) { (data, response, error) in
-            
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-            
-            //Did the server give back an error?
-            if let httpResponse = response as? HTTPURLResponse {
-                
-                if !(httpResponse.statusCode == 200) {
-                    
-                    DispatchQueue.main.async {
-                        
-                        switch httpResponse.statusCode{
-                        case 520:
-                            alert("Wrong Email", "Please check if you typed your email correctly. Otherwise please register", self)
-                        case 521:
-                            alert("Wrong Password", "Please check if you typed your password correctly", self)
-                        default:
-                            alert("Unknown Error: " + String(httpResponse.statusCode), "Please contact us under feeedbackme@gmail.com", self)
-                        }
-                    }
-                    
-                }else{
-                    
-                    // Check if banned
-                    if (data?["BANNED"] as? String == "t"){
-                        DispatchQueue.main.async {
-                            
-                            alert("Banned", "Sorry but you can't access converzone anymore. Contact our team.", self)
-                        }
-                        return
-                    }
-                    
-                    //Login was successful
-                    master?.firstname = data?["FIRSTNAME"] as? String
-                    master?.lastname = data?["LASTNAME"] as? String
-                    master?.uid = Int((data?["USERID"] as? String)!)
-                    master?.gender = Gender.toGender(gender: (data?["GENDER"] as? String)!)
-                    master?.status = NSAttributedString(string: (data?["STATUS"] as? String)!)
-                    master?.interests = NSAttributedString(string: (data?["INTERESTS"] as? String)!)
-                    master?.country = Country(name: (data?["COUNTRY"] as? String)!)
-                    master?.deviceToken = data?["NOTIFICATIONTOKEN"] as? String
-                    master?.discoverable = data?["DISCOVERABLE"] as? String == "t" ? true : false
-                    master?.link_to_profile_image = data?["PROFILE_PICTURE_URL"] as? String
-                    
-                    let string_date = data?["BIRTHDATE"] as? String
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "dd/MM/yy"
-                    dateFormatter.timeZone = TimeZone(secondsFromGMT: TimeZone.current.secondsFromGMT())
-                    master?.birthdate = dateFormatter.date(from: string_date!)
-                    
-                    
-                Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/languages.php", parameters: ["id": master?.uid as! Int], completionHandler: { (languages, response, error) in
-                    
-                    if let httpResponse = response as? HTTPURLResponse {
-                        
-                        if !(httpResponse.statusCode == 200) {
-                            
-                            print(httpResponse.statusCode)
-                        }
-                        
-                    }
-                    
-                    if languages != nil {
-                        
-                        for language in languages!{
-                            
-                            let languageToAdd = Language(name: (language["LANGUAGE"] as? String)!)
-                            
-                            if language["PROFICIENCY"] as? String == "l"{
-                                master!.learn_languages.append(languageToAdd)
-                            }else{
-                                master!.speak_languages.append(languageToAdd)
-                            }
-                            
-                        }
-                    }
-                    
-                })
-                    
-                    DispatchQueue.main.async {
-                        
-                        //Continue to conversations
-                        Navigation.present(controller: "MainTBC", context: self)
-                    }
-                }
-            }
-        }
+        
     }
     
     @IBAction func continue_button(_ sender: Any) {
@@ -166,40 +78,7 @@ class LoginVC: NoAutoRotateViewController {
             
             // Continue to further registration
             
-            Internet.database(url: Internet.baseURL + "/check_email.php", parameters: ["email" : email]) { (data, response, error) in
-                
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-                
-                //Did the server give back an error?
-                if let httpResponse = response as? HTTPURLResponse {
-                    
-                    if httpResponse.statusCode == 520{
-                        DispatchQueue.main.async {
-                            alert("Choose another email address or login", "It seems like we already have saved this email address in our database. Maybe try to login instead?", self)
-                        }
-                        return
-                    }
-                    
-                    if !(httpResponse.statusCode == 200) {
-                        
-                        DispatchQueue.main.async {
-                            alert("Error: " + String(httpResponse.statusCode), "", self)
-                        }
-                        
-                    }else{
-                        
-                        DispatchQueue.main.async {
-                            
-                            Internet.socket.emit("add-user", with: [["id": master?.uid]])
-                            
-                            Navigation.change(navigationController: "ContinentNC")
-                        }
-                        
-                    }
-                }
-            }
+            
         }
     }
     

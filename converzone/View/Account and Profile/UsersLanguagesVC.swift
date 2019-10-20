@@ -69,71 +69,7 @@ class UsersLanguagesVC: UIViewController {
         super.viewWillDisappear(animated)
         
         if master?.changingData == .editing{
-            // Send languages
-            Internet.database(url: Internet.baseURL + "/deleteAllLanguages.php", parameters: ["USERID" : master!.uid!]) { (backdata, response, error) in
-                
-                if error != nil{
-                    print(error!.localizedDescription)
-                }
-                
-                if let httpResponse = response as? HTTPURLResponse {
-                    
-                    if httpResponse.statusCode != 200{
-                        print(httpResponse)
-                    }
-                    
-                }
-                
-            }
-            for language in master!.speak_languages{
-                
-                let language_data: [String : Any] = [
-                    "USERID": master!.uid!,
-                    "PROFICIENCY": "s",
-                    "LANGUAGE": language.name
-                ]
-                
-                Internet.database(url: Internet.baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
-                    
-                    if error != nil{
-                        print(error!.localizedDescription)
-                    }
-                    
-                    if let httpResponse = response as? HTTPURLResponse {
-                        
-                        if httpResponse.statusCode != 200{
-                            print(httpResponse)
-                        }
-                        
-                    }
-                    
-                }
-            }
-            for language in master!.learn_languages{
-                
-                let language_data: [String : Any] = [
-                    "USERID": master!.uid!,
-                    "PROFICIENCY": "l",
-                    "LANGUAGE": language.name
-                ]
-                
-                Internet.database(url: Internet.baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
-                    
-                    if error != nil{
-                        print(error!.localizedDescription)
-                    }
-                    
-                    if let httpResponse = response as? HTTPURLResponse {
-                        
-                        if httpResponse.statusCode != 200{
-                            print(httpResponse)
-                        }
-                        
-                    }
-                    
-                    
-                }
-            }
+            
         }
     }
     
