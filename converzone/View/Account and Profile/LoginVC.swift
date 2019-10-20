@@ -8,7 +8,7 @@
 
 import UIKit
 
-var master: Master? = Master("", "")
+var master: Master? = Master(email: "", password: "")
 
 class LoginVC: NoAutoRotateViewController {
     
@@ -20,16 +20,11 @@ class LoginVC: NoAutoRotateViewController {
     @IBOutlet weak var email_textfield: TextFieldForLogin!
     @IBOutlet weak var password_textfield: TextFieldForLogin!
     
-    @IBAction func forgot_button(_ sender: Any) {
-        
-    }
+    // To show the progress of the login/registration
+    private let activityIndicator = UIActivityIndicatorView(style: .white)
+    private let activityIndicatorContainer = UIView()
     
-    func login(email: String, password: String) {
-        
-        // Save these in case they are correct
-        master?.email = email_textfield.text!
-        master?.password = password_textfield.text!
-        
+    @IBAction func forgot_button(_ sender: Any) {
         
     }
     
@@ -38,43 +33,42 @@ class LoginVC: NoAutoRotateViewController {
         guard let email = email_textfield.text          else { return }
         guard let password = password_textfield.text    else { return }
         
-        if(email_textfield.text == "" || password_textfield.text == ""){
-         alert(NSLocalizedString("Fill in both fields", comment: "Error title when the user doesn't fill in password and email"),
-               NSLocalizedString("Please make sure that you fill in a password and an email address", comment: "Error message when the user doesn't fill in password and email"), self)
-         return
+         if(email_textfield.text == "" || password_textfield.text == ""){
+             alert(NSLocalizedString("Fill in both fields", comment: "Error title when the user doesn't fill in password and email"),
+                   NSLocalizedString("Please make sure that you fill in a password and an email address", comment: "Error message when the user doesn't fill in password and email"), self)
+             return
          }
 
          if(!Internet.isOnline()){
-         alert(NSLocalizedString("Your device is offline", comment: "Error title the user gets when device is not connected to the internet"),
-               NSLocalizedString("Please make sure that your device is connected to the internet in order to proceed.", comment: "Error message the user gets when device is not connected to the internet"), self)
-         return
+             alert(NSLocalizedString("Your device is offline", comment: "Error title the user gets when device is not connected to the internet"),
+                   NSLocalizedString("Please make sure that your device is connected to the internet in order to proceed.", comment: "Error message the user gets when device is not connected to the internet"), self)
+             return
          }
 
          if(!email_textfield.isValidEmail()){
-         alert(NSLocalizedString("Email Address", comment: "Error title when the user enters a invalid email address"),
-               NSLocalizedString("Please make sure that you enter a valid email address.", comment: "Error message when the user enters a invalid email address"), self)
-         return
+             alert(NSLocalizedString("Email Address", comment: "Error title when the user enters a invalid email address"),
+                   NSLocalizedString("Please make sure that you enter a valid email address.", comment: "Error message when the user enters a invalid email address"), self)
+             return
          }
 
          if(!password_textfield.isValidPassword()){
-         alert(NSLocalizedString("Password", comment: "Error title when the user enters a wrong password"),
-               NSLocalizedString("Please make sure that you enter a strong password. \n\n • 8 to 20 characters \n • Upper and Lower Case\n • One number", comment: "Error message when the user enters a wrong password"), self)
-         return
+             alert(NSLocalizedString("Password", comment: "Error title when the user enters a wrong password"),
+                   NSLocalizedString("Please make sure that you enter a strong password. \n\n • 8 to 20 characters \n • Upper and Lower Case\n • One number", comment: "Error message when the user enters a wrong password"), self)
+             return
          }
         
-        // Start the activity indicator
-        showActivityIndicatory(uiView: self.view)
+        startActivityIndicator()
         
         if(login_outlet.isEnabled == false) {
             
-            login(email: email, password: password)
+            
             
         }
         
         if(register_outlet.isEnabled == false){
             
             //Try register. Create Master
-            master = Master(email, password)
+            master = Master(email: email, password: password)
             
             // Continue to further registration
             
@@ -82,7 +76,7 @@ class LoginVC: NoAutoRotateViewController {
         }
     }
     
-    @IBAction func register_button(_ sender: Any) {
+    @IBAction func switch_to_register_button(_ sender: Any) {
         register_outlet.isEnabled = !register_outlet.isEnabled
         login_outlet.isEnabled = !login_outlet.isEnabled
         
@@ -90,7 +84,7 @@ class LoginVC: NoAutoRotateViewController {
         register_outlet.setTitleColor(Colors.black, for: .normal)
     }
     
-    @IBAction func login_button(_ sender: Any) {
+    @IBAction func switch_to_login_button(_ sender: Any) {
         register_outlet.isEnabled = !register_outlet.isEnabled
         login_outlet.isEnabled = !login_outlet.isEnabled
         
@@ -104,6 +98,7 @@ class LoginVC: NoAutoRotateViewController {
         
         drawCircle()
         renderWelcomeMessage()
+        setUpActivityIndicator(uiView: <#T##UIView#>)
         
         register_outlet.isEnabled = false
         login_outlet.isEnabled = true
@@ -117,50 +112,43 @@ class LoginVC: NoAutoRotateViewController {
         master?.speak_languages.removeAll()
         master?.learn_languages.removeAll()
         master?.changingData = .registration
-        
-        self.email_textfield.text = "goga.barabadze73@gmail.com"
-        self.password_textfield.text = "Qwertz73!"
-        
-        if !self.email_textfield.text!.isEmpty{
-            register_outlet.isEnabled = !register_outlet.isEnabled
-            login_outlet.isEnabled = !login_outlet.isEnabled
-            
-            login_outlet.setTitleColor(Colors.black, for: .normal)
-            register_outlet.setTitleColor(Colors.darkGrey, for: .normal)
-        }
     }
     
-    func showActivityIndicatory(uiView: UIView) {
-        //Create Activity Indicator
-        let myActivityIndicator = UIActivityIndicatorView(style: .white)
+    func setUpActivityIndicator(uiView: UIView) {
         
-        myActivityIndicator.color = Colors.black
+        activityIndicator.color = Colors.black
         
-        // Position Activity Indicator in the center of the main view
-        myActivityIndicator.center = view.center
+        activityIndicator.center = view.center
         
-        // If needed, you can prevent Acivity Indicator from hiding when stopAnimating() is called
-        myActivityIndicator.hidesWhenStopped = false
+        activityIndicator.hidesWhenStopped = false
         
-        // Start Activity Indicator
-        myActivityIndicator.startAnimating()
-        
-        // Call stopAnimating() when need to stop activity indicator
-        //myActivityIndicator.stopAnimating()
-        
-        let container = UIView()
-        container.frame = CGRect(0, 0, 80, 80)
-        container.center = self.view.center
-        container.backgroundColor = Colors.white
-        container.clipsToBounds = true
-        container.layer.cornerRadius = 10
-        container.alpha = 0.7
-        
-        view.addSubview(container)
-        view.addSubview(myActivityIndicator)
+        activityIndicatorContainer.frame = CGRect(0, 0, 80, 80)
+        activityIndicatorContainer.center = self.view.center
+        activityIndicatorContainer.backgroundColor = Colors.white
+        activityIndicatorContainer.clipsToBounds = true
+        activityIndicatorContainer.layer.cornerRadius = 10
+        activityIndicatorContainer.alpha = 0.7
     }
     
-    // No need to translate this. This is meant to be in English for all
+    func startActivityIndicator(){
+        
+        activityIndicator.startAnimating()
+        
+        view.addSubview(activityIndicatorContainer)
+        view.addSubview(activityIndicator)
+    }
+    
+    func stopActivityIndicator(){
+        
+        activityIndicator.stopAnimating()
+        
+        activityIndicator.removeFromSuperview()
+        activityIndicatorContainer.removeFromSuperview()
+    }
+    
+    /**
+     Message is displayed on the welcome screen and is meant to be in English for every user
+     */
     func renderWelcomeMessage(){
         let attributedString = NSMutableAttributedString(string: "Chat with the world.")
         
@@ -179,7 +167,6 @@ class LoginVC: NoAutoRotateViewController {
     
     func drawCircle(){
         
-        //Calculate how big the radius should be
         let radius = view.frame.height * 0.5
         
         let circlePath = UIBezierPath(arcCenter: CGPoint(x: view.frame.size.width / 3, y: continue_outlet.center.y / 2), radius: CGFloat(radius), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
@@ -187,16 +174,13 @@ class LoginVC: NoAutoRotateViewController {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = circlePath.cgPath
         
-        //It should be behind everything
         shapeLayer.zPosition = -1
         
-        //change the fill color
         shapeLayer.fillColor = UIColor.white.cgColor
         
         view.layer.addSublayer(shapeLayer)
     }
     
-    //Hide status bar
     override var prefersStatusBarHidden: Bool {
         return true
     }
