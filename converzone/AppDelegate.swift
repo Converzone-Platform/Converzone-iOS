@@ -14,14 +14,14 @@ import UserNotifications
 
     var window: UIWindow?
     
-    fileprivate func getNotificationPermissionFromTheUser(_ application: UIApplication) {
+    fileprivate func getNotificationPermissionFromUser(_ application: UIApplication) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound], completionHandler: {(granted, error) in})
         application.registerForRemoteNotifications()
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        getNotificationPermissionFromTheUser(application)
+        getNotificationPermissionFromUser(application)
         
         return true
     }
