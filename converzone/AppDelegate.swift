@@ -9,15 +9,11 @@
 import UIKit
 import CoreData
 import UserNotifications
+import os
 
 @UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
-    fileprivate func getNotificationPermissionFromUser(_ application: UIApplication) {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound], completionHandler: {(granted, error) in})
-        application.registerForRemoteNotifications()
-    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -26,17 +22,28 @@ import UserNotifications
         return true
     }
     
+    // MARK: - Notifications
+    
+    /**
+     Ask the user if they want to allow us to send the push notifications
+     */
+    fileprivate func getNotificationPermissionFromUser(_ application: UIApplication) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound], completionHandler: {(granted, error) in})
+        application.registerForRemoteNotifications()
+    }
+    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
-        master?.deviceToken = deviceTokenString
+        
+        // Extract the device token of the current device
+        master?.deviceToken = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("failed to register for remote notifications: \(error.localizedDescription)")
+        
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        print("Received push notification: \(userInfo)")
+        
     }
     
     // MARK: - Core Data stack

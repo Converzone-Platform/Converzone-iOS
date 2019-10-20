@@ -188,9 +188,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         // Creates the image view
         let imageView = UIImageView()
         
-        master!.conversations[indexOfUser].getImage(with: imageLink, completion: { (image) in
-            imageView.image = image
-        })
+        // MARK: TODO - Download image
         
         let imageWidth = label.frame.size.height * 1.3
         let imageHeight = label.frame.size.height * 1.3

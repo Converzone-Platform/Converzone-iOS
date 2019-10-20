@@ -18,7 +18,6 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         }
     }
     
-    
     @IBOutlet weak var tableView: UITableView!
     
     let updates = Internet()
@@ -33,12 +32,6 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         //navigationItem.searchController?.searchBar.delegate = self
         
         updates.conversations_delegate = self
-        
-        if master?.addedUserSinceLastConnect == false{
-            master?.addedUserSinceLastConnect = true
-            Internet.socket.emit("add-user", with: [["id": master?.uid]])
-        }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -139,11 +132,7 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         
         cell.name.text = master?.conversations[indexPath.row].fullname
         
-        master?.conversations[indexPath.row].getImage(with: (master?.conversations[indexPath.row].link_to_profile_image)!, completion: { (image) in
-            
-            cell.profileImage.image = image
-            
-        })
+        // MARK: TODO - Download image
         
         if (master?.conversations[indexPath.row].openedChat)! {
             cell.lastMessageType.backgroundColor = Colors.white

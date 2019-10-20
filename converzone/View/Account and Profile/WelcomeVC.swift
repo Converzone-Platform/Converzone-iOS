@@ -37,9 +37,6 @@ class WelcomeVC: NoAutoRotateViewController {
         
             master?.changingData = .editing
             
-            // Emit
-            Internet.socket.emit("add-user", with: [["id": master?.uid]])
-            
             // Animate to actual app
             Navigation.present(controller: "MainTBC", context: self)
             

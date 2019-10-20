@@ -24,7 +24,7 @@ class Person {
     
     internal var gender: Gender?
     internal var birthdate: Date?
-    internal var main_language: Language?
+    internal var interface_language: Language?
     internal var speak_languages: [Language] = []
     internal var learn_languages: [Language] = []
     
@@ -36,8 +36,6 @@ class Person {
     //Platform Informations
     internal var interests: NSAttributedString?
     internal var status: NSAttributedString?
-    
-    internal let cache = NSCache<NSString, UIImage>()
     
     internal var link_to_profile_image: String?
     internal var reflections: [Reflection] = []

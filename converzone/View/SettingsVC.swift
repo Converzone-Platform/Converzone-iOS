@@ -61,16 +61,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
             
             if cell?.imageView!.image == nil{
-                master?.getImage(with: "http://converzone.htl-perg.ac.at/profile_images/" + (master?.lastname)! + "_" + String(master!.uid!) + "_profile_image", completion: { (image) in
-                    
-                    if image == nil{
-                        return
-                    }
-                    
-                    cell?.imageView!.image = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 50, maxHeight: 50)
-
-                    tableView.reloadData()
-                })
+                // MARK: TODO - Download image
             }
             
             cell?.imageView!.layer.cornerRadius = 25
@@ -123,8 +114,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             discover_users.removeAll()
             
             master?.addedUserSinceLastConnect = false
-            
-            master?.cache.removeAllObjects()
             
         default:
             print("No action here")

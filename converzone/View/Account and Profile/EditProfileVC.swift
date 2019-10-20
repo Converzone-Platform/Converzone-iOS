@@ -39,9 +39,7 @@ class EditProfileVC: UIViewController{
         
         if master?.changingData == .editing && Internet.isOnline(){
             
-            master?.getImage(with: master!.link_to_profile_image!, completion: { (image) in
-                self.profile_image.image = image
-            })
+            // MARK: TODO - Download image
             
             profile_image.layer.masksToBounds = true
             profile_image.layer.cornerRadius = profile_image.frame.width / 2
@@ -180,9 +178,6 @@ class EditProfileVC: UIViewController{
         //2019-06-20 11:23:10:721 +02:00 ... "yyyy-MM-dd HH:mm:ss:SSS XXXXX"
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        
-        
-        
         
         if master?.changingData == .registration {
             
@@ -493,9 +488,6 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
         profile_image.image = cropToBounds(image: image as! UIImage, width: 500, height: 500)
         profile_image.layer.cornerRadius = profile_image.layer.frame.width / 2
         profile_image.layer.masksToBounds = true
-        
-        // Delete the old cached image
-        master!.cache.removeAllObjects()
         
         picker.dismiss(animated: true, completion: nil)
     }

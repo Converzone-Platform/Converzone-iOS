@@ -13,10 +13,6 @@ import Network
 
 public class Internet: NSObject {
     
-    static var baseURL = "https://converzone.htl-perg.ac.at"
-    
-    static let socket = SocketManager(socketURL: URL(string: "wss://converzone.htl-perg.ac.at" + ":5134")!, config: [.log(true), .compress]).defaultSocket
-    
     // Maybe "weak" here?!
     var chat_delegate: ChatUpdateDelegate?
     var conversations_delegate: ConversationUpdateDelegate?
