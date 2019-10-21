@@ -397,13 +397,9 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
         case 6:
             let cell = tableView.dequeueReusableCell(withIdentifier: "BooleanInputCell") as! BooleanInputCell
             
-            cell.discoverable.isOn = true
-            
             cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
-            if master.discoverable != nil{
-                cell.discoverable.isOn = master.discoverable
-            }
+            cell.discoverable.isOn = master.discoverable
             
             return cell
         default:

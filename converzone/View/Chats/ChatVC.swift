@@ -139,9 +139,6 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         updates.chat_delegate = self
         
         master.conversations[indexOfUser].openedChat = true
-        
-        
-        
     }
    
     func didUpdate(sender: Internet) {
@@ -379,7 +376,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))
             cell.addGestureRecognizer(longPressRecognizer)
             
-            cell.message_label.attributedText = message.text!
+            cell.message_label.text = message.text!
             cell.selectionStyle = .none
             
             if (message.only_emojies == false){
@@ -401,7 +398,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 
             }else{
                 
-                if message.text!.string.count <= 5{
+                if message.text!.count <= 5{
                     cell.message_label.font = UIFont.systemFont(ofSize: 50)
                 }else{
                     cell.message_label.font = UIFont.systemFont(ofSize: 30)
@@ -443,9 +440,9 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             }
             
             // Animate
-            if cell.message_label.text!.contains("Lucie <3") || cell.message_label.text!.contains((master.conversations[indexOfUser].firstname)! + " <3") || cell.message_label.text!.contains((master.firstname)! + " <3"){
-                animateBubbleWithRainbowColors(times: 7, cell: cell)
-            }
+//            if cell.message_label.text!.contains("Lucie <3") || cell.message_label.text!.contains((master.conversations[indexOfUser].firstname)! + " <3") || cell.message_label.text!.contains((master.firstname)! + " <3"){
+//                animateBubbleWithRainbowColors(times: 7, cell: cell)
+//            }
             
             cell.alpha = 0
             
@@ -586,7 +583,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 
                 let copy = UIAlertAction(title: "Copy", style: .default) { (action) in
                     
-                    UIPasteboard.general.string = (message as! TextMessage).text?.string
+                    UIPasteboard.general.string = (message as! TextMessage).text
                     
                 }
                 let speak = UIAlertAction(title: "Speak", style: .default) { (action) in
@@ -594,12 +591,12 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                     // Line 1. Create an instance of AVSpeechSynthesizer.
                     let speechSynthesizer = AVSpeechSynthesizer()
                     // Line 2. Create an instance of AVSpeechUtterance and pass in a String to be spoken.
-                    let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: ((message as! TextMessage).text?.string)!)
+                    let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: (message as! TextMessage).text!)
                     //Line 3. Specify the speech utterance rate. 1 = speaking extremely the higher the values the slower speech patterns. The default rate, AVSpeechUtteranceDefaultSpeechRate is 0.5
                     //speechUtterance.rate = AVSpeechUtteranceMaximumSpeechRate / 4.0
                     // Line 4. Specify the voice. It is explicitly set to English here, but it will use the device default if not specified.
                     
-                    if let language = NSLinguisticTagger.dominantLanguage(for: (message as! TextMessage).text!.string) {
+                    if let language = NSLinguisticTagger.dominantLanguage(for: (message as! TextMessage).text!) {
                         speechUtterance.voice = AVSpeechSynthesisVoice(language: language)
                     } else {
                         speechUtterance.voice = AVSpeechSynthesisVoice(language: Locale.preferredLanguages[0])
@@ -689,7 +686,7 @@ extension ChatVC: UITextFieldDelegate {
         // Did the master use the word "fuck"? If yes let's replace it with something more appropriate -> "🦆"
         textField.text = textField.text?.replacingOccurrences(of: "fuck", with: "🦆", options: .caseInsensitive, range: nil)
         
-        master.conversations[indexOfUser].conversation.append(TextMessage(text: textField.attributedText as! NSMutableAttributedString, is_sender: true))
+        master.conversations[indexOfUser].conversation.append(TextMessage(text: textField.text!, is_sender: true))
         
         // MARK: TODO - Send message
         

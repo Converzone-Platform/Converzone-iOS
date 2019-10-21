@@ -15,8 +15,8 @@ import MapKit
 class Person {
     
     //Personal Details
-    internal var firstname: String?
-    internal var lastname: String?
+    internal var firstname: String? = ""
+    internal var lastname: String? = ""
     
     internal var fullname: String?{
         return firstname! + " " + lastname!
@@ -39,11 +39,11 @@ class Person {
     
     internal var link_to_profile_image: String?
     internal var reflections: [Reflection] = []
-    internal var uid: Int?
+    internal var uid: String?
     
     internal var deviceToken: String?
     
-    init (firstname: String, lastname: String, gender: Gender, birthdate: Date, uid: Int){
+    init (firstname: String, lastname: String, gender: Gender, birthdate: Date, uid: String){
         self.firstname = firstname
         self.lastname = lastname
         self.gender = gender

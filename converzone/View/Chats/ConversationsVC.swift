@@ -23,6 +23,16 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // MARK: Create dummy user
+        var user = User(firstname: "Lucie", lastname: "<3", gender: .female, birthdate: Date(), uid: "12381923")
+        
+        var message = TextMessage(text: "I like you", is_sender: true)
+        
+        user.conversation.append(message)
+        user.link_to_profile_image = "https://picsum.photos/id/1/200/200"
+
+        master.conversations.append(user)
+        
         setUpNavBar()
         
         self.view.backgroundColor = Colors.backgroundGrey
