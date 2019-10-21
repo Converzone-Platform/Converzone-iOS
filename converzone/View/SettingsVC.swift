@@ -129,7 +129,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return 25
     }
     
-    func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage? {
+    private func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage? {
         let oldWidth = image.size.width;
         let oldHeight = image.size.height;
         

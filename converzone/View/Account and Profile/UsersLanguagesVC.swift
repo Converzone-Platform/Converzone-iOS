@@ -73,7 +73,7 @@ class UsersLanguagesVC: UIViewController {
         }
     }
     
-    func guessSpeakLanguages(){
+    private func guessSpeakLanguages(){
         
         // The person probably speaks the languages of his device - add preferred languages
         if master.speak_languages.count == 0 {

@@ -34,7 +34,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         print("Send audio message")
     }
     
-    fileprivate func deleteFirstMessage() {
+    private func deleteFirstMessage() {
         // Let's delete the FirstInformationMessage in case we haven't already
         if master.conversations[indexOfUser].conversation.first is FirstInformationMessage {
             _ = master.conversations[indexOfUser].conversation.removeAll(where: { (message) -> Bool in
@@ -168,12 +168,12 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         tapGestureRecognizer.cancelsTouchesInView = false
     }
     
-    @objc func goToConversations(){
+    @objc private func goToConversations(){
         
         Navigation.push(viewController: "ConversationsVC", context: self)
     }
     
-    func navTitleWithImageAndText(titleText: String, imageLink: String) -> UIView {
+    private func navTitleWithImageAndText(titleText: String, imageLink: String) -> UIView {
         
         // Creates a new UIView
         let titleView = UIView()
@@ -222,24 +222,24 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     }
     
     
-    func setUpInfoButton(){
+    private func setUpInfoButton(){
         let infoButton = UIBarButtonItem(title: "More", style: .plain, target: self, action: #selector(handleInfoButton))
         navigationItem.rightBarButtonItem = infoButton
     }
     
-    @objc func handleInfoButton(){
+    @objc private func handleInfoButton(){
         //Go to next view controller
         Navigation.push(viewController: "ChatSettingsVC", context: self)
     }
     
-    func setUpTableView(){
+    private func setUpTableView(){
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 1000
         
         tableView.backgroundColor = Colors.backgroundGrey
     }
     
-    func setUpObervers(){
+    private func setUpObervers(){
         NotificationCenter.default.addObserver(self, selector: #selector(didTakeScreenshot), name: UIApplication.userDidTakeScreenshotNotification, object: nil)
         
         NotificationCenter.default.addObserver(
@@ -257,7 +257,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         )
     }
     
-    @objc func showMoreOfPartner(_ sender: UITapGestureRecognizer){
+    @objc private func showMoreOfPartner(_ sender: UITapGestureRecognizer){
 
         // Make sure that a button is not tapped.
         let location = sender.location(in: self.navigationController?.navigationBar)
@@ -273,13 +273,13 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         self.loadViewIfNeeded()
     }
     
-    func setUpMessageTextField(){
+    private func setUpMessageTextField(){
         let amountOfLinesToBeShown: CGFloat = 6
         let maxHeight: CGFloat = message_textField.font!.lineHeight * amountOfLinesToBeShown
         message_textField.sizeThatFits(CGSize(width: message_textField.frame.size.width, height: maxHeight))
     }
     
-    @objc func handleKeyboard(_ notification: Notification){
+    @objc private func handleKeyboard(_ notification: Notification){
         
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let newHeight: CGFloat
@@ -307,7 +307,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
     }
     
-    func updateTableView(animated: Bool){
+    private func updateTableView(animated: Bool){
         
         let indexPath = NSIndexPath(row: tableView.numberOfRows(inSection: 0), section: 0) as IndexPath
         tableView.insertRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
@@ -315,7 +315,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         scrollToBottom(animated: true)
     }
     
-    func scrollToBottom(animated: Bool = true, delay: Double = 0.0) {
+    private func scrollToBottom(animated: Bool = true, delay: Double = 0.0) {
         let numberOfRows = tableView.numberOfRows(inSection: tableView.numberOfSections - 1) - 1
         guard numberOfRows > 0 else { return }
         
@@ -329,7 +329,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         }
     }
     
-    @objc func didTakeScreenshot(){
+    @objc private func didTakeScreenshot(){
         
 //        let screenshot_message = InformationMessage()
 //
@@ -344,7 +344,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
     }
     
-    func animateBubbleWithRainbowColors(times: Int, cell: TextMessageCell){
+    private func animateBubbleWithRainbowColors(times: Int, cell: TextMessageCell){
         
         if times == 0{
             return
@@ -563,7 +563,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         return Bundle.main.loadNibNamed("ImageMessageCell", owner: self, options: nil)?.first as! ImageMessageCell
     }
     
-    @objc func longPressed(sender: UILongPressGestureRecognizer) {
+    @objc private func longPressed(sender: UILongPressGestureRecognizer) {
         
         if sender.state == UIGestureRecognizer.State.began {
             
@@ -703,7 +703,7 @@ extension ChatVC: UITextFieldDelegate {
 
 extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func getImageFromLibrary(){
+    private func getImageFromLibrary(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary){
             let image = UIImagePickerController()
             image.delegate = self
@@ -714,7 +714,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         }
     }
     
-    func getImageFromCamera(){
+    private func getImageFromCamera(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera){
             let image = UIImagePickerController()
             image.delegate = self

@@ -50,7 +50,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         self.title = ""
     }
     
-    func setUpNavBar(){
+    private func setUpNavBar(){
         navigationController?.navigationBar.prefersLargeTitles = true
         
 //        let searchBar = UISearchController(searchResultsController: nil)

@@ -61,7 +61,7 @@ class EditProfileVC: UIViewController{
         view.removeGestureRecognizer(tap)
     }
     
-    func checkInputOfUser(_ firstname: String, _ lastname: String, _ gender: String, _ date: String, _ interests: String, _ status: String) -> Bool{
+    private func checkInputOfUser(_ firstname: String, _ lastname: String, _ gender: String, _ date: String, _ interests: String, _ status: String) -> Bool{
         // Check if everything is fine with the inputs of the user
         
         // 1. Did the user pick an image?
@@ -125,7 +125,7 @@ class EditProfileVC: UIViewController{
         return true
     }
     
-    @objc func donePressed(){
+    @objc private func donePressed(){
         
         // Get inputs
         
@@ -188,14 +188,7 @@ class EditProfileVC: UIViewController{
         }
     }
     
-    func uploadProfileImage(profileImage: UIImage){
-        
-        
-    }
-    
-    
-    
-    @objc func pickDate (datePicker: UIDatePicker){
+    @objc private func pickDate (datePicker: UIDatePicker){
         
         let formatter = DateFormatter()
         
@@ -439,7 +432,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
 
 extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func getImageFromLibrary(){
+    private func getImageFromLibrary(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary){
             let image = UIImagePickerController()
             image.delegate = self
@@ -449,7 +442,7 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
         }
     }
     
-    func getImageFromCamera(){
+    private func getImageFromCamera(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera){
             let image = UIImagePickerController()
             image.delegate = self
@@ -460,7 +453,7 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
         }
     }
     
-    @objc func imageTapped(){
+    @objc private func imageTapped(){
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -497,7 +490,7 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
     }
 }
 
-func cropToBounds(image: UIImage, width: Double, height: Double) -> UIImage {
+private func cropToBounds(image: UIImage, width: Double, height: Double) -> UIImage {
     
     let cgimage = image.cgImage!
     let contextImage: UIImage = UIImage(cgImage: cgimage)

@@ -9,6 +9,7 @@
 import SystemConfiguration
 import UIKit
 import Network
+import FirebaseAuth
 
 public class Internet: NSObject {
     
@@ -32,13 +33,6 @@ public class Internet: NSObject {
         if SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) == false {
             return false
         }
-        
-        /* Only Working for WIFI
-         let isReachable = flags == .reachable
-         let needsConnection = flags == .connectionRequired
-         
-         return isReachable && !needsConnection
-         */
         
         // Working for Cellular and WIFI
         let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0

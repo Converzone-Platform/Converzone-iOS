@@ -57,7 +57,7 @@ extension CountryVC: UITableViewDataSource, UITableViewDelegate{
         
     }
     
-    func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height : CGFloat)->UIImage? {
+    private func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height : CGFloat)->UIImage? {
         let oldWidth = image.size.width;
         let oldHeight = image.size.height;
         

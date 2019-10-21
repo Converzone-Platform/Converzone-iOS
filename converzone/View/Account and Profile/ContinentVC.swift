@@ -94,12 +94,12 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
 
 extension ContinentVC {
     
-    func geocode(latitude: Double, longitude: Double, completion: @escaping (CLPlacemark?, Error?) -> ())  {
+    private func geocode(latitude: Double, longitude: Double, completion: @escaping (CLPlacemark?, Error?) -> ())  {
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: latitude, longitude: longitude)) { completion($0?.first, $1) }
     }
     
     // If we have been deined access give the user the option to change it
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    private func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if(status == CLAuthorizationStatus.denied) {
             showLocationDisabledPopUp()
         }
@@ -124,7 +124,7 @@ extension ContinentVC {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func askIfRightCountry(_ country: Country){
+    private func askIfRightCountry(_ country: Country){
         let alertController = UIAlertController(title: "Your location",
                                                 message: "Do you live in " + country.name! + "?",
                                                 preferredStyle: .actionSheet)

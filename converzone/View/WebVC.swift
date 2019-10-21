@@ -58,19 +58,19 @@ class WebVC: UIViewController, WKUIDelegate {
         
     }
     
-    func showProgressView() {
+    private func showProgressView() {
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
             self.progressView.alpha = 1
         }, completion: nil)
     }
     
-    func hideProgressView() {
+    private func hideProgressView() {
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
             self.progressView.alpha = 0
         }, completion: nil)
     }
     
-    func loadWebsite(search: String){
+    private func loadWebsite(search: String){
         
         if !Internet.isOnline(){
             return
@@ -98,7 +98,7 @@ class WebVC: UIViewController, WKUIDelegate {
         webView.load(myRequest)
     }
     
-    func fromSimpleWordsToSearch(simpleWords: String) -> String{
+    private func fromSimpleWordsToSearch(simpleWords: String) -> String{
     
         let components = simpleWords.components(separatedBy: " ")
         

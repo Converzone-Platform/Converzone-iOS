@@ -113,7 +113,7 @@ class LoginVC: NoAutoRotateViewController {
         master.changingData = .registration
     }
     
-    func setUpActivityIndicator() {
+    private func setUpActivityIndicator() {
         
         activityIndicator.color = Colors.black
         
@@ -129,7 +129,7 @@ class LoginVC: NoAutoRotateViewController {
         activityIndicatorContainer.alpha = 0.7
     }
     
-    func startActivityIndicator(){
+    private func startActivityIndicator(){
         
         activityIndicator.startAnimating()
         
@@ -137,7 +137,7 @@ class LoginVC: NoAutoRotateViewController {
         view.addSubview(activityIndicator)
     }
     
-    func stopActivityIndicator(){
+    private func stopActivityIndicator(){
         
         activityIndicator.stopAnimating()
         
@@ -148,7 +148,7 @@ class LoginVC: NoAutoRotateViewController {
     /**
      Message is displayed on the welcome screen and is meant to be in English for every user
      */
-    func renderWelcomeMessage(){
+    private func renderWelcomeMessage(){
         let attributedString = NSMutableAttributedString(string: "Chat with the world.")
         
         let attributes: [NSAttributedString.Key : Any] = [
@@ -159,12 +159,7 @@ class LoginVC: NoAutoRotateViewController {
         welcome_label.attributedText = attributedString
     }
     
-    func makeRound(button: UIButton){
-        button.layer.cornerRadius = button.frame.size.width / 2
-        button.clipsToBounds = true
-    }
-    
-    func drawCircle(){
+    private func drawCircle(){
         
         let radius = view.frame.height * 0.5
         

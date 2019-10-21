@@ -40,7 +40,7 @@ class DiscoverVC: UIViewController {
         }
     }
     
-    @objc func refreshUsers(sender: UIRefreshControl){
+    @objc private func refreshUsers(sender: UIRefreshControl){
         
         sender.beginRefreshing()
         
@@ -57,13 +57,13 @@ class DiscoverVC: UIViewController {
         
     }
     
-    func fetchUsers(){
+    private func fetchUsers(){
         
         fetchedCount += numberOfItemsPerFetch
     }
     
     
-    func setUpNavBar(){
+    private func setUpNavBar(){
         navigationController?.navigationBar.prefersLargeTitles = true
         
         // This is not finished yet

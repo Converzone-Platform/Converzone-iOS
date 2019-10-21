@@ -522,6 +522,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         return new_label
     }
     
+    // MARK: TODO - This should be in the Internet class
     func blockAndReport(title: String, message: String) {
         
         var saveTextField: UITextField? = nil
