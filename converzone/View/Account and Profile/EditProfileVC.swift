@@ -37,7 +37,7 @@ class EditProfileVC: UIViewController{
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(donePressed))
         self.navigationItem.rightBarButtonItem = doneButton
         
-        if master?.changingData == .editing && Internet.isOnline(){
+        if master.changingData == .editing && Internet.isOnline(){
             
             // MARK: TODO - Download image
             
@@ -75,14 +75,14 @@ class EditProfileVC: UIViewController{
             alert("Firstname", "Please make sure you don't use emojis in your firstname", self)
             return false
         }else{
-            master?.firstname = firstname.trimmingCharacters(in: .whitespaces).capitalizingFirstLetter()
+            master.firstname = firstname.trimmingCharacters(in: .whitespaces).capitalizingFirstLetter()
         }
         
         if lastname.containsEmoji{
             alert("Lastname", "Please make sure you don't use emojis in your lastname", self)
             return false
         }else{
-            master?.lastname = lastname.trimmingCharacters(in: .whitespaces).capitalizingFirstLetter()
+            master.lastname = lastname.trimmingCharacters(in: .whitespaces).capitalizingFirstLetter()
         }
         
         // 3. Did the user input a gender outside of our defined ones?
@@ -97,7 +97,7 @@ class EditProfileVC: UIViewController{
             alert("Gender", "Please make sure you enter one of the predefined genders", self)
             return false
         }else{
-            master?.gender = Gender.toGender(gender: gender.trimmingCharacters(in: .whitespaces))
+            master.gender = Gender.toGender(gender: gender.trimmingCharacters(in: .whitespaces))
         }
         
         // 4. Can the date be correct?
@@ -114,7 +114,7 @@ class EditProfileVC: UIViewController{
                 return false
             }else{
                 
-                master?.birthdate = newDate
+                master.birthdate = newDate
             }
             
         }else{
@@ -157,21 +157,21 @@ class EditProfileVC: UIViewController{
             return
         }
         
-        if master?.interests == nil || (master?.interests?.string.isEmpty)! {
+        if master.interests == nil || (master.interests?.string.isEmpty)! {
             alert("Interests", "Please tell us about your intersts", self)
             return
         }
         
-        if master!.status == nil || (master?.status?.string.isEmpty)! {
+        if master.status == nil || (master.status?.string.isEmpty)! {
             alert("Status", "Please tell us what you want your status to be", self)
             return
         }
         
-        if checkInputOfUser(firstname!, lastname!, gender!, date!, (master?.interests!.string)!, (master?.status!.string)!) == false{
+        if checkInputOfUser(firstname!, lastname!, gender!, date!, (master.interests!.string), master.status!.string) == false{
             return
         }
         
-        master?.discoverable = (tableView.cellForRow(at: IndexPath(row: 0, section: 3)) as! BooleanInputCell).discoverable.isOn
+        master.discoverable = (tableView.cellForRow(at: IndexPath(row: 0, section: 3)) as! BooleanInputCell).discoverable.isOn
         
         // Give the server all information about the master and get an (u)id back
         // Let's create a user
@@ -179,7 +179,7 @@ class EditProfileVC: UIViewController{
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         
-        if master?.changingData == .registration {
+        if master.changingData == .registration {
             
             // Go to welcome screen
             Navigation.present(controller: "WelcomeVC", context: self)
@@ -205,7 +205,7 @@ class EditProfileVC: UIViewController{
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as! InputDateCell
         cell.date.text = formatter.string(from: datePicker.date)
         
-        master?.birthdate = datePicker.date
+        master.birthdate = datePicker.date
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -302,8 +302,8 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.input?.addTarget(self, action: #selector(firstNameTextFieldChanged), for: .editingChanged)
             
-            if !(master?.firstname?.isEmpty ?? false) {
-                cell.input!.text = master?.firstname
+            if !(master.firstname?.isEmpty ?? false) {
+                cell.input!.text = master.firstname
             }
             
             return cell
@@ -315,8 +315,8 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.input?.addTarget(self, action: #selector(lastNameTextFieldChanged), for: .editingChanged)
             
-            if !(master?.lastname?.isEmpty ?? false)  {
-                cell.input!.text = master?.lastname
+            if !(master.lastname?.isEmpty ?? false)  {
+                cell.input!.text = master.lastname
             }
             
             return cell
@@ -330,8 +330,8 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             let picker = UIPickerView()
             picker.delegate = self
             
-            if master?.gender != nil{
-                cell.gender.text = master?.gender?.toString()
+            if master.gender != nil{
+                cell.gender.text = master.gender?.toString()
             }
             
             cell.gender.inputView = picker
@@ -361,12 +361,12 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             datePicker.addTarget(self, action: #selector(pickDate(datePicker:)), for: .valueChanged)
             
-            if master?.birthdate != nil{
+            if master.birthdate != nil{
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.timeZone = TimeZone(secondsFromGMT: TimeZone.current.secondsFromGMT())
                 dateFormatter.dateFormat = "dd/MM/yyyy"
-                let string = dateFormatter.string(from: master!.birthdate!)
+                let string = dateFormatter.string(from: master.birthdate!)
                 
                 cell.date.text = string
             }
@@ -377,11 +377,11 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
-            if master?.interests?.string == nil {
+            if master.interests?.string == nil {
                 cell.input.text = "Your interests"
                 cell.input.textColor = Colors.grey
             }else{
-                cell.input.text = master?.interests?.string
+                cell.input.text = master.interests?.string
                 cell.input.textColor = Colors.black
             }
             
@@ -392,11 +392,11 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
-            if master?.status?.string == nil {
+            if master.status?.string == nil {
                 cell.input.text = "Tell the world something"
                 cell.input.textColor = Colors.grey
             }else{
-                cell.input.text = master?.status?.string
+                cell.input.text = master.status?.string
                 cell.input.textColor = Colors.black
             }
             
@@ -408,8 +408,8 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
-            if master?.discoverable != nil{
-                cell.discoverable.isOn = master!.discoverable
+            if master.discoverable != nil{
+                cell.discoverable.isOn = master.discoverable
             }
             
             return cell
@@ -428,11 +428,11 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
     }
     
     @objc func firstNameTextFieldChanged(){
-        master?.firstname = tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel!.text
+        master.firstname = tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel!.text
     }
     
     @objc func lastNameTextFieldChanged(){
-        master?.lastname = tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel!.text
+        master.lastname = tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel!.text
     }
     
 }

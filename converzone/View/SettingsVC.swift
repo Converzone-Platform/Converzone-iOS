@@ -23,7 +23,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.title = "Settings"
         self.tabBarController?.cleanTitles()
         
-        master?.changingData = .editing
+        master.changingData = .editing
         
         tableView.reloadData()
     }
@@ -51,11 +51,11 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
         case 0:
             
-            cell?.textLabel?.text = master?.fullname
-            cell?.detailTextLabel?.text = master?.status?.string
+            cell?.textLabel?.text = master.fullname
+            cell?.detailTextLabel?.text = master.status?.string
             
-            if master!.changed_image{
-                master?.changed_image = false
+            if master.changed_image{
+                master.changed_image = false
                 
                 cell?.imageView?.image = nil
             }
@@ -113,7 +113,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             // Delete discover users
             discover_users.removeAll()
             
-            master?.addedUserSinceLastConnect = false
+            master.addedUserSinceLastConnect = false
             
         default:
             print("No action here")

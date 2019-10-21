@@ -444,7 +444,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
     @objc func handleSendMessage(){
         
         // Does this user already exist?
-        let userExists = master?.conversations.last(where: {$0.uid == profileOf!.uid})
+        let userExists = master.conversations.last(where: {$0.uid == profileOf!.uid})
         
         if userExists == nil{
             let info = FirstInformationMessage()
@@ -453,13 +453,13 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             
             profileOf?.conversation.append(info)
             
-            master?.conversations.append(profileOf!)
+            master.conversations.append(profileOf!)
         }
         
         // Find the right index of the chat
         var index = 0
             
-        for user in master!.conversations {
+        for user in master.conversations {
             if user.uid == profileOf?.uid {
                 indexOfUser = index
             }

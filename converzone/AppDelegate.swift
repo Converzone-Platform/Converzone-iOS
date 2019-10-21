@@ -9,7 +9,6 @@
 import UIKit
 import CoreData
 import UserNotifications
-import os
 
 @UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -35,7 +34,7 @@ import os
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
         // Extract the device token of the current device
-        master?.deviceToken = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+        master.deviceToken = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

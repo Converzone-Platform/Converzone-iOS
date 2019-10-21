@@ -36,8 +36,8 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     
     fileprivate func deleteFirstMessage() {
         // Let's delete the FirstInformationMessage in case we haven't already
-        if master?.conversations[indexOfUser].conversation.first is FirstInformationMessage {
-            _ = master?.conversations[indexOfUser].conversation.removeAll(where: { (message) -> Bool in
+        if master.conversations[indexOfUser].conversation.first is FirstInformationMessage {
+            _ = master.conversations[indexOfUser].conversation.removeAll(where: { (message) -> Bool in
                 return message is FirstInformationMessage
             })
             self.tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
@@ -47,9 +47,9 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     @IBAction func more_button(_ sender: Any) {
         
         // Is this supposed to be the one of the first messages?
-        if master?.conversations[indexOfUser].conversation[0] is FirstInformationMessage{
+        if master.conversations[indexOfUser].conversation[0] is FirstInformationMessage{
             
-            let message = master?.conversations[indexOfUser].conversation[0] as! FirstInformationMessage
+            let message = master.conversations[indexOfUser].conversation[0] as! FirstInformationMessage
             
             if message.text == "Be creative with the first message :)"{
                 alert("Not yet", "Please talk with your partner a little more before sending one of these", self)
@@ -96,10 +96,10 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
                     locationMessage.is_sender = true
 
                     self.locationManager.requestLocation()
-                    locationMessage.coordinate = master?.coordinate
+                    locationMessage.coordinate = master.coordinate
                     locationMessage.date = Date()
 
-                    master?.conversations[indexOfUser].conversation.append(locationMessage)
+                    master.conversations[indexOfUser].conversation.append(locationMessage)
 
                     self.updateTableView(animated: true)
                     
@@ -134,11 +134,11 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         //setUpInfoButton()
         
-        navigationItem.titleView = navTitleWithImageAndText(titleText: master!.conversations[indexOfUser].fullname!, imageLink: master!.conversations[indexOfUser].link_to_profile_image!)
+        navigationItem.titleView = navTitleWithImageAndText(titleText: master.conversations[indexOfUser].fullname!, imageLink: master.conversations[indexOfUser].link_to_profile_image!)
         
         updates.chat_delegate = self
         
-        master?.conversations[indexOfUser].openedChat = true
+        master.conversations[indexOfUser].openedChat = true
         
         
         
@@ -362,18 +362,18 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return (master?.conversations[indexOfUser].conversation.count)!
+        return (master.conversations[indexOfUser].conversation.count)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch master?.conversations[indexOfUser].conversation[indexPath.row]{
+        switch master.conversations[indexOfUser].conversation[indexPath.row]{
             
         case is TextMessage:
             
             let cell = Bundle.main.loadNibNamed("TextMessageCell", owner: self, options: nil)?.first as! TextMessageCell
             
-            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! TextMessage
+            let message = master.conversations[indexOfUser].conversation[indexPath.row] as! TextMessage
             
             // Add Long pressure gesture
             let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))
@@ -443,7 +443,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             }
             
             // Animate
-            if cell.message_label.text!.contains("Lucie <3") || cell.message_label.text!.contains((master?.conversations[indexOfUser].firstname)! + " <3") || cell.message_label.text!.contains((master?.firstname)! + " <3"){
+            if cell.message_label.text!.contains("Lucie <3") || cell.message_label.text!.contains((master.conversations[indexOfUser].firstname)! + " <3") || cell.message_label.text!.contains((master.firstname)! + " <3"){
                 animateBubbleWithRainbowColors(times: 7, cell: cell)
             }
             
@@ -457,7 +457,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let cell = Bundle.main.loadNibNamed("ImageMessageCell", owner: self, options: nil)?.first as! ImageMessageCell
             
-            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! ImageMessage
+            let message = master.conversations[indexOfUser].conversation[indexPath.row] as! ImageMessage
             
             //cell.message_imageView.download(from: message.link!)
             cell.message_imageView.image = message.image
@@ -490,7 +490,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         case is LocationMessage:
             let cell = Bundle.main.loadNibNamed("LocationMessageCell", owner: self, options: nil)?.first as! LocationMessageCell
             
-            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! LocationMessage
+            let message = master.conversations[indexOfUser].conversation[indexPath.row] as! LocationMessage
             
             let latitude: CLLocationDegrees = (message.coordinate?.latitude)!
             let longitude: CLLocationDegrees = (message.coordinate?.longitude)!
@@ -506,9 +506,9 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             annotation.coordinate = message.coordinate!
             
             if message.is_sender! {
-                annotation.title = master?.fullname
+                annotation.title = master.fullname
             }else{
-                annotation.title = master?.conversations[indexOfUser].fullname
+                annotation.title = master.conversations[indexOfUser].fullname
             }
             
             cell.map.addAnnotation(annotation)
@@ -542,7 +542,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let cell = Bundle.main.loadNibNamed("InformationMessageCell", owner: self, options: nil)?.first as! InformationMessageCell
             
-            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! InformationMessage
+            let message = master.conversations[indexOfUser].conversation[indexPath.row] as! InformationMessage
             
             cell.information.text = message.text
             
@@ -570,9 +570,9 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             let touchPoint = sender.location(in: self.tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 
-                var message = master?.conversations[indexOfUser].conversation[indexPath.row]
+                var message = master.conversations[indexOfUser].conversation[indexPath.row]
                 
-                switch master?.conversations[indexOfUser].conversation[indexPath.row]{
+                switch master.conversations[indexOfUser].conversation[indexPath.row]{
                 case is TextMessage:
                     
                     message = message as! TextMessage
@@ -627,7 +627,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        switch master?.conversations[indexOfUser].conversation[indexPath.row]{
+        switch master.conversations[indexOfUser].conversation[indexPath.row]{
         case is ImageMessage:
             if (self.view.frame.width < self.view.frame.height){
                 return self.view.frame.width
@@ -650,9 +650,9 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //Direct to maps if the message is a location
-        if master?.conversations[indexOfUser].conversation[indexPath.row] is LocationMessage {
+        if master.conversations[indexOfUser].conversation[indexPath.row] is LocationMessage {
             
-            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! LocationMessage
+            let message = master.conversations[indexOfUser].conversation[indexPath.row] as! LocationMessage
             
             let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: (message.coordinate?.latitude)!, longitude: (message.coordinate?.longitude)!))
             
@@ -661,14 +661,14 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             if message.is_sender! {
                 source.name = NSLocalizedString("You", comment: "The pronoun")
             }else{
-                source.name = master?.conversations[indexOfUser].fullname
+                source.name = master.conversations[indexOfUser].fullname
             }
             
             MKMapItem.openMaps(with: [source], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])
             
         }
         
-        if master?.conversations[indexOfUser].conversation[indexPath.row] is ImageMessage {
+        if master.conversations[indexOfUser].conversation[indexPath.row] is ImageMessage {
             
 //            let secondViewController: ImagePreviewFullViewCell = ImagePreviewFullViewCell()
 //
@@ -689,26 +689,9 @@ extension ChatVC: UITextFieldDelegate {
         // Did the master use the word "fuck"? If yes let's replace it with something more appropriate -> "🦆"
         textField.text = textField.text?.replacingOccurrences(of: "fuck", with: "🦆", options: .caseInsensitive, range: nil)
         
-        let attributed = NSMutableAttributedString(string: textField.text!)
+        master.conversations[indexOfUser].conversation.append(TextMessage(text: textField.attributedText as! NSMutableAttributedString, is_sender: true))
         
-        master?.conversations[indexOfUser].conversation.append(TextMessage(text: attributed, is_sender: true))
-        
-        Internet.sendText(message: textField.text!, to: (master?.conversations[indexOfUser])!) { (ack) in
-            
-//            if (ack[0] as! String) == "Success"{
-//                
-//                // Let animate the message cell to alpha 1
-//                let indexPath = NSIndexPath(row: self.tableView.numberOfRows(inSection: 0) - 1, section: 0) as IndexPath
-//                
-//                let cell = self.tableView.cellForRow(at: indexPath)
-//                
-//                UIView.animate(withDuration: 1, animations: {
-//                    cell!.alpha = 1
-//                })
-//                
-//            }
-            
-        }
+        // MARK: TODO - Send message
         
         textField.text = ""
         
@@ -748,7 +731,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         
         // Display sent image in chat
         let message = ImageMessage(image: image as! UIImage, is_sender: true)
-        master?.conversations[indexOfUser].conversation.append(message)
+        master.conversations[indexOfUser].conversation.append(message)
         
         updateTableView(animated: true)
         
@@ -777,7 +760,7 @@ extension ChatVC: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        master!.coordinate = manager.location!.coordinate
+        master.coordinate = manager.location!.coordinate
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

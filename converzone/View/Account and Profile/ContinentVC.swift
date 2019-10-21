@@ -87,7 +87,7 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
             
         }else{
             
-            master?.continent = world.continents[indexPath.row].name
+            master.continent = world.continents[indexPath.row].name
         }
     }
 }
@@ -133,7 +133,7 @@ extension ContinentVC {
         alertController.addAction(cancelAction)
         
         let openAction = UIAlertAction(title: "Yes!", style: .default) { (action) in
-            master?.country = country
+            master.country = country
             
             //Go to next view controller
             Navigation.push(viewController: "UsersLanguagesVC", context: self)

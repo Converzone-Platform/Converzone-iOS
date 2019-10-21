@@ -19,7 +19,7 @@ class CountryVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentCountries = world.getCountriesOf(master?.continent ?? "Europe")
+        currentCountries = world.getCountriesOf(master.continent ?? "Europe")
         
         filteredCountries = currentCountries
     }
@@ -46,9 +46,9 @@ extension CountryVC: UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        master?.country = filteredCountries![indexPath.row]
+        master.country = filteredCountries![indexPath.row]
         
-        if master?.changingData == .editing{
+        if master.changingData == .editing{
             Navigation.pop(context: self)
             Navigation.pop(context: self)
         }else{

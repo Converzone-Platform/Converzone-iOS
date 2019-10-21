@@ -40,7 +40,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         self.title = "Conversations"
         self.tabBarController?.cleanTitles()
         //filtered_converations = master?.conversations
-                master?.conversations.sort(by: { (user1, user2) -> Bool in
+        master.conversations.sort(by: { (user1, user2) -> Bool in
                     return (user1.conversation.last?.date?.isGreaterThan((user2.conversation.last?.date)!))!
         
                 })
@@ -78,20 +78,20 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
                 let delete = UIAlertAction(title: "Delete", style: .destructive) { (action) in
                     
                     // MARK: TODO - Tell database that this client deleted the chat
-                    master?.conversations[indexPath.row].conversation.removeAll()
-                    master?.conversations.remove(at: indexPath.row)
+                    master.conversations[indexPath.row].conversation.removeAll()
+                    master.conversations.remove(at: indexPath.row)
                     self.tableView.deleteRows(at: [indexPath], with: .fade)
                 }
                 
                 let clear = UIAlertAction(title: "Clear", style: .destructive) { (action) in
-                    master?.conversations[indexPath.row].conversation.removeAll()
+                    master.conversations[indexPath.row].conversation.removeAll()
                     
                     // Add First Message
                     let firstMessage = FirstInformationMessage()
                     
                     firstMessage.text = "Here we go again :D"
                     
-                    master?.conversations[indexPath.row].conversation.append(firstMessage)
+                    master.conversations[indexPath.row].conversation.append(firstMessage)
                 }
                 
                 let silence = UIAlertAction(title: "Silence", style: .default) { (action) in
@@ -113,14 +113,14 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //return (filtered_converations?.count)!
         
-        if master?.conversations.count == 0 {
+        if master.conversations.count == 0 {
             tableView.setEmptyView(title: "No conversations yet.", message: "Text a random person in the discover tab")
         }
         else {
             tableView.restore()
         }
         
-        return (master?.conversations.count)!
+        return master.conversations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -130,14 +130,14 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))
         cell.addGestureRecognizer(longPressRecognizer)
         
-        cell.name.text = master?.conversations[indexPath.row].fullname
+        cell.name.text = master.conversations[indexPath.row].fullname
         
         // MARK: TODO - Download image
         
-        if (master?.conversations[indexPath.row].openedChat)! {
+        if master.conversations[indexPath.row].openedChat {
             cell.lastMessageType.backgroundColor = Colors.white
         }else{
-            cell.lastMessageType.backgroundColor = master?.conversations[indexPath.row].conversation.last?.color
+            cell.lastMessageType.backgroundColor = master.conversations[indexPath.row].conversation.last?.color
         }
         
         cell.profileImage.layer.cornerRadius = cell.profileImage.layer.frame.width / 2

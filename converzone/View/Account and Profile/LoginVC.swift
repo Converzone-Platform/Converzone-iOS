@@ -8,7 +8,7 @@
 
 import UIKit
 
-var master: Master? = Master(email: "", password: "")
+var master: Master = Master(email: "", password: "")
 
 class LoginVC: NoAutoRotateViewController {
     
@@ -62,7 +62,6 @@ class LoginVC: NoAutoRotateViewController {
         if(login_outlet.isEnabled == false) {
             
             
-            
         }
         
         if(register_outlet.isEnabled == false){
@@ -98,7 +97,7 @@ class LoginVC: NoAutoRotateViewController {
         
         drawCircle()
         renderWelcomeMessage()
-        setUpActivityIndicator(uiView: <#T##UIView#>)
+        setUpActivityIndicator()
         
         register_outlet.isEnabled = false
         login_outlet.isEnabled = true
@@ -108,13 +107,13 @@ class LoginVC: NoAutoRotateViewController {
         super.viewWillAppear(animated)
         
         // Let's delete all the data from the old master
-        master?.conversations.removeAll()
-        master?.speak_languages.removeAll()
-        master?.learn_languages.removeAll()
-        master?.changingData = .registration
+        master.conversations.removeAll()
+        master.speak_languages.removeAll()
+        master.learn_languages.removeAll()
+        master.changingData = .registration
     }
     
-    func setUpActivityIndicator(uiView: UIView) {
+    func setUpActivityIndicator() {
         
         activityIndicator.color = Colors.black
         

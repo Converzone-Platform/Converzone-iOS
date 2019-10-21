@@ -26,9 +26,9 @@ class LongTextEditVC: UIViewController {
         text.delegate = self
         
         if longTextInputFor == .interests {
-            text.attributedText = master?.interests
+            text.attributedText = master.interests
         }else{
-            text.attributedText = master?.status
+            text.attributedText = master.status
         }
         
         self.navigationItem.title =  String(1000 - text.text.count)
@@ -67,12 +67,11 @@ class LongTextEditVC: UIViewController {
     @objc func save(){
         
         if longTextInputFor == .interests{
-            master?.interests = text.attributedText
+            master.interests = text.attributedText
         }else{
-            master?.status = text.attributedText
+            master.status = text.attributedText
         }
         
-        // Go back to previous vc
         Navigation.pop(context: self)
     }
     

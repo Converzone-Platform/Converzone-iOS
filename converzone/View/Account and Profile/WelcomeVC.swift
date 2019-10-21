@@ -35,7 +35,7 @@ class WelcomeVC: NoAutoRotateViewController {
             
         }){ (bool) in
         
-            master?.changingData = .editing
+            master.changingData = .editing
             
             // Animate to actual app
             Navigation.present(controller: "MainTBC", context: self)
