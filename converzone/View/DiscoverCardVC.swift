@@ -292,7 +292,9 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 0:
             let cell = Bundle.main.loadNibNamed("ImageProfileCell", owner: self, options: nil)?.first as! ImageProfileCell
             
-            // MARK: TODO - Profile image download
+            Internet.getImage(withURL: profileOf!.link_to_profile_image!) { (image) in
+                cell.profileImage.image = image
+            }
             
             cell.profileImage.contentMode = .scaleAspectFill
             cell.profileImage.clipsToBounds = true

@@ -76,7 +76,7 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
                 
                 DispatchQueue.main.async {
                     
-                    //MARK: - TODO "en_US" is not suitable for all other languages than english
+                    //MARK: TODO - "en_US" is not suitable for all other languages than english
                     let current = Locale(identifier: "en_US")
                     let country = Country(name: current.localizedString(forRegionCode: placemark.isoCountryCode ?? "")!)
                     

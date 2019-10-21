@@ -137,7 +137,9 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             
             cell.name.text = discover_users[indexPath.row].fullname
             
-            // MARK: TODO - Download image
+            Internet.getImage(withURL: discover_users[indexPath.row].link_to_profile_image!) { (image) in
+                cell.profileImage.image = image
+            }
             
             cell.profileImage.contentMode = .scaleAspectFill
             cell.profileImage.clipsToBounds = true
@@ -158,7 +160,9 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             
             cell.name.text = discover_users[indexPath.row].fullname
             
-            // MARK: TODO - Download image
+            Internet.getImage(withURL: discover_users[indexPath.row].link_to_profile_image!) { (image) in
+                cell.profileImage.image = image
+            }
             
             cell.profileImage.layer.cornerRadius = cell.profileImage.layer.frame.width / 2
             cell.profileImage.layer.masksToBounds = true
@@ -179,7 +183,9 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             
             cell.name.text = discover_users[indexPath.row].fullname
             
-            // MARK: TODO - Download image
+            Internet.getImage(withURL: discover_users[indexPath.row].link_to_profile_image!) { (image) in
+                cell.profileImage.image = image
+            }
             
             cell.profileImage.layer.cornerRadius = 23
             cell.profileImage.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]

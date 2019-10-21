@@ -39,7 +39,9 @@ class EditProfileVC: UIViewController{
         
         if master.changingData == .editing && Internet.isOnline(){
             
-            // MARK: TODO - Download image
+            Internet.getImage(withURL: master.link_to_profile_image!) { (image) in
+                self.profile_image.image = image
+            }
             
             profile_image.layer.masksToBounds = true
             profile_image.layer.cornerRadius = profile_image.frame.width / 2

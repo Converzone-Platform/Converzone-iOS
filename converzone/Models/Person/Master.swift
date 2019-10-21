@@ -30,11 +30,8 @@ class Master: Person {
     
     // Platform
     internal var profile_images: UIImage?
-    internal var changed_image: Bool = false
     
     internal var discoverable: Bool = true
-    
-    
     
     init(email: String, password: String){
         self.email = email

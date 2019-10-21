@@ -47,7 +47,7 @@ public class Internet: NSObject {
     
     static let imageCache = NSCache<NSString, UIImage>()
     
-    static func downloadImage(withURL url:URL, completion: @escaping (_ image:UIImage?)->()) {
+    private static func downloadImage(withURL url: URL, completion: @escaping (_ image:UIImage?)->()) {
         let dataTask = URLSession.shared.dataTask(with: url) { data, responseURL, error in
             var downloadedImage:UIImage?
             
@@ -68,11 +68,11 @@ public class Internet: NSObject {
         dataTask.resume()
     }
     
-    static func getImage(withURL url:URL, completion: @escaping (_ image:UIImage?)->()) {
-        if let image = imageCache.object(forKey: url.absoluteString as NSString) {
+    static func getImage(withURL url: String, completion: @escaping (_ image:UIImage?)->()) {
+        if let image = imageCache.object(forKey: url as NSString) {
             completion(image)
         } else {
-            downloadImage(withURL: url, completion: completion)
+            downloadImage(withURL: URL(string: url)!, completion: completion)
         }
     }
     

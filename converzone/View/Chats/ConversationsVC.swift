@@ -24,6 +24,9 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         super.viewDidLoad()
         
         // MARK: Create dummy user
+        master.link_to_profile_image = "https://picsum.photos/id/1083/200/200"
+        master.firstname = "Goga"
+        master.lastname = "Barabadze"
         var user = User(firstname: "Lucie", lastname: "<3", gender: .female, birthdate: Date(), uid: "12381923")
         
         var message = TextMessage(text: "I like you", is_sender: true)
@@ -137,7 +140,9 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         
         cell.name.text = master.conversations[indexPath.row].fullname
         
-        // MARK: TODO - Download image
+        Internet.getImage(withURL: master.conversations[indexPath.row].link_to_profile_image!) { (image) in
+            cell.profileImage.image = image
+        }
         
         if master.conversations[indexPath.row].openedChat {
             cell.lastMessageType.backgroundColor = Colors.white

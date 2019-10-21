@@ -25,7 +25,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         master.changingData = .editing
         
-        tableView.reloadData()
+        //tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -54,18 +54,14 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             cell?.textLabel?.text = master.fullname
             cell?.detailTextLabel?.text = master.status?.string
             
-            if master.changed_image{
-                master.changed_image = false
+            Internet.getImage(withURL: master.link_to_profile_image!) { (image) in
+                cell?.imageView!.image = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 50, maxHeight: 50)
                 
-                cell?.imageView?.image = nil
+                cell?.imageView!.layer.cornerRadius = 25
+                cell?.imageView!.layer.masksToBounds = true
+                
+                tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
             }
-            
-            if cell?.imageView!.image == nil{
-                // MARK: TODO - Download image
-            }
-            
-            cell?.imageView!.layer.cornerRadius = 25
-            cell?.imageView!.layer.masksToBounds = true
             
             //cell?.imageView?.contentMode = .scaleAspectFill
             
@@ -74,8 +70,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         default:
             
             cell = UITableViewCell(style: .default, reuseIdentifier: "SettingsCell")
-            
-            //cell?.imageView?.image = UIImage(named: "austria")
             
             cell?.textLabel?.text = settings[ tableView.globalIndexPath(for: indexPath as NSIndexPath) ]
             
