@@ -10,12 +10,17 @@ import SystemConfiguration
 import UIKit
 import Network
 import FirebaseAuth
+import FirebaseDatabase
 
 public class Internet: NSObject {
     
     // Maybe "weak" here?!
     var chat_delegate: ChatUpdateDelegate?
     var conversations_delegate: ConversationUpdateDelegate?
+    
+    static var ref = Database.database().reference()
+
+    // MARK: - Connectivity
     
     class func isOnline() -> Bool {
         
@@ -74,6 +79,45 @@ public class Internet: NSObject {
         } else {
             downloadImage(withURL: URL(string: url)!, completion: completion)
         }
+    }
+    
+    // MARK: - Sending messages
+    static func send(message: Message, receiver: User){
+        
+        switch message {
+        case is TextMessage: send(message: message as! TextMessage, receiver: receiver)
+        default: print("Message type is not supported yet")
+        }
+        
+    }
+    
+    private static func send(message: TextMessage, receiver: User){
+        
+        self.ref
+            .child("conversations")
+            .child(generateConversationID(first: master.uid!, second: receiver.uid!))
+            .child(String(message.hashValue))
+            
+                .setValue(["sender": master.uid!,
+                           "date": DateFormatter.localizedString(from: message.date!, dateStyle: .long, timeStyle: .long),
+                           "text": message.text!,
+                           "type": "TextMessage"])
+        
+    }
+    
+    /**
+     Takes the alphabetically higher and adds the alphabetically lower id at the end
+     */
+    private static func generateConversationID(first: String, second: String) -> String{
+        
+        if first > second {
+            
+            return first + second
+            
+        }
+        
+        return second + first
+        
     }
     
 }

@@ -27,13 +27,13 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         master.link_to_profile_image = "https://picsum.photos/id/1083/200/200"
         master.firstname = "Goga"
         master.lastname = "Barabadze"
+        master.uid = "231831373"
         var user = User(firstname: "Lucie", lastname: "<3", gender: .female, birthdate: Date(), uid: "12381923")
         
         var message = TextMessage(text: "I like you", is_sender: true)
         
         user.conversation.append(message)
         user.link_to_profile_image = "https://picsum.photos/id/1/200/200"
-
         master.conversations.append(user)
         
         setUpNavBar()

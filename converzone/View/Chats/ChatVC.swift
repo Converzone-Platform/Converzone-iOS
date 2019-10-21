@@ -691,6 +691,8 @@ extension ChatVC: UITextFieldDelegate {
         master.conversations[indexOfUser].conversation.append(TextMessage(text: textField.text!, is_sender: true))
         
         // MARK: TODO - Send message
+        var message = TextMessage(text: textField.text!, is_sender: true)
+        Internet.send(message: message, receiver: master.conversations[indexOfUser])
         
         textField.text = ""
         
