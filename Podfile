@@ -17,7 +17,7 @@ target 'converzone' do
     # Pods for testing
   end
 
-  pod 'Socket.IO-Client-Swift', '~> 15.1.0'
+  #pod 'Socket.IO-Client-Swift', '~> 15.1.0'
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'

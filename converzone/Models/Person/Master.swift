@@ -6,8 +6,6 @@
 //  Copyright © 2018 Goga Barabadze. All rights reserved.
 //
 
-/*  Master is the main user who is using the device */
-
 import UIKit
 
 enum ChangingData {
@@ -15,12 +13,13 @@ enum ChangingData {
     case registration
 }
 
+/**
+ Master is the main user who is using the device
+ */
+
 class Master: Person {
     
-    var changingData: ChangingData = .registration
-    
-    // For adding the user to the websocket
-    internal var addedUserSinceLastConnect = false
+    internal var changingData: ChangingData = .registration
     
     //Login Information
     internal var email: String?
@@ -29,11 +28,13 @@ class Master: Person {
     //All people with whom the master has chats with
     internal var conversations: [User] = []
     
-    //Platform
+    // Platform
     internal var profile_images: UIImage?
     internal var changed_image: Bool = false
     
     internal var discoverable: Bool = true
+    
+    
     
     init(email: String, password: String){
         self.email = email

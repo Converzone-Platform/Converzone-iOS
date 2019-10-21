@@ -8,8 +8,6 @@
 
 import UIKit
 
-//var filtered_converations: [User]? = nil
-
 class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     
     func didUpdate(sender: Internet) {
@@ -29,8 +27,6 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         
         self.view.backgroundColor = Colors.backgroundGrey
         
-        //navigationItem.searchController?.searchBar.delegate = self
-        
         updates.conversations_delegate = self
     }
     
@@ -41,9 +37,8 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         self.tabBarController?.cleanTitles()
         //filtered_converations = master?.conversations
         master.conversations.sort(by: { (user1, user2) -> Bool in
-                    return (user1.conversation.last?.date?.isGreaterThan((user2.conversation.last?.date)!))!
-        
-                })
+            return (user1.conversation.last?.date?.isGreaterThan((user2.conversation.last?.date)!))!
+        })
         
         //MARK: TODO - Reloading the whole tableview might be too much
         tableView.reloadData()
@@ -172,32 +167,6 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         
     }
 }
-
-
-
-//extension ConversationsVC: UISearchBarDelegate {
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        
-//        guard !searchText.isEmpty else {
-//            filtered_converations = master?.conversations
-//            tableView.reloadData()
-//            return
-//        }
-//        
-//        filtered_converations = master?.conversations.filter({ (user) -> Bool in
-//            return (user.fullname?.lowercased().contains(searchText.lowercased()))!
-//        })
-//        
-//        tableView.reloadData()
-//    }
-//    
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        searchBar.endEditing(true)
-//        
-//        filtered_converations = master?.conversations
-//        tableView.reloadData()
-//    }
-//}
 
 // To update the table view from another class
 protocol ConversationUpdateDelegate {

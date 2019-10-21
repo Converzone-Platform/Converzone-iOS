@@ -94,14 +94,10 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         switch tableView.globalIndexPath(for: indexPath as NSIndexPath){
-        case 0:
+        case 0: Navigation.push(viewController: "EditProfileVC", context: self)
             
-            Navigation.push(viewController: "EditProfileVC", context: self)
-            
-        case 1:
-            Navigation.push(viewController: "UsersLanguagesVC", context: self)
-        case 2:
-            Navigation.push(viewController: "ContinentVC", context: self)
+        case 1: Navigation.push(viewController: "UsersLanguagesVC", context: self)
+        case 2: Navigation.push(viewController: "ContinentVC", context: self)
         case 3:
             
             // MARK: TODO - This is probably not working! Change to correct link
@@ -112,8 +108,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             // Delete discover users
             discover_users.removeAll()
-            
-            master.addedUserSinceLastConnect = false
             
         default:
             print("No action here")

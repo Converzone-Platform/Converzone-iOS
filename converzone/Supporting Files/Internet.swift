@@ -8,7 +8,6 @@
 
 import SystemConfiguration
 import UIKit
-import SocketIO
 import Network
 
 public class Internet: NSObject {
@@ -50,5 +49,10 @@ public class Internet: NSObject {
         
     }
     
+    class func login(){
+        
+        
+        
+    }
     
 }
