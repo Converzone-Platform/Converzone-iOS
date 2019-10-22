@@ -27,7 +27,7 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if(section == 0){
+        if section == 0 {
             return 1
         }
         
@@ -58,7 +58,7 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //Does the person want us to check the position by ourselves?
-        if(indexPath.section == 0){
+        if indexPath.section == 0 {
             locationManager.requestWhenInUseAuthorization()
             
             // If location services is enabled get the users location
@@ -100,7 +100,7 @@ extension ContinentVC {
     
     // If we have been deined access give the user the option to change it
     private func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if(status == CLAuthorizationStatus.denied) {
+        if status == CLAuthorizationStatus.denied {
             showLocationDisabledPopUp()
         }
     }
@@ -135,8 +135,12 @@ extension ContinentVC {
         let openAction = UIAlertAction(title: "Yes!", style: .default) { (action) in
             master.country = country
             
-            //Go to next view controller
-            Navigation.push(viewController: "UsersLanguagesVC", context: self)
+            if master.changingData == .registration {
+                Navigation.push(viewController: "UsersLanguagesVC", context: self)
+            }else{
+                Navigation.pop(context: self)
+                Internet.upload(country: master.country!)
+            }
         }
         
         alertController.addAction(openAction)

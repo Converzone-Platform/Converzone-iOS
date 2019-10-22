@@ -24,23 +24,27 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         super.viewDidLoad()
         
         // MARK: Create dummy user
-        master.link_to_profile_image = "https://picsum.photos/id/1083/200/200"
+        master.link_to_profile_image = "https://firebasestorage.googleapis.com/v0/b/converzone-3e328.appspot.com/o/profile_images%2F231831373.jpg?alt=media&token=78618731-c18d-4f60-92c3-2268d825aaa3"
         master.firstname = "Goga"
         master.lastname = "Barabadze"
         master.uid = "231831373"
-        var user = User(firstname: "Lucie", lastname: "<3", gender: .female, birthdate: Date(), uid: "12381923")
+        let user = User(firstname: "Lucie", lastname: "<3", gender: .female, birthdate: Date(), uid: "12381923")
         
-        var message = TextMessage(text: "I like you", is_sender: true)
+        let message = TextMessage(text: "I like you", is_sender: true)
         
         user.conversation.append(message)
         user.link_to_profile_image = "https://picsum.photos/id/1/200/200"
         master.conversations.append(user)
+        master.timezone = TimeZone(secondsFromGMT: 0)?.abbreviation()
+        master.interface_language = Language(name: "English")
+        
+        Internet.configure()
         
         setUpNavBar()
         
         self.view.backgroundColor = Colors.backgroundGrey
         
-        updates.conversations_delegate = self
+        Internet.conversations_delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {

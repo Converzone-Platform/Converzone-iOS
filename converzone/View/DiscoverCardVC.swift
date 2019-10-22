@@ -169,7 +169,7 @@ class DicoverCard {
             
             navAnimation.addCompletion { (_) in
                 
-                if( state == .collapsed ){
+                if state == .collapsed {
                     self.removeCard()
                 }
                 

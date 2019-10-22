@@ -25,7 +25,25 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         master.changingData = .editing
         
-        //tableView.reloadData()
+        Internet.getMaster()
+        
+        Internet.getLanguagesFor(uid: master.uid!, progress: "speak_languages") { (languages) in
+            master.speak_languages = languages ?? []
+            
+            self.tableView.reloadData()
+            
+            if master.speak_languages.count == 0 {
+                Navigation.push(viewController: "UsersLanguagesVC", context: self)
+            }
+        }
+        
+        Internet.getLanguagesFor(uid: master.uid!, progress: "learn_languages") { (languages) in
+            master.learn_languages = languages ?? []
+            
+            self.tableView.reloadData()
+        }
+        
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,7 +116,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             "Check this out: http://itunes.apple.com/app/id1465102094".share()
             
         case 4:
-            Navigation.present(controller: "LoginVC", context: self)
+            Navigation.change(navigationController: "LoginVC")
             
             // Delete discover users
             discover_users.removeAll()

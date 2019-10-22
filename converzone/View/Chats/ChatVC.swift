@@ -79,45 +79,45 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
 //        }))
 //
         
-        location_alert.addAction(UIAlertAction(title: "Location", style: .default , handler:{ (UIAlertAction)in
-
-            self.setUpLocationServices()
-            
-            if CLLocationManager.locationServicesEnabled() {
-                switch CLLocationManager.authorizationStatus() {
-                case .notDetermined, .restricted, .denied:
-                
-                    alert("No access to the location services", "Please go into the settings and enable the location services for this app. You can chose \"always\" or just \"when in use\" there.", self)
-                    
-                    
-                case .authorizedAlways, .authorizedWhenInUse:
-
-                    let locationMessage = LocationMessage()
-                    locationMessage.is_sender = true
-
-                    self.locationManager.requestLocation()
-                    locationMessage.coordinate = master.coordinate
-                    locationMessage.date = Date()
-
-                    master.conversations[indexOfUser].conversation.append(locationMessage)
-
-                    self.updateTableView(animated: true)
-                    
-                    self.deleteFirstMessage()
-
-                default:
-                    print("That's weird. Check me out. I am on line: ", #line)
-                }
-            } else {
-                print("Location services are not enabled")
-            }
-        }))
-        
-        location_alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (UIAlertAction)in
-            
-        }))
-        
-        self.present(location_alert, animated: true, completion: nil)
+//        location_alert.addAction(UIAlertAction(title: "Location", style: .default , handler:{ (UIAlertAction)in
+//
+//            self.setUpLocationServices()
+//
+//            if CLLocationManager.locationServicesEnabled() {
+//                switch CLLocationManager.authorizationStatus() {
+//                case .notDetermined, .restricted, .denied:
+//
+//                    alert("No access to the location services", "Please go into the settings and enable the location services for this app. You can chose \"always\" or just \"when in use\" there.", self)
+//
+//
+//                case .authorizedAlways, .authorizedWhenInUse:
+//
+//                    let locationMessage = LocationMessage()
+//                    locationMessage.is_sender = true
+//
+//                    self.locationManager.requestLocation()
+//                    locationMessage.coordinate = master.coordinate
+//                    locationMessage.date = Date()
+//
+//                    master.conversations[indexOfUser].conversation.append(locationMessage)
+//
+//                    self.updateTableView(animated: true)
+//
+//                    self.deleteFirstMessage()
+//
+//                default:
+//                    print("That's weird. Check me out. I am on line: ", #line)
+//                }
+//            } else {
+//                print("Location services are not enabled")
+//            }
+//        }))
+//
+//        location_alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (UIAlertAction)in
+//
+//        }))
+//
+//        self.present(location_alert, animated: true, completion: nil)
         
     }
     
@@ -136,7 +136,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         navigationItem.titleView = navTitleWithImageAndText(titleText: master.conversations[indexOfUser].fullname!, imageLink: master.conversations[indexOfUser].link_to_profile_image!)
         
-        updates.chat_delegate = self
+        Internet.chat_delegate = self
         
         master.conversations[indexOfUser].openedChat = true
     }
@@ -381,7 +381,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             cell.message_label.text = message.text!
             cell.selectionStyle = .none
             
-            if (message.only_emojies == false){
+            if message.only_emojies == false {
                 
                 if message.is_sender == true{
                     cell.message_label.textColor = Colors.white
@@ -435,7 +435,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 if ((cell.message_label.text?.widthWithConstrained(cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - (2 * 36)){
                     cell.rightConstraint.isActive = false
                     
-                    if (cell.message_label.text == ""){
+                    if cell.message_label.text == "" {
                         cell.message_label.text = "  "
                     }
                 }
@@ -628,7 +628,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         
         switch master.conversations[indexOfUser].conversation[indexPath.row]{
         case is ImageMessage:
-            if (self.view.frame.width < self.view.frame.height){
+            if self.view.frame.width < self.view.frame.height{
                 return self.view.frame.width
             }
             
@@ -636,7 +636,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
         case is LocationMessage:
             
-            if (self.view.frame.width < self.view.frame.height){
+            if self.view.frame.width < self.view.frame.height {
                 return self.view.frame.width
             }
             
@@ -684,18 +684,18 @@ extension ChatVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         deleteFirstMessage()
-        
+
         // Did the master use the word "fuck"? If yes let's replace it with something more appropriate -> "🦆"
         textField.text = textField.text?.replacingOccurrences(of: "fuck", with: "🦆", options: .caseInsensitive, range: nil)
-        
-        master.conversations[indexOfUser].conversation.append(TextMessage(text: textField.text!, is_sender: true))
-        
-        // MARK: TODO - Send message
-        var message = TextMessage(text: textField.text!, is_sender: true)
+
+        let message = TextMessage(text: textField.text!, is_sender: true)
+
+        master.conversations[indexOfUser].conversation.append(message)
+
         Internet.send(message: message, receiver: master.conversations[indexOfUser])
-        
+
         textField.text = ""
-        
+
         updateTableView(animated: true)
         
         return true
@@ -761,7 +761,7 @@ extension ChatVC: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        master.coordinate = manager.location!.coordinate
+        //master.coordinate = manager.location!.coordinate
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

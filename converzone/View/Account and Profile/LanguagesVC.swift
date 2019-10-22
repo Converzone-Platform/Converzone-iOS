@@ -81,7 +81,7 @@ extension LanguagesVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if(addingForType == .speaking){
+        if addingForType == .speaking {
             
             if selected_speaking_languages.contains(where:{ $0.name == tableView.cellForRow(at: indexPath)!.textLabel!.text }){
                 

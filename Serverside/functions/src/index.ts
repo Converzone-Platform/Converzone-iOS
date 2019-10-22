@@ -1,8 +1,30 @@
 import * as functions from 'firebase-functions';
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+const admin = require('firebase-admin');
+admin.initializeApp(functions.config().firebase);
+
+export const startedNewConversation = functions.database
+    .ref('/conversations/{conversationid}/')
+    .onCreate((snapshot, context) => {
+
+        let senderid = null
+        let receiverid = null
+
+        const conversationsid = snapshot.key
+
+        const messages = snapshot.child("/messages")
+
+        messages.forEach((value) => {
+
+            senderid = value.val().sender
+            receiverid = value.val().receiver
+
+            return true
+
+        });
+
+        // Add conversationid to the receiver's conversations and vice versa
+               admin.database().ref(`/users/${senderid}/conversations/${receiverid}`).set(conversationsid)
+        return admin.database().ref(`/users/${receiverid}/conversations/${senderid}`).set(conversationsid)
+        
+})

@@ -15,6 +15,7 @@
 		4A016FE021B6B78B00095E26 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A016FDF21B6B78B00095E26 /* Message.swift */; };
 		4A016FE521B7188600095E26 /* Reflection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A016FE421B7188600095E26 /* Reflection.swift */; };
 		4A05490C235D970E000B00FB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A05490B235D970D000B00FB /* GoogleService-Info.plist */; };
+		4A05490E235F2BB6000B00FB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05490D235F2BB6000B00FB /* Date.swift */; };
 		4A07981F224D661E00C39927 /* LocationMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A07981E224D661E00C39927 /* LocationMessageCell.xib */; };
 		4A0A2A6821B9238200EB2232 /* ContinentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0A2A6721B9238200EB2232 /* ContinentVC.swift */; };
 		4A1C985221BA639C00F99D62 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C985121BA639C00F99D62 /* World.swift */; };
@@ -106,6 +107,7 @@
 		4A016FDF21B6B78B00095E26 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		4A016FE421B7188600095E26 /* Reflection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reflection.swift; sourceTree = "<group>"; };
 		4A05490B235D970D000B00FB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4A05490D235F2BB6000B00FB /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		4A07981E224D661E00C39927 /* LocationMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocationMessageCell.xib; sourceTree = "<group>"; };
 		4A0A2A6721B9238200EB2232 /* ContinentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentVC.swift; sourceTree = "<group>"; };
 		4A1C985121BA639C00F99D62 /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				4A016FD321B6716800095E26 /* Extensions.swift */,
 				4A36EBD2232D2ACE0053361F /* Navigation.swift */,
 				4A36EBD4232D34C90053361F /* NoAutoRotateViewController.swift */,
+				4A05490D235F2BB6000B00FB /* Date.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -719,6 +722,7 @@
 				4A016FE021B6B78B00095E26 /* Message.swift in Sources */,
 				4A5F59BE2264DF810065F47B /* AddConversationCells.swift in Sources */,
 				4A1C985221BA639C00F99D62 /* World.swift in Sources */,
+				4A05490E235F2BB6000B00FB /* Date.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -899,14 +903,14 @@
 				CODE_SIGN_ENTITLEMENTS = converzone/converzone.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = C4Z6T6S45K;
 				INFOPLIST_FILE = converzone/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hashtag.oct.converzone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.goga.barabadze.converzone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -922,14 +926,14 @@
 				CODE_SIGN_ENTITLEMENTS = converzone/converzone.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = C4Z6T6S45K;
 				INFOPLIST_FILE = converzone/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hashtag.oct.converzone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.goga.barabadze.converzone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

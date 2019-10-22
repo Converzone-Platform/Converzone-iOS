@@ -51,6 +51,9 @@ extension CountryVC: UITableViewDataSource, UITableViewDelegate{
         if master.changingData == .editing{
             Navigation.pop(context: self)
             Navigation.pop(context: self)
+            
+            Internet.upload(country: master.country!)
+            
         }else{
             Navigation.push(viewController: "UsersLanguagesVC", context: self)
         }

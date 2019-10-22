@@ -175,12 +175,6 @@ class EditProfileVC: UIViewController{
         
         master.discoverable = (tableView.cellForRow(at: IndexPath(row: 0, section: 3)) as! BooleanInputCell).discoverable.isOn
         
-        // Give the server all information about the master and get an (u)id back
-        // Let's create a user
-        //2019-06-20 11:23:10:721 +02:00 ... "yyyy-MM-dd HH:mm:ss:SSS XXXXX"
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        
         if master.changingData == .registration {
             
             // Go to welcome screen
@@ -188,6 +182,9 @@ class EditProfileVC: UIViewController{
         }else{
             Navigation.pop(context: self)
         }
+        
+        Internet.upload()
+        
     }
     
     @objc private func pickDate (datePicker: UIDatePicker){
@@ -260,7 +257,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if (section == 3) { return 1 }
+        if section == 3 { return 1 }
         
         return 2
     }
@@ -479,6 +476,8 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
         profile_image.image = cropToBounds(image: image as! UIImage, width: 500, height: 500)
         profile_image.layer.cornerRadius = profile_image.layer.frame.width / 2
         profile_image.layer.masksToBounds = true
+        
+        Internet.upload(image: profile_image.image!)
         
         picker.dismiss(animated: true, completion: nil)
     }

@@ -24,13 +24,11 @@ class Person {
     
     internal var gender: Gender?
     internal var birthdate: Date?
-    internal var interface_language: Language?
     internal var speak_languages: [Language] = []
     internal var learn_languages: [Language] = []
     
     internal var continent: String?
     internal var country: Country?
-    internal var coordinate: CLLocationCoordinate2D?
     internal var timezone: String?
     
     //Platform Informations
@@ -41,7 +39,7 @@ class Person {
     internal var reflections: [Reflection] = []
     internal var uid: String?
     
-    internal var deviceToken: String?
+    internal var device_token: String = ""
     
     init (firstname: String, lastname: String, gender: Gender, birthdate: Date, uid: String){
         self.firstname = firstname
@@ -66,5 +64,32 @@ class Person {
             $0.name.localizedCaseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending
         }
         
+    }
+    
+    func speakLanguagesToDictionary() -> [String: String] {
+        
+        return languageArrayToDictionary(array: self.speak_languages)
+        
+    }
+    
+    func learnLanguagesToDictionrary() -> [String: String] {
+        
+        return languageArrayToDictionary(array: self.learn_languages)
+        
+    }
+    
+    private func languageArrayToDictionary(array: [Language]) -> [String: String] {
+        
+        if array.isEmpty { return ["":""] }
+        
+        var dictionary: [String: String] = [:]
+        
+        for i in 0...array.count-1 {
+            
+            dictionary[String(i)] = array[i].name
+            
+        }
+        
+        return dictionary
     }
 }

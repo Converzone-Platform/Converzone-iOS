@@ -18,6 +18,7 @@ import Firebase
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         getNotificationPermissionFromUser(application)
+        
         FirebaseApp.configure()
         
         return true
@@ -36,7 +37,7 @@ import Firebase
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
         // Extract the device token of the current device
-        master.deviceToken = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+        master.device_token = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

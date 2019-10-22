@@ -29,8 +29,7 @@ class Master: Person {
     internal var conversations: [User] = []
     
     // Platform
-    internal var profile_images: UIImage?
-    
+    internal var interface_language: Language?
     internal var discoverable: Bool = true
     
     init(email: String, password: String){
@@ -38,5 +37,27 @@ class Master: Person {
         self.password = password
         
         super.init()
+    }
+    
+    func toDictionary() -> [String : Any]{
+        
+        return [
+        
+            "firstname": super.firstname!,
+            "lastname": super.lastname!,
+            "gender": super.gender?.toString(),
+            "birthdate": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: super.birthdate!),
+            "country": super.country?.name!,
+            "link_to_profile_image": super.link_to_profile_image!,
+            "device_token": super.device_token,
+            "interests": super.interests?.string,
+            "status": super.status?.string,
+            
+            "telephone": self.email!,
+            "discoverable": self.discoverable,
+            "interface_language": self.interface_language?.name
+            
+        ]
+        
     }
 }

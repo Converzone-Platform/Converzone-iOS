@@ -33,25 +33,25 @@ class LoginVC: NoAutoRotateViewController {
         guard let email = email_textfield.text          else { return }
         guard let password = password_textfield.text    else { return }
         
-         if(email_textfield.text == "" || password_textfield.text == ""){
+         if email_textfield.text == "" || password_textfield.text == "" {
              alert(NSLocalizedString("Fill in both fields", comment: "Error title when the user doesn't fill in password and email"),
                    NSLocalizedString("Please make sure that you fill in a password and an email address", comment: "Error message when the user doesn't fill in password and email"), self)
              return
          }
 
-         if(!Internet.isOnline()){
+         if !Internet.isOnline() {
              alert(NSLocalizedString("Your device is offline", comment: "Error title the user gets when device is not connected to the internet"),
                    NSLocalizedString("Please make sure that your device is connected to the internet in order to proceed.", comment: "Error message the user gets when device is not connected to the internet"), self)
              return
          }
 
-         if(!email_textfield.isValidEmail()){
+         if !email_textfield.isValidEmail() {
              alert(NSLocalizedString("Email Address", comment: "Error title when the user enters a invalid email address"),
                    NSLocalizedString("Please make sure that you enter a valid email address.", comment: "Error message when the user enters a invalid email address"), self)
              return
          }
 
-         if(!password_textfield.isValidPassword()){
+         if !password_textfield.isValidPassword() {
              alert(NSLocalizedString("Password", comment: "Error title when the user enters a wrong password"),
                    NSLocalizedString("Please make sure that you enter a strong password. \n\n • 8 to 20 characters \n • Upper and Lower Case\n • One number", comment: "Error message when the user enters a wrong password"), self)
              return
@@ -59,12 +59,12 @@ class LoginVC: NoAutoRotateViewController {
         
         startActivityIndicator()
         
-        if(login_outlet.isEnabled == false) {
+        if login_outlet.isEnabled == false {
             
             
         }
         
-        if(register_outlet.isEnabled == false){
+        if register_outlet.isEnabled == false {
             
             //Try register. Create Master
             master = Master(email: email, password: password)
