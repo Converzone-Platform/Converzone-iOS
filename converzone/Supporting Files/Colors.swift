@@ -22,31 +22,28 @@ enum Colors {
     static let grey = UIColor(red: 190/255, green: 190/255, blue: 190/255, alpha: 1.0)
     static let darkGrey = UIColor(red: 151/255, green: 151/255, blue: 151/255, alpha: 1.0)
     static let backgroundGrey = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1.0)
-}
-
-// Generates a random color
-
-func randomColor() -> UIColor{
     
-    let random = Int.random(in: 0...5)
-    
-    switch random {
-    case 0:
-        return Colors.orange
-    case 1:
-        return Colors.yellow
-    case 2:
-        return Colors.green
-    case 3:
+    // Generates a random color
+
+    static func random() -> UIColor{
+        
+        let random = Int.random(in: 0...5)
+        
+        switch random {
+            
+        case 0: return Colors.orange
+        case 1: return Colors.yellow
+        case 2: return Colors.green
+        case 3: return Colors.blue
+        case 4: return Colors.violet
+        case 5: return Colors.pink
+        
+        default: print("The number generated to get a random color is wrong")
+        }
+        
         return Colors.blue
-    case 4:
-        return Colors.violet
-    case 5:
-        return Colors.pink
-    
-    default:
-        print("The number generated to get a random color is wrong")
     }
+
     
-    return Colors.blue
 }
+

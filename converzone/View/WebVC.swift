@@ -38,7 +38,7 @@ class WebVC: UIViewController, WKUIDelegate {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
         UIView.animate(withDuration: 1, delay: 0.1, options: UIView.AnimationOptions.curveEaseInOut, animations: {
-            self.progressView.progressTintColor = randomColor()
+            self.progressView.progressTintColor = Colors.random()
         })
         
         if self.webView.estimatedProgress >= 1.0 {

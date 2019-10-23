@@ -16,14 +16,28 @@ import MapKit
 
 public class Internet: NSObject {
     
-    // Maybe "weak" here?!
+    /**
+     After something has been changed with the data in the chat. We can notify the chat about it with this delegat
+     
+     - Note: Maybe we should add a `weak` in the variable modifiers. It cause a memory leak otherwise
+     */
     static var chat_delegate: ChatUpdateDelegate?
+    
+    /**
+     After something has been changed with the data in the conversations. We can notify the chat about it with this delegat
+     
+     - Note: Maybe we should add a `weak` in the variable modifiers. It cause a memory leak otherwise
+     */
     static var conversations_delegate: ConversationUpdateDelegate?
     
+    /// Reference to the Firebase Realtime database
     static var dat_ref = Database.database().reference()
+    
+    /// Reference to the Firebase Storage
     static var sto_ref = Storage.storage().reference()
     
-    class func configure(){
+    /// Set up value listeners for Database
+    class func setUpListeners(){
         
         self.listenForNewConversations()
         
@@ -31,6 +45,8 @@ public class Internet: NSObject {
     
     // MARK: - Connectivity
     
+    
+    /// Return if we have an internet connection. No differenciation with Cellular or Wifi. They are treated the same way
     class func isOnline() -> Bool {
         
         var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
@@ -59,8 +75,13 @@ public class Internet: NSObject {
     
     // MARK: Download and cache image
     
+    /// Cache all images in the app
     static let imageCache = NSCache<NSString, UIImage>()
     
+    
+    /// Download any image from any url
+    /// - Parameter url: The url from where to download the image
+    /// - Parameter completion: Asynchronously give back the image we retrieved
     private static func downloadImage(withURL url: URL, completion: @escaping (_ image:UIImage?)->()) {
         let dataTask = URLSession.shared.dataTask(with: url) { data, responseURL, error in
             var downloadedImage:UIImage?
@@ -82,6 +103,9 @@ public class Internet: NSObject {
         dataTask.resume()
     }
     
+    /// Check if we need to download the image from the url or if we have it cached
+    /// - Parameter url: The url from where to download the image
+    /// - Parameter completion: Asynchronously give back the image we retrieved
     static func getImage(withURL url: String, completion: @escaping (_ image:UIImage?)->()) {
         if let image = imageCache.object(forKey: url as NSString) {
             completion(image)
@@ -91,6 +115,10 @@ public class Internet: NSObject {
     }
     
     // MARK: - Sending messages
+    
+    /// Decides what type of message it is and redirects to it's specific function to further handling
+    /// - Parameter message: The message to send
+    /// - Parameter receiver: The user who will receive the message
     static func send(message: Message, receiver: User){
         
         switch message {
@@ -100,15 +128,18 @@ public class Internet: NSObject {
         
     }
     
+    /// Send the TextMessage to the database. Firebase Functions will send it to the right user automatically
+    /// - Parameter message: The TextMessage to send
+    /// - Parameter receiver: The user who will receive the message
     private static func send(message: TextMessage, receiver: User){
         
         self.dat_ref.child("conversations").child(generateConversationID(first: master.uid!, second: receiver.uid!)).child("messages").child(String(message.hashValue)).setValue(["sender": master.uid!, "receiver": receiver.uid!, "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!), "text": message.text!, "type": "TextMessage"])
         
     }
     
-    /**
-     Takes the alphabetically higher and adds the alphabetically lower id at the end
-     */
+    /// Generate one single conversation id out of two user ids
+    /// - Parameter first: user id A
+    /// - Parameter second: user id B
     private static func generateConversationID(first: String, second: String) -> String{
         
         if first > second {
@@ -123,6 +154,7 @@ public class Internet: NSObject {
     
     // MARK: Receiving messages
     
+    /// Listener for new conversations. Once it receivers a new conversation it sets a listener for messages in the new conversation
     private static func listenForNewConversations(){
 
         self.dat_ref.child("users").child(master.uid!).child("conversations").observe(.childAdded) { (snapshot) in
@@ -139,6 +171,7 @@ public class Internet: NSObject {
 
     }
     
+    /// Listen for messages in the conversation
     private static func listenForNewMessageAt(conversationID: String){
         
         self.dat_ref.child("conversations").child(conversationID).child("messages").queryOrdered(byChild: "date").queryLimited(toLast: 10).observe(.childAdded) { (snapshot) in
@@ -151,7 +184,9 @@ public class Internet: NSObject {
         
     }
     
-    ///Takes a message as a prameter and decides what kind of message it is. Afterwards it directs the message to a function which can actually handle it
+    
+    /// Decides what type of message it is and redirects to it's specific function to further handling
+    /// - Parameter message: The received message
     private static func receive(message: NSDictionary){
         
         let type = message["type"] as! String
@@ -163,9 +198,8 @@ public class Internet: NSObject {
         
     }
     
-    /**
-     Takes a Dictionary and transforms it into a TextMessage object
-     */
+    /// Handles the receiving of a TextMessage
+    /// - Parameter textMessage: The received TextMessage
     private static func receive(textMessage: NSDictionary){
         
         let sender = textMessage["sender"] as! String
@@ -219,12 +253,15 @@ public class Internet: NSObject {
         
     }
     
+    /// Update the country on the database
+    /// - Parameter country: The country to chango to
     static func upload(country: Country){
         
         self.dat_ref.child("users").child(master.uid!).updateChildValues(["country" : country.name!])
         
     }
     
+    /// Get the newest version of the master from the database
     static func getMaster(){
         
         self.dat_ref.child("users").child(master.uid!).observeSingleEvent(of: .value) { (snapshot) in
@@ -237,6 +274,8 @@ public class Internet: NSObject {
         
     }
     
+    /// Upload profile image to database
+    /// - Parameter image: The image to upload
     static func upload(image: UIImage){
         
         let jpeg = image.jpegData(compressionQuality: 1.0)
@@ -245,7 +284,7 @@ public class Internet: NSObject {
             
             if error != nil {
                 
-                alert("Image upload went wrong", error!.localizedDescription, UIApplication.getPresentedViewController()!)
+                alert("Image upload went wrong", error!.localizedDescription, UIApplication.currentViewController()!)
                 
             }
             
@@ -279,6 +318,7 @@ public class Internet: NSObject {
     
     // MARK: Languages
     
+    /// Upload Languages of the master to the database
     static func uploadLanguages(){
         
         Internet.removeLanguages()
@@ -290,6 +330,7 @@ public class Internet: NSObject {
         self.dat_ref.child("users").child(master.uid!).child("learn_languages").setValue(master.learnLanguagesToDictionrary())
     }
     
+    /// Remove all languages of the master in the database
     private static func removeLanguages(){
         
         self.dat_ref.child("users").child(master.uid!).child("speak_languages").removeValue()
@@ -297,6 +338,10 @@ public class Internet: NSObject {
         
     }
     
+    /// Get languages for the uis
+    /// - Parameter uid: Id from the user we want the languages for
+    /// - Parameter progress: "speak_languages" or "learn_languages"
+    /// - Parameter closure: Give back the languages array once the asynchronous task is finished
     static func getLanguagesFor(uid: String, progress: String, closure: @escaping ([Language]?) -> Void){
         
         self.dat_ref.child("users").child(uid).child(progress).observeSingleEvent(of: .value) { (snapshot) in

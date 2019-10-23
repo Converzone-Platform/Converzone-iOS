@@ -378,7 +378,8 @@ extension UIButton{
 }
 
 extension UIApplication{
-    class func getPresentedViewController() -> UIViewController? {
+    
+    class func currentViewController() -> UIViewController? {
         
         var presentViewController = UIApplication.shared.keyWindow?.rootViewController
         
@@ -388,4 +389,5 @@ extension UIApplication{
 
         return presentViewController
     }
+    
 }

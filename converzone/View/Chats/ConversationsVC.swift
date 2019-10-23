@@ -28,9 +28,9 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         master.firstname = "Goga"
         master.lastname = "Barabadze"
         master.uid = "231831373"
-        let user = User(firstname: "Lucie", lastname: "<3", gender: .female, birthdate: Date(), uid: "12381923")
+        let user = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "12381923")
         
-        let message = TextMessage(text: "I like you", is_sender: true)
+        let message = TextMessage(text: "WHAZZUP?", is_sender: true)
         
         user.conversation.append(message)
         user.link_to_profile_image = "https://picsum.photos/id/1/200/200"
@@ -38,7 +38,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         master.timezone = TimeZone(secondsFromGMT: 0)?.abbreviation()
         master.interface_language = Language(name: "English")
         
-        Internet.configure()
+        Internet.setUpListeners()
         
         setUpNavBar()
         

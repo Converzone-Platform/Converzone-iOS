@@ -350,7 +350,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         }
         
         UIView.animate(withDuration: 1.5, delay: 0, options: .curveEaseInOut, animations: {
-            cell.view.backgroundColor = randomColor()
+            cell.view.backgroundColor = Colors.random()
         }) { (finished) in
             self.animateBubbleWithRainbowColors(times: times-1, cell: cell)
         }
