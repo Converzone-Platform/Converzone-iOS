@@ -23,15 +23,15 @@
 		4A1C985B21BC5D7800F99D62 /* UsersLanguagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C985A21BC5D7800F99D62 /* UsersLanguagesVC.swift */; };
 		4A1C985D21BC720A00F99D62 /* LanguagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C985C21BC720A00F99D62 /* LanguagesVC.swift */; };
 		4A26B2622295AEC0001EA17E /* LongTextEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A26B2612295AEC0001EA17E /* LongTextEditVC.swift */; };
-		4A337EEF21B549CA002A12EF /* ViewForLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A337EEE21B549CA002A12EF /* ViewForLogin.swift */; };
 		4A36EBD3232D2ACE0053361F /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A36EBD2232D2ACE0053361F /* Navigation.swift */; };
 		4A36EBD5232D34C90053361F /* NoAutoRotateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A36EBD4232D34C90053361F /* NoAutoRotateViewController.swift */; };
 		4A46A0CC222428FF00324A93 /* RandomDiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */; };
 		4A5A618422563A1B00CBA4F8 /* ChatSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */; };
 		4A5D856721B29F07004E3E79 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856621B29F07004E3E79 /* Colors.swift */; };
-		4A5D856B21B31341004E3E79 /* LabelForLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856A21B31341004E3E79 /* LabelForLogin.swift */; };
-		4A5D856D21B3135F004E3E79 /* ButtonForLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856C21B3135F004E3E79 /* ButtonForLogin.swift */; };
-		4A5D856F21B315D3004E3E79 /* TextFieldForLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856E21B315D3004E3E79 /* TextFieldForLogin.swift */; };
+		4A5EC46F236336B900EFD7CE /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A5EC46D236336B800EFD7CE /* index.html */; };
+		4A5EC470236336B900EFD7CE /* js in Resources */ = {isa = PBXBuildFile; fileRef = 4A5EC46E236336B900EFD7CE /* js */; };
+		4A5EC47223635CD800EFD7CE /* PhoneVerificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5EC47123635CD800EFD7CE /* PhoneVerificationVC.swift */; };
+		4A5EC4742363654C00EFD7CE /* LabelForLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5EC4732363654C00EFD7CE /* LabelForLogin.swift */; };
 		4A5F59BE2264DF810065F47B /* AddConversationCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5F59BD2264DF810065F47B /* AddConversationCells.swift */; };
 		4A5F59C0226CA5B40065F47B /* CountryProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F59BF226CA5B40065F47B /* CountryProfileCell.xib */; };
 		4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */; };
@@ -55,7 +55,7 @@
 		4AA8739F2214816B006035A3 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA8739E2214816B006035A3 /* WelcomeVC.swift */; };
 		4AA873A12214952F006035A3 /* WebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA873A02214952F006035A3 /* WebVC.swift */; };
 		4AAED90C218336F400968E3E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED90B218336F400968E3E /* AppDelegate.swift */; };
-		4AAED90E218336F400968E3E /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED90D218336F400968E3E /* LoginVC.swift */; };
+		4AAED90E218336F400968E3E /* SplashScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED90D218336F400968E3E /* SplashScreenVC.swift */; };
 		4AAED911218336F400968E3E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AAED90F218336F400968E3E /* Main.storyboard */; };
 		4AAED914218336F400968E3E /* converzone.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED912218336F400968E3E /* converzone.xcdatamodeld */; };
 		4AAED916218336F400968E3E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AAED915218336F400968E3E /* Assets.xcassets */; };
@@ -116,15 +116,15 @@
 		4A1C985C21BC720A00F99D62 /* LanguagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagesVC.swift; sourceTree = "<group>"; };
 		4A26B2612295AEC0001EA17E /* LongTextEditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongTextEditVC.swift; sourceTree = "<group>"; };
 		4A26B2632295D9E9001EA17E /* converzone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = converzone.entitlements; sourceTree = "<group>"; };
-		4A337EEE21B549CA002A12EF /* ViewForLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewForLogin.swift; sourceTree = "<group>"; };
 		4A36EBD2232D2ACE0053361F /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
 		4A36EBD4232D34C90053361F /* NoAutoRotateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoAutoRotateViewController.swift; sourceTree = "<group>"; };
 		4A46A0CB222428FF00324A93 /* RandomDiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomDiscoverCell.swift; sourceTree = "<group>"; };
 		4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsVC.swift; sourceTree = "<group>"; };
 		4A5D856621B29F07004E3E79 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		4A5D856A21B31341004E3E79 /* LabelForLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelForLogin.swift; sourceTree = "<group>"; };
-		4A5D856C21B3135F004E3E79 /* ButtonForLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonForLogin.swift; sourceTree = "<group>"; };
-		4A5D856E21B315D3004E3E79 /* TextFieldForLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldForLogin.swift; sourceTree = "<group>"; };
+		4A5EC46D236336B800EFD7CE /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../index.html; sourceTree = "<group>"; };
+		4A5EC46E236336B900EFD7CE /* js */ = {isa = PBXFileReference; lastKnownFileType = folder; name = js; path = ../js; sourceTree = "<group>"; };
+		4A5EC47123635CD800EFD7CE /* PhoneVerificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationVC.swift; sourceTree = "<group>"; };
+		4A5EC4732363654C00EFD7CE /* LabelForLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelForLogin.swift; sourceTree = "<group>"; };
 		4A5F59B92264CE680065F47B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		4A5F59BD2264DF810065F47B /* AddConversationCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConversationCells.swift; sourceTree = "<group>"; };
 		4A5F59BF226CA5B40065F47B /* CountryProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CountryProfileCell.xib; sourceTree = "<group>"; };
@@ -150,7 +150,7 @@
 		4AA873A02214952F006035A3 /* WebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebVC.swift; sourceTree = "<group>"; };
 		4AAED908218336F400968E3E /* converzone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = converzone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AAED90B218336F400968E3E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4AAED90D218336F400968E3E /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		4AAED90D218336F400968E3E /* SplashScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenVC.swift; sourceTree = "<group>"; };
 		4AAED910218336F400968E3E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4AAED913218336F400968E3E /* converzone.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = converzone.xcdatamodel; sourceTree = "<group>"; };
 		4AAED915218336F400968E3E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -254,19 +254,9 @@
 				4A36EBD2232D2ACE0053361F /* Navigation.swift */,
 				4A36EBD4232D34C90053361F /* NoAutoRotateViewController.swift */,
 				4A05490D235F2BB6000B00FB /* Date.swift */,
+				4A5EC4732363654C00EFD7CE /* LabelForLogin.swift */,
 			);
 			path = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		4A5D857121B31AFF004E3E79 /* UI Elements */ = {
-			isa = PBXGroup;
-			children = (
-				4A5D856A21B31341004E3E79 /* LabelForLogin.swift */,
-				4A5D856C21B3135F004E3E79 /* ButtonForLogin.swift */,
-				4A5D856E21B315D3004E3E79 /* TextFieldForLogin.swift */,
-				4A337EEE21B549CA002A12EF /* ViewForLogin.swift */,
-			);
-			path = "UI Elements";
 			sourceTree = "<group>";
 		};
 		4A5F59B82264CE680065F47B /* Frameworks */ = {
@@ -350,6 +340,8 @@
 		4AAED90A218336F400968E3E /* converzone */ = {
 			isa = PBXGroup;
 			children = (
+				4A5EC46D236336B800EFD7CE /* index.html */,
+				4A5EC46E236336B900EFD7CE /* js */,
 				4A05490B235D970D000B00FB /* GoogleService-Info.plist */,
 				4A26B2632295D9E9001EA17E /* converzone.entitlements */,
 				4AAED91A218336F400968E3E /* Info.plist */,
@@ -362,7 +354,6 @@
 				4A1C985621BC1BF300F99D62 /* View */,
 				4A1C985721BC1C1400F99D62 /* Supporting Files */,
 				4A1C985321BBF2CA00F99D62 /* Models */,
-				4A5D857121B31AFF004E3E79 /* UI Elements */,
 			);
 			path = converzone;
 			sourceTree = "<group>";
@@ -388,7 +379,8 @@
 		4AD6F87B223BD49200138EAD /* Account and Profile */ = {
 			isa = PBXGroup;
 			children = (
-				4AAED90D218336F400968E3E /* LoginVC.swift */,
+				4AAED90D218336F400968E3E /* SplashScreenVC.swift */,
+				4A5EC47123635CD800EFD7CE /* PhoneVerificationVC.swift */,
 				4A0A2A6721B9238200EB2232 /* ContinentVC.swift */,
 				4A1C985821BC288F00F99D62 /* CountryVC.swift */,
 				4A1C985A21BC5D7800F99D62 /* UsersLanguagesVC.swift */,
@@ -546,6 +538,7 @@
 				4A950C7F222D4D360089754D /* SendMessageProfileCell.xib in Resources */,
 				4A950C85222E64600089754D /* BlockAndReportProfileCell.xib in Resources */,
 				4A6C1DE72246A2900055B5A5 /* InformationMessageCell.xib in Resources */,
+				4A5EC46F236336B900EFD7CE /* index.html in Resources */,
 				4A950C8A222FF1960089754D /* ReflectionProfileCell.xib in Resources */,
 				4AAED919218336F400968E3E /* LaunchScreen.storyboard in Resources */,
 				4AD6F87A223B9B5A00138EAD /* ImageMessageCell.xib in Resources */,
@@ -558,6 +551,7 @@
 				4A05490C235D970E000B00FB /* GoogleService-Info.plist in Resources */,
 				4A5F59C0226CA5B40065F47B /* CountryProfileCell.xib in Resources */,
 				4AAED911218336F400968E3E /* Main.storyboard in Resources */,
+				4A5EC470236336B900EFD7CE /* js in Resources */,
 				4A6C1DE322451D140055B5A5 /* TextMessageCell.xib in Resources */,
 				4A950C81222D583E0089754D /* GeneralProfileCell.xib in Resources */,
 			);
@@ -684,8 +678,7 @@
 				4A5A618422563A1B00CBA4F8 /* ChatSettingsVC.swift in Sources */,
 				4A36EBD3232D2ACE0053361F /* Navigation.swift in Sources */,
 				4AD7D6832217292A000E4660 /* Genders.swift in Sources */,
-				4A337EEF21B549CA002A12EF /* ViewForLogin.swift in Sources */,
-				4AAED90E218336F400968E3E /* LoginVC.swift in Sources */,
+				4AAED90E218336F400968E3E /* SplashScreenVC.swift in Sources */,
 				4A016FD221B585BF00095E26 /* Internet.swift in Sources */,
 				4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */,
 				4A016FDA21B6B1B200095E26 /* Person.swift in Sources */,
@@ -705,15 +698,14 @@
 				4AD7D685221A0800000E4660 /* PicDiscoverCell.swift in Sources */,
 				4A7A70D1222405D80074BE5E /* ReflectionDiscoverCell.swift in Sources */,
 				4A016FDC21B6B61F00095E26 /* User.swift in Sources */,
-				4A5D856F21B315D3004E3E79 /* TextFieldForLogin.swift in Sources */,
-				4A5D856D21B3135F004E3E79 /* ButtonForLogin.swift in Sources */,
 				4AA2FC1F22281BC600A10A4A /* ConversationsVC.swift in Sources */,
 				4A016FDE21B6B6A500095E26 /* Master.swift in Sources */,
 				4A1C985D21BC720A00F99D62 /* LanguagesVC.swift in Sources */,
 				4A46A0CC222428FF00324A93 /* RandomDiscoverCell.swift in Sources */,
 				4A36EBD5232D34C90053361F /* NoAutoRotateViewController.swift in Sources */,
+				4A5EC4742363654C00EFD7CE /* LabelForLogin.swift in Sources */,
 				4AD7D689221A19A4000E4660 /* StatusDiscoverCell.swift in Sources */,
-				4A5D856B21B31341004E3E79 /* LabelForLogin.swift in Sources */,
+				4A5EC47223635CD800EFD7CE /* PhoneVerificationVC.swift in Sources */,
 				4AA3288B22294E4700AB79C4 /* ChatVC.swift in Sources */,
 				4A26B2622295AEC0001EA17E /* LongTextEditVC.swift in Sources */,
 				4AA8739C22143AE7006035A3 /* NormalInputCells.swift in Sources */,
@@ -903,14 +895,14 @@
 				CODE_SIGN_ENTITLEMENTS = converzone/converzone.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = C4Z6T6S45K;
+				DEVELOPMENT_TEAM = M3493F96B3;
 				INFOPLIST_FILE = converzone/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.goga.barabadze.converzone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hashtag.oct.converzone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -926,14 +918,14 @@
 				CODE_SIGN_ENTITLEMENTS = converzone/converzone.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = C4Z6T6S45K;
+				DEVELOPMENT_TEAM = M3493F96B3;
 				INFOPLIST_FILE = converzone/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.goga.barabadze.converzone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hashtag.oct.converzone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

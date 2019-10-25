@@ -8,6 +8,7 @@
 
 import UIKit
 import NotificationCenter
+import FirebaseAuth
 
 class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -121,6 +122,15 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             // Delete discover users
             discover_users.removeAll()
+            master.conversations.removeAll()
+            master.speak_languages.removeAll()
+            master.learn_languages.removeAll()
+            
+            do{
+                try Auth.auth().signOut()
+            }catch{
+                alert("Signing out ...", "An unknown error occurred", UIApplication.currentViewController()!)
+            }
             
         default:
             print("No action here")

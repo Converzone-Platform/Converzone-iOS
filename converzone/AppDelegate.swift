@@ -26,9 +26,6 @@ import Firebase
     
     // MARK: - Notifications
     
-    /**
-     Ask the user if they want to allow us to send the push notifications
-     */
     fileprivate func getNotificationPermissionFromUser(_ application: UIApplication) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound], completionHandler: {(granted, error) in})
         application.registerForRemoteNotifications()

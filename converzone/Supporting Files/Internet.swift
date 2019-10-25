@@ -73,6 +73,53 @@ public class Internet: NSObject {
         
     }
     
+    // MARK: Phone verification
+    
+    /// Requests a silent push notification to the device and afterwards it send a SMS to the phone number
+    /// - Parameter phoneNumber: The phone number to which the SMS is sent
+    static func verify(phoneNumber: String){
+    
+        PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationID, error) in
+            
+          if let error = error {
+            
+            alert("Error with the verification", error.localizedDescription, UIApplication.currentViewController()!)
+            
+            return
+          }
+            
+            UserDefaults.standard.setValue(verificationID, forKey: "verificationID")
+        }
+        
+    }
+    
+    
+    /// Sign in our user
+    /// - Parameter verificationID: The verification ID obtained from invoking verifyPhoneNumber:completion:
+    /// - Parameter verificationCode: The verification code obtained from the user.
+    /// - Parameter closure: Get back a bool which says if our sign in was successful
+    static func signIn(with verificationCode: String, closure: @escaping (Bool) -> Void) {
+        
+        guard let verificationID = UserDefaults.standard.string(forKey: "verificationID") else{
+            return
+        }
+        
+        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: verificationCode)
+        
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+            
+          if let error = error {
+            
+            alert("Error while signing in", error.localizedDescription, UIApplication.currentViewController()!)
+            
+            closure(false)
+          }
+          
+            closure(true)
+        }
+        
+    }
+    
     // MARK: Download and cache image
     
     /// Cache all images in the app

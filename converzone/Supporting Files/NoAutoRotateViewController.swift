@@ -10,7 +10,6 @@ import UIKit
 
 class NoAutoRotateViewController: UIViewController{
     
-    //Disable auto rotation
     override var shouldAutorotate: Bool{
         return false
     }
