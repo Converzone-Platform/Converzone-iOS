@@ -39,7 +39,7 @@ class EditProfileVC: UIViewController{
         
         if master.changingData == .editing && Internet.isOnline(){
             
-            Internet.getImage(withURL: master.link_to_profile_image!) { (image) in
+            Internet.getImage(withURL: master.link_to_profile_image) { (image) in
                 self.profile_image.image = image
             }
             
@@ -55,6 +55,23 @@ class EditProfileVC: UIViewController{
         super.viewWillAppear(animated)
         
         tableView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        // We need to save the first and lastname from the input fields
+        
+        guard let firstname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! NormalInputCell).input!.text else{
+            return
+        }
+        
+        guard let lastname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! NormalInputCell).input!.text else{
+            return
+        }
+        
+        master.firstname = firstname
+        master.lastname = lastname
+        
     }
     
     @objc func endEditing() {
@@ -185,6 +202,7 @@ class EditProfileVC: UIViewController{
         
         Internet.upload()
         
+        Internet.upload(image: profile_image.image!)
     }
     
     @objc private func pickDate (datePicker: UIDatePicker){
@@ -193,7 +211,9 @@ class EditProfileVC: UIViewController{
         
         formatter.dateFormat = "dd/MM/yyyy"
         formatter.locale = NSLocale(localeIdentifier: Locale.current.languageCode!) as Locale
+        
         formatter.timeZone = TimeZone(secondsFromGMT: TimeZone.current.secondsFromGMT())
+        
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as! InputDateCell
         cell.date.text = formatter.string(from: datePicker.date)
         
@@ -349,6 +369,9 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             datePicker.minimumDate = minDate
             datePicker.maximumDate = maxDate
             
+            // Minus 12 years
+            datePicker.date = Date() - 60 * 60 * 24 * 365 * 12
+            
             cell.date.inputView = datePicker
             
             datePicker.addTarget(self, action: #selector(pickDate(datePicker:)), for: .valueChanged)
@@ -476,8 +499,6 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
         profile_image.image = cropToBounds(image: image as! UIImage, width: 500, height: 500)
         profile_image.layer.cornerRadius = profile_image.layer.frame.width / 2
         profile_image.layer.masksToBounds = true
-        
-        Internet.upload(image: profile_image.image!)
         
         picker.dismiss(animated: true, completion: nil)
     }

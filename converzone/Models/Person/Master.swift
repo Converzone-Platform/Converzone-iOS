@@ -21,10 +21,6 @@ class Master: Person {
     
     internal var changingData: ChangingData = .registration
     
-    //Login Information
-    internal var email: String?
-    internal var password: String?
-    
     //All people with whom the master has chats with
     internal var conversations: [User] = []
     
@@ -32,10 +28,9 @@ class Master: Person {
     internal var interface_language: Language?
     internal var discoverable: Bool = true
     
-    init(email: String, password: String){
-        self.email = email
-        self.password = password
-        
+    internal var blocked_users: Set<String> = []
+    
+    override init(){
         super.init()
     }
     
@@ -48,12 +43,11 @@ class Master: Person {
             "gender": super.gender?.toString(),
             "birthdate": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: super.birthdate!),
             "country": super.country?.name!,
-            "link_to_profile_image": super.link_to_profile_image!,
+            "link_to_profile_image": super.link_to_profile_image ?? "",
             "device_token": super.device_token,
             "interests": super.interests?.string,
             "status": super.status?.string,
             
-            "telephone": self.email!,
             "discoverable": self.discoverable,
             "interface_language": self.interface_language?.name
             

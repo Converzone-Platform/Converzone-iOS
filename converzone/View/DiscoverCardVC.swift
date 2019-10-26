@@ -292,7 +292,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 0:
             let cell = Bundle.main.loadNibNamed("ImageProfileCell", owner: self, options: nil)?.first as! ImageProfileCell
             
-            Internet.getImage(withURL: profileOf!.link_to_profile_image!) { (image) in
+            Internet.getImage(withURL: profileOf!.link_to_profile_image) { (image) in
                 cell.profileImage.image = image
             }
             

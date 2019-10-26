@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-var master: Master = Master(email: "", password: "")
+var master: Master = Master()
 
 class SplashScreenVC: NoAutoRotateViewController, WKUIDelegate {
     

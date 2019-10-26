@@ -35,7 +35,7 @@ class Person {
     internal var interests: NSAttributedString?
     internal var status: NSAttributedString?
     
-    internal var link_to_profile_image: String?
+    internal var link_to_profile_image: String = ""
     internal var reflections: [Reflection] = []
     internal var uid: String?
     

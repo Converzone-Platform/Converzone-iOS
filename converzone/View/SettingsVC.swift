@@ -74,7 +74,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             cell?.textLabel?.text = master.fullname
             cell?.detailTextLabel?.text = master.status?.string
             
-            Internet.getImage(withURL: master.link_to_profile_image!) { (image) in
+            Internet.getImage(withURL: master.link_to_profile_image) { (image) in
                 cell?.imageView!.image = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 50, maxHeight: 50)
                 
                 cell?.imageView!.layer.cornerRadius = 25

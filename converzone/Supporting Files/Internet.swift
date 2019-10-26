@@ -116,6 +116,8 @@ public class Internet: NSObject {
           }
           
             closure(true)
+            
+            master.uid = Auth.auth().currentUser?.uid
         }
         
     }
@@ -339,7 +341,7 @@ public class Internet: NSObject {
         
         self.sto_ref.child("/profile_images/" + master.uid! + ".jpg").downloadURL { (url, error) in
             
-            master.link_to_profile_image = url?.absoluteString
+            master.link_to_profile_image = url!.absoluteString
             
         }
         
@@ -353,9 +355,8 @@ public class Internet: NSObject {
         master.gender = Gender.toGender(gender: dictionary["gender"] as! String)
         master.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: dictionary["birthdate"] as! String)
         master.country = Country(name: dictionary["country"] as! String)
-        master.link_to_profile_image = dictionary["link_to_profile_image"] as? String
+        master.link_to_profile_image = dictionary["link_to_profile_image"] as! String
         master.device_token = dictionary["device_token"] as! String
-        master.email = dictionary["telephone"] as? String
         master.discoverable = dictionary["discoverable"] as! Bool
         master.interface_language = Language(name: dictionary["interface_language"] as! String)
         master.interests = NSAttributedString(string: dictionary["interests"] as! String)
@@ -409,4 +410,33 @@ public class Internet: NSObject {
         
     }
     
+    // MARK: Blocking and reporting users
+    
+    /// Report a person
+    /// - Parameter userid: The  uid of the person to be reported
+    /// - Parameter reason: Reson of report
+    static func report(userid: String, reason: String){
+        
+        self.dat_ref.child("users").child(master.uid!).child("reportee").child(userid).setValue(["reason" : reason])
+        
+    }
+    
+    /// Block an user
+    /// - Parameter userid: User's uid to be blocked
+    static func block(userid: String){
+        
+        master.blocked_users.insert(userid)
+        
+        self.dat_ref.child("users").child(master.uid!).child("blockee").setValue(Array(master.blocked_users))
+        
+    }
+    
+    /// Unblock an user
+    /// - Parameter userid: User's uid to be unblocked
+    static func unblock(userid: String){
+        
+        master.blocked_users.remove(userid)
+        
+        self.dat_ref.child("users").child(master.uid!).child("blockee").setValue(Array(master.blocked_users))
+    }
 }

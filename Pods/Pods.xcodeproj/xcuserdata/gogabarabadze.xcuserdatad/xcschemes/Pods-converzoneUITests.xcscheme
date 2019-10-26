@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9E8C03583C5E5EC03DCBD95C95174788"
+               BlueprintIdentifier = "EE454701BF82216C6B27491BB765E11F"
                BuildableName = "Pods_converzoneUITests.framework"
                BlueprintName = "Pods-converzoneUITests"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -340,12 +340,12 @@
 		4AAED90A218336F400968E3E /* converzone */ = {
 			isa = PBXGroup;
 			children = (
+				4AAED90B218336F400968E3E /* AppDelegate.swift */,
+				4AAED91A218336F400968E3E /* Info.plist */,
 				4A5EC46D236336B800EFD7CE /* index.html */,
 				4A5EC46E236336B900EFD7CE /* js */,
 				4A05490B235D970D000B00FB /* GoogleService-Info.plist */,
 				4A26B2632295D9E9001EA17E /* converzone.entitlements */,
-				4AAED91A218336F400968E3E /* Info.plist */,
-				4AAED90B218336F400968E3E /* AppDelegate.swift */,
 				4AAED912218336F400968E3E /* converzone.xcdatamodeld */,
 				4AAED90F218336F400968E3E /* Main.storyboard */,
 				4AAED917218336F400968E3E /* LaunchScreen.storyboard */,
@@ -647,23 +647,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-converzone/Pods-converzone-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-converzone/Pods-converzone-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-converzone/Pods-converzone-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-converzone/Pods-converzone-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-converzone/Pods-converzone-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

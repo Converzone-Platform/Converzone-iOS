@@ -134,7 +134,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         //setUpInfoButton()
         
-        navigationItem.titleView = navTitleWithImageAndText(titleText: master.conversations[indexOfUser].fullname!, imageLink: master.conversations[indexOfUser].link_to_profile_image!)
+        navigationItem.titleView = navTitleWithImageAndText(titleText: master.conversations[indexOfUser].fullname!, imageLink: master.conversations[indexOfUser].link_to_profile_image)
         
         Internet.chat_delegate = self
         
@@ -185,7 +185,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         // Creates the image view
         let imageView = UIImageView()
         
-        Internet.getImage(withURL: master.conversations[indexOfUser].link_to_profile_image!) { (image) in
+        Internet.getImage(withURL: master.conversations[indexOfUser].link_to_profile_image) { (image) in
             imageView.image = image
         }
         

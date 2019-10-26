@@ -39,6 +39,12 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         master.interface_language = Language(name: "English")
         
         Internet.setUpListeners()
+        Internet.block(userid: "1231231")
+        Internet.report(userid: "121398", reason: "Not cool enough for me")
+        Internet.block(userid: "98898998")
+        
+        Internet.block(userid: "1")
+        Internet.unblock(userid: "1")
         
         setUpNavBar()
         
@@ -144,7 +150,7 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         
         cell.name.text = master.conversations[indexPath.row].fullname
         
-        Internet.getImage(withURL: master.conversations[indexPath.row].link_to_profile_image!) { (image) in
+        Internet.getImage(withURL: master.conversations[indexPath.row].link_to_profile_image) { (image) in
             cell.profileImage.image = image
         }
         

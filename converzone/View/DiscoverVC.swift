@@ -137,7 +137,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             
             cell.name.text = discover_users[indexPath.row].fullname
             
-            Internet.getImage(withURL: discover_users[indexPath.row].link_to_profile_image!) { (image) in
+            Internet.getImage(withURL: discover_users[indexPath.row].link_to_profile_image) { (image) in
                 cell.profileImage.image = image
             }
             
@@ -160,7 +160,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             
             cell.name.text = discover_users[indexPath.row].fullname
             
-            Internet.getImage(withURL: discover_users[indexPath.row].link_to_profile_image!) { (image) in
+            Internet.getImage(withURL: discover_users[indexPath.row].link_to_profile_image) { (image) in
                 cell.profileImage.image = image
             }
             
@@ -183,7 +183,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             
             cell.name.text = discover_users[indexPath.row].fullname
             
-            Internet.getImage(withURL: discover_users[indexPath.row].link_to_profile_image!) { (image) in
+            Internet.getImage(withURL: discover_users[indexPath.row].link_to_profile_image) { (image) in
                 cell.profileImage.image = image
             }
             
