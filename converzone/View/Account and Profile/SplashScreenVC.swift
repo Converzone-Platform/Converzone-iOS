@@ -13,11 +13,10 @@ var master: Master = Master()
 
 class SplashScreenVC: NoAutoRotateViewController, WKUIDelegate {
     
-    @IBOutlet weak var welcome_label: UILabel!
-    @IBOutlet weak var continue_outlet: UIButton!
-    @IBOutlet weak var terms_of_service_outlet: UIButton!
-    
-    @IBOutlet weak var globe_view: WKWebView!
+    @IBOutlet weak var welcome_text_label: UILabel!
+    @IBOutlet weak var continue_button_outlet: UIButton!
+    @IBOutlet weak var terms_of_service_and_privacy_policy_button_outlet: UIButton!
+    @IBOutlet weak var flag_globe_webview: WKWebView!
     
     
     @IBAction func terms_of_service_button(_ sender: Any) {
@@ -40,7 +39,7 @@ class SplashScreenVC: NoAutoRotateViewController, WKUIDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        master.changingData = .registration
+        master.editingMode = .registration
         
         setUpWebKit()
     }
@@ -51,7 +50,7 @@ class SplashScreenVC: NoAutoRotateViewController, WKUIDelegate {
         let url = URL(fileURLWithPath: path!)
         let request = URLRequest(url: url)
         
-        globe_view.load(request)
+        flag_globe_webview.load(request)
     }
     
    /**
@@ -65,7 +64,7 @@ class SplashScreenVC: NoAutoRotateViewController, WKUIDelegate {
         ]
         attributedString.addAttributes(attributes, range: NSRange(location: 10, length: 9))
         
-        welcome_label.attributedText = attributedString
+        welcome_text_label.attributedText = attributedString
     }
     
     override var prefersStatusBarHidden: Bool {

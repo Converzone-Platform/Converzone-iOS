@@ -22,6 +22,7 @@ class Message: Hashable {
     internal var date: Date?
     internal var sent: Bool? = true
     internal var color: UIColor?
+    internal var is_sender: Bool = true
 }
 
 //Color: blue
@@ -34,8 +35,6 @@ class TextMessage: Message {
         }
         set{}
     }
-    
-    internal var is_sender: Bool? = false
     
     init(text: String, is_sender: Bool) {
         super.init()
@@ -64,7 +63,6 @@ class TextMessage: Message {
 class AudioMessage: Message {
     
     internal var path: String?
-    internal var is_sender: Bool?
     
     override init() {
         super.init()
@@ -78,8 +76,6 @@ class ImageMessage: Message {
     
     internal var path: String?
     internal var link: String?
-    internal var is_sender: Bool?
-    
     
     // For testing purposes
     internal var image: UIImage?
@@ -109,7 +105,6 @@ class VideoMessage: Message {
     
     internal var path: String?
     internal var link: String?
-    internal var is_sender: Bool?
     
     override init() {
         super.init()
@@ -123,7 +118,6 @@ class GifMessage: Message {
     
     internal var path: String?
     internal var link: String?
-    internal var is_sender: Bool?
     
     override init() {
         super.init()
@@ -137,7 +131,6 @@ class LinkMessage: Message {
     
     internal var meta_image: String?
     internal var meta_text: String?
-    internal var is_sender: Bool?
     
     override init() {
         super.init()
@@ -150,8 +143,6 @@ class LinkMessage: Message {
 class LocationMessage: Message {
     
     internal var coordinate: CLLocationCoordinate2D?
-    internal var is_sender: Bool?
-    
     override init() {
         super.init()
         
@@ -163,8 +154,6 @@ class LocationMessage: Message {
 class UserMessage: Message {
     
     internal var user_id: String?
-    internal var is_sender: Bool?
-    
     
     // Please delete me when the final release is about to happen
     internal var user: User?
@@ -180,7 +169,6 @@ class UserMessage: Message {
 class ReflectionMessage: Message {
     
     internal var text: String?
-    internal var is_sender: Bool?
     
     override init() {
         super.init()
@@ -193,7 +181,6 @@ class ReflectionMessage: Message {
 class WroteReflectionMessage: Message {
     
     internal var reflection: String?
-    internal var is_sender: Bool?
     
     override init() {
         super.init()
@@ -215,6 +202,19 @@ class InformationMessage: Message{
     
     override var hashValue: Int {
         return super.hashValue ^ self.text!.hashValue
+    }
+}
+
+// Color: red
+class ScreenshotMessage: Message{
+    override init() {
+        super.init()
+        
+        self.color = Colors.red
+    }
+    
+    override var hashValue: Int {
+        return super.hashValue ^ self.date!.hashValue
     }
 }
 

@@ -37,7 +37,7 @@ class EditProfileVC: UIViewController{
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(donePressed))
         self.navigationItem.rightBarButtonItem = doneButton
         
-        if master.changingData == .editing && Internet.isOnline(){
+        if master.editingMode == .editing && Internet.isOnline(){
             
             Internet.getImage(withURL: master.link_to_profile_image) { (image) in
                 self.profile_image.image = image
@@ -85,20 +85,20 @@ class EditProfileVC: UIViewController{
         
         // 1. Did the user pick an image?
         if profile_image.image.hashValue == UIImage(named: "user").hashValue {
-            alert("Profile Image", "Please choose a profile image", self)
+            alert("Profile Image", "Please choose a profile image")
             return false
         }
         
         // 2. No emojis in the first and last name
         if firstname.containsEmoji{
-            alert("Firstname", "Please make sure you don't use emojis in your firstname", self)
+            alert("Firstname", "Please make sure you don't use emojis in your firstname")
             return false
         }else{
             master.firstname = firstname.trimmingCharacters(in: .whitespaces).capitalizingFirstLetter()
         }
         
         if lastname.containsEmoji{
-            alert("Lastname", "Please make sure you don't use emojis in your lastname", self)
+            alert("Lastname", "Please make sure you don't use emojis in your lastname")
             return false
         }else{
             master.lastname = lastname.trimmingCharacters(in: .whitespaces).capitalizingFirstLetter()
@@ -113,7 +113,7 @@ class EditProfileVC: UIViewController{
         }
         
         if found == false{
-            alert("Gender", "Please make sure you enter one of the predefined genders", self)
+            alert("Gender", "Please make sure you enter one of the predefined genders")
             return false
         }else{
             master.gender = Gender.toGender(gender: gender.trimmingCharacters(in: .whitespaces))
@@ -129,7 +129,7 @@ class EditProfileVC: UIViewController{
             
             // Let's check if the components can be correct practically
             if components.year! > 3000{
-                alert("Wow", "Are you from the future?", self)
+                alert("Wow", "Are you from the future?")
                 return false
             }else{
                 
@@ -137,7 +137,7 @@ class EditProfileVC: UIViewController{
             }
             
         }else{
-            alert("Birthdate", "Please enter a valid date", self)
+            alert("Birthdate", "Please enter a valid date")
             return false
         }
         
@@ -151,38 +151,38 @@ class EditProfileVC: UIViewController{
         var firstname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! NormalInputCell).input!.text
         firstname = firstname?.trimmingCharacters(in: .whitespacesAndNewlines)
         if firstname == "" {
-            alert("Firstname", "Please tell us your first name", self)
+            alert("Firstname", "Please tell us your first name")
             return
         }
         
         var lastname = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! NormalInputCell).input!.text
         lastname = lastname?.trimmingCharacters(in: .whitespacesAndNewlines)
         if lastname == "" {
-            alert("Lastname", "Please tell us your last name", self)
+            alert("Lastname", "Please tell us your last name")
             return
         }
         
         var gender = (tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as! InputGenderCell).gender.text
         gender = gender?.trimmingCharacters(in: .whitespacesAndNewlines)
         if gender == "" {
-            alert("Gender", "Please tell us your gender", self)
+            alert("Gender", "Please tell us your gender")
             return
         }
         
         var date = (tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as! InputDateCell).date.text
         date = date?.trimmingCharacters(in: .whitespacesAndNewlines)
         if date == "" {
-            alert("Birthdate", "Please tell us your birthdate", self)
+            alert("Birthdate", "Please tell us your birthdate")
             return
         }
         
         if master.interests == nil || (master.interests?.string.isEmpty)! {
-            alert("Interests", "Please tell us about your intersts", self)
+            alert("Interests", "Please tell us about your intersts")
             return
         }
         
         if master.status == nil || (master.status?.string.isEmpty)! {
-            alert("Status", "Please tell us what you want your status to be", self)
+            alert("Status", "Please tell us what you want your status to be")
             return
         }
         
@@ -192,17 +192,19 @@ class EditProfileVC: UIViewController{
         
         master.discoverable = (tableView.cellForRow(at: IndexPath(row: 0, section: 3)) as! BooleanInputCell).discoverable.isOn
         
-        if master.changingData == .registration {
+        if master.editingMode == .registration {
             
             // Go to welcome screen
-            Navigation.present(controller: "WelcomeVC", context: self)
+            Navigation.push(viewController: "WelcomeVC")
         }else{
-            Navigation.pop(context: self)
+            Navigation.pop()
         }
         
         Internet.upload()
         
         Internet.upload(image: profile_image.image!)
+        
+        Internet.uploadLanguages()
     }
     
     @objc private func pickDate (datePicker: UIDatePicker){

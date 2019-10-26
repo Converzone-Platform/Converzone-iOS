@@ -52,7 +52,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
             let message = master.conversations[indexOfUser].conversation[0] as! FirstInformationMessage
             
             if message.text == "Be creative with the first message :)"{
-                alert("Not yet", "Please talk with your partner a little more before sending one of these", self)
+                alert("Not yet", "Please talk with your partner a little more before sending one of these")
                 return
             }
         }
@@ -87,7 +87,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
 //                switch CLLocationManager.authorizationStatus() {
 //                case .notDetermined, .restricted, .denied:
 //
-//                    alert("No access to the location services", "Please go into the settings and enable the location services for this app. You can chose \"always\" or just \"when in use\" there.", self)
+//                    alert("No access to the location services", "Please go into the settings and enable the location services for this app. You can chose \"always\" or just \"when in use\" there.")
 //
 //
 //                case .authorizedAlways, .authorizedWhenInUse:
@@ -136,7 +136,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         navigationItem.titleView = navTitleWithImageAndText(titleText: master.conversations[indexOfUser].fullname!, imageLink: master.conversations[indexOfUser].link_to_profile_image)
         
-        Internet.chat_delegate = self
+        Internet.update_chat_tableview_delegate = self
         
         master.conversations[indexOfUser].openedChat = true
     }
@@ -330,16 +330,17 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     
     @objc private func didTakeScreenshot(){
         
-//        let screenshot_message = InformationMessage()
-//
-//        screenshot_message.text = NSLocalizedString("You", comment: "The pronoun") + " " + NSLocalizedString("took a screenshot!", comment: "Message when the master or the partner takes a screenshot")
-//        screenshot_message.date = NSDate() as Date
-//
-//        master?.conversations[indexOfUser].conversation.append(screenshot_message)
-//
-//        //MARK: TODO - Send this to the partner
-//
-//        updateTableView(animated: true)
+        let screenshot_message = InformationMessage()
+        
+        screenshot_message.text = master.fullname! + " screenshoted the chat"
+        screenshot_message.date = Date()
+        screenshot_message.is_sender = true
+        
+        master.conversations[indexOfUser].conversation.append(screenshot_message)
+        
+        Internet.send(message: screenshot_message, receiver: master.conversations[indexOfUser])
+        
+        updateTableView(animated: true)
         
     }
     
@@ -504,7 +505,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             let annotation = MKPointAnnotation()
             annotation.coordinate = message.coordinate!
             
-            if message.is_sender! {
+            if message.is_sender {
                 annotation.title = master.fullname
             }else{
                 annotation.title = master.conversations[indexOfUser].fullname
@@ -657,7 +658,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let source = MKMapItem(placemark: placemark)
             
-            if message.is_sender! {
+            if message.is_sender {
                 source.name = NSLocalizedString("You", comment: "The pronoun")
             }else{
                 source.name = master.conversations[indexOfUser].fullname

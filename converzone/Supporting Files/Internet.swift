@@ -16,25 +16,10 @@ import MapKit
 
 public class Internet: NSObject {
     
-    /**
-     After something has been changed with the data in the chat. We can notify the chat about it with this delegat
-     
-     - Note: Maybe we should add a `weak` in the variable modifiers. It cause a memory leak otherwise
-     */
-    static var chat_delegate: ChatUpdateDelegate?
-    
-    /**
-     After something has been changed with the data in the conversations. We can notify the chat about it with this delegat
-     
-     - Note: Maybe we should add a `weak` in the variable modifiers. It cause a memory leak otherwise
-     */
-    static var conversations_delegate: ConversationUpdateDelegate?
-    
-    /// Reference to the Firebase Realtime database
-    static var dat_ref = Database.database().reference()
-    
-    /// Reference to the Firebase Storage
-    static var sto_ref = Storage.storage().reference()
+    static var update_chat_tableview_delegate: ChatUpdateDelegate?
+    static var update_conversations_tableview_delegate: ConversationUpdateDelegate?
+    static var database_reference = Database.database().reference()
+    static var storage_reference = Storage.storage().reference()
     
     /// Set up value listeners for Database
     class func setUpListeners(){
@@ -81,14 +66,11 @@ public class Internet: NSObject {
     
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationID, error) in
             
-          if let error = error {
-            
-            alert("Error with the verification", error.localizedDescription, UIApplication.currentViewController()!)
-            
+          if error != nil {
             return
           }
             
-            UserDefaults.standard.setValue(verificationID, forKey: "verificationID")
+          UserDefaults.standard.setValue(verificationID, forKey: "verificationID")
         }
         
     }
@@ -108,9 +90,7 @@ public class Internet: NSObject {
         
         Auth.auth().signIn(with: credential) { (authResult, error) in
             
-          if let error = error {
-            
-            alert("Error while signing in", error.localizedDescription, UIApplication.currentViewController()!)
+          if error != nil {
             
             closure(false)
           }
@@ -172,6 +152,7 @@ public class Internet: NSObject {
         
         switch message {
         case is TextMessage: send(message: message as! TextMessage, receiver: receiver)
+        case is InformationMessage: send(message: message as! InformationMessage, receiver: receiver)
         default: print("Message type is not supported yet")
         }
         
@@ -182,7 +163,16 @@ public class Internet: NSObject {
     /// - Parameter receiver: The user who will receive the message
     private static func send(message: TextMessage, receiver: User){
         
-        self.dat_ref.child("conversations").child(generateConversationID(first: master.uid!, second: receiver.uid!)).child("messages").child(String(message.hashValue)).setValue(["sender": master.uid!, "receiver": receiver.uid!, "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!), "text": message.text!, "type": "TextMessage"])
+        self.database_reference.child("conversations").child(generateConversationID(first: master.uid!, second: receiver.uid!)).child("messages").child(String(message.hashValue)).setValue(["sender": master.uid!, "receiver": receiver.uid!, "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!), "text": message.text!, "type": "TextMessage"])
+        
+    }
+    
+    /// Send the InformationMessage to the database. Firebase Functions will send it to the right user automatically
+    /// - Parameter message: The InformationMessage to send
+    /// - Parameter receiver: The user who will receive the message
+    private static func send(message: InformationMessage, receiver: User){
+        
+        self.database_reference.child("conversations").child(generateConversationID(first: master.uid!, second: receiver.uid!)).child("messages").child(String(message.hashValue)).setValue(["sender": master.uid!, "receiver": receiver.uid!, "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!), "text": message.text!, "type": "InformationMessage"])
         
     }
     
@@ -206,7 +196,7 @@ public class Internet: NSObject {
     /// Listener for new conversations. Once it receivers a new conversation it sets a listener for messages in the new conversation
     private static func listenForNewConversations(){
 
-        self.dat_ref.child("users").child(master.uid!).child("conversations").observe(.childAdded) { (snapshot) in
+        self.database_reference.child("users").child(master.uid!).child("conversations").observe(.childAdded) { (snapshot) in
 
             let conversationid = snapshot.value as! String
             //let partnerid = snapshot.key
@@ -223,7 +213,7 @@ public class Internet: NSObject {
     /// Listen for messages in the conversation
     private static func listenForNewMessageAt(conversationID: String){
         
-        self.dat_ref.child("conversations").child(conversationID).child("messages").queryOrdered(byChild: "date").queryLimited(toLast: 10).observe(.childAdded) { (snapshot) in
+        self.database_reference.child("conversations").child(conversationID).child("messages").queryOrdered(byChild: "date").queryLimited(toLast: 10).observe(.childAdded) { (snapshot) in
             
             let message = snapshot.value as! NSDictionary
             
@@ -242,8 +232,37 @@ public class Internet: NSObject {
         
         switch(type){
         case "TextMessage": receive(textMessage: message)
+        case "InformationMessage": receive(informationMessage: message)
         default: print("Message type is not supported yet")
         }
+        
+    }
+    
+    /// Handles the receiving of a InformationMessages
+    /// - Parameter textMessage: The received InformationMessage
+    private static func receive(informationMessage: NSDictionary){
+        
+        let sender = informationMessage["sender"] as! String
+        let is_sender = sender == master.uid!
+        
+        // MARK: TODO - If I am the sender and I receive the message back we can say that it works as a sent indicator for messages
+        if is_sender{
+            return
+        }
+        
+        let text = informationMessage["text"] as! String
+        let receiver = informationMessage["receiver"] as! String
+        
+        let date_string = informationMessage["date"] as! String
+        let date = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: date_string)
+        
+        let message = InformationMessage()
+        message.text = text
+        message.is_sender = is_sender
+        message.date = date
+        
+        findConversationAndAddMessage(message: message, uid: receiver)
+        findConversationAndAddMessage(message: message, uid: sender)
         
     }
     
@@ -252,11 +271,11 @@ public class Internet: NSObject {
     private static func receive(textMessage: NSDictionary){
         
         let sender = textMessage["sender"] as! String
-        let isSender = sender == master.uid!
+        let is_sender = sender == master.uid!
         
         // MARK: TODO - If I am the sender and I receive the message back we can say that it works as a sent indicator for messages
-        if isSender{
-            
+        if is_sender{
+            return
         }
         
         let text = textMessage["text"] as! String
@@ -267,7 +286,7 @@ public class Internet: NSObject {
         
         let message = TextMessage()
         message.text = text
-        message.is_sender = isSender
+        message.is_sender = is_sender
         message.date = date
         
         findConversationAndAddMessage(message: message, uid: receiver)
@@ -285,11 +304,25 @@ public class Internet: NSObject {
                 
                 user.conversation.append(message)
                 
-                self.chat_delegate?.didUpdate(sender: Internet())
+                self.update_chat_tableview_delegate?.didUpdate(sender: Internet())
                 
             }
             
         }
+        
+    }
+    
+    // MARK: Push Notifications
+    
+    /// Update the Push Notification token to Firebase
+    /// - Parameter token: The token to update
+    static func upload(token: String){
+        
+        guard let uid = master.uid else{
+            return
+        }
+        
+        self.database_reference.child("users").child(uid).updateChildValues(["token": token])
         
     }
     
@@ -298,7 +331,7 @@ public class Internet: NSObject {
     /// Packs all the data from the master and sends it to the database
     static func upload(){
         
-        self.dat_ref.child("users").child(master.uid!).updateChildValues(master.toDictionary())
+        self.database_reference.child("users").child(master.uid!).updateChildValues(master.toDictionary())
         
     }
     
@@ -306,14 +339,14 @@ public class Internet: NSObject {
     /// - Parameter country: The country to chango to
     static func upload(country: Country){
         
-        self.dat_ref.child("users").child(master.uid!).updateChildValues(["country" : country.name!])
+        self.database_reference.child("users").child(master.uid!).updateChildValues(["country" : country.name!])
         
     }
     
     /// Get the newest version of the master from the database
     static func getMaster(){
         
-        self.dat_ref.child("users").child(master.uid!).observeSingleEvent(of: .value) { (snapshot) in
+        self.database_reference.child("users").child(master.uid!).observeSingleEvent(of: .value) { (snapshot) in
             
             let values = snapshot.value as! NSDictionary
             
@@ -329,22 +362,25 @@ public class Internet: NSObject {
         
         let jpeg = image.jpegData(compressionQuality: 1.0)
         
-        sto_ref.child("profile_images").child(master.uid! + ".jpg").putData(jpeg!, metadata: nil) { (metadata, error) in
+        storage_reference.child("profile_images").child(master.uid! + ".jpg").putData(jpeg!, metadata: nil) { (metadata, error) in
             
             if error != nil {
                 
-                alert("Image upload went wrong", error!.localizedDescription, UIApplication.currentViewController()!)
+                alert("Image upload went wrong", error!.localizedDescription)
+                
+            }
+            
+            self.storage_reference.child("/profile_images/" + master.uid! + ".jpg").downloadURL { (url, error) in
+                
+                if error != nil {
+                    print(error?.localizedDescription)
+                }
+                
+                master.link_to_profile_image = url!.absoluteString
                 
             }
             
         }
-        
-        self.sto_ref.child("/profile_images/" + master.uid! + ".jpg").downloadURL { (url, error) in
-            
-            master.link_to_profile_image = url!.absoluteString
-            
-        }
-        
     }
     
     /// Transforms the dictionary to master
@@ -371,18 +407,18 @@ public class Internet: NSObject {
         
         Internet.removeLanguages()
         
-        self.dat_ref.child("users").child(master.uid!).child("speak_languages").setValue(master.speakLanguagesToDictionary())
+        self.database_reference.child("users").child(master.uid!).child("speak_languages").setValue(master.speakLanguagesToDictionary())
         
         if master.learn_languages.count == 0 { return }
         
-        self.dat_ref.child("users").child(master.uid!).child("learn_languages").setValue(master.learnLanguagesToDictionrary())
+        self.database_reference.child("users").child(master.uid!).child("learn_languages").setValue(master.learnLanguagesToDictionrary())
     }
     
     /// Remove all languages of the master in the database
     private static func removeLanguages(){
         
-        self.dat_ref.child("users").child(master.uid!).child("speak_languages").removeValue()
-        self.dat_ref.child("users").child(master.uid!).child("learn_languages").removeValue()
+        self.database_reference.child("users").child(master.uid!).child("speak_languages").removeValue()
+        self.database_reference.child("users").child(master.uid!).child("learn_languages").removeValue()
         
     }
     
@@ -392,7 +428,7 @@ public class Internet: NSObject {
     /// - Parameter closure: Give back the languages array once the asynchronous task is finished
     static func getLanguagesFor(uid: String, progress: String, closure: @escaping ([Language]?) -> Void){
         
-        self.dat_ref.child("users").child(uid).child(progress).observeSingleEvent(of: .value) { (snapshot) in
+        self.database_reference.child("users").child(uid).child(progress).observeSingleEvent(of: .value) { (snapshot) in
             
             guard let language_array = snapshot.value as? [String] else {
                 closure(nil)
@@ -417,7 +453,7 @@ public class Internet: NSObject {
     /// - Parameter reason: Reson of report
     static func report(userid: String, reason: String){
         
-        self.dat_ref.child("users").child(master.uid!).child("reportee").child(userid).setValue(["reason" : reason])
+        self.database_reference.child("users").child(master.uid!).child("reportee").child(userid).setValue(["reason" : reason])
         
     }
     
@@ -427,7 +463,7 @@ public class Internet: NSObject {
         
         master.blocked_users.insert(userid)
         
-        self.dat_ref.child("users").child(master.uid!).child("blockee").setValue(Array(master.blocked_users))
+        self.database_reference.child("users").child(master.uid!).child("blockee").setValue(Array(master.blocked_users))
         
     }
     
@@ -437,6 +473,6 @@ public class Internet: NSObject {
         
         master.blocked_users.remove(userid)
         
-        self.dat_ref.child("users").child(master.uid!).child("blockee").setValue(Array(master.blocked_users))
+        self.database_reference.child("users").child(master.uid!).child("blockee").setValue(Array(master.blocked_users))
     }
 }

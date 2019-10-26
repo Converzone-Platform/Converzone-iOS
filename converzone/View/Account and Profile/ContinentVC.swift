@@ -135,7 +135,7 @@ extension ContinentVC {
         let openAction = UIAlertAction(title: "Yes!", style: .default) { (action) in
             master.country = country
             
-            if master.changingData == .registration {
+            if master.editingMode == .registration {
                 Navigation.push(viewController: "UsersLanguagesVC", context: self)
             }else{
                 Navigation.pop(context: self)

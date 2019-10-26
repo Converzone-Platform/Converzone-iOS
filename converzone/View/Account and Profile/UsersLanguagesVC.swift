@@ -8,14 +8,14 @@
 
 import UIKit
 
-enum addingFor {
+enum languagePreficiency {
     
     case speaking
     case learning
     
 }
 
-var addingForType: addingFor = .speaking
+var addingForType: languagePreficiency = .speaking
 
 class UsersLanguagesVC: UIViewController {
     
@@ -24,8 +24,9 @@ class UsersLanguagesVC: UIViewController {
         super.viewDidLoad()
         
         //Add a continue button
-        if master.changingData == .registration {
-            guessSpeakLanguages()
+        if master.editingMode == .registration {
+            
+            guessLanguagesUserProbablySpeaks()
             
             let continueButton = UIBarButtonItem(title: "Continue", style: .done, target: self, action: #selector(continuePressed))
             self.navigationItem.rightBarButtonItem = continueButton
@@ -38,9 +39,9 @@ class UsersLanguagesVC: UIViewController {
         // Check if there is at least one language selected which the master speaks
         if master.speak_languages.count > 0 {
             
-            if master.changingData == .registration {
+            if master.editingMode == .registration {
                 
-                Navigation.push(viewController: "EditProfileVC", context: self)
+                Navigation.change(navigationController: "ProfileNC")
                 
             }else{
                 Navigation.pop(context: self)
@@ -49,7 +50,7 @@ class UsersLanguagesVC: UIViewController {
         }else{
             
             //Display warning
-            alert("At least one language", "Please select at least one language which you speak.", self)
+            alert("At least one language", "Please select at least one language which you speak.", closure: nil)
         }
     }
     
@@ -69,14 +70,14 @@ class UsersLanguagesVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if master.changingData == .editing && master.speak_languages.count != 0{
+        if master.editingMode == .editing && master.speak_languages.count != 0{
             
             Internet.uploadLanguages()
             
         }
     }
     
-    private func guessSpeakLanguages(){
+    private func guessLanguagesUserProbablySpeaks(){
         
         // The person probably speaks the languages of his device - add preferred languages
         if master.speak_languages.count == 0 {

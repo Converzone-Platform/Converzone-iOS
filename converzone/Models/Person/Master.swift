@@ -19,15 +19,12 @@ enum ChangingData {
 
 class Master: Person {
     
-    internal var changingData: ChangingData = .registration
+    internal var editingMode: ChangingData = .registration
     
     //All people with whom the master has chats with
     internal var conversations: [User] = []
-    
-    // Platform
     internal var interface_language: Language?
     internal var discoverable: Bool = true
-    
     internal var blocked_users: Set<String> = []
     
     override init(){

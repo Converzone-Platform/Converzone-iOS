@@ -9,23 +9,21 @@
 import UIKit
 
 class PhoneVerificationVC: UIViewController {
-
-    private var labels = ["Phone number",
-                  "Send code"]
-    
-    private var footers = ["Carrier SMS charges may apply",
-    "You must have received a 6 digit Code in a SMS. If not, try resending"]
-    
-    private var timer: Timer? = nil
-    private var seconds_until_retry = 90
     
     @IBOutlet weak var tableView: UITableView!
+    
+    private var labels = ["Phone number", "Send code"]
+    private var footer_notes = ["Carrier SMS charges may apply", "You must have received a 6 digit Code in a SMS. If not, try resending"]
+    private var timer: Timer? = nil
+    
+    private var seconds_until_retry = 60
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
 }
+
 extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -84,7 +82,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return footers[section]
+        return footer_notes[section]
     }
     
     
@@ -133,9 +131,9 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                 
                 self.seconds_until_retry -= 1
                 
-                if self.seconds_until_retry == 0{
+                if self.seconds_until_retry == -1{
                     timer.invalidate()
-                    self.seconds_until_retry = 90
+                    self.seconds_until_retry = 60
                     
                     send_button_cell?.textLabel?.text = "Send code"
                     send_button_cell?.isUserInteractionEnabled = true
@@ -156,13 +154,18 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                 
                 if success == false{
                     
-                    alert("Wrong OTP", "Try resending the SMS", self)
+                    alert("Wrong OTP", "Try resending the SMS")
                     
                     return
                 }
                 
-                Navigation.push(viewController: "ContinentNC", context: self)
-                
+                alert("Success", "Let's continue with entering further user information now") {
+                    Navigation.change(navigationController: "ContinentNC")
+                    
+                    Navigation.pop()
+                    
+                    Navigation.push(viewController: "ContinentVC")
+                }
             }
             
         }

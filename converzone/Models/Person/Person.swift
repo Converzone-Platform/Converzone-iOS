@@ -38,7 +38,6 @@ class Person {
     internal var link_to_profile_image: String = ""
     internal var reflections: [Reflection] = []
     internal var uid: String?
-    
     internal var device_token: String = ""
     
     init (firstname: String, lastname: String, gender: Gender, birthdate: Date, uid: String){

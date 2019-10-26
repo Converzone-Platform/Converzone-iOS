@@ -28,10 +28,9 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         master.firstname = "Goga"
         master.lastname = "Barabadze"
         master.uid = "231831373"
-        let user = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "12381923")
+        let user = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "b1oztOuiF5NA9Jk6JI2k4K3qGk32")
         
         let message = TextMessage(text: "WHAZZUP?", is_sender: true)
-        
         user.conversation.append(message)
         user.link_to_profile_image = "https://picsum.photos/id/1/200/200"
         master.conversations.append(user)
@@ -50,7 +49,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         
         self.view.backgroundColor = Colors.backgroundGrey
         
-        Internet.conversations_delegate = self
+        Internet.update_conversations_tableview_delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {

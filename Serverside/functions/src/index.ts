@@ -27,4 +27,24 @@ export const startedNewConversation = functions.database
                admin.database().ref(`/users/${senderid}/conversations/${receiverid}`).set(conversationsid)
         return admin.database().ref(`/users/${receiverid}/conversations/${senderid}`).set(conversationsid)
         
+    })
+
+export const newMessage = functions.database
+    .ref("conversations/{conversationid}/messages/{messageid}")
+    .onCreate((snapshot, context) => {
+
+        let sender_id = snapshot.val().sender
+        let receiver_id = snapshot.val().receiver
+        let receiver_token = admin.database().ref(`/users/${receiver_id}`).snapshot.val().token
+
+        let sender_firstname = admin.database().ref(`/users/${sender_id}`).snapshot.val().firstname
+        let sender_lastname = admin.database().ref(`/users/${sender_id}`).snapshot.val().lastname
+
+        const payload = {
+              notification: {
+                  title: sender_firstname + ' ' + sender_lastname
+              }
+        };
+
+       return admin.messaging().sendToDevice(receiver_token, payload);
 })

@@ -35,10 +35,10 @@ class WelcomeVC: NoAutoRotateViewController {
             
         }){ (bool) in
         
-            master.changingData = .editing
+            master.editingMode = .editing
             
             // Animate to actual app
-            Navigation.present(controller: "MainTBC", context: self)
+            Navigation.change(navigationController: "MainTBC")
             
         }
     }
@@ -52,6 +52,8 @@ class WelcomeVC: NoAutoRotateViewController {
         
         journey_outlet.layer.cornerRadius = 15
         journey_outlet.layer.masksToBounds = true
+        
+        blur_view.alpha = 1
     }
     
     override var prefersStatusBarHidden: Bool{

@@ -24,7 +24,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.title = "Settings"
         self.tabBarController?.cleanTitles()
         
-        master.changingData = .editing
+        master.editingMode = .editing
         
         Internet.getMaster()
         
@@ -129,7 +129,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             do{
                 try Auth.auth().signOut()
             }catch{
-                alert("Signing out ...", "An unknown error occurred", UIApplication.currentViewController()!)
+                alert("Signing out ...", "An unknown error occurred")
             }
             
         default:

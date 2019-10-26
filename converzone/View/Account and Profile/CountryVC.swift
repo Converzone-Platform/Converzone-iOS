@@ -9,6 +9,7 @@
 import UIKit
 
 class CountryVC: UIViewController {
+    
     @IBOutlet weak var searchBar: UISearchBar!
     
     var currentCountries: [Country]? = nil
@@ -48,7 +49,7 @@ extension CountryVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         master.country = filteredCountries![indexPath.row]
         
-        if master.changingData == .editing{
+        if master.editingMode == .editing{
             Navigation.pop(context: self)
             Navigation.pop(context: self)
             
