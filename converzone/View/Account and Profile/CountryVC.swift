@@ -20,7 +20,7 @@ class CountryVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentCountries = world.getCountriesOf(master.continent ?? "Europe")
+        currentCountries = world.getCountriesOf(master.continent )
         
         filteredCountries = currentCountries
     }
@@ -53,7 +53,7 @@ extension CountryVC: UITableViewDataSource, UITableViewDelegate{
             Navigation.pop(context: self)
             Navigation.pop(context: self)
             
-            Internet.upload(country: master.country!)
+            Internet.upload(country: master.country)
             
         }else{
             Navigation.push(viewController: "UsersLanguagesVC", context: self)

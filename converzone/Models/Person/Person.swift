@@ -15,29 +15,29 @@ import MapKit
 class Person {
     
     //Personal Details
-    internal var firstname: String? = ""
-    internal var lastname: String? = ""
+    internal var firstname: String = ""
+    internal var lastname: String = ""
     
-    internal var fullname: String?{
-        return firstname! + " " + lastname!
+    internal var fullname: String {
+        return firstname + " " + lastname
     }
     
-    internal var gender: Gender?
-    internal var birthdate: Date?
+    internal var gender: Gender? = nil
+    internal var birthdate: Date? = nil
     internal var speak_languages: [Language] = []
     internal var learn_languages: [Language] = []
     
-    internal var continent: String?
-    internal var country: Country?
-    internal var timezone: String?
+    internal var continent: String = "Europe"
+    internal var country: Country = Country(name: "Austria")
+    internal var timezone: String = (TimeZone.init(secondsFromGMT: 0)?.abbreviation())!
     
     //Platform Informations
-    internal var interests: NSAttributedString?
-    internal var status: NSAttributedString?
+    internal var interests: NSAttributedString = NSAttributedString(string: "")
+    internal var status: NSAttributedString = NSAttributedString(string: "")
     
     internal var link_to_profile_image: String = ""
     internal var reflections: [Reflection] = []
-    internal var uid: String?
+    internal var uid: String = ""
     internal var device_token: String = ""
     
     init (firstname: String, lastname: String, gender: Gender, birthdate: Date, uid: String){

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     
@@ -23,27 +24,14 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // MARK: Create dummy user
-        master.link_to_profile_image = "https://firebasestorage.googleapis.com/v0/b/converzone-3e328.appspot.com/o/profile_images%2F231831373.jpg?alt=media&token=78618731-c18d-4f60-92c3-2268d825aaa3"
-        master.firstname = "Goga"
-        master.lastname = "Barabadze"
-        master.uid = "231831373"
         let user = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "b1oztOuiF5NA9Jk6JI2k4K3qGk32")
         
-        let message = TextMessage(text: "WHAZZUP?", is_sender: true)
+        let message = TextMessage(text: "I am so cute :)", is_sender: false)
         user.conversation.append(message)
         user.link_to_profile_image = "https://picsum.photos/id/1/200/200"
         master.conversations.append(user)
-        master.timezone = TimeZone(secondsFromGMT: 0)?.abbreviation()
-        master.interface_language = Language(name: "English")
         
         Internet.setUpListeners()
-        Internet.block(userid: "1231231")
-        Internet.report(userid: "121398", reason: "Not cool enough for me")
-        Internet.block(userid: "98898998")
-        
-        Internet.block(userid: "1")
-        Internet.unblock(userid: "1")
         
         setUpNavBar()
         
@@ -55,6 +43,8 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        goToSplashScreenIfNeeded()
+        
         self.title = "Conversations"
         self.tabBarController?.cleanTitles()
         //filtered_converations = master?.conversations
@@ -64,6 +54,15 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         
         //MARK: TODO - Reloading the whole tableview might be too much
         tableView.reloadData()
+    }
+    
+    /// Is the user verified/logged in? If not, let's take them to the SplashScreen
+    private func goToSplashScreenIfNeeded(){
+        
+        if Auth.auth().currentUser == nil || UserDefaults.standard.bool(forKey: "DidFinishRegistration") == false {
+            Navigation.change(navigationController: "SplashScreenVC")
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

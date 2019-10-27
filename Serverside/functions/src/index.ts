@@ -33,18 +33,38 @@ export const newMessage = functions.database
     .ref("conversations/{conversationid}/messages/{messageid}")
     .onCreate((snapshot, context) => {
 
-        let sender_id = snapshot.val().sender
-        let receiver_id = snapshot.val().receiver
-        let receiver_token = admin.database().ref(`/users/${receiver_id}`).snapshot.val().token
+        //let sender_id = snapshot.val().sender
+        const receiver_id = snapshot.val().receiver
 
-        let sender_firstname = admin.database().ref(`/users/${sender_id}`).snapshot.val().firstname
-        let sender_lastname = admin.database().ref(`/users/${sender_id}`).snapshot.val().lastname
+        let receiver_token = null
+
+        //let sender_firstname = admin.database().ref(`/users/${sender_id}`).snapshot.val().firstname
+        //let sender_lastname = admin.database().ref(`/users/${sender_id}`).snapshot.val().lastname
+
+        admin.database().ref(`/users/${receiver_id}/token`).once('value').then((snap) => {
+            receiver_token = snap.val()
+            console.log('snapshot: ' + snap.val())
+
+        }); 
+
+        //const payload = {
+        //      notification: {
+        //          title: sender_firstname + ' ' + sender_lastname
+        //      }
+        //};
 
         const payload = {
               notification: {
-                  title: sender_firstname + ' ' + sender_lastname
+                  title: "Name"
               }
         };
+
+        //console.log('sender_id: ' + sender_id)
+        //console.log('receiver_id: ' + receiver_id)
+        //console.log('receiver_token: ' + receiver_token)
+        //console.log('sender_firstname: ' + sender_firstname)
+        //console.log('sender_lastname: ' + sender_lastname)
+        //console.log(sender_firstname + ' ' + sender_lastname)
 
        return admin.messaging().sendToDevice(receiver_token, payload);
 })

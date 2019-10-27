@@ -24,7 +24,8 @@ public class Internet: NSObject {
     /// Set up value listeners for Database
     class func setUpListeners(){
         
-        self.listenForNewConversations()
+//        self.listenForNewConversations()
+//        self.listenForDidChangeAuthState()
         
     }
     
@@ -93,11 +94,16 @@ public class Internet: NSObject {
           if error != nil {
             
             closure(false)
+            
+            return
           }
           
             closure(true)
             
-            master.uid = Auth.auth().currentUser?.uid
+            master.uid = Auth.auth().currentUser!.uid
+            
+            // Delete Verification Code
+            UserDefaults.standard.removeObject(forKey: "verificationID")
         }
         
     }
@@ -136,10 +142,15 @@ public class Internet: NSObject {
     /// - Parameter url: The url from where to download the image
     /// - Parameter completion: Asynchronously give back the image we retrieved
     static func getImage(withURL url: String, completion: @escaping (_ image:UIImage?)->()) {
+        
+        guard let url_object = URL(string: url) else{
+            return
+        }
+        
         if let image = imageCache.object(forKey: url as NSString) {
             completion(image)
         } else {
-            downloadImage(withURL: URL(string: url)!, completion: completion)
+            downloadImage(withURL: url_object, completion: completion)
         }
     }
     
@@ -163,7 +174,7 @@ public class Internet: NSObject {
     /// - Parameter receiver: The user who will receive the message
     private static func send(message: TextMessage, receiver: User){
         
-        self.database_reference.child("conversations").child(generateConversationID(first: master.uid!, second: receiver.uid!)).child("messages").child(String(message.hashValue)).setValue(["sender": master.uid!, "receiver": receiver.uid!, "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!), "text": message.text!, "type": "TextMessage"])
+        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: receiver.uid)).child("messages").child(String(message.hashValue)).setValue(["sender": master.uid, "receiver": receiver.uid, "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!), "text": message.text!, "type": "TextMessage"])
         
     }
     
@@ -172,7 +183,7 @@ public class Internet: NSObject {
     /// - Parameter receiver: The user who will receive the message
     private static func send(message: InformationMessage, receiver: User){
         
-        self.database_reference.child("conversations").child(generateConversationID(first: master.uid!, second: receiver.uid!)).child("messages").child(String(message.hashValue)).setValue(["sender": master.uid!, "receiver": receiver.uid!, "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!), "text": message.text!, "type": "InformationMessage"])
+        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: receiver.uid)).child("messages").child(String(message.hashValue)).setValue(["sender": master.uid, "receiver": receiver.uid, "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!), "text": message.text!, "type": "InformationMessage"])
         
     }
     
@@ -195,8 +206,8 @@ public class Internet: NSObject {
     
     /// Listener for new conversations. Once it receivers a new conversation it sets a listener for messages in the new conversation
     private static func listenForNewConversations(){
-
-        self.database_reference.child("users").child(master.uid!).child("conversations").observe(.childAdded) { (snapshot) in
+        
+        self.database_reference.child("users").child(master.uid).child("conversations").observe(.childAdded) { (snapshot) in
 
             let conversationid = snapshot.value as! String
             //let partnerid = snapshot.key
@@ -243,7 +254,7 @@ public class Internet: NSObject {
     private static func receive(informationMessage: NSDictionary){
         
         let sender = informationMessage["sender"] as! String
-        let is_sender = sender == master.uid!
+        let is_sender = sender == master.uid
         
         // MARK: TODO - If I am the sender and I receive the message back we can say that it works as a sent indicator for messages
         if is_sender{
@@ -271,7 +282,7 @@ public class Internet: NSObject {
     private static func receive(textMessage: NSDictionary){
         
         let sender = textMessage["sender"] as! String
-        let is_sender = sender == master.uid!
+        let is_sender = sender == master.uid
         
         // MARK: TODO - If I am the sender and I receive the message back we can say that it works as a sent indicator for messages
         if is_sender{
@@ -318,11 +329,7 @@ public class Internet: NSObject {
     /// - Parameter token: The token to update
     static func upload(token: String){
         
-        guard let uid = master.uid else{
-            return
-        }
-        
-        self.database_reference.child("users").child(uid).updateChildValues(["token": token])
+        self.database_reference.child("users").child(master.uid).updateChildValues(["token": token])
         
     }
     
@@ -331,7 +338,7 @@ public class Internet: NSObject {
     /// Packs all the data from the master and sends it to the database
     static func upload(){
         
-        self.database_reference.child("users").child(master.uid!).updateChildValues(master.toDictionary())
+        self.database_reference.child("users").child(master.uid).updateChildValues(master.toDictionary())
         
     }
     
@@ -339,14 +346,14 @@ public class Internet: NSObject {
     /// - Parameter country: The country to chango to
     static func upload(country: Country){
         
-        self.database_reference.child("users").child(master.uid!).updateChildValues(["country" : country.name!])
+        self.database_reference.child("users").child(master.uid).updateChildValues(["country" : country.name!])
         
     }
     
     /// Get the newest version of the master from the database
     static func getMaster(){
         
-        self.database_reference.child("users").child(master.uid!).observeSingleEvent(of: .value) { (snapshot) in
+        self.database_reference.child("users").child(master.uid).observeSingleEvent(of: .value) { (snapshot) in
             
             let values = snapshot.value as! NSDictionary
             
@@ -356,45 +363,76 @@ public class Internet: NSObject {
         
     }
     
+    /// User was logged out (or logged in)
+    private static func listenForDidChangeAuthState(){
+        
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            
+            if user == nil {
+                
+                Internet.signOut()
+                Navigation.change(navigationController: "SplashScreenVC")
+                
+            }
+            
+        }
+        
+    }
+    
+    static func signOut(){
+        do{
+            try Auth.auth().signOut()
+            UserDefaults.standard.removeObject(forKey: "DidFinishRegistration")
+        }catch{
+            alert("Signing out ...", "An unknown error occurred")
+        }
+    }
+    
     /// Upload profile image to database
     /// - Parameter image: The image to upload
     static func upload(image: UIImage){
         
         let jpeg = image.jpegData(compressionQuality: 1.0)
         
-        storage_reference.child("profile_images").child(master.uid! + ".jpg").putData(jpeg!, metadata: nil) { (metadata, error) in
+        storage_reference.child("profile_images").child(master.uid + ".jpg").putData(jpeg!, metadata: nil) { (metadata, error) in
             
             if error != nil {
                 
                 alert("Image upload went wrong", error!.localizedDescription)
-                
+                return
             }
             
-            self.storage_reference.child("/profile_images/" + master.uid! + ".jpg").downloadURL { (url, error) in
+            self.storage_reference.child("/profile_images/" + master.uid + ".jpg").downloadURL { (url, error) in
                 
                 if error != nil {
-                    print(error?.localizedDescription)
+                    print(error?.localizedDescription as Any)
+                    return
                 }
                 
                 master.link_to_profile_image = url!.absoluteString
                 
+                Internet.upload(linkToProfileImage: master.link_to_profile_image)
             }
-            
         }
+    }
+    
+    /// Upload link to profile image to Firebase Database
+    /// - Parameter linkToProfileImage: Link to be uploaded
+    private static func upload(linkToProfileImage: String){
+        self.database_reference.child("users").child(master.uid).updateChildValues(["link_to_profile_image": linkToProfileImage])
     }
     
     /// Transforms the dictionary to master
     private static func transformIntoMasterObject (dictionary: NSDictionary) {
         
-        master.firstname = dictionary["firstname"] as? String
-        master.lastname = dictionary["lastname"] as? String
+        master.firstname = dictionary["firstname"] as! String
+        master.lastname = dictionary["lastname"] as! String
         master.gender = Gender.toGender(gender: dictionary["gender"] as! String)
         master.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: dictionary["birthdate"] as! String)
         master.country = Country(name: dictionary["country"] as! String)
         master.link_to_profile_image = dictionary["link_to_profile_image"] as! String
         master.device_token = dictionary["device_token"] as! String
         master.discoverable = dictionary["discoverable"] as! Bool
-        master.interface_language = Language(name: dictionary["interface_language"] as! String)
         master.interests = NSAttributedString(string: dictionary["interests"] as! String)
         master.status = NSAttributedString(string: dictionary["status"] as! String)
         
@@ -407,18 +445,18 @@ public class Internet: NSObject {
         
         Internet.removeLanguages()
         
-        self.database_reference.child("users").child(master.uid!).child("speak_languages").setValue(master.speakLanguagesToDictionary())
+        self.database_reference.child("users").child(master.uid).child("speak_languages").setValue(master.speakLanguagesToDictionary())
         
         if master.learn_languages.count == 0 { return }
         
-        self.database_reference.child("users").child(master.uid!).child("learn_languages").setValue(master.learnLanguagesToDictionrary())
+        self.database_reference.child("users").child(master.uid).child("learn_languages").setValue(master.learnLanguagesToDictionrary())
     }
     
     /// Remove all languages of the master in the database
     private static func removeLanguages(){
         
-        self.database_reference.child("users").child(master.uid!).child("speak_languages").removeValue()
-        self.database_reference.child("users").child(master.uid!).child("learn_languages").removeValue()
+        self.database_reference.child("users").child(master.uid).child("speak_languages").removeValue()
+        self.database_reference.child("users").child(master.uid).child("learn_languages").removeValue()
         
     }
     
@@ -453,26 +491,26 @@ public class Internet: NSObject {
     /// - Parameter reason: Reson of report
     static func report(userid: String, reason: String){
         
-        self.database_reference.child("users").child(master.uid!).child("reportee").child(userid).setValue(["reason" : reason])
+        self.database_reference.child("users").child(master.uid).child("reportee").child(userid).setValue(["reason" : reason])
         
     }
     
-    /// Block an user
+    /// Block an user locally and on the database
     /// - Parameter userid: User's uid to be blocked
     static func block(userid: String){
         
         master.blocked_users.insert(userid)
         
-        self.database_reference.child("users").child(master.uid!).child("blockee").setValue(Array(master.blocked_users))
+        self.database_reference.child("users").child(master.uid).child("blockee").setValue(Array(master.blocked_users))
         
     }
     
-    /// Unblock an user
+    /// Unblock an user locally and on the database
     /// - Parameter userid: User's uid to be unblocked
     static func unblock(userid: String){
         
         master.blocked_users.remove(userid)
         
-        self.database_reference.child("users").child(master.uid!).child("blockee").setValue(Array(master.blocked_users))
+        self.database_reference.child("users").child(master.uid).child("blockee").setValue(Array(master.blocked_users))
     }
 }

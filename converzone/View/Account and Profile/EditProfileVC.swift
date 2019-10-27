@@ -65,7 +65,7 @@ class EditProfileVC: UIViewController{
             return
         }
         
-        guard let lastname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! NormalInputCell).input!.text else{
+        guard let lastname = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! NormalInputCell).input!.text else{
             return
         }
         
@@ -176,17 +176,17 @@ class EditProfileVC: UIViewController{
             return
         }
         
-        if master.interests == nil || (master.interests?.string.isEmpty)! {
+        if master.interests.string.isEmpty {
             alert("Interests", "Please tell us about your intersts")
             return
         }
         
-        if master.status == nil || (master.status?.string.isEmpty)! {
+        if master.status.string.isEmpty {
             alert("Status", "Please tell us what you want your status to be")
             return
         }
         
-        if checkInputOfUser(firstname!, lastname!, gender!, date!, (master.interests!.string), master.status!.string) == false{
+        if checkInputOfUser(firstname!, lastname!, gender!, date!, master.interests.string, master.status.string) == false{
             return
         }
         
@@ -195,7 +195,8 @@ class EditProfileVC: UIViewController{
         if master.editingMode == .registration {
             
             // Go to welcome screen
-            Navigation.push(viewController: "WelcomeVC")
+            Navigation.change(navigationController: "WelcomeVC")
+            
         }else{
             Navigation.pop()
         }
@@ -316,7 +317,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.input?.addTarget(self, action: #selector(firstNameTextFieldChanged), for: .editingChanged)
             
-            if !(master.firstname?.isEmpty ?? false) {
+            if master.firstname.isEmpty {
                 cell.input!.text = master.firstname
             }
             
@@ -329,7 +330,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.input?.addTarget(self, action: #selector(lastNameTextFieldChanged), for: .editingChanged)
             
-            if !(master.lastname?.isEmpty ?? false)  {
+            if master.lastname.isEmpty  {
                 cell.input!.text = master.lastname
             }
             
@@ -344,7 +345,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             let picker = UIPickerView()
             picker.delegate = self
             
-            if master.gender != nil{
+            if master.gender != nil {
                 cell.gender.text = master.gender?.toString()
             }
             
@@ -379,13 +380,10 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             datePicker.addTarget(self, action: #selector(pickDate(datePicker:)), for: .valueChanged)
             
             if master.birthdate != nil{
-                
                 let dateFormatter = DateFormatter()
                 dateFormatter.timeZone = TimeZone(secondsFromGMT: TimeZone.current.secondsFromGMT())
                 dateFormatter.dateFormat = "dd/MM/yyyy"
-                let string = dateFormatter.string(from: master.birthdate!)
-                
-                cell.date.text = string
+                cell.date.text = dateFormatter.string(from: master.birthdate!)
             }
             
             return cell
@@ -394,11 +392,11 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
-            if master.interests?.string == nil {
+            if master.interests.string == "" {
                 cell.input.text = "Your interests"
                 cell.input.textColor = Colors.grey
             }else{
-                cell.input.text = master.interests?.string
+                cell.input.text = master.interests.string
                 cell.input.textColor = Colors.black
             }
             
@@ -409,11 +407,11 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
-            if master.status?.string == nil {
+            if master.status.string == "" {
                 cell.input.text = "Tell the world something"
                 cell.input.textColor = Colors.grey
             }else{
-                cell.input.text = master.status?.string
+                cell.input.text = master.status.string
                 cell.input.textColor = Colors.black
             }
             
@@ -441,11 +439,19 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
     }
     
     @objc func firstNameTextFieldChanged(){
-        master.firstname = tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel!.text
+        guard let firstname = tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel!.text else {
+            return
+        }
+        master.firstname = firstname
     }
     
     @objc func lastNameTextFieldChanged(){
-        master.lastname = tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel!.text
+        
+        guard let lastname = tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel!.text else {
+            return
+        }
+        
+        master.lastname = lastname
     }
     
 }

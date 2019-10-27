@@ -16,18 +16,13 @@ class ContinentVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     let locationManager = CLLocationManager()
     
-    @IBAction func back(_ sender: Any) {
-        //Go back to login view controller
-        Navigation.present(controller: "LoginVC", context: self)
-    }
-    
 }
 
 extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 0 {
+        if section == 0  {
             return 1
         }
         
@@ -36,19 +31,22 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LocatePositionCell")
             
             cell?.textLabel?.text = NSLocalizedString("Locate my position...", comment: "Should we find out where you live?")
             
             return cell!
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "StandardCell")
+            
+            cell?.textLabel?.text = world.continents[indexPath.row].name
+            
+            return cell!
+        default:
+            return tableView.dequeueReusableCell(withIdentifier: "StandardCell")!
         }
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "StandardCell")
-        
-        cell?.textLabel?.text = world.continents[indexPath.row].name
-        
-        return cell!
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -139,7 +137,7 @@ extension ContinentVC {
                 Navigation.push(viewController: "UsersLanguagesVC", context: self)
             }else{
                 Navigation.pop(context: self)
-                Internet.upload(country: master.country!)
+                Internet.upload(country: master.country)
             }
         }
         

@@ -26,9 +26,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         master.editingMode = .editing
         
-        Internet.getMaster()
-        
-        Internet.getLanguagesFor(uid: master.uid!, progress: "speak_languages") { (languages) in
+        Internet.getLanguagesFor(uid: master.uid, progress: "speak_languages") { (languages) in
             master.speak_languages = languages ?? []
             
             self.tableView.reloadData()
@@ -38,7 +36,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        Internet.getLanguagesFor(uid: master.uid!, progress: "learn_languages") { (languages) in
+        Internet.getLanguagesFor(uid: master.uid, progress: "learn_languages") { (languages) in
             master.learn_languages = languages ?? []
             
             self.tableView.reloadData()
@@ -72,7 +70,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         case 0:
             
             cell?.textLabel?.text = master.fullname
-            cell?.detailTextLabel?.text = master.status?.string
+            cell?.detailTextLabel?.text = master.status.string
             
             Internet.getImage(withURL: master.link_to_profile_image) { (image) in
                 cell?.imageView!.image = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 50, maxHeight: 50)
@@ -82,8 +80,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
                 tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
             }
-            
-            //cell?.imageView?.contentMode = .scaleAspectFill
             
             cell?.accessoryType = .disclosureIndicator
             
@@ -118,7 +114,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             "Check this out: http://itunes.apple.com/app/id1465102094".share()
             
         case 4:
-            Navigation.change(navigationController: "LoginVC")
+            Navigation.change(navigationController: "SplashScreenVC")
             
             // Delete discover users
             discover_users.removeAll()
@@ -126,11 +122,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             master.speak_languages.removeAll()
             master.learn_languages.removeAll()
             
-            do{
-                try Auth.auth().signOut()
-            }catch{
-                alert("Signing out ...", "An unknown error occurred")
-            }
+            Internet.signOut()
             
         default:
             print("No action here")

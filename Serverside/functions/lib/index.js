@@ -23,15 +23,30 @@ exports.newMessage = functions.database
     .ref("conversations/{conversationid}/messages/{messageid}")
     .onCreate((snapshot, context) => {
     //let sender_id = snapshot.val().sender
-    //let receiver_id = snapshot.val().receiver
-    //let receiver_token = admin.database().ref(`/users/${receiver_id}`).snapshot.val().token
+    const receiver_id = snapshot.val().receiver;
+    let receiver_token = null;
     //let sender_firstname = admin.database().ref(`/users/${sender_id}`).snapshot.val().firstname
     //let sender_lastname = admin.database().ref(`/users/${sender_id}`).snapshot.val().lastname
+    admin.database().ref(`/users/${receiver_id}/token`).once('value', (token_snapshot) => {
+        receiver_token = token_snapshot.val();
+        console.log('snapshot: ' + token_snapshot.val());
+    });
+    //const payload = {
+    //      notification: {
+    //          title: sender_firstname + ' ' + sender_lastname
+    //      }
+    //};
     const payload = {
         notification: {
-            title: 'Text'
+            title: "Name"
         }
     };
-    return admin.messaging().sendToDevice("ewcV4pGfHLE:APA91bEttGMZu-iCqiB8PPFsOzLbK5oUl9YRLrWititRiwRNpgL7gOxeOdtJ4WXcyrtLElWN4aYzFVeb2CS5iYcULtQRkzE_GMQ5RE38NZ_KW1ZXCTo6gEMATX2ABg3QXketPEdQMQRz", payload);
+    //console.log('sender_id: ' + sender_id)
+    //console.log('receiver_id: ' + receiver_id)
+    //console.log('receiver_token: ' + receiver_token)
+    //console.log('sender_firstname: ' + sender_firstname)
+    //console.log('sender_lastname: ' + sender_lastname)
+    //console.log(sender_firstname + ' ' + sender_lastname)
+    return admin.messaging().sendToDevice(receiver_token, payload);
 });
 //# sourceMappingURL=index.js.map

@@ -57,7 +57,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
             }
         }
         
-        let location_alert = UIAlertController()
+        _ = UIAlertController()
         
         
 //        alert.addAction(UIAlertAction(title: "Camera", style: .default , handler:{ (UIAlertAction)in
@@ -134,7 +134,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         //setUpInfoButton()
         
-        navigationItem.titleView = navTitleWithImageAndText(titleText: master.conversations[indexOfUser].fullname!, imageLink: master.conversations[indexOfUser].link_to_profile_image)
+        navigationItem.titleView = navTitleWithImageAndText(titleText: master.conversations[indexOfUser].fullname, imageLink: master.conversations[indexOfUser].link_to_profile_image)
         
         Internet.update_chat_tableview_delegate = self
         
@@ -163,6 +163,16 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         // This allows controlls in the navigation bar to continue receiving touches
         tapGestureRecognizer.cancelsTouchesInView = false
+        
+        getNotificationPermissionFromUser()
+    }
+    
+    /// Ask if we can send notifications to this device
+    private func getNotificationPermissionFromUser() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound, .badge]) { (bool, error) in
+            
+        }
     }
     
     @objc private func goToConversations(){
@@ -332,7 +342,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         let screenshot_message = InformationMessage()
         
-        screenshot_message.text = master.fullname! + " screenshoted the chat"
+        screenshot_message.text = master.fullname + " screenshoted the chat"
         screenshot_message.date = Date()
         screenshot_message.is_sender = true
         

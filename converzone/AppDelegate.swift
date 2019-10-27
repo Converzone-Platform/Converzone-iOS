@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import UserNotifications
 import Firebase
+import FirebaseMessaging
 
 @UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
@@ -17,13 +18,13 @@ import Firebase
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        getNotificationPermissionFromUser(application)
-        
         UNUserNotificationCenter.current().delegate = self
-        
+    
         FirebaseApp.configure()
         
         Messaging.messaging().delegate = self
+        
+        //Internet.getMaster()
         
         return true
     }
@@ -35,15 +36,11 @@ import Firebase
 
       let dataDict:[String: String] = ["token": fcmToken]
       NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
-      Internet.upload(token: fcmToken)
+        
+      //Internet.upload(token: fcmToken)
     }
     
     // MARK: - Notifications
-    
-    fileprivate func getNotificationPermissionFromUser(_ application: UIApplication) {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound], completionHandler: {(granted, error) in})
-        application.registerForRemoteNotifications()
-    }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
@@ -55,6 +52,10 @@ import Firebase
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
         
     }
     

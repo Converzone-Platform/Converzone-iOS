@@ -23,7 +23,7 @@ class Navigation {
     }
     
     static func change(navigationController: String){
+        
         UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: navigationController)
     }
-    
 }

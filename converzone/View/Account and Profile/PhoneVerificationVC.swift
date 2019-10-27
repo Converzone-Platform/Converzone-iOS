@@ -8,12 +8,12 @@
 
 import UIKit
 
-class PhoneVerificationVC: UIViewController {
+class PhoneVerificationVC: NoAutoRotateViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
     private var labels = ["Phone number", "Send code"]
-    private var footer_notes = ["Carrier SMS charges may apply", "You must have received a 6 digit Code in a SMS. If not, try resending"]
+    private var footer_notes = ["Carrier SMS charges may apply", "You must have received a 6 digit Code within a SMS. If not, try resending"]
     private var timer: Timer? = nil
     
     private var seconds_until_retry = 60
@@ -50,6 +50,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             
             cell?.textLabel?.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             cell?.textLabel?.textColor = Colors.blue
+            cell?.selectionStyle = .none
             
             return cell!
             
@@ -71,6 +72,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             
             cell?.textLabel?.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             cell?.textLabel?.textColor = Colors.blue
+            cell?.selectionStyle = .none
             
             return cell!
             
@@ -108,9 +110,14 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
         
         if tableView.globalIndexPath(for: indexPath as NSIndexPath) == 1 {
             
+            let send_button_cell = tableView.cellForRow(at: IndexPath(row: 1 ,section: 0))
+            
+            send_button_cell?.isUserInteractionEnabled = false
+            
             // MARK: Check phone number
             
-            guard let phone_number = (tableView.cellForRow(at: NSIndexPath(row: 0, section: 0) as IndexPath) as! NormalInputCell).input?.text else{
+            guard let phone_number = (tableView.cellForRow(at: NSIndexPath(row: 0, section: 0) as IndexPath) as! NormalInputCell).input?.text else {
+                
                 return
             }
             
@@ -152,53 +159,20 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             
             Internet.signIn(with: code) { (success) in
                 
-                if success == false{
+                if success == false{ 
                     
                     alert("Wrong OTP", "Try resending the SMS")
                     
                     return
                 }
                 
-                alert("Success", "Let's continue with entering further user information now") {
+                alert("Verified!", "Let's continue with entering further user information now") {
                     Navigation.change(navigationController: "ContinentNC")
-                    
-                    Navigation.pop()
-                    
-                    Navigation.push(viewController: "ContinentVC")
                 }
             }
             
         }
     }
     
-    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        switch tableView.globalIndexPath(for: indexPath as NSIndexPath) {
-        case 1:
-            fallthrough
-        case 3:
-            let cell = tableView.cellForRow(at: indexPath)
-            
-            cell?.textLabel?.textColor = Colors.white
-            cell?.contentView.backgroundColor = Colors.blue
-            
-        default:
-            return
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
-        switch tableView.globalIndexPath(for: indexPath as NSIndexPath) {
-        case 1:
-            fallthrough
-        case 3:
-            let cell = tableView.cellForRow(at: indexPath)
-            
-            cell?.textLabel?.textColor = Colors.blue
-            cell?.contentView.backgroundColor = Colors.white
-            
-        default:
-            return
-        }
-    }
     
 }

@@ -11,7 +11,7 @@ import WebKit
 
 var master: Master = Master()
 
-class SplashScreenVC: NoAutoRotateViewController, WKUIDelegate {
+class SplashScreenVC: NoAutoRotateViewController, WKNavigationDelegate {
     
     @IBOutlet weak var welcome_text_label: UILabel!
     @IBOutlet weak var continue_button_outlet: UIButton!
@@ -34,6 +34,12 @@ class SplashScreenVC: NoAutoRotateViewController, WKUIDelegate {
         
         renderWelcomeMessage()
         
+        flag_globe_webview.navigationDelegate = self
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        setUpWebKit()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,7 +47,24 @@ class SplashScreenVC: NoAutoRotateViewController, WKUIDelegate {
         
         master.editingMode = .registration
         
-        setUpWebKit()
+        
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        animateGlobe()
+    }
+    
+    /// Animate globe alpha to 100% when the SplashScreen is loaded
+    private func animateGlobe(){
+        
+        UIView.animate(withDuration: 2, delay: 0, options: .curveEaseInOut, animations: {
+            self.flag_globe_webview.alpha = 1
+        }, completion: nil)
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        flag_globe_webview.alpha = 0
     }
     
     private func setUpWebKit(){
@@ -49,6 +72,8 @@ class SplashScreenVC: NoAutoRotateViewController, WKUIDelegate {
         let path = Bundle.main.path(forResource: "index", ofType: "html")
         let url = URL(fileURLWithPath: path!)
         let request = URLRequest(url: url)
+        
+        flag_globe_webview.navigationDelegate = self
         
         flag_globe_webview.load(request)
     }

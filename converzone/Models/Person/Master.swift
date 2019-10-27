@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 enum ChangingData {
     case editing
@@ -23,30 +24,47 @@ class Master: Person {
     
     //All people with whom the master has chats with
     internal var conversations: [User] = []
-    internal var interface_language: Language?
     internal var discoverable: Bool = true
     internal var blocked_users: Set<String> = []
     
+    internal var unopened_chats: Int {
+        
+        var count = 0
+        
+        for conversation in conversations {
+            
+            if conversation.openedChat == false{
+                count += 1
+            }
+            
+        }
+        
+        return count
+    }
+    
     override init(){
         super.init()
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        super.uid = uid
     }
     
     func toDictionary() -> [String : Any]{
         
         return [
         
-            "firstname": super.firstname!,
-            "lastname": super.lastname!,
-            "gender": super.gender?.toString(),
+            "firstname": super.firstname,
+            "lastname": super.lastname,
+            "gender": super.gender!.toString(),
             "birthdate": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: super.birthdate!),
-            "country": super.country?.name!,
-            "link_to_profile_image": super.link_to_profile_image ?? "",
+            "country": super.country.name!,
             "device_token": super.device_token,
-            "interests": super.interests?.string,
-            "status": super.status?.string,
-            
-            "discoverable": self.discoverable,
-            "interface_language": self.interface_language?.name
+            "interests": super.interests.string,
+            "status": super.status.string,
+            "discoverable": self.discoverable
             
         ]
         

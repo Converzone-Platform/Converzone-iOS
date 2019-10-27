@@ -40,6 +40,8 @@ class WelcomeVC: NoAutoRotateViewController {
             // Animate to actual app
             Navigation.change(navigationController: "MainTBC")
             
+            UserDefaults.standard.set(true, forKey: "DidFinishRegistration")
+            
         }
     }
     
@@ -53,7 +55,7 @@ class WelcomeVC: NoAutoRotateViewController {
         journey_outlet.layer.cornerRadius = 15
         journey_outlet.layer.masksToBounds = true
         
-        blur_view.alpha = 1
+        
     }
     
     override var prefersStatusBarHidden: Bool{
