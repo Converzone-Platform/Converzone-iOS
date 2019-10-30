@@ -34,10 +34,10 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         print("Send audio message")
     }
     
-    fileprivate func deleteFirstMessage() {
+    private func deleteFirstMessage() {
         // Let's delete the FirstInformationMessage in case we haven't already
-        if master?.conversations[indexOfUser].conversation.first is FirstInformationMessage {
-            _ = master?.conversations[indexOfUser].conversation.removeAll(where: { (message) -> Bool in
+        if master.conversations[indexOfUser].conversation.first is FirstInformationMessage {
+            _ = master.conversations[indexOfUser].conversation.removeAll(where: { (message) -> Bool in
                 return message is FirstInformationMessage
             })
             self.tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
@@ -47,17 +47,17 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     @IBAction func more_button(_ sender: Any) {
         
         // Is this supposed to be the one of the first messages?
-        if master?.conversations[indexOfUser].conversation[0] is FirstInformationMessage{
+        if master.conversations[indexOfUser].conversation[0] is FirstInformationMessage{
             
-            let message = master?.conversations[indexOfUser].conversation[0] as! FirstInformationMessage
+            let message = master.conversations[indexOfUser].conversation[0] as! FirstInformationMessage
             
             if message.text == "Be creative with the first message :)"{
-                alert("Not yet", "Please talk with your partner a little more before sending one of these", self)
+                alert("Not yet", "Please talk with your partner a little more before sending one of these")
                 return
             }
         }
         
-        let location_alert = UIAlertController()
+        _ = UIAlertController()
         
         
 //        alert.addAction(UIAlertAction(title: "Camera", style: .default , handler:{ (UIAlertAction)in
@@ -79,45 +79,45 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
 //        }))
 //
         
-        location_alert.addAction(UIAlertAction(title: "Location", style: .default , handler:{ (UIAlertAction)in
-
-            self.setUpLocationServices()
-            
-            if CLLocationManager.locationServicesEnabled() {
-                switch CLLocationManager.authorizationStatus() {
-                case .notDetermined, .restricted, .denied:
-                
-                    alert("No access to the location services", "Please go into the settings and enable the location services for this app. You can chose \"always\" or just \"when in use\" there.", self)
-                    
-                    
-                case .authorizedAlways, .authorizedWhenInUse:
-
-                    let locationMessage = LocationMessage()
-                    locationMessage.is_sender = true
-
-                    self.locationManager.requestLocation()
-                    locationMessage.coordinate = master?.coordinate
-                    locationMessage.date = Date()
-
-                    master?.conversations[indexOfUser].conversation.append(locationMessage)
-
-                    self.updateTableView(animated: true)
-                    
-                    self.deleteFirstMessage()
-
-                default:
-                    print("That's weird. Check me out. I am on line: ", #line)
-                }
-            } else {
-                print("Location services are not enabled")
-            }
-        }))
-        
-        location_alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (UIAlertAction)in
-            
-        }))
-        
-        self.present(location_alert, animated: true, completion: nil)
+//        location_alert.addAction(UIAlertAction(title: "Location", style: .default , handler:{ (UIAlertAction)in
+//
+//            self.setUpLocationServices()
+//
+//            if CLLocationManager.locationServicesEnabled() {
+//                switch CLLocationManager.authorizationStatus() {
+//                case .notDetermined, .restricted, .denied:
+//
+//                    alert("No access to the location services", "Please go into the settings and enable the location services for this app. You can chose \"always\" or just \"when in use\" there.")
+//
+//
+//                case .authorizedAlways, .authorizedWhenInUse:
+//
+//                    let locationMessage = LocationMessage()
+//                    locationMessage.is_sender = true
+//
+//                    self.locationManager.requestLocation()
+//                    locationMessage.coordinate = master.coordinate
+//                    locationMessage.date = Date()
+//
+//                    master.conversations[indexOfUser].conversation.append(locationMessage)
+//
+//                    self.updateTableView(animated: true)
+//
+//                    self.deleteFirstMessage()
+//
+//                default:
+//                    print("That's weird. Check me out. I am on line: ", #line)
+//                }
+//            } else {
+//                print("Location services are not enabled")
+//            }
+//        }))
+//
+//        location_alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler:{ (UIAlertAction)in
+//
+//        }))
+//
+//        self.present(location_alert, animated: true, completion: nil)
         
     }
     
@@ -134,14 +134,11 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         //setUpInfoButton()
         
-        navigationItem.titleView = navTitleWithImageAndText(titleText: master!.conversations[indexOfUser].fullname!, imageLink: master!.conversations[indexOfUser].link_to_profile_image!)
+        navigationItem.titleView = navTitleWithImageAndText(titleText: master.conversations[indexOfUser].fullname, imageLink: master.conversations[indexOfUser].link_to_profile_image)
         
-        updates.chat_delegate = self
+        Internet.update_chat_tableview_delegate = self
         
-        master?.conversations[indexOfUser].openedChat = true
-        
-        
-        
+        master.conversations[indexOfUser].openedChat = true
     }
    
     func didUpdate(sender: Internet) {
@@ -166,14 +163,24 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         // This allows controlls in the navigation bar to continue receiving touches
         tapGestureRecognizer.cancelsTouchesInView = false
+        
+        getNotificationPermissionFromUser()
     }
     
-    @objc func goToConversations(){
+    /// Ask if we can send notifications to this device
+    private func getNotificationPermissionFromUser() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound, .badge]) { (bool, error) in
+            
+        }
+    }
+    
+    @objc private func goToConversations(){
         
         Navigation.push(viewController: "ConversationsVC", context: self)
     }
     
-    func navTitleWithImageAndText(titleText: String, imageLink: String) -> UIView {
+    private func navTitleWithImageAndText(titleText: String, imageLink: String) -> UIView {
         
         // Creates a new UIView
         let titleView = UIView()
@@ -188,9 +195,9 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         // Creates the image view
         let imageView = UIImageView()
         
-        master!.conversations[indexOfUser].getImage(with: imageLink, completion: { (image) in
+        Internet.getImage(withURL: master.conversations[indexOfUser].link_to_profile_image) { (image) in
             imageView.image = image
-        })
+        }
         
         let imageWidth = label.frame.size.height * 1.3
         let imageHeight = label.frame.size.height * 1.3
@@ -224,24 +231,24 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     }
     
     
-    func setUpInfoButton(){
+    private func setUpInfoButton(){
         let infoButton = UIBarButtonItem(title: "More", style: .plain, target: self, action: #selector(handleInfoButton))
         navigationItem.rightBarButtonItem = infoButton
     }
     
-    @objc func handleInfoButton(){
+    @objc private func handleInfoButton(){
         //Go to next view controller
         Navigation.push(viewController: "ChatSettingsVC", context: self)
     }
     
-    func setUpTableView(){
+    private func setUpTableView(){
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 1000
         
         tableView.backgroundColor = Colors.backgroundGrey
     }
     
-    func setUpObervers(){
+    private func setUpObervers(){
         NotificationCenter.default.addObserver(self, selector: #selector(didTakeScreenshot), name: UIApplication.userDidTakeScreenshotNotification, object: nil)
         
         NotificationCenter.default.addObserver(
@@ -259,7 +266,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         )
     }
     
-    @objc func showMoreOfPartner(_ sender: UITapGestureRecognizer){
+    @objc private func showMoreOfPartner(_ sender: UITapGestureRecognizer){
 
         // Make sure that a button is not tapped.
         let location = sender.location(in: self.navigationController?.navigationBar)
@@ -275,13 +282,13 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         self.loadViewIfNeeded()
     }
     
-    func setUpMessageTextField(){
+    private func setUpMessageTextField(){
         let amountOfLinesToBeShown: CGFloat = 6
         let maxHeight: CGFloat = message_textField.font!.lineHeight * amountOfLinesToBeShown
         message_textField.sizeThatFits(CGSize(width: message_textField.frame.size.width, height: maxHeight))
     }
     
-    @objc func handleKeyboard(_ notification: Notification){
+    @objc private func handleKeyboard(_ notification: Notification){
         
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let newHeight: CGFloat
@@ -309,7 +316,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
     }
     
-    func updateTableView(animated: Bool){
+    private func updateTableView(animated: Bool){
         
         let indexPath = NSIndexPath(row: tableView.numberOfRows(inSection: 0), section: 0) as IndexPath
         tableView.insertRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
@@ -317,7 +324,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         scrollToBottom(animated: true)
     }
     
-    func scrollToBottom(animated: Bool = true, delay: Double = 0.0) {
+    private func scrollToBottom(animated: Bool = true, delay: Double = 0.0) {
         let numberOfRows = tableView.numberOfRows(inSection: tableView.numberOfSections - 1) - 1
         guard numberOfRows > 0 else { return }
         
@@ -331,29 +338,30 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         }
     }
     
-    @objc func didTakeScreenshot(){
+    @objc private func didTakeScreenshot(){
         
-//        let screenshot_message = InformationMessage()
-//
-//        screenshot_message.text = NSLocalizedString("You", comment: "The pronoun") + " " + NSLocalizedString("took a screenshot!", comment: "Message when the master or the partner takes a screenshot")
-//        screenshot_message.date = NSDate() as Date
-//
-//        master?.conversations[indexOfUser].conversation.append(screenshot_message)
-//
-//        //MARK: TODO - Send this to the partner
-//
-//        updateTableView(animated: true)
+        let screenshot_message = InformationMessage()
+        
+        screenshot_message.text = master.fullname + " screenshoted the chat"
+        screenshot_message.date = Date()
+        screenshot_message.is_sender = true
+        
+        master.conversations[indexOfUser].conversation.append(screenshot_message)
+        
+        Internet.send(message: screenshot_message, receiver: master.conversations[indexOfUser])
+        
+        updateTableView(animated: true)
         
     }
     
-    func animateBubbleWithRainbowColors(times: Int, cell: TextMessageCell){
+    private func animateBubbleWithRainbowColors(times: Int, cell: TextMessageCell){
         
         if times == 0{
             return
         }
         
         UIView.animate(withDuration: 1.5, delay: 0, options: .curveEaseInOut, animations: {
-            cell.view.backgroundColor = randomColor()
+            cell.view.backgroundColor = Colors.random()
         }) { (finished) in
             self.animateBubbleWithRainbowColors(times: times-1, cell: cell)
         }
@@ -364,27 +372,27 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return (master?.conversations[indexOfUser].conversation.count)!
+        return (master.conversations[indexOfUser].conversation.count)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch master?.conversations[indexOfUser].conversation[indexPath.row]{
+        switch master.conversations[indexOfUser].conversation[indexPath.row]{
             
         case is TextMessage:
             
             let cell = Bundle.main.loadNibNamed("TextMessageCell", owner: self, options: nil)?.first as! TextMessageCell
             
-            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! TextMessage
+            let message = master.conversations[indexOfUser].conversation[indexPath.row] as! TextMessage
             
             // Add Long pressure gesture
             let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))
             cell.addGestureRecognizer(longPressRecognizer)
             
-            cell.message_label.attributedText = message.text!
+            cell.message_label.text = message.text!
             cell.selectionStyle = .none
             
-            if (message.only_emojies == false){
+            if message.only_emojies == false {
                 
                 if message.is_sender == true{
                     cell.message_label.textColor = Colors.white
@@ -403,7 +411,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 
             }else{
                 
-                if message.text!.string.count <= 5{
+                if message.text!.count <= 5{
                     cell.message_label.font = UIFont.systemFont(ofSize: 50)
                 }else{
                     cell.message_label.font = UIFont.systemFont(ofSize: 30)
@@ -438,16 +446,16 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 if ((cell.message_label.text?.widthWithConstrained(cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - (2 * 36)){
                     cell.rightConstraint.isActive = false
                     
-                    if (cell.message_label.text == ""){
+                    if cell.message_label.text == "" {
                         cell.message_label.text = "  "
                     }
                 }
             }
             
             // Animate
-            if cell.message_label.text!.contains("Lucie <3") || cell.message_label.text!.contains((master?.conversations[indexOfUser].firstname)! + " <3") || cell.message_label.text!.contains((master?.firstname)! + " <3"){
-                animateBubbleWithRainbowColors(times: 7, cell: cell)
-            }
+//            if cell.message_label.text!.contains("Lucie <3") || cell.message_label.text!.contains((master.conversations[indexOfUser].firstname)! + " <3") || cell.message_label.text!.contains((master.firstname)! + " <3"){
+//                animateBubbleWithRainbowColors(times: 7, cell: cell)
+//            }
             
             cell.alpha = 0
             
@@ -459,7 +467,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let cell = Bundle.main.loadNibNamed("ImageMessageCell", owner: self, options: nil)?.first as! ImageMessageCell
             
-            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! ImageMessage
+            let message = master.conversations[indexOfUser].conversation[indexPath.row] as! ImageMessage
             
             //cell.message_imageView.download(from: message.link!)
             cell.message_imageView.image = message.image
@@ -492,7 +500,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         case is LocationMessage:
             let cell = Bundle.main.loadNibNamed("LocationMessageCell", owner: self, options: nil)?.first as! LocationMessageCell
             
-            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! LocationMessage
+            let message = master.conversations[indexOfUser].conversation[indexPath.row] as! LocationMessage
             
             let latitude: CLLocationDegrees = (message.coordinate?.latitude)!
             let longitude: CLLocationDegrees = (message.coordinate?.longitude)!
@@ -507,10 +515,10 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             let annotation = MKPointAnnotation()
             annotation.coordinate = message.coordinate!
             
-            if message.is_sender! {
-                annotation.title = master?.fullname
+            if message.is_sender {
+                annotation.title = master.fullname
             }else{
-                annotation.title = master?.conversations[indexOfUser].fullname
+                annotation.title = master.conversations[indexOfUser].fullname
             }
             
             cell.map.addAnnotation(annotation)
@@ -544,7 +552,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let cell = Bundle.main.loadNibNamed("InformationMessageCell", owner: self, options: nil)?.first as! InformationMessageCell
             
-            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! InformationMessage
+            let message = master.conversations[indexOfUser].conversation[indexPath.row] as! InformationMessage
             
             cell.information.text = message.text
             
@@ -565,16 +573,16 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         return Bundle.main.loadNibNamed("ImageMessageCell", owner: self, options: nil)?.first as! ImageMessageCell
     }
     
-    @objc func longPressed(sender: UILongPressGestureRecognizer) {
+    @objc private func longPressed(sender: UILongPressGestureRecognizer) {
         
         if sender.state == UIGestureRecognizer.State.began {
             
             let touchPoint = sender.location(in: self.tableView)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 
-                var message = master?.conversations[indexOfUser].conversation[indexPath.row]
+                var message = master.conversations[indexOfUser].conversation[indexPath.row]
                 
-                switch master?.conversations[indexOfUser].conversation[indexPath.row]{
+                switch master.conversations[indexOfUser].conversation[indexPath.row]{
                 case is TextMessage:
                     
                     message = message as! TextMessage
@@ -588,7 +596,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 
                 let copy = UIAlertAction(title: "Copy", style: .default) { (action) in
                     
-                    UIPasteboard.general.string = (message as! TextMessage).text?.string
+                    UIPasteboard.general.string = (message as! TextMessage).text
                     
                 }
                 let speak = UIAlertAction(title: "Speak", style: .default) { (action) in
@@ -596,12 +604,12 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                     // Line 1. Create an instance of AVSpeechSynthesizer.
                     let speechSynthesizer = AVSpeechSynthesizer()
                     // Line 2. Create an instance of AVSpeechUtterance and pass in a String to be spoken.
-                    let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: ((message as! TextMessage).text?.string)!)
+                    let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: (message as! TextMessage).text!)
                     //Line 3. Specify the speech utterance rate. 1 = speaking extremely the higher the values the slower speech patterns. The default rate, AVSpeechUtteranceDefaultSpeechRate is 0.5
                     //speechUtterance.rate = AVSpeechUtteranceMaximumSpeechRate / 4.0
                     // Line 4. Specify the voice. It is explicitly set to English here, but it will use the device default if not specified.
                     
-                    if let language = NSLinguisticTagger.dominantLanguage(for: (message as! TextMessage).text!.string) {
+                    if let language = NSLinguisticTagger.dominantLanguage(for: (message as! TextMessage).text!) {
                         speechUtterance.voice = AVSpeechSynthesisVoice(language: language)
                     } else {
                         speechUtterance.voice = AVSpeechSynthesisVoice(language: Locale.preferredLanguages[0])
@@ -629,9 +637,9 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        switch master?.conversations[indexOfUser].conversation[indexPath.row]{
+        switch master.conversations[indexOfUser].conversation[indexPath.row]{
         case is ImageMessage:
-            if (self.view.frame.width < self.view.frame.height){
+            if self.view.frame.width < self.view.frame.height{
                 return self.view.frame.width
             }
             
@@ -639,7 +647,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
         case is LocationMessage:
             
-            if (self.view.frame.width < self.view.frame.height){
+            if self.view.frame.width < self.view.frame.height {
                 return self.view.frame.width
             }
             
@@ -652,25 +660,25 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //Direct to maps if the message is a location
-        if master?.conversations[indexOfUser].conversation[indexPath.row] is LocationMessage {
+        if master.conversations[indexOfUser].conversation[indexPath.row] is LocationMessage {
             
-            let message = master?.conversations[indexOfUser].conversation[indexPath.row] as! LocationMessage
+            let message = master.conversations[indexOfUser].conversation[indexPath.row] as! LocationMessage
             
             let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: (message.coordinate?.latitude)!, longitude: (message.coordinate?.longitude)!))
             
             let source = MKMapItem(placemark: placemark)
             
-            if message.is_sender! {
+            if message.is_sender {
                 source.name = NSLocalizedString("You", comment: "The pronoun")
             }else{
-                source.name = master?.conversations[indexOfUser].fullname
+                source.name = master.conversations[indexOfUser].fullname
             }
             
             MKMapItem.openMaps(with: [source], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])
             
         }
         
-        if master?.conversations[indexOfUser].conversation[indexPath.row] is ImageMessage {
+        if master.conversations[indexOfUser].conversation[indexPath.row] is ImageMessage {
             
 //            let secondViewController: ImagePreviewFullViewCell = ImagePreviewFullViewCell()
 //
@@ -687,39 +695,18 @@ extension ChatVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         deleteFirstMessage()
-        
+
         // Did the master use the word "fuck"? If yes let's replace it with something more appropriate -> "🦆"
         textField.text = textField.text?.replacingOccurrences(of: "fuck", with: "🦆", options: .caseInsensitive, range: nil)
 
-        if textField.text!.count > 1000 {
+        let message = TextMessage(text: textField.text!, is_sender: true)
 
-            alert("Too long!", "Your message cannot include more than 1000 characteres.", self)
-            return false
-        }
+        master.conversations[indexOfUser].conversation.append(message)
 
-        let attributed = NSMutableAttributedString(string: textField.text!)
-        
-        master?.conversations[indexOfUser].conversation.append(TextMessage(text: attributed, is_sender: true))
-        
-        Internet.sendText(message: textField.text!, to: (master?.conversations[indexOfUser])!) { (ack) in
-            
-//            if (ack[0] as! String) == "Success"{
-//                
-//                // Let animate the message cell to alpha 1
-//                let indexPath = NSIndexPath(row: self.tableView.numberOfRows(inSection: 0) - 1, section: 0) as IndexPath
-//                
-//                let cell = self.tableView.cellForRow(at: indexPath)
-//                
-//                UIView.animate(withDuration: 1, animations: {
-//                    cell!.alpha = 1
-//                })
-//                
-//            }
-            
-        }
-        
+        Internet.send(message: message, receiver: master.conversations[indexOfUser])
+
         textField.text = ""
-        
+
         updateTableView(animated: true)
         
         return true
@@ -728,7 +715,7 @@ extension ChatVC: UITextFieldDelegate {
 
 extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func getImageFromLibrary(){
+    private func getImageFromLibrary(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary){
             let image = UIImagePickerController()
             image.delegate = self
@@ -739,7 +726,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         }
     }
     
-    func getImageFromCamera(){
+    private func getImageFromCamera(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera){
             let image = UIImagePickerController()
             image.delegate = self
@@ -756,7 +743,7 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
         
         // Display sent image in chat
         let message = ImageMessage(image: image as! UIImage, is_sender: true)
-        master?.conversations[indexOfUser].conversation.append(message)
+        master.conversations[indexOfUser].conversation.append(message)
         
         updateTableView(animated: true)
         
@@ -785,7 +772,7 @@ extension ChatVC: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        master!.coordinate = manager.location!.coordinate
+        //master.coordinate = manager.location!.coordinate
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

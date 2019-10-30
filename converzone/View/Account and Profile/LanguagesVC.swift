@@ -24,8 +24,8 @@ class LanguagesVC: UIViewController {
         
         currentLanguages = world.languages
         
-        selected_speaking_languages = (master?.speak_languages)!
-        selected_learning_languages = (master?.learn_languages)!
+        selected_speaking_languages = master.speak_languages
+        selected_learning_languages = master.learn_languages
         
         // Remove languages in "speaking" that are already used in "learning" and vice versa
         if addingForType == .speaking {
@@ -62,12 +62,12 @@ extension LanguagesVC: UITableViewDelegate, UITableViewDataSource {
         cell?.textLabel?.text = filteredLanguages![indexPath.row].name
         
         if ((selected_speaking_languages.contains(where: {$0.name == filteredLanguages![indexPath.row].name})
-            || (master?.speak_languages.contains(where: {$0.name == filteredLanguages![indexPath.row].name}))!)
+            || (master.speak_languages.contains(where: {$0.name == filteredLanguages![indexPath.row].name})))
             
             && addingForType == .speaking)
             
             || ((selected_learning_languages.contains(where: {$0.name == filteredLanguages![indexPath.row].name})
-                || (master?.learn_languages.contains(where: {$0.name == filteredLanguages![indexPath.row].name}))!)
+                || (master.learn_languages.contains(where: {$0.name == filteredLanguages![indexPath.row].name})))
                 
                 && addingForType == .learning){
             
@@ -81,13 +81,13 @@ extension LanguagesVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if(addingForType == .speaking){
+        if addingForType == .speaking {
             
             if selected_speaking_languages.contains(where:{ $0.name == tableView.cellForRow(at: indexPath)!.textLabel!.text }){
                 
                 //Remove it
                 selected_speaking_languages.removeAll(where: { $0.name == tableView.cellForRow(at: indexPath)!.textLabel!.text})
-                master?.speak_languages.removeAll(where: { $0.name == tableView.cellForRow(at: indexPath)!.textLabel!.text})
+                master.speak_languages.removeAll(where: { $0.name == tableView.cellForRow(at: indexPath)!.textLabel!.text})
                 
             }else{
                 
@@ -101,7 +101,7 @@ extension LanguagesVC: UITableViewDelegate, UITableViewDataSource {
                 
                 //Remove it
                 selected_learning_languages.removeAll(where: { $0.name == tableView.cellForRow(at: indexPath)!.textLabel!.text})
-                master?.learn_languages.removeAll(where: { $0.name == tableView.cellForRow(at: indexPath)!.textLabel!.text})
+                master.learn_languages.removeAll(where: { $0.name == tableView.cellForRow(at: indexPath)!.textLabel!.text})
                 
             }else{
                 
@@ -114,18 +114,18 @@ extension LanguagesVC: UITableViewDelegate, UITableViewDataSource {
         // Add everything to master
         if addingForType == .speaking {
             for language in selected_speaking_languages {
-                master?.speak_languages.append(language)
+                master.speak_languages.append(language)
             }
             
             //Remove duplicates
-            master?.speak_languages = (Array(NSOrderedSet(array: (master?.speak_languages)!)) as? [Language])!
+            master.speak_languages = (Array(NSOrderedSet(array: master.speak_languages)) as? [Language])!
         }else{
             for language in selected_learning_languages {
-                master?.learn_languages.append(language)
+                master.learn_languages.append(language)
             }
             
             //Remove duplicates
-            master?.learn_languages = (Array(NSOrderedSet(array: (master?.learn_languages)!)) as? [Language])!
+            master.learn_languages = (Array(NSOrderedSet(array: master.learn_languages)) as? [Language])!
         }
         
         tableView.reloadRows(at: [indexPath], with: .automatic)

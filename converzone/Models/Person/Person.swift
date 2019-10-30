@@ -15,37 +15,32 @@ import MapKit
 class Person {
     
     //Personal Details
-    internal var firstname: String? = ""
-    internal var lastname: String? = ""
+    internal var firstname: String = ""
+    internal var lastname: String = ""
     
-    internal var fullname: String?{
-        return firstname! + " " + lastname!
+    internal var fullname: String {
+        return firstname + " " + lastname
     }
     
-    internal var gender: Gender?
-    internal var birthdate: Date?
-    internal var main_language: Language?
+    internal var gender: Gender? = nil
+    internal var birthdate: Date? = nil
     internal var speak_languages: [Language] = []
     internal var learn_languages: [Language] = []
     
-    internal var continent: String?
-    internal var country: Country?
-    internal var coordinate: CLLocationCoordinate2D?
-    internal var timezone: String?
+    internal var continent: String = "Europe"
+    internal var country: Country = Country(name: "Austria")
+    internal var timezone: String = (TimeZone.init(secondsFromGMT: 0)?.abbreviation())!
     
     //Platform Informations
-    internal var interests: NSAttributedString?
-    internal var status: NSAttributedString?
+    internal var interests: NSAttributedString = NSAttributedString(string: "")
+    internal var status: NSAttributedString = NSAttributedString(string: "")
     
-    internal let cache = NSCache<NSString, UIImage>()
-    
-    internal var link_to_profile_image: String?
+    internal var link_to_profile_image: String = ""
     internal var reflections: [Reflection] = []
-    internal var uid: Int?
+    internal var uid: String = ""
+    internal var device_token: String = ""
     
-    internal var deviceToken: String?
-    
-    init (firstname: String, lastname: String, gender: Gender, birthdate: Date, uid: Int){
+    init (firstname: String, lastname: String, gender: Gender, birthdate: Date, uid: String){
         self.firstname = firstname
         self.lastname = lastname
         self.gender = gender
@@ -70,41 +65,30 @@ class Person {
         
     }
     
-    
-    func downloadImage(with url: String, completion: @escaping (_ image: UIImage?)->()){
+    func speakLanguagesToDictionary() -> [String: String] {
         
-        URLSession.shared.dataTask(with: URL(string: url)!) { (data, response, error) in
-            
-            var downloadedImage: UIImage?
-            
-            if let data = data{
-                downloadedImage = UIImage(data: data)
-            }
-            
-            if downloadedImage != nil {
-                self.cache.setObject(downloadedImage!, forKey: url as NSString)
-            }
-            
-            DispatchQueue.main.async {
-                completion(downloadedImage)
-            }
-            
-        }.resume()
+        return languageArrayToDictionary(array: self.speak_languages)
         
     }
     
-    func getImage(with url: String, completion: @escaping (_ image: UIImage?)->()){
+    func learnLanguagesToDictionrary() -> [String: String] {
         
-        // Are we connected to the internet?
-        if !Internet.isOnline(){
-            return
+        return languageArrayToDictionary(array: self.learn_languages)
+        
+    }
+    
+    private func languageArrayToDictionary(array: [Language]) -> [String: String] {
+        
+        if array.isEmpty { return ["":""] }
+        
+        var dictionary: [String: String] = [:]
+        
+        for i in 0...array.count-1 {
+            
+            dictionary[String(i)] = array[i].name
+            
         }
         
-        if let image = cache.object(forKey: url as NSString){
-            completion(image)
-        }else{
-            downloadImage(with: url, completion: completion)
-        }
-        
+        return dictionary
     }
 }

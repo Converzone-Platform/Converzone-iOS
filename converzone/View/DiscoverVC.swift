@@ -12,7 +12,7 @@ let numberOfItemsPerFetch = 11
 var fetchedCount = 0
 var reachedTheEnd = false
 var discover_users: [User] = []
-var profileOf: User? = nil
+var profileOf: User = User()
 
 private let refreshControl = UIRefreshControl()
 
@@ -40,7 +40,7 @@ class DiscoverVC: UIViewController {
         }
     }
     
-    @objc func refreshUsers(sender: UIRefreshControl){
+    @objc private func refreshUsers(sender: UIRefreshControl){
         
         sender.beginRefreshing()
         
@@ -57,109 +57,62 @@ class DiscoverVC: UIViewController {
         
     }
     
-    func fetchUsers(){
-        Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/discover.php", parameters: ["min_id" : fetchedCount + 1, "max_id": fetchedCount + numberOfItemsPerFetch, "self_id": master?.uid as! Int]) { (data, response, error) in
-            
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-            
-            //Did the server give back an error?
-            if let httpResponse = response as? HTTPURLResponse {
-                
-                DispatchQueue.main.async {
-                    if !(httpResponse.statusCode == 200) {
-                        
-                        print(httpResponse.statusCode)
-                        
-                        if httpResponse.statusCode == 520{
-                            reachedTheEnd = true
-                        }
-                        
-                    }else{
-                        
-                        reachedTheEnd = false
-                        
-                        var temp: [User] = []
-                        
-                        for i in data! {
-                            
-                            let user = User()
-                            
-                            user.firstname = i["FIRSTNAME"] as? String
-                            user.lastname = i["LASTNAME"] as? String
-                            user.link_to_profile_image = i["PROFILE_PICTURE_URL"] as? String
-                            user.deviceToken = i["NOTIFICATIONTOKEN"] as? String
-                            
-                            if let str = i["USERID"] as? String, let uid = Int(str) {
-                                user.uid = uid
-                            }
-                            
-                            user.interests = NSAttributedString(string: (i["INTERESTS"] as? String)!)
-                            user.status = NSAttributedString(string: (i["STATUS"] as? String)!)
-                            user.country = Country(name: (i["COUNTRY"] as? String)!)
-                            
-                            if Int.random(in: 0...100) <= 20{
-                                user.discover_style = 1
-                            }else{
-                                user.discover_style = 0
-                            }
-                            
-                            // Get languages
-                            Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/languages.php", parameters: ["id": user.uid! as Any], completionHandler: { (languages, response, error) in
-                                
-                                if let httpResponse = response as? HTTPURLResponse {
-                                    
-                                    if !(httpResponse.statusCode == 200) {
-                                        
-                                        print(httpResponse.statusCode)
-                                    }
-                                    
-                                }
-                                
-                                if languages != nil {
-                                    
-                                    for language in languages!{
-                                        
-                                        let languageToAdd = Language(name: (language["LANGUAGE"] as? String)!)
-                                        
-                                        if language["PROFICIENCY"] as? String == "l"{
-                                            user.learn_languages.append(languageToAdd)
-                                        }else{
-                                            user.speak_languages.append(languageToAdd)
-                                        }
-                                        
-                                    }
-                                }
-                                
-                            })
-                            
-                            temp.append(user)
-                        }
-                        
-                        temp = temp.shuffled()
-                        
-                        discover_users.append(contentsOf: temp)
-                        
-                        // Index Path array
-                        var indexPath: [IndexPath]? = [IndexPath]()
-                        
-                        for i in 0...temp.count-1{
-                            
-                            indexPath?.append(IndexPath(row: self.tableView.numberOfRows(inSection: 0) + i , section: 0))
-                        }
-                        
-                        self.tableView.insertRows(at: indexPath!, with: .fade)
-                    }
-                }
-            }
-        }
+    private func fetchUsers(){
         
         fetchedCount += numberOfItemsPerFetch
+        
+        let user = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiewdwwdasuqzeiu")
+        let user1 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiewasdasdasdwwuqzeiu")
+        let user2 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiewdwasdwuqzeiu")
+        let user3 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiedad243swdwadawuqzeiu")
+        let user4 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiew3424234da34sdwwuqzeiu")
+        let user5 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiewd234wwuqzeiu")
+        let user6 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131ei424esa4234dwdwwuqzeiu")
+        let user7 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiesadwadsasdsdwwuqzeiu")
+        let user8 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eieasaswdwwuqzeiu")
+        let user9 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131e423iewdwwuq3242423423432434zeiu")
+        let user10 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "34")
+        let user11 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "123")
+        let user12 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiad42sdsdasdsadewdwwuqzeiu")
+        let user13 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "213123441eie42334wdwwuqzeiu")
+        let user14 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eie342wdwwuqzeiu")
+        
+        user.link_to_profile_image = "https://picsum.photos/id/1/500/500"
+        user1.link_to_profile_image = "https://picsum.photos/id/11/500/500"
+        user2.link_to_profile_image = "https://picsum.photos/id/12/500/500"
+        user3.link_to_profile_image = "https://picsum.photos/id/13/500/500"
+        user4.link_to_profile_image = "https://picsum.photos/id/14/500/500"
+        user5.link_to_profile_image = "https://picsum.photos/id/15/500/500"
+        user6.link_to_profile_image = "https://picsum.photos/id/16/500/500"
+        user7.link_to_profile_image = "https://picsum.photos/id/17/500/500"
+        user8.link_to_profile_image = "https://picsum.photos/id/18/500/500"
+        user9.link_to_profile_image = "https://picsum.photos/id/19/500/500"
+        user10.link_to_profile_image = "https://picsum.photos/id/20/500/500"
+        user11.link_to_profile_image = "https://picsum.photos/id/21/500/500"
+        user12.link_to_profile_image = "https://picsum.photos/id/22/500/500"
+        user13.link_to_profile_image = "https://picsum.photos/id/23/500/500"
+        user14.link_to_profile_image = "https://picsum.photos/id/24/500/500"
+        
+        discover_users.append(user)
+        discover_users.append(user1)
+        discover_users.append(user2)
+        discover_users.append(user3)
+        discover_users.append(user4)
+        discover_users.append(user5)
+        discover_users.append(user6)
+        discover_users.append(user7)
+        discover_users.append(user8)
+        discover_users.append(user9)
+        discover_users.append(user10)
+        discover_users.append(user11)
+        discover_users.append(user12)
+        discover_users.append(user13)
+        discover_users.append(user14)
+        
     }
     
     
-    func setUpNavBar(){
+    private func setUpNavBar(){
         navigationController?.navigationBar.prefersLargeTitles = true
         
         // This is not finished yet
@@ -233,9 +186,9 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             
             cell.name.text = discover_users[indexPath.row].fullname
             
-            discover_users[indexPath.row].getImage(with: discover_users[indexPath.row].link_to_profile_image!, completion: { (image) in
+            Internet.getImage(withURL: discover_users[indexPath.row].link_to_profile_image) { (image) in
                 cell.profileImage.image = image
-            })
+            }
             
             cell.profileImage.contentMode = .scaleAspectFill
             cell.profileImage.clipsToBounds = true
@@ -255,9 +208,10 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StatusDiscoverCell") as! StatusDiscoverCell
             
             cell.name.text = discover_users[indexPath.row].fullname
-            discover_users[indexPath.row].getImage(with: discover_users[indexPath.row].link_to_profile_image!, completion: { (image) in
+            
+            Internet.getImage(withURL: discover_users[indexPath.row].link_to_profile_image) { (image) in
                 cell.profileImage.image = image
-            })
+            }
             
             cell.profileImage.layer.cornerRadius = cell.profileImage.layer.frame.width / 2
             cell.profileImage.layer.masksToBounds = true
@@ -269,7 +223,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             cell.view.layer.shadowOpacity = 0.2
             cell.view.layer.shadowRadius = 4.0
             
-            cell.status.text = discover_users[indexPath.row].status?.string
+            cell.status.text = discover_users[indexPath.row].status.string
             
             return cell
             
@@ -277,9 +231,10 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ReflectionDiscoverCell") as! ReflectionDiscoverCell
             
             cell.name.text = discover_users[indexPath.row].fullname
-            discover_users[indexPath.row].getImage(with: discover_users[indexPath.row].link_to_profile_image!, completion: { (image) in
+            
+            Internet.getImage(withURL: discover_users[indexPath.row].link_to_profile_image) { (image) in
                 cell.profileImage.image = image
-            })
+            }
             
             cell.profileImage.layer.cornerRadius = 23
             cell.profileImage.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]

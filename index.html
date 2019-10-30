@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset='utf-8'>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+    <script src='js/jquery.svg3dtagcloud.min.js'></script>
+
+     <style type='text/css'>
+
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, font, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            outline: 0;
+            font-size: 100%;
+            vertical-align: baseline;
+            background: transparent;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background-color: #f8f8f8;
+        }
+
+    </style>
+
+    <script>
+
+        $( document ).ready( function() {
+
+            var entries = [
+                
+                { label: '🇦🇹', url: '', target: '_top' },
+                { label: '🇬🇪', url: '', target: '_top' },
+                { label: '🇨🇿', url: '', target: '_top' },
+                { label: '🇧🇪', url: '', target: '_top' },
+                { label: '🇱🇮', url: '', target: '_top' },
+                { label: '🇪🇸', url: '', target: '_top' },
+                { label: '🇫🇷', url: '', target: '_top' },
+                { label: '🇩🇪', url: '', target: '_top' },
+                { label: '🇨🇭', url: '', target: '_top' },
+                { label: '🇹🇷', url: '', target: '_top' },
+                { label: '🇺🇦', url: '', target: '_top' },
+                { label: '🇬🇧', url: '', target: '_top' },
+                { label: '🇦🇷', url: '', target: '_top' },
+                { label: '🇧🇷', url: '', target: '_top' },
+                { label: '🇨🇦', url: '', target: '_top' },
+                { label: '🇨🇾', url: '', target: '_top' },
+                { label: '🇬🇷', url: '', target: '_top' },
+                { label: '🇮🇱', url: '', target: '_top' },
+                { label: '🇮🇹', url: '', target: '_top' },
+                { label: '🇱🇺', url: '', target: '_top' },
+                { label: '🇲🇰', url: '', target: '_top' },
+                { label: '🇫🇲', url: '', target: '_top' },
+                { label: '🇸🇪', url: '', target: '_top' },
+                { label: '🇿🇼', url: '', target: '_top' },
+                { label: '🇹🇭', url: '', target: '_top' },
+                { label: '🇱🇰', url: '', target: '_top' },
+                { label: '🇸🇷', url: '', target: '_top' },
+                { label: '🇸🇿', url: '', target: '_top' }
+
+            ];
+
+            var settings = {
+
+                entries: entries,
+                width: $( document ).width(),
+                height: $( document ).height(),
+                radius: '65%',
+                radiusMin: 75,
+                bgDraw: true,
+                bgColor: '#f8f8f8',
+                opacityOver: 1.00,
+                opacityOut: 0.05,
+                opacitySpeed: 6,
+                fov: 800,
+                speed: 0.3,
+                fontSize: '70',
+                fontColor: '#fff',
+                fontWeight: 'normal',//bold
+                fontStyle: 'normal',//italic
+                fontStretch: 'normal',//wider, narrower, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded
+                tooltipFontFamily: 'Oswald, Arial, sans-serif',
+                tooltipFontSize: '11',
+                tooltipFontColor: '#fff',
+                tooltipFontWeight: 'normal',//bold
+                tooltipFontStyle: 'normal',//italic
+                tooltipFontStretch: 'normal',//wider, narrower, ultra-condensed, extra-condensed, condensed, semi-condensed, semi-expanded, expanded, extra-expanded, ultra-expanded
+                tooltipFontToUpperCase: false,
+                tooltipTextAnchor: 'left',
+                tooltipDiffX: 0,
+                tooltipDiffY: 10
+
+            };
+
+            //var svg3DTagCloud = new SVG3DTagCloud( document.getElementById( 'holder'  ), settings );
+            $( '#holder' ).svg3DTagCloud( settings );
+
+        } );
+        
+    </script>
+
+</head>
+
+<body>
+
+    <center>
+        <div id='holder'></div>
+    </center>
+
+</body>

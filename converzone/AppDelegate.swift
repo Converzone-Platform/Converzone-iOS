@@ -9,48 +9,59 @@
 import UIKit
 import CoreData
 import UserNotifications
+import Firebase
+import FirebaseMessaging
 
-@UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate {
+@UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
     var window: UIWindow?
     
-    fileprivate func getNotificationPermissionFromTheUser(_ application: UIApplication) {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound], completionHandler: {(granted, error) in})
-        application.registerForRemoteNotifications()
-    }
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        _ = Internet.init()
+        UNUserNotificationCenter.current().delegate = self
+    
+        FirebaseApp.configure()
         
-        getNotificationPermissionFromTheUser(application)
+        Messaging.messaging().delegate = self
+        
+        //Internet.getMaster()
         
         return true
     }
     
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        Internet.socket.connect()
+    // MARK: Messaging
+    
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+      print("Firebase registration token: \(fcmToken)")
+
+      let dataDict:[String: String] = ["token": fcmToken]
+      NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+        
+      //Internet.upload(token: fcmToken)
     }
     
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        Internet.socket.disconnect()
-    }
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-        Internet.socket.disconnect()
-    }
+    // MARK: - Notifications
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
-        master?.deviceToken = deviceTokenString
+        
+        Messaging.messaging().apnsToken = deviceToken
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("failed to register for remote notifications: \(error.localizedDescription)")
+        
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        print("Received push notification: \(userInfo)")
+        
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        
+    }
+    
+    // This method will be called when app received push notifications in foreground
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void){
+        completionHandler([.alert, .badge, .sound])
     }
     
     // MARK: - Core Data stack

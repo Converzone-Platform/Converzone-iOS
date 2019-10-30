@@ -26,9 +26,9 @@ class LongTextEditVC: UIViewController {
         text.delegate = self
         
         if longTextInputFor == .interests {
-            text.attributedText = master?.interests
+            text.attributedText = master.interests
         }else{
-            text.attributedText = master?.status
+            text.attributedText = master.status
         }
         
         self.navigationItem.title =  String(1000 - text.text.count)
@@ -58,25 +58,24 @@ class LongTextEditVC: UIViewController {
         self.navigationItem.largeTitleDisplayMode = .never
     }
     
-    func setUpSaveButton(){
+    private func setUpSaveButton(){
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(save))
         
     }
     
-    @objc func save(){
+    @objc private func save(){
         
         if longTextInputFor == .interests{
-            master?.interests = text.attributedText
+            master.interests = text.attributedText
         }else{
-            master?.status = text.attributedText
+            master.status = text.attributedText
         }
         
-        // Go back to previous vc
         Navigation.pop(context: self)
     }
     
-    @objc func handleKeyboard(_ notification: Notification){
+    @objc private func handleKeyboard(_ notification: Notification){
         
         let info = notification.userInfo!
         let keyboardFrame: CGRect = (info[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue

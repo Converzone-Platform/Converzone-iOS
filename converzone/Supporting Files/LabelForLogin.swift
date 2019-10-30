@@ -5,7 +5,6 @@
 //  Created by Goga Barabadze on 01.12.18.
 //  Copyright © 2018 Goga Barabadze. All rights reserved.
 //
-
 import UIKit
 
 open class LabelForLogin : UILabel {

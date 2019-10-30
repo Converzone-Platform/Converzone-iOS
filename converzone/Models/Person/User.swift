@@ -14,8 +14,8 @@ class User: Person, Hashable {
         return lhs.hashValue == rhs.hashValue
     }
     
-    var hashValue: Int {
-        return self.uid!.hashValue
+    func hash(into hasher: inout Hasher){
+        hasher.combine(self.uid)
     }
     
     //Platform Informations

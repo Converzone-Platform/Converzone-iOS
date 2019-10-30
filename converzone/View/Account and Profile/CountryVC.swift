@@ -9,6 +9,7 @@
 import UIKit
 
 class CountryVC: UIViewController {
+    
     @IBOutlet weak var searchBar: UISearchBar!
     
     var currentCountries: [Country]? = nil
@@ -19,7 +20,7 @@ class CountryVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentCountries = world.getCountriesOf(master?.continent ?? "Europe")
+        currentCountries = world.getCountriesOf(master.continent )
         
         filteredCountries = currentCountries
     }
@@ -46,18 +47,21 @@ extension CountryVC: UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        master?.country = filteredCountries![indexPath.row]
+        master.country = filteredCountries![indexPath.row]
         
-        if master?.changingData == .editing{
+        if master.editingMode == .editing{
             Navigation.pop(context: self)
             Navigation.pop(context: self)
+            
+            Internet.upload(country: master.country)
+            
         }else{
             Navigation.push(viewController: "UsersLanguagesVC", context: self)
         }
         
     }
     
-    func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage? {
+    private func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height : CGFloat)->UIImage? {
         let oldWidth = image.size.width;
         let oldHeight = image.size.height;
         

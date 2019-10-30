@@ -8,193 +8,31 @@
 
 import SystemConfiguration
 import UIKit
-import SocketIO
 import Network
+import FirebaseAuth
+import FirebaseDatabase
+import FirebaseStorage
+import MapKit
 
 public class Internet: NSObject {
     
-    static var baseURL = "https://converzone.htl-perg.ac.at"
+    static var update_chat_tableview_delegate: ChatUpdateDelegate?
+    static var update_conversations_tableview_delegate: ConversationUpdateDelegate?
+    static var database_reference = Database.database().reference()
+    static var storage_reference = Storage.storage().reference()
     
-    static let socket = SocketManager(socketURL: URL(string: "wss://converzone.htl-perg.ac.at" + ":5134")!, config: [.log(true), .compress]).defaultSocket
-    
-    // Maybe "weak" here?!
-    var chat_delegate: ChatUpdateDelegate?
-    var conversations_delegate: ConversationUpdateDelegate?
-    
-    override init() {
+    /// Set up value listeners for Database
+    class func setUpListeners(){
         
-        super.init()
+//        self.listenForNewConversations()
+//        self.listenForDidChangeAuthState()
         
-        Internet.socket.on(clientEvent: .connect) {data, ack in
-            
-            if master!.uid != nil && master!.addedUserSinceLastConnect == false{
-                Internet.socket.emit("add-user", with: [["id": master?.uid]])
-                master?.addedUserSinceLastConnect = true
-            }
-        }
-
-        Internet.socket.on(clientEvent: .disconnect) { (data, ack) in
-            
-            master?.addedUserSinceLastConnect = false
-            
-        }
-
-        Internet.socket.on("chat-message") {  data, ack in
-
-            let dic = data[0] as? [String: Any]
-
-            let text_message = TextMessage(text: NSMutableAttributedString(string: dic!["message"] as! String), is_sender: false)
-
-            let string_date = dic!["time"] as? String
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss:SSSXXXXX"
-
-            text_message.date = dateFormatter.date(from: string_date!)
-
-            // Find a user for this message
-            var user = master?.conversations.last(where: {$0.uid == dic!["sender"] as? Int})
-            
-            if user != nil{
-                
-                // Make duplicates disappear
-                let temp = user?.conversation.count
-                
-                // we use the standard iOS Notification banners from now on
-//                if temp == user?.conversation.count{
-//                    if !(indexOfUser == user!.uid) {
-//                        self.displayNotificationBanner(sender: (user?.fullname)!, typeOfMessage: text_message.color!, profilePictureURL: user!.link_to_profile_image!)
-//                    }
-//                }
-                
-                user?.conversation.append(text_message)
-                
-                user?.openedChat = indexOfUser == user?.uid
-                self.chat_delegate?.didUpdate(sender: self)
-                self.conversations_delegate?.didUpdate(sender: self)
-            }else{
-                
-                // Create a new user
-                Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/getInformationOfUser.php", parameters: ["id": dic!["sender"] as! Int], completionHandler: { (user_data, response, error) in
-                    
-                    if error != nil {
-                        print(error!.localizedDescription)
-                        return
-                    }
-                    
-                    //Did the server give back an error?
-                    if let httpResponse = response as? HTTPURLResponse {
-                        
-                        if !(httpResponse.statusCode == 200) {
-                            
-                            print(httpResponse.statusCode)
-                            
-                        }
-                    }
-                    
-                    let new_user_data = user_data![0]
-                    
-                    user = User()
-                    
-                    user?.firstname = new_user_data["FIRSTNAME"] as! String
-                    user?.lastname = new_user_data["LASTNAME"] as! String
-                    user?.uid = Int((user_data![0]["USERID"] as! NSString).doubleValue)
-                    user?.gender = Gender.toGender(gender: (new_user_data["GENDER"] as! String))
-                    user?.status = NSAttributedString(string: (new_user_data["STATUS"] as! String))
-                    user?.interests = NSAttributedString(string: (new_user_data["INTERESTS"] as! String))
-                    user?.country = Country(name: (new_user_data["COUNTRY"] as! String))
-                    user?.deviceToken = new_user_data["NOTIFICATIONTOKEN"] as! String
-                    user?.link_to_profile_image = new_user_data["PROFILE_PICTURE_URL"] as! String
-                    
-                    let string_date = new_user_data["BIRTHDATE"] as! String
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "dd/MM/yy"
-                    dateFormatter.timeZone = TimeZone(secondsFromGMT: TimeZone.current.secondsFromGMT())
-                    user?.birthdate = dateFormatter.date(from: string_date)
-                    
-                    
-                    Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/languages.php", parameters: ["id": user?.uid as! Int], completionHandler: { (languages, language_response, language_error) in
-
-                        if language_error != nil{
-                            print(language_error?.localizedDescription)
-                        }
-
-                        if let httpResponse = language_response as? HTTPURLResponse {
-
-                            if !(httpResponse.statusCode == 200) {
-
-                                print(httpResponse.statusCode)
-                            }
-
-                        }
-                        
-                        if languages != nil {
-
-                            for language in languages!{
-
-                                let languageToAdd = Language(name: (language["LANGUAGE"] as? String)!)
-
-                                if language["PROFICIENCY"] as? String == "l"{
-                                    user!.learn_languages.append(languageToAdd)
-                                }else{
-                                    user!.speak_languages.append(languageToAdd)
-                                }
-
-                            }
-                        }
-
-                    })
-                    
-                    user!.openedChat = false
-                    
-                    master?.conversations.append(user!)
-                    
-                    //self.displayNotificationBanner(sender: (user?.fullname)!, typeOfMessage: text_message.color!, profilePictureURL: user!.link_to_profile_image!)
-                    
-                    self.chat_delegate?.didUpdate(sender: self)
-                    self.conversations_delegate?.didUpdate(sender: self)
-                })
-            }
-            
-            master?.conversations.removeDuplicates()
-            
-        }
-
-        Internet.socket.connect()
     }
     
-    func genderConverter(gender: String) -> Gender{
-        switch gender {
-        case "f":
-            return Gender.female
-        case "m":
-            return Gender.male
-        case "n":
-            return Gender.non_binary
-        default:
-            return Gender.non_binary
-        }
-    }
+    // MARK: - Connectivity
     
     
-    
-    func resizeImageWithAspect(image: UIImage, scaledToMaxWidth width:CGFloat, maxHeight height :CGFloat)->UIImage? {
-        let oldWidth = image.size.width;
-        let oldHeight = image.size.height;
-        
-        let scaleFactor = (oldWidth > oldHeight) ? width / oldWidth : height / oldHeight;
-        
-        let newHeight = oldHeight * scaleFactor;
-        let newWidth = oldWidth * scaleFactor;
-        let newSize = CGSize(width: newWidth, height: newHeight)
-        
-        UIGraphicsBeginImageContextWithOptions(newSize,false,UIScreen.main.scale);
-        
-        image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height));
-        let newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        return newImage
-    }
-    
+    /// Return if we have an internet connection. No differenciation with Cellular or Wifi. They are treated the same way
     class func isOnline() -> Bool {
         
         var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
@@ -212,13 +50,6 @@ public class Internet: NSObject {
             return false
         }
         
-        /* Only Working for WIFI
-         let isReachable = flags == .reachable
-         let needsConnection = flags == .connectionRequired
-         
-         return isReachable && !needsConnection
-         */
-        
         // Working for Cellular and WIFI
         let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
         let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
@@ -228,155 +59,458 @@ public class Internet: NSObject {
         
     }
     
+    // MARK: Phone verification
     
-    class func isConnectedToWifi() -> Bool {
-        var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
-        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
-        zeroAddress.sin_family = sa_family_t(AF_INET)
-        
-        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
-            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {zeroSockAddress in
-                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
-            }
+    /// Requests a silent push notification to the device and afterwards it send a SMS to the phone number
+    /// - Parameter phoneNumber: The phone number to which the SMS is sent
+    static func verify(phoneNumber: String){
+    
+        PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationID, error) in
+            
+          if error != nil {
+            return
+          }
+            
+          UserDefaults.standard.setValue(verificationID, forKey: "verificationID")
         }
         
-        var flags: SCNetworkReachabilityFlags = SCNetworkReachabilityFlags(rawValue: 0)
-        if SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) == false {
-            return false
+    }
+    
+    
+    /// Sign in our user
+    /// - Parameter verificationID: The verification ID obtained from invoking verifyPhoneNumber:completion:
+    /// - Parameter verificationCode: The verification code obtained from the user.
+    /// - Parameter closure: Get back a bool which says if our sign in was successful
+    static func signIn(with verificationCode: String, closure: @escaping (Bool) -> Void) {
+        
+        guard let verificationID = UserDefaults.standard.string(forKey: "verificationID") else{
+            return
         }
         
-         let isReachable = flags == .reachable
-         let needsConnection = flags == .connectionRequired
-         
-         return isReachable && !needsConnection
- 
-    }
-    
-    class func database(url: String = baseURL, parameters: [String: Any], completionHandler: @escaping (_ json: [String: Any]?, _ response: URLResponse?, _ error: Error?) -> ()) {
+        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: verificationCode)
         
-        var request = URLRequest(url: URL(string: url)! )
-        
-        request.httpMethod = "POST"
-        
-        request.httpBody = parameters.percentEscaped().data(using: .utf8)
-        
-        URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+        Auth.auth().signIn(with: credential) { (authResult, error) in
             
-            if error != nil{
-                
-                completionHandler(nil, response, error)
-                
-                return
-            }
+          if error != nil {
             
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: [])
-                
-                guard let jsonArray = json as? [String: Any] else {
-                    
-                    completionHandler(nil, response, error)
-                    
-                    return
-                }
-                
-                completionHandler(jsonArray, response, error)
-                
-            } catch {
-                completionHandler(nil, response, error)
-            }
+            closure(false)
             
-        }.resume()
+            return
+          }
+          
+            closure(true)
+            
+            master.uid = Auth.auth().currentUser!.uid
+            
+            // Delete Verification Code
+            UserDefaults.standard.removeObject(forKey: "verificationID")
+        }
         
     }
     
-    class func databaseWithMultibleReturn(url: String = baseURL, parameters: [String: Any], completionHandler: @escaping (_ json: [[String: Any]]?, _ response: URLResponse?, _ error: Error?) -> ()) {
-        
-        var request = URLRequest(url: URL(string: url)! )
-        
-        request.httpMethod = "POST"
-        
-        request.httpBody = parameters.percentEscaped().data(using: .utf8)
-        
-        URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+    // MARK: Download and cache image
+    
+    /// Cache all images in the app
+    static let imageCache = NSCache<NSString, UIImage>()
+    
+    
+    /// Download any image from any url
+    /// - Parameter url: The url from where to download the image
+    /// - Parameter completion: Asynchronously give back the image we retrieved
+    private static func downloadImage(withURL url: URL, completion: @escaping (_ image:UIImage?)->()) {
+        let dataTask = URLSession.shared.dataTask(with: url) { data, responseURL, error in
+            var downloadedImage:UIImage?
             
-            if error != nil{
-                
-                completionHandler(nil, response, error)
-                
-                return
+            if let data = data {
+                downloadedImage = UIImage(data: data)
             }
             
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: [])
-                
-                guard let jsonArray = json as? [[String: Any]] else {
-                    
-                    completionHandler(nil, response, error)
-                    
-                    return
-                }
-                
-                
-                completionHandler(jsonArray, response, error)
-                
-            } catch {
-                completionHandler(nil, response, error)
+            if downloadedImage != nil {
+                imageCache.setObject(downloadedImage!, forKey: url.absoluteString as NSString)
             }
             
-            }.resume()
+            DispatchQueue.main.async {
+                completion(downloadedImage)
+            }
+            
+        }
+        
+        dataTask.resume()
+    }
+    
+    /// Check if we need to download the image from the url or if we have it cached
+    /// - Parameter url: The url from where to download the image
+    /// - Parameter completion: Asynchronously give back the image we retrieved
+    static func getImage(withURL url: String, completion: @escaping (_ image:UIImage?)->()) {
+        
+        guard let url_object = URL(string: url) else{
+            return
+        }
+        
+        if let image = imageCache.object(forKey: url as NSString) {
+            completion(image)
+        } else {
+            downloadImage(withURL: url_object, completion: completion)
+        }
+    }
+    
+    // MARK: - Sending messages
+    
+    /// Decides what type of message it is and redirects to it's specific function to further handling
+    /// - Parameter message: The message to send
+    /// - Parameter receiver: The user who will receive the message
+    static func send(message: Message, receiver: User){
+        
+        switch message {
+        case is TextMessage: send(message: message as! TextMessage, receiver: receiver)
+        case is InformationMessage: send(message: message as! InformationMessage, receiver: receiver)
+        default: print("Message type is not supported yet")
+        }
         
     }
     
-    class func databaseWithoutReturn(url: String = baseURL, parameters: [String: Any], completionHandler: @escaping (_ response: URLResponse?, _ error: Error?) -> ()) {
+    /// Send the TextMessage to the database. Firebase Functions will send it to the right user automatically
+    /// - Parameter message: The TextMessage to send
+    /// - Parameter receiver: The user who will receive the message
+    private static func send(message: TextMessage, receiver: User){
         
-        var request = URLRequest(url: URL(string: url)! )
+        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: receiver.uid)).child("messages").child(String(message.hashValue)).setValue(["sender": master.uid, "receiver": receiver.uid, "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!), "text": message.text!, "type": "TextMessage"])
         
-        request.httpMethod = "POST"
+    }
+    
+    /// Send the InformationMessage to the database. Firebase Functions will send it to the right user automatically
+    /// - Parameter message: The InformationMessage to send
+    /// - Parameter receiver: The user who will receive the message
+    private static func send(message: InformationMessage, receiver: User){
         
-        request.httpBody = parameters.percentEscaped().data(using: .utf8)
+        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: receiver.uid)).child("messages").child(String(message.hashValue)).setValue(["sender": master.uid, "receiver": receiver.uid, "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!), "text": message.text!, "type": "InformationMessage"])
         
-        URLSession.shared.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
+    }
+    
+    /// Generate one single conversation id out of two user ids
+    /// - Parameter first: user id A
+    /// - Parameter second: user id B
+    private static func generateConversationID(first: String, second: String) -> String{
+        
+        if first > second {
+            
+            return first + second
+            
+        }
+        
+        return second + first
+        
+    }
+    
+    // MARK: Receiving messages
+    
+    /// Listener for new conversations. Once it receivers a new conversation it sets a listener for messages in the new conversation
+    private static func listenForNewConversations(){
+        
+        self.database_reference.child("users").child(master.uid).child("conversations").observe(.childAdded) { (snapshot) in
+
+            let conversationid = snapshot.value as! String
+            //let partnerid = snapshot.key
+            
+            // MARK: TODO - Save new user and get their data
+            
+            // Add a listener to the conversation
+            listenForNewMessageAt(conversationID: conversationid)
+            
+        }
+
+    }
+    
+    /// Listen for messages in the conversation
+    private static func listenForNewMessageAt(conversationID: String){
+        
+        self.database_reference.child("conversations").child(conversationID).child("messages").queryOrdered(byChild: "date").queryLimited(toLast: 10).observe(.childAdded) { (snapshot) in
+            
+            let message = snapshot.value as! NSDictionary
+            
+            receive(message: message)
+            
+        }
+        
+    }
+    
+    
+    /// Decides what type of message it is and redirects to it's specific function to further handling
+    /// - Parameter message: The received message
+    private static func receive(message: NSDictionary){
+        
+        let type = message["type"] as! String
+        
+        switch(type){
+        case "TextMessage": receive(textMessage: message)
+        case "InformationMessage": receive(informationMessage: message)
+        default: print("Message type is not supported yet")
+        }
+        
+    }
+    
+    /// Handles the receiving of a InformationMessages
+    /// - Parameter textMessage: The received InformationMessage
+    private static func receive(informationMessage: NSDictionary){
+        
+        let sender = informationMessage["sender"] as! String
+        let is_sender = sender == master.uid
+        
+        // MARK: TODO - If I am the sender and I receive the message back we can say that it works as a sent indicator for messages
+        if is_sender{
+            return
+        }
+        
+        let text = informationMessage["text"] as! String
+        let receiver = informationMessage["receiver"] as! String
+        
+        let date_string = informationMessage["date"] as! String
+        let date = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: date_string)
+        
+        let message = InformationMessage()
+        message.text = text
+        message.is_sender = is_sender
+        message.date = date
+        
+        findConversationAndAddMessage(message: message, uid: receiver)
+        findConversationAndAddMessage(message: message, uid: sender)
+        
+    }
+    
+    /// Handles the receiving of a TextMessage
+    /// - Parameter textMessage: The received TextMessage
+    private static func receive(textMessage: NSDictionary){
+        
+        let sender = textMessage["sender"] as! String
+        let is_sender = sender == master.uid
+        
+        // MARK: TODO - If I am the sender and I receive the message back we can say that it works as a sent indicator for messages
+        if is_sender{
+            return
+        }
+        
+        let text = textMessage["text"] as! String
+        let receiver = textMessage["receiver"] as! String
+        
+        let date_string = textMessage["date"] as! String
+        let date = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: date_string)
+        
+        let message = TextMessage()
+        message.text = text
+        message.is_sender = is_sender
+        message.date = date
+        
+        findConversationAndAddMessage(message: message, uid: receiver)
+        findConversationAndAddMessage(message: message, uid: sender)
+        
+    }
+    
+    /// Find the conversation with the correct partner id and add the message
+    private static func findConversationAndAddMessage(message: Message, uid: String){
+        
+        // Iterate through the conversations and find the right person
+        for user in master.conversations {
+            
+            if user.uid == uid {
+                
+                user.conversation.append(message)
+                
+                self.update_chat_tableview_delegate?.didUpdate(sender: Internet())
+                
+            }
+            
+        }
+        
+    }
+    
+    // MARK: Push Notifications
+    
+    /// Update the Push Notification token to Firebase
+    /// - Parameter token: The token to update
+    static func upload(token: String){
+        
+        self.database_reference.child("users").child(master.uid).updateChildValues(["token": token])
+        
+    }
+    
+    // MARK: Master update
+    
+    /// Packs all the data from the master and sends it to the database
+    static func upload(){
+        
+        self.database_reference.child("users").child(master.uid).updateChildValues(master.toDictionary())
+        
+    }
+    
+    /// Update the country on the database
+    /// - Parameter country: The country to chango to
+    static func upload(country: Country){
+        
+        self.database_reference.child("users").child(master.uid).updateChildValues(["country" : country.name!])
+        
+    }
+    
+    /// Get the newest version of the master from the database
+    static func getMaster(){
+        
+        self.database_reference.child("users").child(master.uid).observeSingleEvent(of: .value) { (snapshot) in
+            
+            let values = snapshot.value as! NSDictionary
+            
+            transformIntoMasterObject(dictionary: values)
+            
+        }
+        
+    }
+    
+    /// User was logged out (or logged in)
+    private static func listenForDidChangeAuthState(){
+        
+        Auth.auth().addStateDidChangeListener { (auth, user) in
+            
+            if user == nil {
+                
+                Internet.signOut()
+                Navigation.change(navigationController: "SplashScreenVC")
+                
+            }
+            
+        }
+        
+    }
+    
+    static func signOut(){
+        do{
+            try Auth.auth().signOut()
+            UserDefaults.standard.removeObject(forKey: "DidFinishRegistration")
+        }catch{
+            alert("Signing out ...", "An unknown error occurred")
+        }
+    }
+    
+    /// Upload profile image to database
+    /// - Parameter image: The image to upload
+    static func upload(image: UIImage){
+        
+        let jpeg = image.jpegData(compressionQuality: 1.0)
+        
+        storage_reference.child("profile_images").child(master.uid + ".jpg").putData(jpeg!, metadata: nil) { (metadata, error) in
             
             if error != nil {
                 
-                completionHandler(response, error)
-                
+                alert("Image upload went wrong", error!.localizedDescription)
                 return
             }
             
-            if let httpResponse = response as? HTTPURLResponse {
+            self.storage_reference.child("/profile_images/" + master.uid + ".jpg").downloadURL { (url, error) in
                 
-                if !(httpResponse.statusCode == 200) {
-                    
-                    print(httpResponse.statusCode)
+                if error != nil {
+                    print(error?.localizedDescription as Any)
+                    return
                 }
                 
+                master.link_to_profile_image = url!.absoluteString
+                
+                Internet.upload(linkToProfileImage: master.link_to_profile_image)
             }
-            
-        }.resume()
+        }
+    }
+    
+    /// Upload link to profile image to Firebase Database
+    /// - Parameter linkToProfileImage: Link to be uploaded
+    private static func upload(linkToProfileImage: String){
+        self.database_reference.child("users").child(master.uid).updateChildValues(["link_to_profile_image": linkToProfileImage])
+    }
+    
+    /// Transforms the dictionary to master
+    private static func transformIntoMasterObject (dictionary: NSDictionary) {
+        
+        master.firstname = dictionary["firstname"] as! String
+        master.lastname = dictionary["lastname"] as! String
+        master.gender = Gender.toGender(gender: dictionary["gender"] as! String)
+        master.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: dictionary["birthdate"] as! String)
+        master.country = Country(name: dictionary["country"] as! String)
+        master.link_to_profile_image = dictionary["link_to_profile_image"] as! String
+        master.device_token = dictionary["device_token"] as! String
+        master.discoverable = dictionary["discoverable"] as! Bool
+        master.interests = NSAttributedString(string: dictionary["interests"] as! String)
+        master.status = NSAttributedString(string: dictionary["status"] as! String)
         
     }
     
-    class func sendText(message: String, to: User, completion: @escaping (_ ack: [Any]) -> ()){
+    // MARK: Languages
+    
+    /// Upload Languages of the master to the database
+    static func uploadLanguages(){
         
-        var data = [String: Any]()
-        data["sender"] = master?.uid
-        data["message"] = message
-        data["receiver"] = to.uid
-        data["deviceToken"] = to.deviceToken
-        data["sound"] = "ping.aiff"
-        data["senderName"] = master?.fullname
-        data["type"] = "TextMessage"
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss:SSSXXXXX"
-        data["time"] = dateFormatter.string(from: NSDate() as Date)
-
-        socket.emitWithAck("chat-message", data).timingOut(after: 1) { (ack) in
+        Internet.removeLanguages()
+        
+        self.database_reference.child("users").child(master.uid).child("speak_languages").setValue(master.speakLanguagesToDictionary())
+        
+        if master.learn_languages.count == 0 { return }
+        
+        self.database_reference.child("users").child(master.uid).child("learn_languages").setValue(master.learnLanguagesToDictionrary())
+    }
+    
+    /// Remove all languages of the master in the database
+    private static func removeLanguages(){
+        
+        self.database_reference.child("users").child(master.uid).child("speak_languages").removeValue()
+        self.database_reference.child("users").child(master.uid).child("learn_languages").removeValue()
+        
+    }
+    
+    /// Get languages for the uis
+    /// - Parameter uid: Id from the user we want the languages for
+    /// - Parameter progress: "speak_languages" or "learn_languages"
+    /// - Parameter closure: Give back the languages array once the asynchronous task is finished
+    static func getLanguagesFor(uid: String, progress: String, closure: @escaping ([Language]?) -> Void){
+        
+        self.database_reference.child("users").child(uid).child(progress).observeSingleEvent(of: .value) { (snapshot) in
             
-            completion(ack)
+            guard let language_array = snapshot.value as? [String] else {
+                closure(nil)
+                return
+            }
             
+            var languages: [Language] = []
+            
+            for language in language_array {
+                languages.append(Language(name: language))
+            }
+            
+            closure(languages)
         }
         
+    }
+    
+    // MARK: Blocking and reporting users
+    
+    /// Report a person
+    /// - Parameter userid: The  uid of the person to be reported
+    /// - Parameter reason: Reson of report
+    static func report(userid: String, reason: String){
+        
+        self.database_reference.child("users").child(master.uid).child("reportee").child(userid).setValue(["reason" : reason])
+        
+    }
+    
+    /// Block an user locally and on the database
+    /// - Parameter userid: User's uid to be blocked
+    static func block(userid: String){
+        
+        master.blocked_users.insert(userid)
+        
+        self.database_reference.child("users").child(master.uid).child("blockee").setValue(Array(master.blocked_users))
+        
+    }
+    
+    /// Unblock an user locally and on the database
+    /// - Parameter userid: User's uid to be unblocked
+    static func unblock(userid: String){
+        
+        master.blocked_users.remove(userid)
+        
+        self.database_reference.child("users").child(master.uid).child("blockee").setValue(Array(master.blocked_users))
     }
 }

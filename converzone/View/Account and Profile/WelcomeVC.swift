@@ -35,13 +35,12 @@ class WelcomeVC: NoAutoRotateViewController {
             
         }){ (bool) in
         
-            master?.changingData = .editing
-            
-            // Emit
-            Internet.socket.emit("add-user", with: [["id": master?.uid]])
+            master.editingMode = .editing
             
             // Animate to actual app
-            Navigation.present(controller: "MainTBC", context: self)
+            Navigation.change(navigationController: "MainTBC")
+            
+            UserDefaults.standard.set(true, forKey: "DidFinishRegistration")
             
         }
     }
@@ -55,6 +54,8 @@ class WelcomeVC: NoAutoRotateViewController {
         
         journey_outlet.layer.cornerRadius = 15
         journey_outlet.layer.masksToBounds = true
+        
+        
     }
     
     override var prefersStatusBarHidden: Bool{

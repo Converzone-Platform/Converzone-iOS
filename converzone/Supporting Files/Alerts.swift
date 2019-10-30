@@ -8,10 +8,16 @@
 
 import UIKit
 
-func alert(_ title: String, _ message: String, _ target: UIViewController){
+func alert(_ title: String, _ message: String, _ target: UIViewController = UIApplication.currentViewController()!, closure: (() -> Void)? = nil){
     
     let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-    target.present(alert, animated: true, completion: nil)
     
+    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alert) in
+        if closure != nil{
+            closure!()
+        }
+    }))
+    
+    target.present(alert, animated: true, completion: nil)
 }
+

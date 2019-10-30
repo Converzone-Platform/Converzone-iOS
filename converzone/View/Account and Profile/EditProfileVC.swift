@@ -37,11 +37,11 @@ class EditProfileVC: UIViewController{
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(donePressed))
         self.navigationItem.rightBarButtonItem = doneButton
         
-        if master?.changingData == .editing && Internet.isOnline(){
+        if master.editingMode == .editing && Internet.isOnline(){
             
-            master?.getImage(with: master!.link_to_profile_image!, completion: { (image) in
+            Internet.getImage(withURL: master.link_to_profile_image) { (image) in
                 self.profile_image.image = image
-            })
+            }
             
             profile_image.layer.masksToBounds = true
             profile_image.layer.cornerRadius = profile_image.frame.width / 2
@@ -57,34 +57,51 @@ class EditProfileVC: UIViewController{
         tableView.reloadData()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        // We need to save the first and lastname from the input fields
+        
+        guard let firstname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! NormalInputCell).input!.text else{
+            return
+        }
+        
+        guard let lastname = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! NormalInputCell).input!.text else{
+            return
+        }
+        
+        master.firstname = firstname
+        master.lastname = lastname
+        
+    }
+    
     @objc func endEditing() {
         view.endEditing(true)
         
         view.removeGestureRecognizer(tap)
     }
     
-    func checkInputOfUser(_ firstname: String, _ lastname: String, _ gender: String, _ date: String, _ interests: String, _ status: String) -> Bool{
+    private func checkInputOfUser(_ firstname: String, _ lastname: String, _ gender: String, _ date: String, _ interests: String, _ status: String) -> Bool{
         // Check if everything is fine with the inputs of the user
         
         // 1. Did the user pick an image?
         if profile_image.image.hashValue == UIImage(named: "user").hashValue {
-            alert("Profile Image", "Please choose a profile image", self)
+            alert("Profile Image", "Please choose a profile image")
             return false
         }
         
         // 2. No emojis in the first and last name
         if firstname.containsEmoji{
-            alert("Firstname", "Please make sure you don't use emojis in your firstname", self)
+            alert("Firstname", "Please make sure you don't use emojis in your firstname")
             return false
         }else{
-            master?.firstname = firstname.trimmingCharacters(in: .whitespaces).capitalizingFirstLetter()
+            master.firstname = firstname.trimmingCharacters(in: .whitespaces).capitalizingFirstLetter()
         }
         
         if lastname.containsEmoji{
-            alert("Lastname", "Please make sure you don't use emojis in your lastname", self)
+            alert("Lastname", "Please make sure you don't use emojis in your lastname")
             return false
         }else{
-            master?.lastname = lastname.trimmingCharacters(in: .whitespaces).capitalizingFirstLetter()
+            master.lastname = lastname.trimmingCharacters(in: .whitespaces).capitalizingFirstLetter()
         }
         
         // 3. Did the user input a gender outside of our defined ones?
@@ -96,10 +113,10 @@ class EditProfileVC: UIViewController{
         }
         
         if found == false{
-            alert("Gender", "Please make sure you enter one of the predefined genders", self)
+            alert("Gender", "Please make sure you enter one of the predefined genders")
             return false
         }else{
-            master?.gender = Gender.toGender(gender: gender.trimmingCharacters(in: .whitespaces))
+            master.gender = Gender.toGender(gender: gender.trimmingCharacters(in: .whitespaces))
         }
         
         // 4. Can the date be correct?
@@ -112,210 +129,98 @@ class EditProfileVC: UIViewController{
             
             // Let's check if the components can be correct practically
             if components.year! > 3000{
-                alert("Wow", "Are you from the future?", self)
+                alert("Wow", "Are you from the future?")
                 return false
             }else{
                 
-                master?.birthdate = newDate
+                master.birthdate = newDate
             }
             
         }else{
-            alert("Birthdate", "Please enter a valid date", self)
+            alert("Birthdate", "Please enter a valid date")
             return false
         }
         
         return true
     }
     
-    @objc func donePressed(){
+    @objc private func donePressed(){
         
         // Get inputs
         
         var firstname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! NormalInputCell).input!.text
         firstname = firstname?.trimmingCharacters(in: .whitespacesAndNewlines)
         if firstname == "" {
-            alert("Firstname", "Please tell us your first name", self)
+            alert("Firstname", "Please tell us your first name")
             return
         }
         
         var lastname = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! NormalInputCell).input!.text
         lastname = lastname?.trimmingCharacters(in: .whitespacesAndNewlines)
         if lastname == "" {
-            alert("Lastname", "Please tell us your last name", self)
+            alert("Lastname", "Please tell us your last name")
             return
         }
         
         var gender = (tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as! InputGenderCell).gender.text
         gender = gender?.trimmingCharacters(in: .whitespacesAndNewlines)
         if gender == "" {
-            alert("Gender", "Please tell us your gender", self)
+            alert("Gender", "Please tell us your gender")
             return
         }
         
         var date = (tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as! InputDateCell).date.text
         date = date?.trimmingCharacters(in: .whitespacesAndNewlines)
         if date == "" {
-            alert("Birthdate", "Please tell us your birthdate", self)
+            alert("Birthdate", "Please tell us your birthdate")
             return
         }
         
-        if master?.interests == nil || (master?.interests?.string.isEmpty)! {
-            alert("Interests", "Please tell us about your intersts", self)
+        if master.interests.string.isEmpty {
+            alert("Interests", "Please tell us about your intersts")
             return
         }
         
-        if master!.status == nil || (master?.status?.string.isEmpty)! {
-            alert("Status", "Please tell us what you want your status to be", self)
+        if master.status.string.isEmpty {
+            alert("Status", "Please tell us what you want your status to be")
             return
         }
         
-        if checkInputOfUser(firstname!, lastname!, gender!, date!, (master?.interests!.string)!, (master?.status!.string)!) == false{
+        if checkInputOfUser(firstname!, lastname!, gender!, date!, master.interests.string, master.status.string) == false{
             return
         }
         
-        master?.discoverable = (tableView.cellForRow(at: IndexPath(row: 0, section: 3)) as! BooleanInputCell).discoverable.isOn
+        master.discoverable = (tableView.cellForRow(at: IndexPath(row: 0, section: 3)) as! BooleanInputCell).discoverable.isOn
         
-        // Give the server all information about the master and get an (u)id back
-        // Let's create a user
-        //2019-06-20 11:23:10:721 +02:00 ... "yyyy-MM-dd HH:mm:ss:SSS XXXXX"
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        
-        var one_letter_gender = ""
-        
-        switch master?.gender?.toString() {
-        case "female":
-            one_letter_gender = "f"
-        case "male":
-            one_letter_gender = "m"
-        case "non binary":
-            one_letter_gender = "n"
-        default:
-            one_letter_gender = "f"
-        }
-        
-        let data: [String: Any] = [
-            "FIRSTNAME": master!.firstname!,
-            "LASTNAME": master!.lastname!,
-            "GENDER": one_letter_gender,
-            "FIRSTJOIN": formatter.string(from: Date()),
-            "BIRTHDATE": formatter.string(from: master!.birthdate!),
-            "INTERESTS": master!.interests!,
-            "STATUS": master!.status!,
-            "COUNTRY": master!.country!.name!,
-            
-            // Everyone is a pro in the first version
-            "PRO": "t",
-            "DISCOVERABLE": master!.discoverable ? "t" : "f",
-            "NOTIFICATIONTOKEN": master?.deviceToken ?? "TEMP_TOKEN",
-            "EMAIL": master!.email,
-            "PASSWORD": master!.password,
-        ]
-
-        Internet.database(url: Internet.baseURL + "/register_client.php", parameters: data) { (data_back, response, error) in
-
-            
-            master!.uid = Int((data_back?["USERID"] as? String)!)
-
-            if master?.changingData == .registration {
-                
-                // Send languages
-                Internet.database(url: Internet.baseURL + "/deleteAllLanguages.php", parameters: ["USERID" : master!.uid!]) { (backdata, response, error) in
-                    
-                    if error != nil{
-                        print(error!.localizedDescription)
-                    }
-                    
-                    if let httpResponse = response as? HTTPURLResponse {
-                        
-                        if httpResponse.statusCode != 200{
-                            print(httpResponse)
-                        }
-                        
-                    }
-                    
-                }
-                for language in master!.speak_languages{
-                    
-                    let language_data: [String : Any] = [
-                        "USERID": master!.uid!,
-                        "PROFICIENCY": "s",
-                        "LANGUAGE": language.name
-                    ]
-                    
-                    Internet.database(url: Internet.baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
-                        
-                        if error != nil{
-                            print(error!.localizedDescription)
-                        }
-                        
-                        if let httpResponse = response as? HTTPURLResponse {
-                            
-                            if httpResponse.statusCode != 200{
-                                print(httpResponse)
-                            }
-                            
-                        }
-                        
-                    }
-                }
-                for language in master!.learn_languages{
-                    
-                    let language_data: [String : Any] = [
-                        "USERID": master!.uid!,
-                        "PROFICIENCY": "l",
-                        "LANGUAGE": language.name
-                    ]
-                    
-                    Internet.database(url: Internet.baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
-                        
-                        if error != nil{
-                            print(error!.localizedDescription)
-                        }
-                        
-                        if let httpResponse = response as? HTTPURLResponse {
-                            
-                            if httpResponse.statusCode != 200{
-                                print(httpResponse)
-                            }
-                            
-                        }
-                        
-                        // Upload Image
-                        self.uploadProfileImage(profileImage: self.profile_image.image!)
-                        
-                    }
-                }
-            }
-        }
-        
-        if master?.changingData == .registration {
+        if master.editingMode == .registration {
             
             // Go to welcome screen
-            Navigation.present(controller: "WelcomeVC", context: self)
+            Navigation.change(navigationController: "WelcomeVC")
+            
         }else{
-            Navigation.pop(context: self)
+            Navigation.pop()
         }
+        
+        Internet.upload()
+        
+        Internet.upload(image: profile_image.image!)
+        
+        Internet.uploadLanguages()
     }
     
-    func uploadProfileImage(profileImage: UIImage){
-        
-        
-    }
-    
-    
-    
-    @objc func pickDate (datePicker: UIDatePicker){
+    @objc private func pickDate (datePicker: UIDatePicker){
         
         let formatter = DateFormatter()
         
         formatter.dateFormat = "dd/MM/yyyy"
         formatter.locale = NSLocale(localeIdentifier: Locale.current.languageCode!) as Locale
+        
         formatter.timeZone = TimeZone(secondsFromGMT: TimeZone.current.secondsFromGMT())
+        
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as! InputDateCell
         cell.date.text = formatter.string(from: datePicker.date)
         
-        master?.birthdate = datePicker.date
+        master.birthdate = datePicker.date
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -375,7 +280,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if (section == 3) { return 1 }
+        if section == 3 { return 1 }
         
         return 2
     }
@@ -412,8 +317,8 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.input?.addTarget(self, action: #selector(firstNameTextFieldChanged), for: .editingChanged)
             
-            if !(master?.firstname?.isEmpty ?? false) {
-                cell.input!.text = master?.firstname
+            if master.firstname.isEmpty {
+                cell.input!.text = master.firstname
             }
             
             return cell
@@ -425,8 +330,8 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.input?.addTarget(self, action: #selector(lastNameTextFieldChanged), for: .editingChanged)
             
-            if !(master?.lastname?.isEmpty ?? false)  {
-                cell.input!.text = master?.lastname
+            if master.lastname.isEmpty  {
+                cell.input!.text = master.lastname
             }
             
             return cell
@@ -440,8 +345,8 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             let picker = UIPickerView()
             picker.delegate = self
             
-            if master?.gender != nil{
-                cell.gender.text = master?.gender?.toString()
+            if master.gender != nil {
+                cell.gender.text = master.gender?.toString()
             }
             
             cell.gender.inputView = picker
@@ -467,18 +372,18 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             datePicker.minimumDate = minDate
             datePicker.maximumDate = maxDate
             
+            // Minus 12 years
+            datePicker.date = Date() - 60 * 60 * 24 * 365 * 12
+            
             cell.date.inputView = datePicker
             
             datePicker.addTarget(self, action: #selector(pickDate(datePicker:)), for: .valueChanged)
             
-            if master?.birthdate != nil{
-                
+            if master.birthdate != nil{
                 let dateFormatter = DateFormatter()
                 dateFormatter.timeZone = TimeZone(secondsFromGMT: TimeZone.current.secondsFromGMT())
                 dateFormatter.dateFormat = "dd/MM/yyyy"
-                let string = dateFormatter.string(from: master!.birthdate!)
-                
-                cell.date.text = string
+                cell.date.text = dateFormatter.string(from: master.birthdate!)
             }
             
             return cell
@@ -487,11 +392,11 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
-            if master?.interests?.string == nil {
+            if master.interests.string == "" {
                 cell.input.text = "Your interests"
                 cell.input.textColor = Colors.grey
             }else{
-                cell.input.text = master?.interests?.string
+                cell.input.text = master.interests.string
                 cell.input.textColor = Colors.black
             }
             
@@ -502,11 +407,11 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
-            if master?.status?.string == nil {
+            if master.status.string == "" {
                 cell.input.text = "Tell the world something"
                 cell.input.textColor = Colors.grey
             }else{
-                cell.input.text = master?.status?.string
+                cell.input.text = master.status.string
                 cell.input.textColor = Colors.black
             }
             
@@ -514,13 +419,9 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
         case 6:
             let cell = tableView.dequeueReusableCell(withIdentifier: "BooleanInputCell") as! BooleanInputCell
             
-            cell.discoverable.isOn = true
-            
             cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
-            if master?.discoverable != nil{
-                cell.discoverable.isOn = master!.discoverable
-            }
+            cell.discoverable.isOn = master.discoverable
             
             return cell
         default:
@@ -538,18 +439,26 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
     }
     
     @objc func firstNameTextFieldChanged(){
-        master?.firstname = tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel!.text
+        guard let firstname = tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel!.text else {
+            return
+        }
+        master.firstname = firstname
     }
     
     @objc func lastNameTextFieldChanged(){
-        master?.lastname = tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel!.text
+        
+        guard let lastname = tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel!.text else {
+            return
+        }
+        
+        master.lastname = lastname
     }
     
 }
 
 extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func getImageFromLibrary(){
+    private func getImageFromLibrary(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary){
             let image = UIImagePickerController()
             image.delegate = self
@@ -559,7 +468,7 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
         }
     }
     
-    func getImageFromCamera(){
+    private func getImageFromCamera(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera){
             let image = UIImagePickerController()
             image.delegate = self
@@ -570,7 +479,7 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
         }
     }
     
-    @objc func imageTapped(){
+    @objc private func imageTapped(){
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -599,9 +508,6 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
         profile_image.layer.cornerRadius = profile_image.layer.frame.width / 2
         profile_image.layer.masksToBounds = true
         
-        // Delete the old cached image
-        master!.cache.removeAllObjects()
-        
         picker.dismiss(animated: true, completion: nil)
     }
     
@@ -610,7 +516,7 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
     }
 }
 
-func cropToBounds(image: UIImage, width: Double, height: Double) -> UIImage {
+private func cropToBounds(image: UIImage, width: Double, height: Double) -> UIImage {
     
     let cgimage = image.cgImage!
     let contextImage: UIImage = UIImage(cgImage: cgimage)

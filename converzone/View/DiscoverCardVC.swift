@@ -169,7 +169,7 @@ class DicoverCard {
             
             navAnimation.addCompletion { (_) in
                 
-                if( state == .collapsed ){
+                if state == .collapsed {
                     self.removeCard()
                 }
                 
@@ -255,7 +255,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
     
     fileprivate func getLocationInformation(_ cell: CountryProfileCell) {
         
-        locationManager.getLocation(forPlaceCalled: profileOf!.country!.name!) { (placemark) in
+        locationManager.getLocation(forPlaceCalled: profileOf.country.name!) { (placemark) in
             
             cell.map.mapType = .standard
             
@@ -279,7 +279,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
                 if let placemark_zone = placemarks?[0] {
                     
                     cell.timezone.text = placemark_zone.timeZone?.abbreviation()
-                    profileOf!.timezone = placemark_zone.timeZone?.abbreviation()
+                    profileOf.timezone = (placemark_zone.timeZone?.abbreviation())!
                 }
             }
             
@@ -292,9 +292,9 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 0:
             let cell = Bundle.main.loadNibNamed("ImageProfileCell", owner: self, options: nil)?.first as! ImageProfileCell
             
-            profileOf!.getImage(with: profileOf!.link_to_profile_image!, completion: { (image) in
+            Internet.getImage(withURL: profileOf.link_to_profile_image) { (image) in
                 cell.profileImage.image = image
-            })
+            }
             
             cell.profileImage.contentMode = .scaleAspectFill
             cell.profileImage.clipsToBounds = true
@@ -329,13 +329,13 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 2:
             let cell = Bundle.main.loadNibNamed("GeneralProfileCell", owner: self, options: nil)?.first as! GeneralProfileCell
             
-            cell.name.text = profileOf!.firstname! + " " + profileOf!.lastname!
+            cell.name.text = profileOf.firstname + " " + profileOf.lastname
             
             cell.speaks.numberOfLines = 0
             cell.learning.numberOfLines = 0
             
-            cell.speaks.text = addLanguagesTo(level: "Speaks", languages: profileOf!.speak_languages)
-            cell.learning.text = addLanguagesTo(level: "Learning", languages: profileOf!.learn_languages)
+            cell.speaks.text = addLanguagesTo(level: "Speaks", languages: profileOf.speak_languages)
+            cell.learning.text = addLanguagesTo(level: "Learning", languages: profileOf.learn_languages)
         
             cell.view.layer.cornerRadius = 23
             cell.view.layer.shadowColor = UIColor.black.cgColor
@@ -350,7 +350,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 3:
             let cell = Bundle.main.loadNibNamed("CountryProfileCell", owner: self, options: nil)?.first as! CountryProfileCell
             
-            cell.name.text = profileOf!.country!.name
+            cell.name.text = profileOf.country.name
             cell.timezone.text = ""
             
             cell.view.layer.cornerRadius = 23
@@ -377,7 +377,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 4:
             let cell = Bundle.main.loadNibNamed("StatusProfileCell", owner: self, options: nil)?.first as! StatusProfileCell
             
-            cell.status.attributedText = profileOf!.status
+            cell.status.attributedText = profileOf.status
             cell.status.setLineSpacing(lineSpacing: 3, lineHeightMultiple: 2)
             cell.status.textAlignment = .center
             
@@ -394,7 +394,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 5:
             let cell = Bundle.main.loadNibNamed("InterestsProfileCell", owner: self, options: nil)?.first as! InterestsProfileCell
             
-            cell.interests.attributedText = profileOf!.interests
+            cell.interests.attributedText = profileOf.interests
             cell.interests.setLineSpacing(lineSpacing: 3, lineHeightMultiple: 2)
             cell.interests.textAlignment = .center
             
@@ -446,23 +446,23 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
     @objc func handleSendMessage(){
         
         // Does this user already exist?
-        let userExists = master?.conversations.last(where: {$0.uid == profileOf!.uid})
+        let userExists = master.conversations.last(where: {$0.uid == profileOf.uid})
         
         if userExists == nil{
             let info = FirstInformationMessage()
             
             info.date = Date()
             
-            profileOf?.conversation.append(info)
+            profileOf.conversation.append(info)
             
-            master?.conversations.append(profileOf!)
+            master.conversations.append(profileOf)
         }
         
         // Find the right index of the chat
         var index = 0
             
-        for user in master!.conversations {
-            if user.uid == profileOf?.uid {
+        for user in master.conversations {
+            if user.uid == profileOf.uid {
                 indexOfUser = index
             }
             
@@ -483,30 +483,15 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         
-        let blockAndReport = UIAlertAction(title: "Block and Report", style: .destructive) { (action) in
+        let blockAndReport = UIAlertAction(title: "Report", style: .destructive) { (action) in
             
-            self.blockAndReport(title: "Report user", message: "Tell us why you want to report this user.")
+            self.report(title: "Report user", message: "Tell us why you want to report this user.")
         }
         alertController.addAction(blockAndReport)
         
         let block = UIAlertAction(title: "Block", style: .destructive) { (action) in
         
-            Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/blockAndReport.php", parameters: ["blocker_id" : master!.uid!, "blockeduser_id": profileOf!.uid!], completionHandler: { (data, response, error) in
-                
-                if error != nil{
-                    print(error as Any)
-                }
-                
-                if let httpResponse = response as? HTTPURLResponse {
-                    
-                    if !(httpResponse.statusCode == 200) {
-                        
-                        print(httpResponse.statusCode)
-                    }
-                    
-                }
-                
-            })
+            Internet.block(userid: profileOf.uid)
             
         }
         
@@ -539,7 +524,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         return new_label
     }
     
-    func blockAndReport(title: String, message: String) {
+    func report(title: String, message: String) {
         
         var saveTextField: UITextField? = nil
         
@@ -548,22 +533,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         let action = UIAlertAction(title: "Send", style: .default) { (alertAction) in
             saveTextField = alert.textFields![0] as UITextField
             
-            Internet.databaseWithMultibleReturn(url: Internet.baseURL + "/blockAndReport.php", parameters: ["blocker_id" : master!.uid!, "blockeduser_id": profileOf!.uid!, "reason_for_report": saveTextField!.text!], completionHandler: { (data, response, error) in
-                
-                if error != nil{
-                    print(error as Any)
-                }
-                
-                if let httpResponse = response as? HTTPURLResponse {
-                    
-                    if !(httpResponse.statusCode == 200) {
-                        
-                        print(httpResponse.statusCode)
-                    }
-                    
-                }
-                
-            })
+            Internet.report(userid: profileOf.uid, reason: saveTextField!.text!)
         }
         
         alert.addTextField { (textField) in

@@ -31,6 +31,70 @@ extension String {
     }
 }
 
+extension String {
+    var containsOnlyEmoji: Bool {
+        return !isEmpty
+            && !unicodeScalars.contains(where: {
+                !$0.isEmoji && !$0.isZeroWidthJoiner
+            })
+    }
+    var containsEmoji: Bool {
+        return unicodeScalars.contains { $0.isEmoji }
+    }
+}
+
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).uppercased() + self.lowercased().dropFirst()
+    }
+    
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
+}
+
+extension String{
+    
+    func widthWithConstrained( _ height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)
+        
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        
+        return ceil(boundingBox.width)
+    }
+    
+    func heightWithConstrained(_ width: CGFloat, font: UIFont) -> CGFloat? {
+        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        
+        return ceil(boundingBox.height)
+    }
+    
+}
+
+extension StringProtocol {
+    subscript(offset: Int) -> Element {
+        return self[index(startIndex, offsetBy: offset)]
+    }
+    subscript(_ range: Range<Int>) -> SubSequence {
+        return prefix(range.lowerBound + range.count)
+            .suffix(range.count)
+    }
+    subscript(range: ClosedRange<Int>) -> SubSequence {
+        return prefix(range.lowerBound + range.count)
+            .suffix(range.count)
+    }
+    subscript(range: PartialRangeThrough<Int>) -> SubSequence {
+        return prefix(range.upperBound.advanced(by: 1))
+    }
+    subscript(range: PartialRangeUpTo<Int>) -> SubSequence {
+        return prefix(range.upperBound)
+    }
+    subscript(range: PartialRangeFrom<Int>) -> SubSequence {
+        return suffix(Swift.max(0, count - range.lowerBound))
+    }
+}
+
 extension UnicodeScalar {
     var isEmoji: Bool {
         switch value {
@@ -58,27 +122,7 @@ extension UnicodeScalar {
     }
 }
 
-extension String {
-    var containsOnlyEmoji: Bool {
-        return !isEmpty
-            && !unicodeScalars.contains(where: {
-                !$0.isEmoji && !$0.isZeroWidthJoiner
-            })
-    }
-    var containsEmoji: Bool {
-        return unicodeScalars.contains { $0.isEmoji }
-    }
-}
 
-extension String {
-    func capitalizingFirstLetter() -> String {
-        return prefix(1).uppercased() + self.lowercased().dropFirst()
-    }
-    
-    mutating func capitalizeFirstLetter() {
-        self = self.capitalizingFirstLetter()
-    }
-}
 
 extension UILabel {
     
@@ -206,24 +250,7 @@ extension CharacterSet {
     }()
 }
 
-extension String{
-    
-    func widthWithConstrained( _ height: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)
-        
-        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-        
-        return ceil(boundingBox.width)
-    }
-    
-    func heightWithConstrained(_ width: CGFloat, font: UIFont) -> CGFloat? {
-        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-        
-        return ceil(boundingBox.height)
-    }
-    
-}
+
 
 extension CLLocationManager {
     
@@ -341,25 +368,26 @@ extension UIDevice {
         return bottom > 0
     }
 }
-extension StringProtocol {
-    subscript(offset: Int) -> Element {
-        return self[index(startIndex, offsetBy: offset)]
+
+
+extension UIButton{
+    func makeRound(){
+        self.layer.cornerRadius = self.frame.size.width / 2
+        self.clipsToBounds = true
     }
-    subscript(_ range: Range<Int>) -> SubSequence {
-        return prefix(range.lowerBound + range.count)
-            .suffix(range.count)
+}
+
+extension UIApplication{
+    
+    class func currentViewController() -> UIViewController? {
+        
+        var presentViewController = UIApplication.shared.keyWindow?.rootViewController
+        
+        while let pVC = presentViewController?.presentedViewController{
+            presentViewController = pVC
+        }
+
+        return presentViewController
     }
-    subscript(range: ClosedRange<Int>) -> SubSequence {
-        return prefix(range.lowerBound + range.count)
-            .suffix(range.count)
-    }
-    subscript(range: PartialRangeThrough<Int>) -> SubSequence {
-        return prefix(range.upperBound.advanced(by: 1))
-    }
-    subscript(range: PartialRangeUpTo<Int>) -> SubSequence {
-        return prefix(range.upperBound)
-    }
-    subscript(range: PartialRangeFrom<Int>) -> SubSequence {
-        return suffix(Swift.max(0, count - range.lowerBound))
-    }
+    
 }

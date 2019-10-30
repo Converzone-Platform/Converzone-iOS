@@ -7,8 +7,7 @@
 //
 
 import UIKit
-
-//var filtered_converations: [User]? = nil
+import FirebaseAuth
 
 class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     
@@ -18,7 +17,6 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         }
     }
     
-    
     @IBOutlet weak var tableView: UITableView!
     
     let updates = Internet()
@@ -26,34 +24,45 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let user = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "b1oztOuiF5NA9Jk6JI2k4K3qGk32")
+        
+        let message = TextMessage(text: "I am so cute :)", is_sender: false)
+        user.conversation.append(message)
+        user.link_to_profile_image = "https://picsum.photos/id/1/200/200"
+        master.conversations.append(user)
+        
+        Internet.setUpListeners()
+        
         setUpNavBar()
         
         self.view.backgroundColor = Colors.backgroundGrey
         
-        //navigationItem.searchController?.searchBar.delegate = self
-        
-        updates.conversations_delegate = self
-        
-        if master?.addedUserSinceLastConnect == false{
-            master?.addedUserSinceLastConnect = true
-            Internet.socket.emit("add-user", with: [["id": master?.uid]])
-        }
-        
+        Internet.update_conversations_tableview_delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        goToSplashScreenIfNeeded()
+        
         self.title = "Conversations"
         self.tabBarController?.cleanTitles()
         //filtered_converations = master?.conversations
-                master?.conversations.sort(by: { (user1, user2) -> Bool in
-                    return (user1.conversation.last?.date?.isGreaterThan((user2.conversation.last?.date)!))!
-        
-                })
+        master.conversations.sort(by: { (user1, user2) -> Bool in
+            return (user1.conversation.last?.date?.isGreaterThan((user2.conversation.last?.date)!))!
+        })
         
         //MARK: TODO - Reloading the whole tableview might be too much
         tableView.reloadData()
+    }
+    
+    /// Is the user verified/logged in? If not, let's take them to the SplashScreen
+    private func goToSplashScreenIfNeeded(){
+        
+        if Auth.auth().currentUser == nil || UserDefaults.standard.bool(forKey: "DidFinishRegistration") == false {
+            Navigation.change(navigationController: "SplashScreenVC")
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -62,7 +71,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         self.title = ""
     }
     
-    func setUpNavBar(){
+    private func setUpNavBar(){
         navigationController?.navigationBar.prefersLargeTitles = true
         
 //        let searchBar = UISearchController(searchResultsController: nil)
@@ -85,20 +94,20 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
                 let delete = UIAlertAction(title: "Delete", style: .destructive) { (action) in
                     
                     // MARK: TODO - Tell database that this client deleted the chat
-                    master?.conversations[indexPath.row].conversation.removeAll()
-                    master?.conversations.remove(at: indexPath.row)
+                    master.conversations[indexPath.row].conversation.removeAll()
+                    master.conversations.remove(at: indexPath.row)
                     self.tableView.deleteRows(at: [indexPath], with: .fade)
                 }
                 
                 let clear = UIAlertAction(title: "Clear", style: .destructive) { (action) in
-                    master?.conversations[indexPath.row].conversation.removeAll()
+                    master.conversations[indexPath.row].conversation.removeAll()
                     
                     // Add First Message
                     let firstMessage = FirstInformationMessage()
                     
                     firstMessage.text = "Here we go again :D"
                     
-                    master?.conversations[indexPath.row].conversation.append(firstMessage)
+                    master.conversations[indexPath.row].conversation.append(firstMessage)
                 }
                 
                 let silence = UIAlertAction(title: "Silence", style: .default) { (action) in
@@ -120,14 +129,14 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //return (filtered_converations?.count)!
         
-        if master?.conversations.count == 0 {
+        if master.conversations.count == 0 {
             tableView.setEmptyView(title: "No conversations yet.", message: "Text a random person in the discover tab")
         }
         else {
             tableView.restore()
         }
         
-        return (master?.conversations.count)!
+        return master.conversations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -137,18 +146,16 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))
         cell.addGestureRecognizer(longPressRecognizer)
         
-        cell.name.text = master?.conversations[indexPath.row].fullname
+        cell.name.text = master.conversations[indexPath.row].fullname
         
-        master?.conversations[indexPath.row].getImage(with: (master?.conversations[indexPath.row].link_to_profile_image)!, completion: { (image) in
-            
+        Internet.getImage(withURL: master.conversations[indexPath.row].link_to_profile_image) { (image) in
             cell.profileImage.image = image
-            
-        })
+        }
         
-        if (master?.conversations[indexPath.row].openedChat)! {
+        if master.conversations[indexPath.row].openedChat {
             cell.lastMessageType.backgroundColor = Colors.white
         }else{
-            cell.lastMessageType.backgroundColor = master?.conversations[indexPath.row].conversation.last?.color
+            cell.lastMessageType.backgroundColor = master.conversations[indexPath.row].conversation.last?.color
         }
         
         cell.profileImage.layer.cornerRadius = cell.profileImage.layer.frame.width / 2
@@ -183,32 +190,6 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         
     }
 }
-
-
-
-//extension ConversationsVC: UISearchBarDelegate {
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        
-//        guard !searchText.isEmpty else {
-//            filtered_converations = master?.conversations
-//            tableView.reloadData()
-//            return
-//        }
-//        
-//        filtered_converations = master?.conversations.filter({ (user) -> Bool in
-//            return (user.fullname?.lowercased().contains(searchText.lowercased()))!
-//        })
-//        
-//        tableView.reloadData()
-//    }
-//    
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        searchBar.endEditing(true)
-//        
-//        filtered_converations = master?.conversations
-//        tableView.reloadData()
-//    }
-//}
 
 // To update the table view from another class
 protocol ConversationUpdateDelegate {

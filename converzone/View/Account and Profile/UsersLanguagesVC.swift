@@ -8,14 +8,14 @@
 
 import UIKit
 
-enum addingFor {
+enum languagePreficiency {
     
     case speaking
     case learning
     
 }
 
-var addingForType: addingFor = .speaking
+var addingForType: languagePreficiency = .speaking
 
 class UsersLanguagesVC: UIViewController {
     
@@ -24,8 +24,9 @@ class UsersLanguagesVC: UIViewController {
         super.viewDidLoad()
         
         //Add a continue button
-        if master?.changingData == .registration {
-            guessSpeakLanguages()
+        if master.editingMode == .registration {
+            
+            guessLanguagesUserProbablySpeaks()
             
             let continueButton = UIBarButtonItem(title: "Continue", style: .done, target: self, action: #selector(continuePressed))
             self.navigationItem.rightBarButtonItem = continueButton
@@ -36,118 +37,57 @@ class UsersLanguagesVC: UIViewController {
     @objc func continuePressed(){
         
         // Check if there is at least one language selected which the master speaks
-        if ((master?.speak_languages.count)! > 0){
+        if master.speak_languages.count > 0 {
             
-            if master?.changingData == .registration {
+            if master.editingMode == .registration {
                 
-                Navigation.push(viewController: "EditProfileVC", context: self)
+                Navigation.change(navigationController: "ProfileNC")
                 
             }else{
                 Navigation.pop(context: self)
             }
             
-            
         }else{
             
             //Display warning
-            alert("At least one language", "Please select at least one language which you speak.", self)
+            alert("At least one language", "Please select at least one language which you speak.", closure: nil)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        master?.speak_languages.removeDuplicates()
-        master?.learn_languages.removeDuplicates()
+        master.speak_languages.removeDuplicates()
+        master.learn_languages.removeDuplicates()
         
-        master?.sortLanguagesAlphabetically()
+        master.sortLanguagesAlphabetically()
         
         tableView.reloadData()
+        
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if master?.changingData == .editing{
-            // Send languages
-            Internet.database(url: Internet.baseURL + "/deleteAllLanguages.php", parameters: ["USERID" : master!.uid!]) { (backdata, response, error) in
-                
-                if error != nil{
-                    print(error!.localizedDescription)
-                }
-                
-                if let httpResponse = response as? HTTPURLResponse {
-                    
-                    if httpResponse.statusCode != 200{
-                        print(httpResponse)
-                    }
-                    
-                }
-                
-            }
-            for language in master!.speak_languages{
-                
-                let language_data: [String : Any] = [
-                    "USERID": master!.uid!,
-                    "PROFICIENCY": "s",
-                    "LANGUAGE": language.name
-                ]
-                
-                Internet.database(url: Internet.baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
-                    
-                    if error != nil{
-                        print(error!.localizedDescription)
-                    }
-                    
-                    if let httpResponse = response as? HTTPURLResponse {
-                        
-                        if httpResponse.statusCode != 200{
-                            print(httpResponse)
-                        }
-                        
-                    }
-                    
-                }
-            }
-            for language in master!.learn_languages{
-                
-                let language_data: [String : Any] = [
-                    "USERID": master!.uid!,
-                    "PROFICIENCY": "l",
-                    "LANGUAGE": language.name
-                ]
-                
-                Internet.database(url: Internet.baseURL + "/addLanguages.php", parameters: language_data) { (backdata, response, error) in
-                    
-                    if error != nil{
-                        print(error!.localizedDescription)
-                    }
-                    
-                    if let httpResponse = response as? HTTPURLResponse {
-                        
-                        if httpResponse.statusCode != 200{
-                            print(httpResponse)
-                        }
-                        
-                    }
-                    
-                    
-                }
-            }
+        if master.editingMode == .editing && master.speak_languages.count != 0{
+            
+            Internet.uploadLanguages()
+            
         }
     }
     
-    func guessSpeakLanguages(){
+    private func guessLanguagesUserProbablySpeaks(){
         
-        //The person probably speaks the languages of his device - add preferred languages
-        if(master?.speak_languages.count != nil && (master?.speak_languages.count)! == 0 ){
+        // The person probably speaks the languages of his device - add preferred languages
+        if master.speak_languages.count == 0 {
             for language in NSLocale.preferredLanguages {
                 
                 let current = Locale(identifier: "en_US")
                 
                 let temp = Language(name: current.localizedString(forLanguageCode: language)!)
                 
-                master?.speak_languages.append(temp)
+                master.speak_languages.append(temp)
             }
         }
     }
@@ -158,18 +98,18 @@ extension UsersLanguagesVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if(section == 0){
-            return (master?.speak_languages.count)! + 1
+        if section == 0 {
+            return (master.speak_languages.count) + 1
         }
         
-        return (master?.learn_languages.count)! + 1
+        return (master.learn_languages.count) + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var cell: UITableViewCell? = nil
         
-        if(indexPath.section == 0 && indexPath.row == (master?.speak_languages.count) || indexPath.section == 1 && indexPath.row == (master?.learn_languages.count)){
+        if indexPath.section == 0 && indexPath.row == (master.speak_languages.count) || indexPath.section == 1 && indexPath.row == master.learn_languages.count {
             
             cell = tableView.dequeueReusableCell(withIdentifier: "AddLanguageCell")
             return cell!
@@ -177,10 +117,10 @@ extension UsersLanguagesVC: UITableViewDataSource, UITableViewDelegate {
         
         cell = tableView.dequeueReusableCell(withIdentifier: "LanguageCell")
             
-        if(indexPath.section == 0){
-            cell?.textLabel?.text = master?.speak_languages[indexPath.row].name
+        if indexPath.section == 0 {
+            cell?.textLabel?.text = master.speak_languages[indexPath.row].name
         }else{
-            cell?.textLabel?.text = master?.learn_languages[indexPath.row].name
+            cell?.textLabel?.text = master.learn_languages[indexPath.row].name
         }
         
         return cell!
@@ -192,20 +132,20 @@ extension UsersLanguagesVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if(section == 0){
-            return NSLocalizedString("Languages you speak", comment: "A list of the languages the user selected which he/she speaks")
+        if section == 0 {
+            return NSLocalizedString("Languages you speak", comment: "A list of the languages the user selected which they speak")
         }
         
-        return NSLocalizedString("Languages you learn (optional)", comment: "A list of the languages the user selected which he/she is learning")
+        return NSLocalizedString("Languages you learn (optional)", comment: "A list of the languages the user selected which they are learning")
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if(editingStyle == .delete){
-            if(indexPath.section == 0){
-                master?.speak_languages.remove(at: indexPath.row)
+            if indexPath.section == 0 {
+                master.speak_languages.remove(at: indexPath.row)
             }else{
-                master?.learn_languages.remove(at: indexPath.row)
+                master.learn_languages.remove(at: indexPath.row)
             }
             
             tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
@@ -214,17 +154,17 @@ extension UsersLanguagesVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if(indexPath.section == 0 && indexPath.row == (master?.speak_languages.count)){ return false }
-        if(indexPath.section == 1 && indexPath.row == (master?.learn_languages.count)){ return false }
+        if indexPath.section == 0 && indexPath.row == master.speak_languages.count { return false }
+        if indexPath.section == 1 && indexPath.row == master.learn_languages.count { return false }
         
         return true
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if(indexPath.section == 0 && indexPath.row == (master?.speak_languages.count)){
+        if indexPath.section == 0 && indexPath.row == master.speak_languages.count {
             addingForType = .speaking
         }
-        if(indexPath.section == 1 && indexPath.row == (master?.learn_languages.count)){
+        if indexPath.section == 1 && indexPath.row == master.learn_languages.count {
             addingForType = .learning
         }
         

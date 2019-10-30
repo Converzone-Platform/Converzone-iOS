@@ -8,6 +8,7 @@
 
 import UIKit
 import NotificationCenter
+import FirebaseAuth
 
 class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -23,9 +24,26 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.title = "Settings"
         self.tabBarController?.cleanTitles()
         
-        master?.changingData = .editing
+        master.editingMode = .editing
         
-        tableView.reloadData()
+        Internet.getLanguagesFor(uid: master.uid, progress: "speak_languages") { (languages) in
+            master.speak_languages = languages ?? []
+            
+            self.tableView.reloadData()
+            
+            if master.speak_languages.count == 0 {
+                Navigation.push(viewController: "UsersLanguagesVC", context: self)
+            }
+        }
+        
+        Internet.getLanguagesFor(uid: master.uid, progress: "learn_languages") { (languages) in
+            master.learn_languages = languages ?? []
+            
+            self.tableView.reloadData()
+        }
+        
+        
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -51,40 +69,23 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
         case 0:
             
-            cell?.textLabel?.text = master?.fullname
-            cell?.detailTextLabel?.text = master?.status?.string
+            cell?.textLabel?.text = master.fullname
+            cell?.detailTextLabel?.text = master.status.string
             
-            if master!.changed_image{
-                master?.changed_image = false
+            Internet.getImage(withURL: master.link_to_profile_image) { (image) in
+                cell?.imageView!.image = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 50, maxHeight: 50)
                 
-                cell?.imageView?.image = nil
+                cell?.imageView!.layer.cornerRadius = 25
+                cell?.imageView!.layer.masksToBounds = true
+                
+                tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
             }
-            
-            if cell?.imageView!.image == nil{
-                master?.getImage(with: "http://converzone.htl-perg.ac.at/profile_images/" + (master?.lastname)! + "_" + String(master!.uid!) + "_profile_image", completion: { (image) in
-                    
-                    if image == nil{
-                        return
-                    }
-                    
-                    cell?.imageView!.image = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 50, maxHeight: 50)
-
-                    tableView.reloadData()
-                })
-            }
-            
-            cell?.imageView!.layer.cornerRadius = 25
-            cell?.imageView!.layer.masksToBounds = true
-            
-            //cell?.imageView?.contentMode = .scaleAspectFill
             
             cell?.accessoryType = .disclosureIndicator
             
         default:
             
             cell = UITableViewCell(style: .default, reuseIdentifier: "SettingsCell")
-            
-            //cell?.imageView?.image = UIImage(named: "austria")
             
             cell?.textLabel?.text = settings[ tableView.globalIndexPath(for: indexPath as NSIndexPath) ]
             
@@ -103,28 +104,25 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         switch tableView.globalIndexPath(for: indexPath as NSIndexPath){
-        case 0:
+        case 0: Navigation.push(viewController: "EditProfileVC", context: self)
             
-            Navigation.push(viewController: "EditProfileVC", context: self)
-            
-        case 1:
-            Navigation.push(viewController: "UsersLanguagesVC", context: self)
-        case 2:
-            Navigation.push(viewController: "ContinentVC", context: self)
+        case 1: Navigation.push(viewController: "UsersLanguagesVC", context: self)
+        case 2: Navigation.push(viewController: "ContinentVC", context: self)
         case 3:
             
             // MARK: TODO - This is probably not working! Change to correct link
             "Check this out: http://itunes.apple.com/app/id1465102094".share()
             
         case 4:
-            Navigation.present(controller: "LoginVC", context: self)
+            Navigation.change(navigationController: "SplashScreenVC")
             
             // Delete discover users
             discover_users.removeAll()
+            master.conversations.removeAll()
+            master.speak_languages.removeAll()
+            master.learn_languages.removeAll()
             
-            master?.addedUserSinceLastConnect = false
-            
-            master?.cache.removeAllObjects()
+            Internet.signOut()
             
         default:
             print("No action here")
@@ -146,7 +144,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return 25
     }
     
-    func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage? {
+    private func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage? {
         let oldWidth = image.size.width;
         let oldHeight = image.size.height;
         

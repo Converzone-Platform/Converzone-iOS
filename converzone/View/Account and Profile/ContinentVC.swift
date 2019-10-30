@@ -16,22 +16,13 @@ class ContinentVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     let locationManager = CLLocationManager()
     
-    fileprivate func goBack() {
-        //Go back to login view controller
-        Navigation.present(controller: "LoginVC", context: self)
-    }
-    
-    @IBAction func back(_ sender: Any) {
-        goBack()
-    }
-    
 }
 
 extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if(section == 0){
+        if section == 0  {
             return 1
         }
         
@@ -40,19 +31,22 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LocatePositionCell")
             
             cell?.textLabel?.text = NSLocalizedString("Locate my position...", comment: "Should we find out where you live?")
             
             return cell!
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "StandardCell")
+            
+            cell?.textLabel?.text = world.continents[indexPath.row].name
+            
+            return cell!
+        default:
+            return tableView.dequeueReusableCell(withIdentifier: "StandardCell")!
         }
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "StandardCell")
-        
-        cell?.textLabel?.text = world.continents[indexPath.row].name
-        
-        return cell!
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -62,7 +56,7 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //Does the person want us to check the position by ourselves?
-        if(indexPath.section == 0){
+        if indexPath.section == 0 {
             locationManager.requestWhenInUseAuthorization()
             
             // If location services is enabled get the users location
@@ -80,7 +74,7 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
                 
                 DispatchQueue.main.async {
                     
-                    //MARK: - TODO "en_US" is not suitable for all other languages than english
+                    //MARK: TODO - "en_US" is not suitable for all other languages than english
                     let current = Locale(identifier: "en_US")
                     let country = Country(name: current.localizedString(forRegionCode: placemark.isoCountryCode ?? "")!)
                     
@@ -91,20 +85,20 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
             
         }else{
             
-            master?.continent = world.continents[indexPath.row].name
+            master.continent = world.continents[indexPath.row].name
         }
     }
 }
 
 extension ContinentVC {
     
-    func geocode(latitude: Double, longitude: Double, completion: @escaping (CLPlacemark?, Error?) -> ())  {
+    private func geocode(latitude: Double, longitude: Double, completion: @escaping (CLPlacemark?, Error?) -> ())  {
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: latitude, longitude: longitude)) { completion($0?.first, $1) }
     }
     
     // If we have been deined access give the user the option to change it
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if(status == CLAuthorizationStatus.denied) {
+    private func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == CLAuthorizationStatus.denied {
             showLocationDisabledPopUp()
         }
     }
@@ -128,7 +122,7 @@ extension ContinentVC {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func askIfRightCountry(_ country: Country){
+    private func askIfRightCountry(_ country: Country){
         let alertController = UIAlertController(title: "Your location",
                                                 message: "Do you live in " + country.name! + "?",
                                                 preferredStyle: .actionSheet)
@@ -137,10 +131,14 @@ extension ContinentVC {
         alertController.addAction(cancelAction)
         
         let openAction = UIAlertAction(title: "Yes!", style: .default) { (action) in
-            master?.country = country
+            master.country = country
             
-            //Go to next view controller
-            Navigation.push(viewController: "UsersLanguagesVC", context: self)
+            if master.editingMode == .registration {
+                Navigation.push(viewController: "UsersLanguagesVC", context: self)
+            }else{
+                Navigation.pop(context: self)
+                Internet.upload(country: master.country)
+            }
         }
         
         alertController.addAction(openAction)

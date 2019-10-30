@@ -745,7 +745,7 @@ class World {
     
     func getCountriesOf(_ continent: String) -> [Country]{
         for _continent in continents {
-            if(_continent.name == continent){
+            if _continent.name == continent {
                 return _continent.countries
             }
         }
