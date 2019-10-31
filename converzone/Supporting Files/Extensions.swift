@@ -72,6 +72,32 @@ extension String{
     
 }
 
+extension String {
+
+    func split(maxCharacters: Int) -> [String] {
+
+        let splitted = self.split(separator: " ")
+
+        var parts: [String] = []
+
+        var part = ""
+
+        for word in splitted {
+
+            if part.count + word.count >= maxCharacters {
+
+                parts.append(part.trimmingCharacters(in: .whitespaces))
+                part = ""
+            }
+
+            part += word + " "
+        }
+        parts.append(part.trimmingCharacters(in: .whitespaces))
+
+        return parts
+    }
+}
+
 extension StringProtocol {
     subscript(offset: Int) -> Element {
         return self[index(startIndex, offsetBy: offset)]

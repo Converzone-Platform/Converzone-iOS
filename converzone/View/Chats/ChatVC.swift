@@ -699,11 +699,12 @@ extension ChatVC: UITextFieldDelegate {
         // Did the master use the word "fuck"? If yes let's replace it with something more appropriate -> "🦆"
         textField.text = textField.text?.replacingOccurrences(of: "fuck", with: "🦆", options: .caseInsensitive, range: nil)
 
-        let message = TextMessage(text: textField.text!, is_sender: true)
+        for messageString in textField.text!.split(maxCharacters: 1000) {
 
-        master.conversations[indexOfUser].conversation.append(message)
-
-        Internet.send(message: message, receiver: master.conversations[indexOfUser])
+            let message = TextMessage(text: messageString, is_sender: true)
+            master.conversations[indexOfUser].conversation.append(message)
+            Internet.send(message: message, receiver: master.conversations[indexOfUser])
+        }
 
         textField.text = ""
 
