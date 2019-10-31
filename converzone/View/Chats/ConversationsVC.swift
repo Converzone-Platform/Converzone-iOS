@@ -13,6 +13,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     
     func didUpdate(sender: Internet) {
         DispatchQueue.main.async {
+            self.sortUsersByLastMessageDate()
             self.tableView.reloadData()
         }
     }
@@ -33,6 +34,21 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         Internet.update_conversations_tableview_delegate = self
     }
     
+    private func sortUsersByLastMessageDate() {
+        
+        // Don't do it if there are users without a message
+        for user in master.conversations {
+            if user.conversation.count == 0 {
+                return
+            }
+        }
+        
+        master.conversations.sort(by: { (user1, user2) -> Bool in
+            
+            return (user1.conversation.last?.date?.isGreaterThan((user2.conversation.last?.date)!))!
+        })
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -43,9 +59,8 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         self.title = "Conversations"
         self.tabBarController?.cleanTitles()
         //filtered_converations = master?.conversations
-        master.conversations.sort(by: { (user1, user2) -> Bool in
-            return (user1.conversation.last?.date?.isGreaterThan((user2.conversation.last?.date)!))!
-        })
+        
+        sortUsersByLastMessageDate()
         
         //MARK: TODO - Reloading the whole tableview might be too much
         tableView.reloadData()

@@ -38,7 +38,6 @@ public class Internet: NSObject {
     
     // MARK: - Connectivity
     
-    
     /// Return if we have an internet connection. No differenciation with Cellular or Wifi. They are treated the same way
     class func isOnline() -> Bool {
         
@@ -221,13 +220,16 @@ public class Internet: NSObject {
         self.database_reference.child("users").child(master.uid).child("conversations").observe(.childAdded) { (snapshot) in
 
             let conversationid = snapshot.value as! String
-            //let partnerid = snapshot.key
             
-            // MARK: TODO - Save new user and get their data
-            
-            // Add a listener to the conversation
-            listenForNewMessageAt(conversationID: conversationid)
-            
+            Internet.getUser(with: snapshot.key) { (user) in
+                
+                master.conversations.append(user!)
+                
+                self.update_conversations_tableview_delegate?.didUpdate(sender: Internet())
+                
+                // Add a listener to the conversation
+                listenForNewMessageAt(conversationID: conversationid)
+            }
         }
 
     }
@@ -244,6 +246,8 @@ public class Internet: NSObject {
             let message = snapshot.value as! NSDictionary
             
             receive(message: message)
+            
+            self.update_conversations_tableview_delegate?.didUpdate(sender: Internet())
             
         }
         
@@ -271,11 +275,6 @@ public class Internet: NSObject {
         let sender = informationMessage["sender"] as! String
         let is_sender = sender == master.uid
         
-        // MARK: TODO - If I am the sender and I receive the message back we can say that it works as a sent indicator for messages
-        if is_sender{
-            return
-        }
-        
         let text = informationMessage["text"] as! String
         let receiver = informationMessage["receiver"] as! String
         
@@ -298,11 +297,6 @@ public class Internet: NSObject {
         
         let sender = textMessage["sender"] as! String
         let is_sender = sender == master.uid
-        
-        // MARK: TODO - If I am the sender and I receive the message back we can say that it works as a sent indicator for messages
-        if is_sender{
-            return
-        }
         
         let text = textMessage["text"] as! String
         let receiver = textMessage["receiver"] as! String
@@ -328,10 +322,13 @@ public class Internet: NSObject {
             
             if user.uid == uid {
                 
+//                if user.conversation.last == nil || user.conversation.last!.hashValue != message.hashValue {
+//
+//                }
+                
                 user.conversation.append(message)
                 
                 self.update_chat_tableview_delegate?.didUpdate(sender: Internet())
-                
             }
             
         }
