@@ -41,9 +41,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             self.tableView.reloadData()
         }
-        
-        
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -90,7 +87,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             cell?.textLabel?.text = settings[ tableView.globalIndexPath(for: indexPath as NSIndexPath) ]
             
             // Disable it for "Recommend"
-            if settings[ tableView.globalIndexPath(for: indexPath as NSIndexPath) ] != "Recommend"{
+            if settings[ tableView.globalIndexPath(for: indexPath as NSIndexPath) ] != "Recommend" {
                 cell?.accessoryType = .disclosureIndicator
                 
             }
@@ -118,9 +115,8 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             // Delete discover users
             discover_users.removeAll()
-            master.conversations.removeAll()
-            master.speak_languages.removeAll()
-            master.learn_languages.removeAll()
+            
+            master = Master()
             
             Internet.signOut()
             

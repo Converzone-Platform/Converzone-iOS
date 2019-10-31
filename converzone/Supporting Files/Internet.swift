@@ -18,14 +18,21 @@ public class Internet: NSObject {
     
     static var update_chat_tableview_delegate: ChatUpdateDelegate?
     static var update_conversations_tableview_delegate: ConversationUpdateDelegate?
+    static var update_discovery_tableview_delegate: DiscoverUpdateDelegate?
+    
     static var database_reference = Database.database().reference()
     static var storage_reference = Storage.storage().reference()
+    
+    static var all_time_user_count = 4
+    static var user_count = 4
     
     /// Set up value listeners for Database
     class func setUpListeners(){
         
-//        self.listenForNewConversations()
-//        self.listenForDidChangeAuthState()
+        self.listenForNewConversations()
+        self.listenForDidChangeAuthState()
+        self.listenForAllTimeUserCountChange()
+        self.listenForUserCount()
         
     }
     
@@ -83,7 +90,7 @@ public class Internet: NSObject {
     /// - Parameter closure: Get back a bool which says if our sign in was successful
     static func signIn(with verificationCode: String, closure: @escaping (Bool) -> Void) {
         
-        guard let verificationID = UserDefaults.standard.string(forKey: "verificationID") else{
+        guard let verificationID = UserDefaults.standard.string(forKey: "verificationID") else {
             return
         }
         
@@ -207,6 +214,10 @@ public class Internet: NSObject {
     /// Listener for new conversations. Once it receivers a new conversation it sets a listener for messages in the new conversation
     private static func listenForNewConversations(){
         
+        if master.uid.isEmpty {
+            return
+        }
+        
         self.database_reference.child("users").child(master.uid).child("conversations").observe(.childAdded) { (snapshot) in
 
             let conversationid = snapshot.value as! String
@@ -223,6 +234,10 @@ public class Internet: NSObject {
     
     /// Listen for messages in the conversation
     private static func listenForNewMessageAt(conversationID: String){
+        
+        if master.uid.isEmpty {
+            return
+        }
         
         self.database_reference.child("conversations").child(conversationID).child("messages").queryOrdered(byChild: "date").queryLimited(toLast: 10).observe(.childAdded) { (snapshot) in
             
@@ -329,7 +344,11 @@ public class Internet: NSObject {
     /// - Parameter token: The token to update
     static func upload(token: String){
         
-        self.database_reference.child("users").child(master.uid).updateChildValues(["token": token])
+        if master.uid == ""{
+            return
+        }
+        
+        self.database_reference.child("users").child(master.uid).updateChildValues(["device_token": token])
         
     }
     
@@ -352,6 +371,10 @@ public class Internet: NSObject {
     
     /// Get the newest version of the master from the database
     static func getMaster(){
+        
+        if master.uid == ""{
+            return
+        }
         
         self.database_reference.child("users").child(master.uid).observeSingleEvent(of: .value) { (snapshot) in
             
@@ -431,7 +454,7 @@ public class Internet: NSObject {
         master.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: dictionary["birthdate"] as! String)
         master.country = Country(name: dictionary["country"] as! String)
         master.link_to_profile_image = dictionary["link_to_profile_image"] as! String
-        master.device_token = dictionary["device_token"] as! String
+       
         master.discoverable = dictionary["discoverable"] as! Bool
         master.interests = NSAttributedString(string: dictionary["interests"] as! String)
         master.status = NSAttributedString(string: dictionary["status"] as! String)
@@ -462,7 +485,7 @@ public class Internet: NSObject {
     
     /// Get languages for the uis
     /// - Parameter uid: Id from the user we want the languages for
-    /// - Parameter progress: "speak_languages" or "learn_languages"
+    /// - Parameter progress: "speak_languages"  or "learn_languages"
     /// - Parameter closure: Give back the languages array once the asynchronous task is finished
     static func getLanguagesFor(uid: String, progress: String, closure: @escaping ([Language]?) -> Void){
         
@@ -512,5 +535,170 @@ public class Internet: NSObject {
         master.blocked_users.remove(userid)
         
         self.database_reference.child("users").child(master.uid).child("blockee").setValue(Array(master.blocked_users))
+    }
+    
+    // MARK: Discovery
+    
+    private static func listenForAllTimeUserCountChange(){
+        
+        self.database_reference.child("users").child("all_time_user_count").observe(.value, with: { (snapshot) in
+            self.all_time_user_count = snapshot.value as! Int
+        })
+        
+    }
+    
+    private static func listenForUserCount(){
+        
+        self.database_reference.child("users").child("user_count").observe(.value, with: { (snapshot) in
+            self.user_count = snapshot.value as! Int
+        })
+        
+    }
+    
+    private static func getAllLanguagesFor(_ uid: String, _ user: User, _ closure: @escaping (User?) -> Void) {
+        getLanguagesFor(uid: uid, progress: "learn_languages") { (languages) in
+            
+            guard let languages = languages else {
+                return
+            }
+            
+            user.learn_languages = languages
+            
+        }
+        
+        getLanguagesFor(uid: uid, progress: "speak_languages") { (languages) in
+            
+            guard let languages = languages else {
+                return
+            }
+            
+            user.speak_languages = languages
+            
+            closure(user)
+        }
+    }
+    
+    private static func transformIntoUserObject(uid: String, user: User, dictionary: NSDictionary, closure: @escaping (User?) -> Void) {
+        
+        user.firstname = dictionary["firstname"] as! String
+        user.lastname = dictionary["lastname"] as! String
+        user.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: dictionary["birthdate"] as! String)
+        user.gender = Gender.toGender(gender: dictionary["gender"] as! String)
+        user.country = Country(name: dictionary["country"] as! String)
+        user.link_to_profile_image = dictionary["link_to_profile_image"] as! String
+        user.discoverable = dictionary["discoverable"] as! Bool
+        user.interests = NSAttributedString(string: dictionary["interests"] as! String)
+        user.status = NSAttributedString(string: dictionary["status"] as! String)
+        
+        getAllLanguagesFor(uid, user) { (user) in
+            closure(user)
+        }
+    }
+    
+    static func getUser(with uid: String, closure: @escaping (User?) -> Void) {
+        
+        self.database_reference.child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            guard let dictionary = snapshot.value as? NSDictionary else {
+                closure(nil)
+                return
+            }
+            
+            
+            let user = User()
+            
+            user.uid = snapshot.key
+            
+            transformIntoUserObject(uid: uid, user: user, dictionary: dictionary) { (user) in
+                closure(user)
+            }
+        })
+        
+    }
+    
+    private static func getUIDOfUser(with number: String, closure: @escaping (String) -> Void) {
+        
+        self.database_reference.child("users").queryOrdered(byChild: "all_time_user_number").queryEqual(toValue: number).queryLimited(toFirst: 1).observeSingleEvent(of: .value) { (snapshot) in
+            
+            
+            guard let dictionary = snapshot.value as? NSDictionary else {
+                return
+            }
+            
+            closure(dictionary.allKeys.first as! String)
+            
+        }
+        
+    }
+    
+    static func getRandomUser(){
+        
+        var randomNumberID = 1
+        var UID = ""
+        var current_user: User? = nil
+        
+        let dispatchGroup = DispatchGroup()
+        let dispatchQueue = DispatchQueue(label: "taskQueue")
+        let dispatchSemaphore = DispatchSemaphore(value: 0)
+        
+        dispatchQueue.async {
+            
+            repeat {
+
+                dispatchGroup.enter()
+                
+                // Randomly select one user
+                randomNumberID = Int.random(in: 1...Internet.all_time_user_count)
+
+                // Transform generated number to uid with which we can retreave the user from the database
+                // E.g. "1" -> "iosdnaui29pbpqwbdabd"
+                Internet.getUIDOfUser(with: String(randomNumberID)) { (uid) in
+                    
+                    UID = uid
+                    
+                    // Download user from database
+                    Internet.getUser(with: uid) { (user) in
+                        current_user = user
+                        
+                        dispatchSemaphore.signal()
+                        dispatchGroup.leave()
+                    }
+                }
+                
+                dispatchSemaphore.wait()
+
+                /// Stay in the loop until we find a user
+                /// 1. Whom we don't have yet           `Internet.contains(uid: UID, in: discover_users)`
+                /// 2. Who exists in the database        `current_user == nil`
+                /// 3. Who wants to be found              `current_user?.discoverable == false`
+                /// 4. Who is not us
+            } while(current_user == nil || current_user?.discoverable == false || Internet.contains(uid: UID, in: discover_users) || UID == master.uid)
+            
+            // I want to execute the following line of code when I know that I found an user whith the conditions of the while loop
+            discover_users.append(current_user!)
+            
+            Internet.update_discovery_tableview_delegate?.didUpdate(sender: Internet())
+        }
+        
+        dispatchGroup.notify(queue: dispatchQueue) {
+            
+            DispatchQueue.main.async {
+                print("Another loop iteration finished")
+            }
+        }
+        
+    }
+    
+    private static func contains(uid: String, in users: [User]) -> Bool{
+        
+        for user in users {
+            
+            if user.uid == uid {
+                return true
+            }
+            
+        }
+        
+        return false
     }
 }

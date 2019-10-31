@@ -24,7 +24,6 @@ class Master: Person {
     
     //All people with whom the master has chats with
     internal var conversations: [User] = []
-    internal var discoverable: Bool = true
     internal var blocked_users: Set<String> = []
     
     internal var unopened_chats: Int {
@@ -64,7 +63,7 @@ class Master: Person {
             "device_token": super.device_token,
             "interests": super.interests.string,
             "status": super.status.string,
-            "discoverable": self.discoverable
+            "discoverable": super.discoverable
             
         ]
         

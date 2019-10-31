@@ -42,6 +42,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             
             cell.input?.placeholder = "e.g. +43 650 1234"
             cell.title?.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
+            cell.input?.textContentType = .telephoneNumber
             
             return cell
         case 1:

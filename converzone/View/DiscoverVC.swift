@@ -8,19 +8,23 @@
 
 import UIKit
 
-let numberOfItemsPerFetch = 11
-var fetchedCount = 0
-var reachedTheEnd = false
+
 var discover_users: [User] = []
 var profileOf: User = User()
 
-private let refreshControl = UIRefreshControl()
-
-class DiscoverVC: UIViewController {
+class DiscoverVC: UIViewController, DiscoverUpdateDelegate {
+    
+    private let numberOfItemsPerFetch = 11
+    private var fetchedCount = 0
+    private var reachedTheEnd = false
+    
+    private var discoverCard: DicoverCard = DicoverCard()
+    private let refreshControl = UIRefreshControl()
+    
+    // To update the table view from the Internet class
+    let updates = Internet()
     
     @IBOutlet weak var tableView: UITableView!
-    
-    var discoverCard: DicoverCard!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,14 +33,24 @@ class DiscoverVC: UIViewController {
         
         self.view.backgroundColor = Colors.backgroundGrey
         
+        Internet.update_discovery_tableview_delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if discover_users.isEmpty && Internet.isOnline(){
+            
             fetchUsers()
             fetchedCount = 0
+            
+        }
+    }
+    
+    func didUpdate(sender: Internet) {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
     
@@ -50,8 +64,8 @@ class DiscoverVC: UIViewController {
         // Update the table view
         self.tableView.reloadData()
         
-        fetchedCount = 0
         fetchUsers()
+        fetchedCount = 0
         
         sender.endRefreshing()
         
@@ -60,54 +74,58 @@ class DiscoverVC: UIViewController {
     private func fetchUsers(){
         
         fetchedCount += numberOfItemsPerFetch
+//
+//        let user = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiewdwwdasuqzeiu")
+//        let user1 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiewasdasdasdwwuqzeiu")
+//        let user2 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiewdwasdwuqzeiu")
+//        let user3 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiedad243swdwadawuqzeiu")
+//        let user4 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiew3424234da34sdwwuqzeiu")
+//        let user5 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiewd234wwuqzeiu")
+//        let user6 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131ei424esa4234dwdwwuqzeiu")
+//        let user7 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiesadwadsasdsdwwuqzeiu")
+//        let user8 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eieasaswdwwuqzeiu")
+//        let user9 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131e423iewdwwuq3242423423432434zeiu")
+//        let user10 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "34")
+//        let user11 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "123")
+//        let user12 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiad42sdsdasdsadewdwwuqzeiu")
+//        let user13 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "213123441eie42334wdwwuqzeiu")
+//        let user14 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eie342wdwwuqzeiu")
+//
+//        user.link_to_profile_image = "https://picsum.photos/id/1/500/500"
+//        user1.link_to_profile_image = "https://picsum.photos/id/11/500/500"
+//        user2.link_to_profile_image = "https://picsum.photos/id/12/500/500"
+//        user3.link_to_profile_image = "https://picsum.photos/id/13/500/500"
+//        user4.link_to_profile_image = "https://picsum.photos/id/14/500/500"
+//        user5.link_to_profile_image = "https://picsum.photos/id/15/500/500"
+//        user6.link_to_profile_image = "https://picsum.photos/id/16/500/500"
+//        user7.link_to_profile_image = "https://picsum.photos/id/17/500/500"
+//        user8.link_to_profile_image = "https://picsum.photos/id/18/500/500"
+//        user9.link_to_profile_image = "https://picsum.photos/id/19/500/500"
+//        user10.link_to_profile_image = "https://picsum.photos/id/20/500/500"
+//        user11.link_to_profile_image = "https://picsum.photos/id/21/500/500"
+//        user12.link_to_profile_image = "https://picsum.photos/id/22/500/500"
+//        user13.link_to_profile_image = "https://picsum.photos/id/23/500/500"
+//        user14.link_to_profile_image = "https://picsum.photos/id/24/500/500"
+//
+//        discover_users.append(user)
+//        discover_users.append(user1)
+//        discover_users.append(user2)
+//        discover_users.append(user3)
+//        discover_users.append(user4)
+//        discover_users.append(user5)
+//        discover_users.append(user6)
+//        discover_users.append(user7)
+//        discover_users.append(user8)
+//        discover_users.append(user9)
+//        discover_users.append(user10)
+//        discover_users.append(user11)
+//        discover_users.append(user12)
+//        discover_users.append(user13)
+//        discover_users.append(user14)
         
-        let user = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiewdwwdasuqzeiu")
-        let user1 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiewasdasdasdwwuqzeiu")
-        let user2 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiewdwasdwuqzeiu")
-        let user3 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiedad243swdwadawuqzeiu")
-        let user4 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiew3424234da34sdwwuqzeiu")
-        let user5 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiewd234wwuqzeiu")
-        let user6 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131ei424esa4234dwdwwuqzeiu")
-        let user7 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiesadwadsasdsdwwuqzeiu")
-        let user8 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eieasaswdwwuqzeiu")
-        let user9 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131e423iewdwwuq3242423423432434zeiu")
-        let user10 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "34")
-        let user11 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "123")
-        let user12 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiad42sdsdasdsadewdwwuqzeiu")
-        let user13 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "213123441eie42334wdwwuqzeiu")
-        let user14 = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eie342wdwwuqzeiu")
-        
-        user.link_to_profile_image = "https://picsum.photos/id/1/500/500"
-        user1.link_to_profile_image = "https://picsum.photos/id/11/500/500"
-        user2.link_to_profile_image = "https://picsum.photos/id/12/500/500"
-        user3.link_to_profile_image = "https://picsum.photos/id/13/500/500"
-        user4.link_to_profile_image = "https://picsum.photos/id/14/500/500"
-        user5.link_to_profile_image = "https://picsum.photos/id/15/500/500"
-        user6.link_to_profile_image = "https://picsum.photos/id/16/500/500"
-        user7.link_to_profile_image = "https://picsum.photos/id/17/500/500"
-        user8.link_to_profile_image = "https://picsum.photos/id/18/500/500"
-        user9.link_to_profile_image = "https://picsum.photos/id/19/500/500"
-        user10.link_to_profile_image = "https://picsum.photos/id/20/500/500"
-        user11.link_to_profile_image = "https://picsum.photos/id/21/500/500"
-        user12.link_to_profile_image = "https://picsum.photos/id/22/500/500"
-        user13.link_to_profile_image = "https://picsum.photos/id/23/500/500"
-        user14.link_to_profile_image = "https://picsum.photos/id/24/500/500"
-        
-        discover_users.append(user)
-        discover_users.append(user1)
-        discover_users.append(user2)
-        discover_users.append(user3)
-        discover_users.append(user4)
-        discover_users.append(user5)
-        discover_users.append(user6)
-        discover_users.append(user7)
-        discover_users.append(user8)
-        discover_users.append(user9)
-        discover_users.append(user10)
-        discover_users.append(user11)
-        discover_users.append(user12)
-        discover_users.append(user13)
-        discover_users.append(user14)
+        for _ in 0...numberOfItemsPerFetch {
+            Internet.getRandomUser()
+        }
         
     }
     
@@ -135,7 +153,6 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
         
         profileOf = discover_users[indexPath.row]
         
-        self.discoverCard = DicoverCard()
         self.discoverCard.setUpCard(caller: self)
         self.discoverCard.animateTransitionIfNeeded(state: self.discoverCard.nextState, duration: 0.9)
     }
@@ -167,6 +184,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
         
         let lastSectionIndex = tableView.numberOfSections - 1
         let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+        
         if indexPath.section ==  lastSectionIndex && indexPath.row == lastRowIndex {
             
             let spinner = UIActivityIndicatorView(style: .gray)
@@ -355,7 +373,9 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
         let currentOffset = scrollView.contentOffset.y
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
         
-        if maximumOffset - currentOffset <= 500 {
+        print(maximumOffset - currentOffset)
+        
+        if maximumOffset - currentOffset <= 3500 {
             
             if Internet.isOnline(){
                 fetchUsers()
@@ -364,4 +384,9 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
         
         
     }
+}
+
+// To update the table view from another class
+protocol DiscoverUpdateDelegate {
+    func didUpdate(sender: Internet)
 }

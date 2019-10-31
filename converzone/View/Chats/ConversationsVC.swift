@@ -24,13 +24,6 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let user = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "b1oztOuiF5NA9Jk6JI2k4K3qGk32")
-        
-        let message = TextMessage(text: "I am so cute :)", is_sender: false)
-        user.conversation.append(message)
-        user.link_to_profile_image = "https://picsum.photos/id/1/200/200"
-        master.conversations.append(user)
-        
         Internet.setUpListeners()
         
         setUpNavBar()
@@ -44,6 +37,8 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         super.viewWillAppear(animated)
         
         goToSplashScreenIfNeeded()
+        
+        Internet.getMaster()
         
         self.title = "Conversations"
         self.tabBarController?.cleanTitles()

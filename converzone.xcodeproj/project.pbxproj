@@ -247,11 +247,11 @@
 		4A1C985721BC1C1400F99D62 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4A016FD121B585BF00095E26 /* Internet.swift */,
+				4A36EBD2232D2ACE0053361F /* Navigation.swift */,
 				4AC65934229F16F200BD2251 /* Alerts.swift */,
 				4A5D856621B29F07004E3E79 /* Colors.swift */,
-				4A016FD121B585BF00095E26 /* Internet.swift */,
 				4A016FD321B6716800095E26 /* Extensions.swift */,
-				4A36EBD2232D2ACE0053361F /* Navigation.swift */,
 				4A36EBD4232D34C90053361F /* NoAutoRotateViewController.swift */,
 				4A05490D235F2BB6000B00FB /* Date.swift */,
 				4A5EC4732363654C00EFD7CE /* LabelForLogin.swift */,

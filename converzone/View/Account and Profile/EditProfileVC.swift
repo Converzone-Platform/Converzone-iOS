@@ -34,7 +34,14 @@ class EditProfileVC: UIViewController{
         profile_image.isUserInteractionEnabled = true
         
         //Add a done button
-        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(donePressed))
+        
+        var title_of_button = "Done"
+        
+        if master.editingMode == .editing{
+            title_of_button = "Save"
+        }
+        
+        let doneButton = UIBarButtonItem(title: title_of_button, style: .done, target: self, action: #selector(donePressed))
         self.navigationItem.rightBarButtonItem = doneButton
         
         if master.editingMode == .editing && Internet.isOnline(){
@@ -317,7 +324,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.input?.addTarget(self, action: #selector(firstNameTextFieldChanged), for: .editingChanged)
             
-            if master.firstname.isEmpty {
+            if !master.firstname.isEmpty {
                 cell.input!.text = master.firstname
             }
             
@@ -330,7 +337,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.input?.addTarget(self, action: #selector(lastNameTextFieldChanged), for: .editingChanged)
             
-            if master.lastname.isEmpty  {
+            if !master.lastname.isEmpty  {
                 cell.input!.text = master.lastname
             }
             

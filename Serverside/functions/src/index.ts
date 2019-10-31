@@ -29,6 +29,55 @@ export const startedNewConversation = functions.database
         
     })
 
+    // MARK: Have a counter for every user on the platform
+    // Increase when user is added
+    // Decrease when user is deleted
+
+    export const userCountUp = functions.database
+        .ref("/users/{userid}")
+        .onCreate(async (snapshot, context) => {
+
+        const countRef = snapshot.ref.parent!.child("user_count")
+        return countRef.transaction(count => {
+            return count + 1
+        })
+
+    })
+
+    export const userCountDown = functions.database
+        .ref("/users/{userid}")
+        .onDelete(async (snapshot, context) => {
+
+        const countRef = snapshot.ref.parent!.child("user_count")
+        return countRef.transaction(count => {
+            return count - 1
+        })
+
+    })
+
+    // Have a function which only increases the counter of the users
+    // Add what number the user is
+    // export const userCountAlltimeUp = functions.database
+    //     .ref("/users/{userid}")
+    //     .onCreate(async (snapshot, context) => {
+
+    //     const countRef = snapshot.ref.parent!.child("user_count_alltime")
+    //     countRef.transaction(count => {
+
+    //         snapshot.ref.parent!.child("user_count_alltime").on('value', function (snapshot2){
+
+    //             const count = snapshot2!.val().user_count_alltime
+    
+    //             snapshot.ref.child("user_count").set(count);
+    
+    //         })
+
+    //         return count + 1
+    //     })
+
+        
+    // })
+
 export const newMessage = functions.database
     .ref("conversations/{conversationid}/messages/{messageid}")
     .onCreate((snapshot, context) => {
@@ -36,16 +85,22 @@ export const newMessage = functions.database
         //let sender_id = snapshot.val().sender
         const receiver_id = snapshot.val().receiver
 
-        let receiver_token = null
+        const receiver_token = null
 
         //let sender_firstname = admin.database().ref(`/users/${sender_id}`).snapshot.val().firstname
         //let sender_lastname = admin.database().ref(`/users/${sender_id}`).snapshot.val().lastname
 
-        admin.database().ref(`/users/${receiver_id}/token`).once('value').then((snap) => {
-            receiver_token = snap.val()
-            console.log('snapshot: ' + snap.val())
+        // admin.database().ref(`/users/${receiver_id}/token`).once('value').then((snap) => {
+        //     receiver_token = snap.val()
+        //     console.log('snapshot: ' + snap.val())
 
-        }); 
+        // }); 
+
+        snapshot.ref.parent!.parent!.parent!.child(`/users/${receiver_id}`).on('value', function (snapshot2) {
+
+            console.log(snapshot2!.val().device_token)
+
+        })
 
         //const payload = {
         //      notification: {
@@ -59,12 +114,5 @@ export const newMessage = functions.database
               }
         };
 
-        //console.log('sender_id: ' + sender_id)
-        //console.log('receiver_id: ' + receiver_id)
-        //console.log('receiver_token: ' + receiver_token)
-        //console.log('sender_firstname: ' + sender_firstname)
-        //console.log('sender_lastname: ' + sender_lastname)
-        //console.log(sender_firstname + ' ' + sender_lastname)
-
-       return admin.messaging().sendToDevice(receiver_token, payload);
+        return admin.messaging().sendToDevice(receiver_token, payload);
 })

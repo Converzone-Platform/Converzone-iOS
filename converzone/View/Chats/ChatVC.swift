@@ -469,7 +469,6 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let message = master.conversations[indexOfUser].conversation[indexPath.row] as! ImageMessage
             
-            //cell.message_imageView.download(from: message.link!)
             cell.message_imageView.image = message.image
             cell.message_imageView.contentMode = .scaleAspectFill
             cell.message_imageView.clipsToBounds = true
