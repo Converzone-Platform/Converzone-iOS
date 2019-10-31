@@ -55,28 +55,27 @@ exports.userCountDown = functions.database
 exports.newMessage = functions.database
     .ref("conversations/{conversationid}/messages/{messageid}")
     .onCreate((snapshot, context) => {
-    //let sender_id = snapshot.val().sender
+    const sender_id = snapshot.val().sender;
     const receiver_id = snapshot.val().receiver;
-    const receiver_token = null;
-    //let sender_firstname = admin.database().ref(`/users/${sender_id}`).snapshot.val().firstname
-    //let sender_lastname = admin.database().ref(`/users/${sender_id}`).snapshot.val().lastname
-    // admin.database().ref(`/users/${receiver_id}/token`).once('value').then((snap) => {
-    //     receiver_token = snap.val()
-    //     console.log('snapshot: ' + snap.val())
-    // }); 
-    snapshot.ref.parent.parent.parent.child(`/users/${receiver_id}`).on('value', function (snapshot2) {
-        console.log(snapshot2.val().device_token);
+    let sender_firstname = null;
+    let sender_lastname = null;
+    let receiver_token = null;
+    // Get token of receiver
+    const ref_receiver_id = admin.database().ref("users").child(receiver_id);
+    ref_receiver_id.once("value").then((snapshot_token) => {
+        receiver_token = snapshot_token.val().device_token;
+        // Get first and lastname
+        const ref_sender_id = admin.database().ref("users").child(sender_id);
+        ref_sender_id.once("value").then((snapshot_name) => {
+            sender_firstname = snapshot_name.val().firstname;
+            sender_lastname = snapshot_name.val().lastname;
+            const payload = {
+                notification: {
+                    title: sender_firstname + " " + sender_lastname
+                }
+            };
+            return admin.messaging().sendToDevice(receiver_token, payload);
+        });
     });
-    //const payload = {
-    //      notification: {
-    //          title: sender_firstname + ' ' + sender_lastname
-    //      }
-    //};
-    const payload = {
-        notification: {
-            title: "Name"
-        }
-    };
-    return admin.messaging().sendToDevice(receiver_token, payload);
 });
 //# sourceMappingURL=index.js.map

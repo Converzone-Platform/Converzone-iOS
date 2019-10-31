@@ -346,11 +346,11 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         screenshot_message.date = Date()
         screenshot_message.is_sender = true
         
-        master.conversations[indexOfUser].conversation.append(screenshot_message)
+        //master.conversations[indexOfUser].conversation.append(screenshot_message)
         
         Internet.send(message: screenshot_message, receiver: master.conversations[indexOfUser])
         
-        updateTableView(animated: true)
+        //updateTableView(animated: true)
         
     }
     
@@ -700,13 +700,13 @@ extension ChatVC: UITextFieldDelegate {
 
         let message = TextMessage(text: textField.text!, is_sender: true)
 
-        master.conversations[indexOfUser].conversation.append(message)
+        //master.conversations[indexOfUser].conversation.append(message)
 
         Internet.send(message: message, receiver: master.conversations[indexOfUser])
 
         textField.text = ""
 
-        updateTableView(animated: true)
+        //updateTableView(animated: true)
         
         return true
     }

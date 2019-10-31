@@ -82,37 +82,37 @@ export const newMessage = functions.database
     .ref("conversations/{conversationid}/messages/{messageid}")
     .onCreate((snapshot, context) => {
 
-        //let sender_id = snapshot.val().sender
+        const sender_id = snapshot.val().sender
         const receiver_id = snapshot.val().receiver
+        let sender_firstname: any = null
+        let sender_lastname: any = null
+        let receiver_token: any = null
 
-        const receiver_token = null
+        // Get token of receiver
+        const ref_receiver_id = admin.database().ref("users").child(receiver_id)
+        ref_receiver_id.once("value").then((snapshot_token: any) => {
 
-        //let sender_firstname = admin.database().ref(`/users/${sender_id}`).snapshot.val().firstname
-        //let sender_lastname = admin.database().ref(`/users/${sender_id}`).snapshot.val().lastname
+            receiver_token = snapshot_token.val().device_token
 
-        // admin.database().ref(`/users/${receiver_id}/token`).once('value').then((snap) => {
-        //     receiver_token = snap.val()
-        //     console.log('snapshot: ' + snap.val())
+            // Get first and lastname
+            const ref_sender_id = admin.database().ref("users").child(sender_id)
+            ref_sender_id.once("value").then((snapshot_name: any) => {
+            
+                sender_firstname = snapshot_name.val().firstname
+                sender_lastname = snapshot_name.val().lastname
 
-        // }); 
-
-        snapshot.ref.parent!.parent!.parent!.child(`/users/${receiver_id}`).on('value', function (snapshot2) {
-
-            console.log(snapshot2!.val().device_token)
+                const payload = {
+                    notification: {
+                        title: sender_firstname + " " + sender_lastname
+                    }
+                };
+    
+                return admin.messaging().sendToDevice(receiver_token, payload);
 
         })
 
-        //const payload = {
-        //      notification: {
-        //          title: sender_firstname + ' ' + sender_lastname
-        //      }
-        //};
+        
+    })
 
-        const payload = {
-              notification: {
-                  title: "Name"
-              }
-        };
-
-        return admin.messaging().sendToDevice(receiver_token, payload);
+        
 })

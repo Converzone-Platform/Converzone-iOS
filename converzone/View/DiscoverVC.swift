@@ -73,6 +73,10 @@ class DiscoverVC: UIViewController, DiscoverUpdateDelegate {
     
     private func fetchUsers(){
         
+        if Internet.user_count <= discover_users.count {
+            return
+        }
+        
         fetchedCount += numberOfItemsPerFetch
 //
 //        let user = User(firstname: "Lucie", lastname: "Deroo", gender: .female, birthdate: Date(), uid: "2131eiewdwwdasuqzeiu")
