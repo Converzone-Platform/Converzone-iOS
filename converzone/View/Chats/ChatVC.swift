@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 import AVFoundation
+import UserNotifications
 
 var indexOfUser: Int = 0
 
@@ -704,11 +705,10 @@ extension ChatVC: UITextFieldDelegate {
             let message = TextMessage(text: messageString, is_sender: true)
             master.conversations[indexOfUser].conversation.append(message)
             Internet.send(message: message, receiver: master.conversations[indexOfUser])
+            updateTableView(animated: true)
         }
 
         textField.text = ""
-
-        updateTableView(animated: true)
         
         return true
     }
