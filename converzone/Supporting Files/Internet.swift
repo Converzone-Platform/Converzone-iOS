@@ -402,6 +402,11 @@ public class Internet: NSObject {
     static func signOut(){
         do{
             try Auth.auth().signOut()
+            
+            discover_users.removeAll()
+            
+            master = Master()
+            
             UserDefaults.standard.removeObject(forKey: "DidFinishRegistration")
         }catch{
             alert("Signing out ...", "An unknown error occurred")
@@ -412,7 +417,7 @@ public class Internet: NSObject {
     /// - Parameter image: The image to upload
     static func upload(image: UIImage){
         
-        let jpeg = image.jpegData(compressionQuality: 1.0)
+        let jpeg = image.jpegData(compressionQuality: 0.5)
         
         storage_reference.child("profile_images").child(master.uid + ".jpg").putData(jpeg!, metadata: nil) { (metadata, error) in
             
@@ -451,10 +456,10 @@ public class Internet: NSObject {
         master.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: dictionary["birthdate"] as! String)
         master.country = Country(name: dictionary["country"] as! String)
         master.link_to_profile_image = dictionary["link_to_profile_image"] as! String
-       
         master.discoverable = dictionary["discoverable"] as! Bool
         master.interests = NSAttributedString(string: dictionary["interests"] as! String)
         master.status = NSAttributedString(string: dictionary["status"] as! String)
+        master.phonenumber = dictionary["phonenumber"] as! String
         
     }
     
@@ -586,6 +591,7 @@ public class Internet: NSObject {
         user.discoverable = dictionary["discoverable"] as! Bool
         user.interests = NSAttributedString(string: dictionary["interests"] as! String)
         user.status = NSAttributedString(string: dictionary["status"] as! String)
+        user.phonenumber = dictionary["phonenumber"] as? String ?? ""
         
         getAllLanguagesFor(uid, user) { (user) in
             closure(user)

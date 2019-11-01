@@ -52,7 +52,9 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        goToSplashScreenIfNeeded()
+        if Navigation.didnotFinishRegistration() {
+            Navigation.change(navigationController: "SplashScreenVC")
+        }
         
         Internet.getMaster()
         
@@ -64,15 +66,6 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         
         //MARK: TODO - Reloading the whole tableview might be too much
         tableView.reloadData()
-    }
-    
-    /// Is the user verified/logged in? If not, let's take them to the SplashScreen
-    private func goToSplashScreenIfNeeded(){
-        
-        if Auth.auth().currentUser == nil || UserDefaults.standard.bool(forKey: "DidFinishRegistration") == false {
-            Navigation.change(navigationController: "SplashScreenVC")
-        }
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

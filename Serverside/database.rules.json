@@ -3,6 +3,10 @@
     ".read": true,
     ".write": true,
     
+    "users": {
+        ".indexOn": ["all_time_user_number"]
+    },
+    
     "conversations": {
         
         "$conversationid": {

@@ -62,6 +62,19 @@ import FirebaseMessaging
         completionHandler([.alert, .badge, .sound])
     }
     
+    // MARK: Account
+    func applicationWillTerminate(_ application: UIApplication) {
+        if Navigation.didnotFinishRegistration() {
+            Internet.signOut()
+        }
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        if Navigation.didnotFinishRegistration() {
+            Internet.signOut()
+        }
+    }
+    
     // MARK: - Core Data stack
     lazy var persistentContainer: NSPersistentContainer = {
         /*

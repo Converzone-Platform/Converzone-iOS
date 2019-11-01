@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PhoneNumberKit
 
 class PhoneVerificationVC: NoAutoRotateViewController {
     
@@ -56,9 +57,8 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             return cell!
             
         case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NormalInputCell") as! NormalInputCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NormalOTPCell") as! NormalInputCell
             
-            cell.input?.placeholder = "123456"
             cell.textLabel!.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
             if #available(iOS 12.0, *) {
@@ -118,12 +118,14 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             
             // MARK: Check phone number
             
-            guard let phone_number = (tableView.cellForRow(at: NSIndexPath(row: 0, section: 0) as IndexPath) as! NormalInputCell).input?.text else {
+            guard let phonenumber = (tableView.cellForRow(at: NSIndexPath(row: 0, section: 0) as IndexPath) as! NormalInputCell).input?.text else {
                 
                 return
             }
             
-            Internet.verify(phoneNumber: phone_number)
+            master.phonenumber = phonenumber
+            
+            Internet.verify(phoneNumber: phonenumber)
         
             if (labels.count <= 2){
                 addNewSectionTo(tableView)
@@ -142,7 +144,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                 
                 if self.seconds_until_retry == -1{
                     timer.invalidate()
-                    self.seconds_until_retry = 60
+                    self.seconds_until_retry = 25
                     
                     send_button_cell?.textLabel?.text = "Send code"
                     send_button_cell?.isUserInteractionEnabled = true
@@ -169,6 +171,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                 }
                 
                 alert("Verified!", "Let's continue with entering further user information now") {
+                    
                     Navigation.change(navigationController: "ContinentNC")
                 }
             }

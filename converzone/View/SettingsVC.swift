@@ -113,11 +113,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         case 4:
             Navigation.change(navigationController: "SplashScreenVC")
             
-            // Delete discover users
-            discover_users.removeAll()
-            
-            master = Master()
-            
             Internet.signOut()
             
         default:
