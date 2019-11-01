@@ -23,23 +23,32 @@ public class Internet: NSObject {
     static var database_reference = Database.database().reference()
     static var storage_reference = Storage.storage().reference()
     
-    static var all_time_user_count = 4
-    static var user_count = 4
+    static var all_time_user_count = 1
+    static var user_count = 1
+    
+    private static var listener_for_new_conversation: DatabaseReference? = nil
+    private static var listener_for_all_time_user_change: DatabaseReference? = nil
+    private static var listener_for_user_count: DatabaseReference? = nil
     
     /// Set up value listeners for Database
-    class func setUpListeners(){
+    static func setUpListeners(){
         
         self.listenForNewConversations()
-        self.listenForDidChangeAuthState()
         self.listenForAllTimeUserCountChange()
         self.listenForUserCount()
         
     }
     
+    static func removeListeners(){
+        listener_for_user_count?.removeAllObservers()
+        listener_for_new_conversation?.removeAllObservers()
+        listener_for_all_time_user_change?.removeAllObservers()
+    }
+    
     // MARK: - Connectivity
     
     /// Return if we have an internet connection. No differenciation with Cellular or Wifi. They are treated the same way
-    class func isOnline() -> Bool {
+    static func isOnline() -> Bool {
         
         var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
         zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
@@ -210,6 +219,19 @@ public class Internet: NSObject {
     
     // MARK: Receiving messages
     
+    private static func addUserIfNew(user: User) {
+        
+        for have_user in master.conversations {
+            
+            if user.uid == have_user.uid {
+                return
+            }
+            
+        }
+        
+        master.conversations.append(user)
+    }
+    
     /// Listener for new conversations. Once it receivers a new conversation it sets a listener for messages in the new conversation
     private static func listenForNewConversations(){
         
@@ -217,13 +239,15 @@ public class Internet: NSObject {
             return
         }
         
-        self.database_reference.child("users").child(master.uid).child("conversations").observe(.childAdded) { (snapshot) in
+        listener_for_new_conversation = self.database_reference.child("users").child(master.uid).child("conversations")
+        
+        listener_for_new_conversation?.observe(.childAdded) { (snapshot) in
 
             let conversationid = snapshot.value as! String
             
             Internet.getUser(with: snapshot.key) { (user) in
                 
-                master.conversations.append(user!)
+                Internet.addUserIfNew(user: user!)
                 
                 self.update_conversations_tableview_delegate?.didUpdate(sender: Internet())
                 
@@ -322,10 +346,6 @@ public class Internet: NSObject {
             
             if user.uid == uid {
                 
-//                if user.conversation.last == nil || user.conversation.last!.hashValue != message.hashValue {
-//
-//                }
-                
                 user.conversation.append(message)
                 
                 self.update_chat_tableview_delegate?.didUpdate(sender: Internet())
@@ -347,6 +367,15 @@ public class Internet: NSObject {
         
         self.database_reference.child("users").child(master.uid).updateChildValues(["device_token": token])
         
+    }
+    
+    static func removeToken(){
+        
+        if master.uid == ""{
+            return
+        }
+        
+        self.database_reference.child("users").child(master.uid).child("device_token").removeValue()
     }
     
     // MARK: Master update
@@ -401,13 +430,18 @@ public class Internet: NSObject {
     
     static func signOut(){
         do{
+            
             try Auth.auth().signOut()
             
             discover_users.removeAll()
+            Internet.removeListeners()
+            
+            Internet.removeToken()
             
             master = Master()
             
             UserDefaults.standard.removeObject(forKey: "DidFinishRegistration")
+            
         }catch{
             alert("Signing out ...", "An unknown error occurred")
         }
@@ -417,7 +451,7 @@ public class Internet: NSObject {
     /// - Parameter image: The image to upload
     static func upload(image: UIImage){
         
-        let jpeg = image.jpegData(compressionQuality: 0.5)
+        let jpeg = image.jpegData(compressionQuality: 1)
         
         storage_reference.child("profile_images").child(master.uid + ".jpg").putData(jpeg!, metadata: nil) { (metadata, error) in
             
@@ -455,7 +489,7 @@ public class Internet: NSObject {
         master.gender = Gender.toGender(gender: dictionary["gender"] as! String)
         master.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: dictionary["birthdate"] as! String)
         master.country = Country(name: dictionary["country"] as! String)
-        master.link_to_profile_image = dictionary["link_to_profile_image"] as! String
+        master.link_to_profile_image = dictionary["link_to_profile_image"] as? String ?? ""
         master.discoverable = dictionary["discoverable"] as! Bool
         master.interests = NSAttributedString(string: dictionary["interests"] as! String)
         master.status = NSAttributedString(string: dictionary["status"] as! String)
@@ -543,7 +577,9 @@ public class Internet: NSObject {
     
     private static func listenForAllTimeUserCountChange(){
         
-        self.database_reference.child("users").child("all_time_user_count").observe(.value, with: { (snapshot) in
+        listener_for_all_time_user_change = self.database_reference.child("users").child("all_time_user_count")
+        
+        listener_for_all_time_user_change?.observe(.value, with: { (snapshot) in
             self.all_time_user_count = snapshot.value as! Int
         })
         
@@ -551,7 +587,9 @@ public class Internet: NSObject {
     
     private static func listenForUserCount(){
         
-        self.database_reference.child("users").child("user_count").observe(.value, with: { (snapshot) in
+        listener_for_user_count = self.database_reference.child("users").child("user_count")
+        
+        listener_for_user_count?.observe(.value, with: { (snapshot) in
             self.user_count = snapshot.value as! Int
         })
         
@@ -587,7 +625,7 @@ public class Internet: NSObject {
         user.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: dictionary["birthdate"] as! String)
         user.gender = Gender.toGender(gender: dictionary["gender"] as! String)
         user.country = Country(name: dictionary["country"] as! String)
-        user.link_to_profile_image = dictionary["link_to_profile_image"] as! String
+        user.link_to_profile_image = dictionary["link_to_profile_image"] as? String ?? ""
         user.discoverable = dictionary["discoverable"] as! Bool
         user.interests = NSAttributedString(string: dictionary["interests"] as! String)
         user.status = NSAttributedString(string: dictionary["status"] as! String)
@@ -619,9 +657,9 @@ public class Internet: NSObject {
         
     }
     
-    private static func getUIDOfUser(with number: String, closure: @escaping (String) -> Void) {
+    static func getUIDOfUser(with number: String, closure: @escaping (String) -> Void) {
         
-        self.database_reference.child("users").queryOrdered(byChild: "all_time_user_number").queryEqual(toValue: number).queryLimited(toFirst: 1).observeSingleEvent(of: .value) { (snapshot) in
+        self.database_reference.child("users").queryOrdered(byChild: "all_time_user_count").queryEqual(toValue: number).queryLimited(toFirst: 1).observeSingleEvent(of: .value) { (snapshot) in
             
             
             guard let dictionary = snapshot.value as? NSDictionary else {
@@ -671,11 +709,12 @@ public class Internet: NSObject {
                 dispatchSemaphore.wait()
 
                 /// Stay in the loop until we find a user
-                /// 1. Whom we don't have yet           `Internet.contains(uid: UID, in: discover_users)`
-                /// 2. Who exists in the database        `current_user == nil`
-                /// 3. Who wants to be found              `current_user?.discoverable == false`
-                /// 4. Who is not us
-            } while(current_user == nil || current_user?.discoverable == false || Internet.contains(uid: UID, in: discover_users) || UID == master.uid)
+                /// 1. Whom we don't have yet              `Internet.contains(uid: UID, in: discover_users)`
+                /// 2. Who exists in the database          `current_user == nil`
+                /// 3. Who wants to be found                `current_user?.discoverable == false`
+                /// 4. Who is not us                                `UID == master.uid`
+                /// and as long as there are more users `reachedTheEndForDiscoverableUsers`
+            } while(current_user == nil || current_user?.discoverable == false || Internet.contains(uid: UID, in: discover_users) || UID == master.uid || reachedTheEndForDiscoverableUsers)
             
             // I want to execute the following line of code when I know that I found an user whith the conditions of the while loop
             discover_users.append(current_user!)

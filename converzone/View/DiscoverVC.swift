@@ -12,12 +12,14 @@ import UIKit
 var discover_users: [User] = []
 var profileOf: User = User()
 
+var reachedTheEndForDiscoverableUsers: Bool {
+    return Internet.user_count-1 == discover_users.count
+}
+
 class DiscoverVC: UIViewController, DiscoverUpdateDelegate {
     
     private let numberOfItemsPerFetch = 11
     private var fetchedCount = 0
-    private var reachedTheEnd = false
-    
     private var discoverCard: DicoverCard = DicoverCard()
     private let refreshControl = UIRefreshControl()
     
@@ -73,7 +75,7 @@ class DiscoverVC: UIViewController, DiscoverUpdateDelegate {
     
     private func fetchUsers(){
         
-        if Internet.user_count <= discover_users.count {
+        if reachedTheEndForDiscoverableUsers {
             return
         }
         
@@ -180,7 +182,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         // Don't display if we have reached the end
-        if reachedTheEnd == true{
+        if reachedTheEndForDiscoverableUsers == true{
             
             tableView.tableFooterView = nil
             return

@@ -535,6 +535,8 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             if  message.is_sender == true {
                 
+                
+                
                 cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
                 cell.map.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
             }else{
@@ -699,8 +701,6 @@ extension ChatVC: UITextFieldDelegate {
         textField.text = textField.text?.replacingOccurrences(of: "fuck", with: "🦆", options: .caseInsensitive, range: nil)
 
         let message = TextMessage(text: textField.text!, is_sender: true)
-
-        //master.conversations[indexOfUser].conversation.append(message)
 
         Internet.send(message: message, receiver: master.conversations[indexOfUser])
 
