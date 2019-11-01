@@ -37,10 +37,14 @@ class WelcomeVC: NoAutoRotateViewController {
         
             master.editingMode = .editing
             
+            UserDefaults.standard.set(true, forKey: "DidFinishRegistration")
+            
+            Internet.setUpListeners()
+            
+            Internet.upload(token: master.device_token)
+            
             // Animate to actual app
             Navigation.change(navigationController: "MainTBC")
-            
-            UserDefaults.standard.set(true, forKey: "DidFinishRegistration")
             
         }
     }

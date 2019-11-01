@@ -346,11 +346,11 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         screenshot_message.date = Date()
         screenshot_message.is_sender = true
         
-        master.conversations[indexOfUser].conversation.append(screenshot_message)
+        //master.conversations[indexOfUser].conversation.append(screenshot_message)
         
         Internet.send(message: screenshot_message, receiver: master.conversations[indexOfUser])
         
-        updateTableView(animated: true)
+        //updateTableView(animated: true)
         
     }
     
@@ -469,7 +469,6 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             let message = master.conversations[indexOfUser].conversation[indexPath.row] as! ImageMessage
             
-            //cell.message_imageView.download(from: message.link!)
             cell.message_imageView.image = message.image
             cell.message_imageView.contentMode = .scaleAspectFill
             cell.message_imageView.clipsToBounds = true
@@ -708,7 +707,7 @@ extension ChatVC: UITextFieldDelegate {
 
         textField.text = ""
 
-        updateTableView(animated: true)
+        //updateTableView(animated: true)
         
         return true
     }
