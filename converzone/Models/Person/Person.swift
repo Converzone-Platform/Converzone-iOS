@@ -30,8 +30,6 @@ class Person {
     internal var continent: String = "Europe"
     internal var country: Country = Country(name: "Austria")
     internal var timezone: String = (TimeZone.init(secondsFromGMT: 0)?.abbreviation())!
-    
-    //Platform Informations
     internal var interests: NSAttributedString = NSAttributedString(string: "")
     internal var status: NSAttributedString = NSAttributedString(string: "")
     
@@ -39,6 +37,7 @@ class Person {
     internal var reflections: [Reflection] = []
     internal var uid: String = ""
     internal var device_token: String = ""
+    internal var discoverable: Bool = true
     
     init (firstname: String, lastname: String, gender: Gender, birthdate: Date, uid: String){
         self.firstname = firstname
