@@ -97,8 +97,8 @@ These terms and conditions are governed by and construed in accordance with the 
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCH-T7-evE" customClass="LabelForLogin" customModule="converzone" customModuleProvider="target">
-                                <rect key="frame" x="16" y="106" width="383" height="26"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCH-T7-evE" customClass="LabelForLogin" customModule="converzone" customModuleProvider="target">
+                                <rect key="frame" x="16" y="106" width="382" height="26"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Chat with the world.">
                                         <attributes>
@@ -169,7 +169,7 @@ These terms and conditions are governed by and construed in accordance with the 
                                 <rect key="frame" x="57" y="298" width="300" height="300"/>
                                 <color key="backgroundColor" red="0.97244364019999996" green="0.97260981800000001" blue="0.97243314979999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="dEV-1a-pA2"/>
+                                    <constraint firstAttribute="width" secondItem="icY-yQ-Mwf" secondAttribute="height" multiplier="1:1" id="sSc-eo-tB7"/>
                                 </constraints>
                                 <wkWebViewConfiguration key="configuration" allowsAirPlayForMediaPlayback="NO" allowsPictureInPictureMediaPlayback="NO">
                                     <dataDetectorTypes key="dataDetectorTypes" none="YES"/>
@@ -181,15 +181,16 @@ These terms and conditions are governed by and construed in accordance with the 
                         <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="xnb-hm-jsa" firstAttribute="centerX" secondItem="oHq-It-4yj" secondAttribute="centerX" id="5ff-Lf-uyu"/>
+                            <constraint firstItem="MCH-T7-evE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8QV-9Z-pkM"/>
+                            <constraint firstItem="icY-yQ-Mwf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BWE-Mw-F7H"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="icY-yQ-Mwf" secondAttribute="trailing" constant="37" id="F8y-e1-vuM"/>
                             <constraint firstItem="oHq-It-4yj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="FMl-uS-Rc3"/>
-                            <constraint firstItem="icY-yQ-Mwf" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="PmA-70-3Tw"/>
-                            <constraint firstItem="icY-yQ-Mwf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="37" id="Wgm-mC-TZt"/>
+                            <constraint firstItem="icY-yQ-Mwf" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="PIv-EN-H7q"/>
                             <constraint firstItem="MCH-T7-evE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-4" id="XMy-Bw-0UJ"/>
                             <constraint firstItem="MCH-T7-evE" firstAttribute="top" secondItem="DP1-K8-8N5" secondAttribute="bottom" constant="62" id="YE3-bp-d4d"/>
                             <constraint firstItem="oHq-It-4yj" firstAttribute="top" secondItem="xnb-hm-jsa" secondAttribute="bottom" constant="20" id="f1y-AL-u88"/>
-                            <constraint firstItem="MCH-T7-evE" firstAttribute="centerX" secondItem="icY-yQ-Mwf" secondAttribute="centerX" id="fvn-TE-1gb"/>
+                            <constraint firstItem="icY-yQ-Mwf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="37" id="qMX-np-MNT"/>
                             <constraint firstItem="oHq-It-4yj" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottomMargin" id="rES-5H-3wO"/>
-                            <constraint firstItem="icY-yQ-Mwf" firstAttribute="centerX" secondItem="xnb-hm-jsa" secondAttribute="centerX" id="wUB-bd-l1c"/>
                             <constraint firstItem="oHq-It-4yj" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="yr5-Ue-9b9"/>
                         </constraints>
                     </view>
@@ -1596,16 +1597,9 @@ These terms and conditions are governed by and construed in accordance with the 
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Phone Number" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aph-za-0qR">
-                                                    <rect key="frame" x="19" y="12" width="134" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. +43 650 3314000" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BYg-QQ-33n">
-                                                    <rect key="frame" x="220.5" y="11" width="173.5" height="21.5"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. +43 650 3314000" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BYg-QQ-33n">
+                                                    <rect key="frame" x="206" y="11" width="188" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                                                 </textField>
@@ -1613,7 +1607,6 @@ These terms and conditions are governed by and construed in accordance with the 
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="input" destination="BYg-QQ-33n" id="wEl-Cy-nnn"/>
-                                            <outlet property="title" destination="aph-za-0qR" id="eZr-3u-OVc"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SendCodeCell" id="sSu-dp-bpx">
@@ -1646,7 +1639,7 @@ These terms and conditions are governed by and construed in accordance with the 
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qYJ-KI-Nub" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1348" y="26"/>
+            <point key="canvasLocation" x="1346.376811594203" y="25.446428571428569"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="cIZ-6B-p3h">

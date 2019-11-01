@@ -369,7 +369,7 @@ public class Internet: NSObject {
     /// Get the newest version of the master from the database
     static func getMaster(){
         
-        if master.uid == ""{
+        if master.uid == "" {
             return
         }
         

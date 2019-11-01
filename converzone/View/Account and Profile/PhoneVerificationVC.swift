@@ -16,7 +16,7 @@ class PhoneVerificationVC: NoAutoRotateViewController {
     private var footer_notes = ["Carrier SMS charges may apply", "You must have received a 6 digit Code within a SMS. If not, try resending"]
     private var timer: Timer? = nil
     
-    private var seconds_until_retry = 60
+    private var seconds_until_retry = 25
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +41,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "NormalInputCell") as! NormalInputCell
             
             cell.input?.placeholder = "e.g. +43 650 1234"
-            cell.title?.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
+            cell.textLabel!.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             cell.input?.textContentType = .telephoneNumber
             
             return cell
@@ -59,6 +59,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "NormalInputCell") as! NormalInputCell
             
             cell.input?.placeholder = "123456"
+            cell.textLabel!.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
             if #available(iOS 12.0, *) {
                 cell.input?.textContentType = .oneTimeCode
@@ -96,7 +97,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             // Add two new cells
             tableView.beginUpdates()
             
-            self.labels.append("Code")
+            self.labels.append("Code (OTP)")
             self.labels.append("Check code")
             
             let indexSet = IndexSet(integer: 1)
@@ -175,5 +176,30 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        
+        if tableView.globalIndexPath(for: indexPath as NSIndexPath) == 0 || tableView.globalIndexPath(for: indexPath as NSIndexPath) == 2{
+            return
+        }
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        UIView.animate(withDuration: 0.2) {
+            cell?.contentView.alpha = 0.5
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        
+        if tableView.globalIndexPath(for: indexPath as NSIndexPath) == 0 || tableView.globalIndexPath(for: indexPath as NSIndexPath) == 2{
+            return
+        }
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        UIView.animate(withDuration: 0.5) {
+            cell?.contentView.alpha = 1
+        }
+    }
     
 }
