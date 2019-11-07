@@ -63,7 +63,8 @@ class Master: Person {
             "device_token": super.device_token,
             "interests": super.interests.string,
             "status": super.status.string,
-            "discoverable": super.discoverable
+            "discoverable": super.discoverable,
+            "phonenumber": super.phonenumber
             
         ]
         

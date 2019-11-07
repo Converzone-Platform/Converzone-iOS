@@ -321,6 +321,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             cell.input?.placeholder = "First name"
+            cell.input?.textContentType = .givenName
             
             cell.input?.addTarget(self, action: #selector(firstNameTextFieldChanged), for: .editingChanged)
             
@@ -334,6 +335,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             cell.input?.placeholder = "Last name"
+            cell.input?.textContentType = .familyName
             
             cell.input?.addTarget(self, action: #selector(lastNameTextFieldChanged), for: .editingChanged)
             

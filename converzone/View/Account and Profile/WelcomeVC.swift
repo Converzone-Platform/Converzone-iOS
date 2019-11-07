@@ -23,6 +23,7 @@ class WelcomeVC: NoAutoRotateViewController {
             self.blur_view.alpha = 0
             self.journey_outlet.alpha = 0
             self.welcomeMessage_label.alpha = 0
+            self.circle_imageView.alpha = 0
             
         }, completion: { (bool) in
             self.welcomeMessage_label.text = "Have fun :)"

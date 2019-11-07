@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import PhoneNumberKit
 
 var world = World(name: "Earth")
 
@@ -16,13 +17,61 @@ class ContinentVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     let locationManager = CLLocationManager()
     
+    private func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height : CGFloat)->UIImage? {
+        let oldWidth = image.size.width;
+        let oldHeight = image.size.height;
+        
+        let scaleFactor = (oldWidth > oldHeight) ? width / oldWidth : height / oldHeight;
+        
+        let newHeight = oldHeight * scaleFactor;
+        let newWidth = oldWidth * scaleFactor;
+        let newSize = CGSize(width: newWidth, height: newHeight)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize,false,UIScreen.main.scale);
+        
+        image.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height));
+        let newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return newImage
+    }
+    
+    private func getNameOfCountry() -> String {
+        let phoneNumberKit = PhoneNumberKit()
+        var name: String = ""
+        
+        do {
+            let phoneNumber = try phoneNumberKit.parse(master.phonenumber)
+            let code = phoneNumber.countryCode
+            let mainCountry = phoneNumberKit.mainCountry(forCode: code)
+            return Country.countryName(countryCode: mainCountry!)!
+        }
+        catch {
+            print("Generic parser error")
+        }
+        
+        return ""
+    }
+    
+    private func doesFlagExitst(name: String) -> Bool {
+        
+        if UIImage(named: getFlagNameFor(name: name)) == nil{
+            return false
+        }
+        
+        return true
+    }
+    
+    private func getFlagNameFor(name: String) -> String {
+        
+        return name.replacingOccurrences(of: " ", with: "-").lowercased()
+    }
 }
 
 extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 0  {
+        if section == 0 || section == 2 {
             return 1
         }
         
@@ -44,19 +93,41 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
             cell?.textLabel?.text = world.continents[indexPath.row].name
             
             return cell!
+            
+        case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "StandardCountryCell")
+            
+            
+            cell?.textLabel!.text = getNameOfCountry()
+            cell?.imageView?.image = resizeImageWithAspect(image: UIImage(named: getFlagNameFor(name: getNameOfCountry()))!, scaledToMaxWidth: 24.0, maxHeight: 24.0)
+            
+            return cell!
+            
         default:
             return tableView.dequeueReusableCell(withIdentifier: "StandardCell")!
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        
+        if doesFlagExitst(name: getNameOfCountry()) {
+            return 3
+        }else{
+            return 2
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if section == 2 {
+            return "We could figure this out because of your phone number"
+        }
+        return ""
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        //Does the person want us to check the position by ourselves?
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             locationManager.requestWhenInUseAuthorization()
             
             // If location services is enabled get the users location
@@ -83,10 +154,24 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
                 }
             }
             
-        }else{
-            
-            master.continent = world.continents[indexPath.row].name
+            case 1:
+                master.continent = world.continents[indexPath.row].name
+            case 2:
+                master.country = Country(name: (tableView.cellForRow(at: indexPath)?.textLabel!.text)!)
+                
+                if master.editingMode == .editing{
+                    Navigation.pop(context: self)
+                    Navigation.pop(context: self)
+                    
+                    Internet.upload(country: master.country)
+                    
+                }else{
+                    Navigation.push(viewController: "UsersLanguagesVC", context: self)
+                }
+        default:
+            print("Error: line: ", #line)
         }
+        
     }
 }
 

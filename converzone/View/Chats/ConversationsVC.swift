@@ -52,7 +52,9 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        goToSplashScreenIfNeeded()
+        if Navigation.didnotFinishRegistration() {
+            Navigation.change(navigationController: "SplashScreenVC")
+        }
         
         Internet.getMaster()
         
@@ -64,15 +66,6 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         
         //MARK: TODO - Reloading the whole tableview might be too much
         tableView.reloadData()
-    }
-    
-    /// Is the user verified/logged in? If not, let's take them to the SplashScreen
-    private func goToSplashScreenIfNeeded(){
-        
-        if Auth.auth().currentUser == nil || UserDefaults.standard.bool(forKey: "DidFinishRegistration") == false {
-            Navigation.change(navigationController: "SplashScreenVC")
-        }
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -91,46 +84,46 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     
     @objc func longPressed(sender: UILongPressGestureRecognizer) {
         
-        if sender.state == UIGestureRecognizer.State.began {
-            
-            let touchPoint = sender.location(in: self.tableView)
-            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                
-                let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                
-                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                alertController.addAction(cancelAction)
-                
-                let delete = UIAlertAction(title: "Delete", style: .destructive) { (action) in
-                    
-                    // MARK: TODO - Tell database that this client deleted the chat
-                    master.conversations[indexPath.row].conversation.removeAll()
-                    master.conversations.remove(at: indexPath.row)
-                    self.tableView.deleteRows(at: [indexPath], with: .fade)
-                }
-                
-                let clear = UIAlertAction(title: "Clear", style: .destructive) { (action) in
-                    master.conversations[indexPath.row].conversation.removeAll()
-                    
-                    // Add First Message
-                    let firstMessage = FirstInformationMessage()
-                    
-                    firstMessage.text = "Here we go again :D"
-                    
-                    master.conversations[indexPath.row].conversation.append(firstMessage)
-                }
-                
-                let silence = UIAlertAction(title: "Silence", style: .default) { (action) in
-                    
-                }
-                
-                alertController.addAction(delete)
-                alertController.addAction(clear)
-                //alertController.addAction(silence)
-                
-                self.present(alertController, animated: true, completion: nil)
-            }
-        }
+//        if sender.state == UIGestureRecognizer.State.began {
+//
+//            let touchPoint = sender.location(in: self.tableView)
+//            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
+//
+//                let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//
+//                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//                alertController.addAction(cancelAction)
+//
+//                let delete = UIAlertAction(title: "Delete", style: .destructive) { (action) in
+//
+//                    // MARK: TODO - Tell database that this client deleted the chat
+//                    master.conversations[indexPath.row].conversation.removeAll()
+//                    master.conversations.remove(at: indexPath.row)
+//                    self.tableView.deleteRows(at: [indexPath], with: .fade)
+//                }
+//
+//                let clear = UIAlertAction(title: "Clear", style: .destructive) { (action) in
+//                    master.conversations[indexPath.row].conversation.removeAll()
+//
+//                    // Add First Message
+//                    let firstMessage = FirstInformationMessage()
+//
+//                    firstMessage.text = "Here we go again :D"
+//
+//                    master.conversations[indexPath.row].conversation.append(firstMessage)
+//                }
+//
+//                let silence = UIAlertAction(title: "Silence", style: .default) { (action) in
+//
+//                }
+//
+//                alertController.addAction(delete)
+//                alertController.addAction(clear)
+//                //alertController.addAction(silence)
+//
+//                self.present(alertController, animated: true, completion: nil)
+//            }
+//        }
     }
 }
 
@@ -140,7 +133,9 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         //return (filtered_converations?.count)!
         
         if master.conversations.count == 0 {
+            
             tableView.setEmptyView(title: "No conversations yet.", message: "Text a random person in the discover tab")
+            
         }
         else {
             tableView.restore()

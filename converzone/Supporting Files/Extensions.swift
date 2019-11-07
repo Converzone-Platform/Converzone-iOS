@@ -417,3 +417,14 @@ extension UIApplication{
     }
     
 }
+
+extension Locale {
+
+    func countryCode(from countryName: String) -> String? {
+        return NSLocale.isoCountryCodes.first { (code) -> Bool in
+            let name = self.localizedString(forRegionCode: code)
+            return name == countryName
+        }
+    }
+
+}

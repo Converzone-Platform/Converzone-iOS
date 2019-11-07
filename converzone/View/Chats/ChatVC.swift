@@ -536,6 +536,8 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             if  message.is_sender == true {
                 
+                
+                
                 cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
                 cell.map.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
             }else{

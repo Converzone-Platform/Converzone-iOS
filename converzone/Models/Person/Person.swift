@@ -38,6 +38,7 @@ class Person {
     internal var uid: String = ""
     internal var device_token: String = ""
     internal var discoverable: Bool = true
+    internal var phonenumber: String = ""
     
     init (firstname: String, lastname: String, gender: Gender, birthdate: Date, uid: String){
         self.firstname = firstname

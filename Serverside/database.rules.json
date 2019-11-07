@@ -1,7 +1,11 @@
 {
   "rules": {
-    ".read": true,
-    ".write": true,
+    ".read": "auth != null",
+    ".write": "auth != null",
+    
+    "users": {
+        ".indexOn": ["all_time_user_count"]
+    },
     
     "conversations": {
         

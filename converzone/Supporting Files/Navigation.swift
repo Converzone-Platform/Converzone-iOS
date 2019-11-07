@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class Navigation {
     
@@ -25,5 +26,15 @@ class Navigation {
     static func change(navigationController: String){
         
         UIApplication.shared.keyWindow?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: navigationController)
+    }
+    
+    /// Is the user verified/logged in? If not, let's take them to the SplashScreen
+    static func didnotFinishRegistration() -> Bool{
+        
+        if Auth.auth().currentUser == nil || UserDefaults.standard.bool(forKey: "DidFinishRegistration") == false {
+            return true
+        }
+        
+        return false
     }
 }

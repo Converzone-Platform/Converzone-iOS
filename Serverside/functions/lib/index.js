@@ -40,18 +40,19 @@ exports.userCountDown = functions.database
 });
 // Have a function which only increases the counter of the users
 // Add what number the user is
-// export const userCountAlltimeUp = functions.database
-//     .ref("/users/{userid}")
-//     .onCreate(async (snapshot, context) => {
-//     const countRef = snapshot.ref.parent!.child("user_count_alltime")
-//     countRef.transaction(count => {
-//         snapshot.ref.parent!.child("user_count_alltime").on('value', function (snapshot2){
-//             const count = snapshot2!.val().user_count_alltime
-//             snapshot.ref.child("user_count").set(count);
-//         })
-//         return count + 1
-//     })
-// })
+exports.userCountAlltimeUp = functions.database
+    .ref("/users/{userid}")
+    .onCreate((snapshot, context) => {
+    // Increase counter
+    const all_time_count_ref = admin.database().ref("users").child("all_time_user_count");
+    all_time_count_ref.once("value").then((snapshot_count) => {
+        let counter = snapshot_count.val();
+        counter++;
+        all_time_count_ref.set(counter);
+        // Set the counter to the user
+        return snapshot.ref.child("all_time_user_count").set("" + counter);
+    });
+});
 exports.newMessage = functions.database
     .ref("conversations/{conversationid}/messages/{messageid}")
     .onCreate((snapshot, context) => {

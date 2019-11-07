@@ -809,6 +809,11 @@ class Country {
     init(name: String) {
         self.name = name
     }
+    
+    static func countryName(countryCode: String) -> String? {
+        let current = Locale(identifier: "en_US")
+        return current.localizedString(forRegionCode: countryCode)
+    }
 }
 
 class Continent {
