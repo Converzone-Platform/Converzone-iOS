@@ -102,7 +102,7 @@ extension LongTextEditVC: UITextViewDelegate{
         let newString: NSString =
             currentString.replacingCharacters(in: range, with: text) as NSString
         
-        if newString.length == 0{
+        if newString.length == 0 {
             self.navigationItem.rightBarButtonItem?.isEnabled = false
         }else{
             self.navigationItem.rightBarButtonItem?.isEnabled = true

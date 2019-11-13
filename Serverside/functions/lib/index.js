@@ -70,9 +70,15 @@ exports.newMessage = functions.database
         ref_sender_id.once("value").then((snapshot_name) => {
             sender_firstname = snapshot_name.val().firstname;
             sender_lastname = snapshot_name.val().lastname;
+            console.log(sender_firstname + " " + receiver_token);
             const payload = {
                 notification: {
-                    title: sender_firstname + " " + sender_lastname
+                    title: sender_firstname + " " + sender_lastname,
+                    sound: "default",
+                    badge: "1"
+                },
+                data: {
+                    "sender_id": sender_id
                 }
             };
             return admin.messaging().sendToDevice(receiver_token, payload);

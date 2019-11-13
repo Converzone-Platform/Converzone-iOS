@@ -30,7 +30,15 @@ class User: Person, Hashable {
     
     internal var discover_style: Int = 0
     
-    internal var openedChat: Bool = false
+    internal var openedChat: Bool {
+        get{
+            return UserDefaults.standard.bool(forKey: "openedChat" + uid)
+        }
+        
+        set {
+            UserDefaults.standard.set(newValue, forKey: "openedChat" + uid)
+        }
+    }
 }
 
 extension Sequence where Iterator.Element: Hashable {

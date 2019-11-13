@@ -33,8 +33,8 @@ import FirebaseMessaging
       let dataDict:[String: String] = ["token": fcmToken]
       NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
         
-        master.device_token = fcmToken
-        
+      master.device_token = fcmToken
+      Internet.fcm_token = fcmToken
       Internet.upload(token: fcmToken)
     }
     
@@ -45,20 +45,26 @@ import FirebaseMessaging
         Messaging.messaging().apnsToken = deviceToken
     }
     
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        
-    }
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {}
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        print(userInfo)
         
-    }
-    
-    func applicationDidBecomeActive(_ application: UIApplication) {
+        // Open chat
+        //Navigation.push(viewController: "ChatVC")
         
     }
     
     // This method will be called when app received push notifications in foreground
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void){
+        
+        // If we are already in the chat there is no need to show a push notification
+        let sender_id = notification.request.content.userInfo["sender_id"] as! String
+        
+        if sender_id == chatOf.uid {
+            return
+        }
+        
         completionHandler([.alert, .badge, .sound])
     }
     

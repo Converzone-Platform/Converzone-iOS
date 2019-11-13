@@ -32,7 +32,11 @@ class Master: Person {
         
         for conversation in conversations {
             
-            if conversation.openedChat == false{
+            guard let last_message = conversation.conversation.last else {
+                continue
+            }
+            
+            if conversation.openedChat == false && last_message.is_sender == false {
                 count += 1
             }
             
@@ -51,22 +55,5 @@ class Master: Person {
         super.uid = uid
     }
     
-    func toDictionary() -> [String : Any]{
-        
-        return [
-        
-            "firstname": super.firstname,
-            "lastname": super.lastname,
-            "gender": super.gender!.toString(),
-            "birthdate": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: super.birthdate!),
-            "country": super.country.name!,
-            "device_token": super.device_token,
-            "interests": super.interests.string,
-            "status": super.status.string,
-            "discoverable": super.discoverable,
-            "phonenumber": super.phonenumber
-            
-        ]
-        
-    }
+    
 }

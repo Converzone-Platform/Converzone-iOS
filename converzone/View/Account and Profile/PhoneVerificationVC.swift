@@ -18,11 +18,6 @@ class PhoneVerificationVC: NoAutoRotateViewController {
     private var timer: Timer? = nil
     
     private var seconds_until_retry = 25
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
 }
 
 extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
@@ -41,7 +36,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "NormalInputCell") as! NormalInputCell
             
-            cell.input?.placeholder = "e.g. +43 650 1234"
+            cell.input?.placeholder = "e.g. +43 650 1234000"
             cell.textLabel!.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             cell.input?.textContentType = .telephoneNumber
             
@@ -60,6 +55,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "NormalOTPCell") as! NormalInputCell
             
             cell.textLabel!.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
+            cell.input?.becomeFirstResponder()
             
             if #available(iOS 12.0, *) {
                 cell.input?.textContentType = .oneTimeCode
@@ -93,7 +89,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
     /// Add the second section so that the user can enter the OTP
     /// - Parameter tableView: The tableView to which we add the section
     fileprivate func addNewSectionTo(_ tableView: UITableView) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             // Add two new cells
             tableView.beginUpdates()
             
@@ -105,6 +101,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             tableView.insertSections(indexSet, with: .fade)
             
             tableView.endUpdates()
+            
         }
     }
     
@@ -170,7 +167,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                     return
                 }
                 
-                alert("Verified!", "Let's continue with entering further user information now") {
+                alert("Verified", "Let's continue with entering further user information now") {
                     
                     Navigation.change(navigationController: "ContinentNC")
                 }

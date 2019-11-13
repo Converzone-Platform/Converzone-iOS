@@ -91,4 +91,23 @@ class Person {
         
         return dictionary
     }
+    
+    func toDictionary() -> [String : Any]{
+        
+        return [
+        
+            "firstname": self.firstname,
+            "lastname": self.lastname,
+            "gender": self.gender!.toString(),
+            "birthdate": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: self.birthdate!),
+            "country": self.country.name!,
+            "device_token": Internet.fcm_token,
+            "interests": self.interests.string,
+            "status": self.status.string,
+            "discoverable": self.discoverable,
+            "phonenumber": self.phonenumber
+            
+        ]
+        
+    }
 }

@@ -33,8 +33,6 @@ class EditProfileVC: UIViewController{
         profile_image.addGestureRecognizer(tapGesture)
         profile_image.isUserInteractionEnabled = true
         
-        //Add a done button
-        
         var title_of_button = "Done"
         
         if master.editingMode == .editing{
@@ -44,7 +42,7 @@ class EditProfileVC: UIViewController{
         let doneButton = UIBarButtonItem(title: title_of_button, style: .done, target: self, action: #selector(donePressed))
         self.navigationItem.rightBarButtonItem = doneButton
         
-        if master.editingMode == .editing && Internet.isOnline(){
+        if master.editingMode == .editing {
             
             Internet.getImage(withURL: master.link_to_profile_image) { (image) in
                 self.profile_image.image = image
@@ -431,6 +429,8 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             cell.title?.text = titlesOfCells[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
             cell.discoverable.isOn = master.discoverable
+            
+            cell.discoverable.isEnabled = false
             
             return cell
         default:

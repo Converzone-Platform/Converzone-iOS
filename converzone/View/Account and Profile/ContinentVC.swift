@@ -37,7 +37,6 @@ class ContinentVC: UIViewController {
     
     private func getNameOfCountry() -> String {
         let phoneNumberKit = PhoneNumberKit()
-        var name: String = ""
         
         do {
             let phoneNumber = try phoneNumberKit.parse(master.phonenumber)
@@ -83,6 +82,10 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LocatePositionCell")
+            
+            if #available(iOS 13.0, *) {
+                cell?.imageView!.image = UIImage(systemName: "location.fill")
+            }
             
             cell?.textLabel?.text = NSLocalizedString("Locate my position...", comment: "Should we find out where you live?")
             

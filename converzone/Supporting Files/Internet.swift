@@ -25,24 +25,34 @@ public class Internet: NSObject {
     
     static var all_time_user_count = 1
     static var user_count = 1
+    //static var undiscoverable_counter = 0
+    
+    static var fcm_token = ""
     
     private static var listener_for_new_conversation: DatabaseReference? = nil
     private static var listener_for_all_time_user_change: DatabaseReference? = nil
     private static var listener_for_user_count: DatabaseReference? = nil
+    private static var listeners_for_new_messages: [DatabaseReference] = []
     
     /// Set up value listeners for Database
     static func setUpListeners(){
         
+        if Auth.auth().currentUser == nil {
+            return
+        }
+        
+        removeListeners()
+        
         self.listenForNewConversations()
         self.listenForAllTimeUserCountChange()
         self.listenForUserCount()
-        
     }
     
     static func removeListeners(){
         listener_for_user_count?.removeAllObservers()
         listener_for_new_conversation?.removeAllObservers()
         listener_for_all_time_user_change?.removeAllObservers()
+        listeners_for_new_messages.removeAll()
     }
     
     // MARK: - Connectivity
@@ -265,7 +275,9 @@ public class Internet: NSObject {
             return
         }
         
-        self.database_reference.child("conversations").child(conversationID).child("messages").queryOrdered(byChild: "date").queryLimited(toLast: 10).observe(.childAdded) { (snapshot) in
+        let message_listener = self.database_reference.child("conversations").child(conversationID).child("messages")
+            
+        message_listener.queryOrdered(byChild: "date").observe(.childAdded) { (snapshot) in
             
             let message = snapshot.value as! NSDictionary
             
@@ -274,6 +286,8 @@ public class Internet: NSObject {
             self.update_conversations_tableview_delegate?.didUpdate(sender: Internet())
             
         }
+        
+        self.listeners_for_new_messages.append(message_listener)
         
     }
     
@@ -338,6 +352,10 @@ public class Internet: NSObject {
         
     }
     
+    static func updateBadges() {
+        UIApplication.shared.applicationIconBadgeNumber = master.unopened_chats
+    }
+    
     /// Find the conversation with the correct partner id and add the message
     private static func findConversationAndAddMessage(message: Message, uid: String){
         
@@ -345,6 +363,10 @@ public class Internet: NSObject {
         for user in master.conversations {
             
             if user.uid == uid {
+                
+                user.openedChat = user.uid == chatOf.uid
+                
+                updateBadges()
                 
                 user.conversation.append(message)
                 
@@ -361,7 +383,7 @@ public class Internet: NSObject {
     /// - Parameter token: The token to update
     static func upload(token: String){
         
-        if master.uid == ""{
+        if master.uid == ""{ 
             return
         }
         
@@ -398,7 +420,7 @@ public class Internet: NSObject {
     /// Get the newest version of the master from the database
     static func getMaster(){
         
-        if master.uid == "" {
+        if Auth.auth().currentUser == nil {
             return
         }
         
@@ -475,7 +497,7 @@ public class Internet: NSObject {
         }
     }
     
-    /// Upload link to profile image to Firebase Database
+    ///  link to profile image to Firebase Database
     /// - Parameter linkToProfileImage: Link to be uploaded
     private static func upload(linkToProfileImage: String){
         self.database_reference.child("users").child(master.uid).updateChildValues(["link_to_profile_image": linkToProfileImage])
@@ -672,6 +694,13 @@ public class Internet: NSObject {
         
     }
     
+    static private func randomDiscoverStyle(for user: User){
+        if user.status.string.count > 10 && Int.random(in: 0...100) >= 80 {
+            user.discover_style = 1
+            return
+        }
+    }
+    
     static func getRandomUser(){
         
         var randomNumberID = 1
@@ -688,9 +717,15 @@ public class Internet: NSObject {
 
                 dispatchGroup.enter()
                 
-                // Randomly select one user
+                if reachedTheEndForDiscoverableUsers {
+                    return
+                }
+                
+                // Randomly select one user until we find someone we didn't have before
                 randomNumberID = Int.random(in: 1...Internet.all_time_user_count)
-
+                
+                print("Roll the dice")
+                
                 // Transform generated number to uid with which we can retreave the user from the database
                 // E.g. "1" -> "iosdnaui29pbpqwbdabd"
                 Internet.getUIDOfUser(with: String(randomNumberID)) { (uid) in
@@ -700,6 +735,10 @@ public class Internet: NSObject {
                     // Download user from database
                     Internet.getUser(with: uid) { (user) in
                         current_user = user
+                        
+//                        if current_user?.discoverable == false {
+//                            Internet.undiscoverable_counter += 1
+//                        }
                         
                         dispatchSemaphore.signal()
                         dispatchGroup.leave()
@@ -714,10 +753,16 @@ public class Internet: NSObject {
                 /// 3. Who wants to be found                `current_user?.discoverable == false`
                 /// 4. Who is not us                                `UID == master.uid`
                 /// and as long as there are more users `reachedTheEndForDiscoverableUsers`
-            } while(current_user == nil || current_user?.discoverable == false || Internet.contains(uid: UID, in: discover_users) || UID == master.uid || reachedTheEndForDiscoverableUsers)
+            } while((current_user == nil || current_user?.discoverable == false || Internet.contains(uid: UID, in: discover_users) || UID == master.uid) && !reachedTheEndForDiscoverableUsers)
             
-            // I want to execute the following line of code when I know that I found an user whith the conditions of the while loop
+            if reachedTheEndForDiscoverableUsers {
+                return
+            }
+            
+            randomDiscoverStyle(for: current_user!)
+            
             discover_users.append(current_user!)
+            fetchedCount += 1
             
             Internet.update_discovery_tableview_delegate?.didUpdate(sender: Internet())
         }
@@ -743,4 +788,5 @@ public class Internet: NSObject {
         
         return false
     }
+    
 }
