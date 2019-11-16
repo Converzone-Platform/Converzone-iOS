@@ -70,13 +70,13 @@ import FirebaseMessaging
     
     // MARK: Account
     func applicationWillTerminate(_ application: UIApplication) {
-        if Navigation.didnotFinishRegistration() {
+        if Navigation.didNotFinishRegistration() {
             Internet.signOut()
         }
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-        if Navigation.didnotFinishRegistration() {
+        if Navigation.didNotFinishRegistration() {
             Internet.signOut()
         }
     }

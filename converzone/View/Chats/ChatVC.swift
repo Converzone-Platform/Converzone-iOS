@@ -138,8 +138,6 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         navigationItem.titleView = navTitleWithImageAndText(titleText: chatOf.fullname, imageLink: chatOf.link_to_profile_image)
         
         Internet.update_chat_tableview_delegate = self
-        
-        chatOf.openedChat = true
     }
    
     func didUpdate(sender: Internet) {
@@ -156,9 +154,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Update badge count
-        Internet.updateBadges()
-        chatOf.openedChat = true
+        ConversationsVC().title = ""
         
         setUpLocationServices()
         self.tabBarController?.tabBar.isHidden = true
@@ -174,6 +170,8 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         tapGestureRecognizer.cancelsTouchesInView = false
         
         getNotificationPermissionFromUser()
+        
+        chatOf.openChat()
     }
     
     /// Ask if we can send notifications to this device

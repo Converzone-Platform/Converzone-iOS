@@ -38,8 +38,8 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     private func sortUsersByLastMessageDate() {
         
         // Don't do it if there are users without a message
-        for user in master.conversations {
-            if user.conversation.count == 0 {
+        master.conversations.forEach { (user) in
+            if user.conversation.count == 0{
                 return
             }
         }
@@ -53,9 +53,12 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if Navigation.didnotFinishRegistration() {
+        if Navigation.didNotFinishRegistration() {
             Navigation.change(navigationController: "SplashScreenVC")
         }
+        
+        self.title = "Conversations"
+        self.tabBarController?.tabBar.items?[0].title = ""
         
         Internet.getMaster()
         
@@ -154,8 +157,7 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
             cell.profileImage.image = image
         }
         
-        print(master.conversations[indexPath.row].openedChat)
-        if master.conversations[indexPath.row].openedChat || master.conversations[indexPath.row].conversation.last?.is_sender == true {
+        if master.conversations[indexPath.row].openedChat || master.conversations[indexPath.row].conversation.last?.is_sender ?? false{
             cell.lastMessageType.backgroundColor = Colors.white
         }else{
             cell.lastMessageType.backgroundColor = master.conversations[indexPath.row].conversation.last?.color

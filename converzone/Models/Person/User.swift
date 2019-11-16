@@ -18,32 +18,38 @@ class User: Person, Hashable {
         hasher.combine(self.uid)
     }
     
-    //Platform Informations
     internal var blocked: Bool = false
-    internal var small_profile_images: [UIImage]?
     
-    //Chats with the Person
     internal var conversation: [Message] = []
-    
-    // Save if chat was deleted
-    internal var deleted_chat: Bool = false
     
     internal var discover_style: Int = 0
     
     internal var openedChat: Bool {
-        get{
-            return UserDefaults.standard.bool(forKey: "openedChat" + uid)
-        }
         
         set {
-            UserDefaults.standard.set(newValue, forKey: "openedChat" + uid)
+            
+            conversation.forEach { (message) in
+                message.opened = true
+            }
+            
+        }
+        
+        get {
+            for message in conversation {
+                if message.opened{
+                    return true
+                }
+            }
+            
+            return false
         }
     }
-}
-
-extension Sequence where Iterator.Element: Hashable {
-    func unique() -> [Iterator.Element] {
-        var seen: [Iterator.Element: Bool] = [:]
-        return self.filter { seen.updateValue(true, forKey: $0) == nil }
+    
+    internal func openChat(){
+        
+        conversation.forEach { (message) in
+            message.opened = true
+            Internet.opened(message: message, sender: self)
+        }
     }
 }

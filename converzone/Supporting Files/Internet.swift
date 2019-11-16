@@ -199,7 +199,15 @@ public class Internet: NSObject {
     /// - Parameter receiver: The user who will receive the message
     private static func send(message: TextMessage, receiver: User){
         
-        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: receiver.uid)).child("messages").child(String(message.hashValue)).setValue(["sender": master.uid, "receiver": receiver.uid, "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!), "text": message.text!, "type": "TextMessage"])
+        let message_id = Date.dateAsTimeIntervalSince1970WithoutDots(date: message.date!)
+        
+        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: receiver.uid)).child("messages").child(message_id).setValue(
+            ["sender": master.uid,
+             "receiver": receiver.uid,
+             "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!),
+             "text": message.text!,
+             "type": "TextMessage",
+             "opened": false])
         
     }
     
@@ -208,7 +216,15 @@ public class Internet: NSObject {
     /// - Parameter receiver: The user who will receive the message
     private static func send(message: InformationMessage, receiver: User){
         
-        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: receiver.uid)).child("messages").child(String(message.hashValue)).setValue(["sender": master.uid, "receiver": receiver.uid, "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!), "text": message.text!, "type": "InformationMessage"])
+        let message_id = Date.dateAsTimeIntervalSince1970WithoutDots(date: message.date!)
+        
+        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: receiver.uid)).child("messages").child(message_id).setValue(
+            ["sender": master.uid,
+             "receiver": receiver.uid,
+             "date": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: message.date!),
+             "text": message.text!,
+             "type": "InformationMessage",
+             "opened": false])
         
     }
     
@@ -228,6 +244,19 @@ public class Internet: NSObject {
     }
     
     // MARK: Receiving messages
+    
+    static func opened(message: Message, sender: User){
+        
+        // If we sent the message there is no need to set it on read
+        if message.is_sender {
+            return
+        }
+        
+        let message_id = Date.dateAsTimeIntervalSince1970WithoutDots(date: message.date!)
+        
+        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: sender.uid)).child("messages").child(message_id).updateChildValues(["opened": true])
+        
+    }
     
     private static func addUserIfNew(user: User) {
         
@@ -319,10 +348,13 @@ public class Internet: NSObject {
         let date_string = informationMessage["date"] as! String
         let date = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: date_string)
         
+        let opened = informationMessage["opened"] as! Bool
+        
         let message = InformationMessage()
         message.text = text
         message.is_sender = is_sender
         message.date = date
+        message.opened = opened
         
         findConversationAndAddMessage(message: message, uid: receiver)
         findConversationAndAddMessage(message: message, uid: sender)
@@ -342,10 +374,13 @@ public class Internet: NSObject {
         let date_string = textMessage["date"] as! String
         let date = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: date_string)
         
+        let opened = textMessage["opened"] as! Bool
+        
         let message = TextMessage()
         message.text = text
         message.is_sender = is_sender
         message.date = date
+        message.opened = opened
         
         findConversationAndAddMessage(message: message, uid: receiver)
         findConversationAndAddMessage(message: message, uid: sender)
@@ -364,15 +399,14 @@ public class Internet: NSObject {
             
             if user.uid == uid {
                 
-                user.openedChat = user.uid == chatOf.uid
-                
-                updateBadges()
-                
                 user.conversation.append(message)
+                
+                if user.uid == chatOf.uid{
+                    user.openChat()
+                }
                 
                 self.update_chat_tableview_delegate?.didUpdate(sender: Internet())
             }
-            
         }
         
     }

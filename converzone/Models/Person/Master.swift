@@ -32,18 +32,15 @@ class Master: Person {
         
         for conversation in conversations {
             
-            guard let last_message = conversation.conversation.last else {
-                continue
-            }
-            
-            if conversation.openedChat == false && last_message.is_sender == false {
+            if conversation.openedChat == false {
                 count += 1
             }
             
         }
-        
         return count
+        
     }
+    
     
     override init(){
         super.init()

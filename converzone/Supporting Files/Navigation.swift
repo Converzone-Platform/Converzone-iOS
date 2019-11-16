@@ -29,7 +29,7 @@ class Navigation {
     }
     
     /// Is the user verified/logged in? If not, let's take them to the SplashScreen
-    static func didnotFinishRegistration() -> Bool{
+    static func didNotFinishRegistration() -> Bool{
         
         if Auth.auth().currentUser == nil || UserDefaults.standard.bool(forKey: "DidFinishRegistration") == false {
             return true
