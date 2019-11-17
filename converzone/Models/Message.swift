@@ -22,13 +22,15 @@ class Message: Hashable {
     internal var date: Date?
     internal var sent: Bool? = true
     internal var color: UIColor?
-    internal var is_sender: Bool = true
+    internal var is_sender = true
+    internal var opened = false
 }
 
 //Color: blue
 class TextMessage: Message {
     
     internal var text: String?
+    
     internal var only_emojies: Bool?{
         get{
             return text?.containsOnlyEmoji

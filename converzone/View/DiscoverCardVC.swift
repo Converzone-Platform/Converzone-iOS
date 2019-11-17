@@ -205,7 +205,7 @@ class DicoverCard {
     
 }
 
-class DiscoverCardVC: UIViewController {
+class DiscoverCardVC: NoAutoRotateViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var design_view: UIView!
@@ -458,15 +458,10 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             master.conversations.append(profileOf)
         }
         
-        // Find the right index of the chat
-        var index = 0
-            
         for user in master.conversations {
             if user.uid == profileOf.uid {
-                indexOfUser = index
+                chatOf = user
             }
-            
-            index+=1
         }
         
         Navigation.push(viewController: "ChatVC", context: self.tabBarController?.viewControllers?[0] as! UINavigationController)
@@ -477,7 +472,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
     
     @objc func blockandReport(){
         let alertController = UIAlertController(title: "What do you want to do?",
-                                                message: "Please help us make our platform a little better. Choose 'Block' if it is something personal and 'Block and Report' if it is something that others might dislike too",
+                                                message: "Please help us make our platform a little better."/* Choose 'Block' if it is something personal and 'Block and Report' if it is something that others might dislike too"*/,
                                                 preferredStyle: .actionSheet)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -495,7 +490,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             
         }
         
-        alertController.addAction(block)
+        //alertController.addAction(block)
         
         self.present(alertController, animated: true, completion: nil)
     }

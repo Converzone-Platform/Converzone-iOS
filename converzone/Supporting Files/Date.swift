@@ -51,11 +51,14 @@ extension Date {
     static func stringAsDate(style: Date.Style, string: String) -> Date{
         
         let formatter = DateFormatter()
-        
         formatter.dateFormat = fromStyleToString(style: style)
-        
         return formatter.date(from: string)!
         
+    }
+    
+    static func dateAsTimeIntervalSince1970WithoutDots(date: Date) -> String {
+        let rounded = round(1000 * date.timeIntervalSince1970) / 1000
+        return String(rounded).replacingOccurrences(of: ".", with: "")
     }
     
 }

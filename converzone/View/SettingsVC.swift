@@ -14,15 +14,12 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var settings = ["", "Languages", "Country", "Recommend", "Sign out"]
+    var settings = ["", "Languages", "Country", /*"Recommend", */"Sign out"]
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.tabBarController?.tabBar.isHidden = false
-        
-        self.title = "Settings"
-        self.tabBarController?.cleanTitles()
         
         master.editingMode = .editing
         
@@ -54,7 +51,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -105,12 +102,13 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
         case 1: Navigation.push(viewController: "UsersLanguagesVC", context: self)
         case 2: Navigation.push(viewController: "ContinentVC", context: self)
+//        case 3:
+//            
+//            // MARK: TODO - This is probably not working! Change to correct link
+//            "Check this out: http://itunes.apple.com/app/id1465102094".share()
+            
+            
         case 3:
-            
-            // MARK: TODO - This is probably not working! Change to correct link
-            "Check this out: http://itunes.apple.com/app/id1465102094".share()
-            
-        case 4:
             Navigation.change(navigationController: "SplashScreenVC")
             
             Internet.signOut()
@@ -133,6 +131,15 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 25
+    }
+    
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        switch section {
+        case 1:
+            return  "converzone ( v" + Bundle.main.releaseVersionNumber! + " | build " + Bundle.main.buildVersionNumber! + " )"
+        default:
+            return ""
+        }
     }
     
     private func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height :CGFloat)->UIImage? {

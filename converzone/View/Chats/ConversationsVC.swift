@@ -13,6 +13,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     
     func didUpdate(sender: Internet) {
         DispatchQueue.main.async {
+            
             self.sortUsersByLastMessageDate()
             self.tableView.reloadData()
         }
@@ -37,8 +38,8 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     private func sortUsersByLastMessageDate() {
         
         // Don't do it if there are users without a message
-        for user in master.conversations {
-            if user.conversation.count == 0 {
+        master.conversations.forEach { (user) in
+            if user.conversation.count == 0{
                 return
             }
         }
@@ -52,14 +53,15 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if Navigation.didnotFinishRegistration() {
+        if Navigation.didNotFinishRegistration() {
             Navigation.change(navigationController: "SplashScreenVC")
         }
         
+        self.title = "Conversations"
+        self.tabBarController?.tabBar.items?[0].title = ""
+        
         Internet.getMaster()
         
-        self.title = "Conversations"
-        self.tabBarController?.cleanTitles()
         //filtered_converations = master?.conversations
         
         sortUsersByLastMessageDate()
@@ -133,9 +135,7 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         //return (filtered_converations?.count)!
         
         if master.conversations.count == 0 {
-            
             tableView.setEmptyView(title: "No conversations yet.", message: "Text a random person in the discover tab")
-            
         }
         else {
             tableView.restore()
@@ -157,7 +157,7 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
             cell.profileImage.image = image
         }
         
-        if master.conversations[indexPath.row].openedChat {
+        if master.conversations[indexPath.row].openedChat || master.conversations[indexPath.row].conversation.last?.is_sender ?? false{
             cell.lastMessageType.backgroundColor = Colors.white
         }else{
             cell.lastMessageType.backgroundColor = master.conversations[indexPath.row].conversation.last?.color
@@ -189,7 +189,7 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        indexOfUser = indexPath.row
+        chatOf = master.conversations[indexPath.row]
         
         Navigation.push(viewController: "ChatVC", context: self)
         

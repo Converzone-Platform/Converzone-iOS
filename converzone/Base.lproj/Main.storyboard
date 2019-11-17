@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0NX-P2-7IM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0NX-P2-7IM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -225,11 +225,11 @@ These terms and conditions are governed by and construed in accordance with the 
                                         <rect key="frame" x="0.0" y="55.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zOK-vI-Km5" id="dN9-5q-Bpz">
-                                            <rect key="frame" x="0.0" y="0.0" width="382.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VLU-ui-Ost">
-                                                    <rect key="frame" x="20" y="0.0" width="354.5" height="43.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="355" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -242,11 +242,11 @@ These terms and conditions are governed by and construed in accordance with the 
                                         <rect key="frame" x="0.0" y="99" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Oof-Yo-Pdd" id="Pap-CE-o0B">
-                                            <rect key="frame" x="0.0" y="0.0" width="382.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="i0S-V2-dI5">
-                                                    <rect key="frame" x="20" y="0.0" width="354.5" height="43.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="355" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -262,11 +262,11 @@ These terms and conditions are governed by and construed in accordance with the 
                                         <rect key="frame" x="0.0" y="142.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4FW-Ym-jdB" id="uQ8-9l-1hE">
-                                            <rect key="frame" x="0.0" y="0.0" width="382.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JnZ-n0-TmK">
-                                                    <rect key="frame" x="20" y="0.0" width="354.5" height="43.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="355" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -327,11 +327,11 @@ These terms and conditions are governed by and construed in accordance with the 
                                         <rect key="frame" x="0.0" y="55.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LlX-I4-N6i" id="ejo-rf-86h">
-                                            <rect key="frame" x="0.0" y="0.0" width="382.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="M4S-bb-fN7">
-                                                    <rect key="frame" x="20" y="0.0" width="354.5" height="43.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="355" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -348,7 +348,7 @@ These terms and conditions are governed by and construed in accordance with the 
                             </tableView>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search the planet" translatesAutoresizingMaskIntoConstraints="NO" id="Jiy-ga-lel">
                                 <rect key="frame" x="0.0" y="140" width="414" height="56"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                 <connections>
                                     <outlet property="delegate" destination="csk-FX-6pN" id="1Ut-IS-R6U"/>
                                 </connections>
@@ -421,11 +421,11 @@ These terms and conditions are governed by and construed in accordance with the 
                                         <rect key="frame" x="0.0" y="99" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="S5S-Hx-bsa" id="Y0e-XZ-ajP">
-                                            <rect key="frame" x="0.0" y="0.0" width="382.5" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5w-y1-UMR">
-                                                    <rect key="frame" x="15" y="11" width="367.5" height="21.5"/>
+                                                    <rect key="frame" x="15" y="11" width="368" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.12941176469999999" green="0.54117647059999996" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -504,7 +504,7 @@ These terms and conditions are governed by and construed in accordance with the 
                             </tableView>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search the planet" translatesAutoresizingMaskIntoConstraints="NO" id="eql-Rq-SzV">
                                 <rect key="frame" x="0.0" y="140" width="414" height="56"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                 <connections>
                                     <outlet property="delegate" destination="0pg-6g-hME" id="4er-td-chn"/>
                                 </connections>
@@ -597,11 +597,11 @@ These terms and conditions are governed by and construed in accordance with the 
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="This is some text to show the placeholder" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Jqc-Hf-scL">
+                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Jqc-Hf-scL">
                                                     <rect key="frame" x="146" y="6" width="214" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -644,7 +644,7 @@ These terms and conditions are governed by and construed in accordance with the 
                                         <rect key="frame" x="0.0" y="143" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="utd-nZ-YLM" id="gvM-pa-gCb">
-                                            <rect key="frame" x="0.0" y="0.0" width="382.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="First name" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y7T-1Z-lYP">
@@ -843,7 +843,7 @@ These terms and conditions are governed by and construed in accordance with the 
             </objects>
             <point key="canvasLocation" x="2731.8840579710145" y="1723.6607142857142"/>
         </scene>
-        <!--Web-->
+        <!--WebVC-->
         <scene sceneID="me3-RN-64s">
             <objects>
                 <viewController id="0DT-53-7ZT" customClass="WebVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
@@ -863,7 +863,7 @@ These terms and conditions are governed by and construed in accordance with the 
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search the internet" translatesAutoresizingMaskIntoConstraints="NO" id="ieF-WV-Gx4">
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" text="" placeholder="Search the internet" translatesAutoresizingMaskIntoConstraints="NO" id="ieF-WV-Gx4">
                                 <rect key="frame" x="0.0" y="44" width="414" height="56"/>
                                 <color key="barTintColor" red="0.16862745100000001" green="0.55294117649999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="webSearch" returnKeyType="search" textContentType="url"/>
@@ -892,7 +892,7 @@ These terms and conditions are governed by and construed in accordance with the 
                             <constraint firstAttribute="trailing" secondItem="ieF-WV-Gx4" secondAttribute="trailing" id="xbk-t0-olu"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Web" image="web_nav" id="wlc-qE-Yxv"/>
+                    <tabBarItem key="tabBarItem" title="" id="wlc-qE-Yxv"/>
                     <connections>
                         <outlet property="progressView" destination="Q4d-90-XK7" id="Jlp-BO-Mw4"/>
                         <outlet property="searchBar" destination="ieF-WV-Gx4" id="zty-im-E1I"/>
@@ -1492,16 +1492,17 @@ These terms and conditions are governed by and construed in accordance with the 
             </objects>
             <point key="canvasLocation" x="1045.5999999999999" y="4491.9040479760124"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--MainTBC-->
         <scene sceneID="BvW-kS-1Xj">
             <objects>
-                <tabBarController storyboardIdentifier="MainTBC" id="0NX-P2-7IM" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTBC" id="0NX-P2-7IM" customClass="MainTBC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="TDa-in-Kv1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
+                        <outlet property="tab_bar" destination="TDa-in-Kv1" id="ULx-9a-mY3"/>
                         <segue destination="Y6b-ff-kdK" kind="relationship" relationship="viewControllers" id="Sx8-qy-2lM"/>
                         <segue destination="0DT-53-7ZT" kind="relationship" relationship="viewControllers" id="wMJ-aC-5av"/>
                         <segue destination="e1l-qM-2Jo" kind="relationship" relationship="viewControllers" id="dNF-PW-Kky"/>
@@ -1549,11 +1550,11 @@ These terms and conditions are governed by and construed in accordance with the 
             </objects>
             <point key="canvasLocation" x="6138" y="26"/>
         </scene>
-        <!--Chats-->
+        <!--Navigation Controller-->
         <scene sceneID="u7d-h2-NIq">
             <objects>
                 <navigationController storyboardIdentifier="ConversationsNC" automaticallyAdjustsScrollViewInsets="NO" id="Y6b-ff-kdK" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Chats" image="chat_nav" id="3zz-F2-pYb"/>
+                    <tabBarItem key="tabBarItem" title="" id="3zz-F2-pYb"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="goM-ND-r3B">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -1568,17 +1569,20 @@ These terms and conditions are governed by and construed in accordance with the 
             </objects>
             <point key="canvasLocation" x="-422" y="3707"/>
         </scene>
-        <!--Settings-->
+        <!--Navigation Controller-->
         <scene sceneID="API-Xc-TM2">
             <objects>
                 <navigationController storyboardIdentifier="SettingsNC" automaticallyAdjustsScrollViewInsets="NO" id="hFk-gY-rhq" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" image="settings_nav" id="pFo-kf-ry5"/>
+                    <tabBarItem key="tabBarItem" title="" id="pFo-kf-ry5"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="ep9-aC-Jjz">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Uuf-9Q-3l9">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="jKe-6v-3Qb" kind="relationship" relationship="rootViewController" id="kbz-4G-bfy"/>
                     </connections>
@@ -1587,11 +1591,11 @@ These terms and conditions are governed by and construed in accordance with the 
             </objects>
             <point key="canvasLocation" x="5462" y="3707"/>
         </scene>
-        <!--Discover-->
+        <!--Navigation Controller-->
         <scene sceneID="9f1-lF-ysP">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="e1l-qM-2Jo" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Discover" image="discover_nav" id="Jxr-St-IXu"/>
+                    <tabBarItem key="tabBarItem" title="" id="Jxr-St-IXu"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Xan-7J-odU">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -1630,7 +1634,7 @@ These terms and conditions are governed by and construed in accordance with the 
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. +43 650 3314000" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BYg-QQ-33n" customClass="PhoneNumberTextField" customModule="PhoneNumberKit">
-                                                    <rect key="frame" x="206" y="11" width="188" height="22"/>
+                                                    <rect key="frame" x="195" y="11" width="200" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
@@ -1649,7 +1653,7 @@ These terms and conditions are governed by and construed in accordance with the 
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. 123456" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rDB-xd-H1V">
-                                                    <rect key="frame" x="206" y="11" width="188" height="22"/>
+                                                    <rect key="frame" x="195" y="11" width="200" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
@@ -1713,13 +1717,9 @@ These terms and conditions are governed by and construed in accordance with the 
         </scene>
     </scenes>
     <resources>
-        <image name="chat_nav" width="612" height="792"/>
-        <image name="discover_nav" width="612" height="792"/>
         <image name="group_white" width="512" height="512"/>
-        <image name="settings_nav" width="612" height="792"/>
         <image name="user" width="512" height="512"/>
         <image name="user-3_white" width="512" height="512"/>
-        <image name="web_nav" width="612" height="792"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Usr-HF-8hj"/>
