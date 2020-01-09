@@ -170,19 +170,19 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         cell.name.attributedText = master.conversations[indexPath.row].fullname
         
         Internet.getImage(withURL: master.conversations[indexPath.row].link_to_profile_image) { (image) in
-            cell.profileImage.image = image
+            cell.profile_image.image = image
         }
         
         if master.conversations[indexPath.row].openedChat || master.conversations[indexPath.row].conversation.last?.is_sender ?? false{
-            cell.lastMessageType.backgroundColor = Colors.white
+            cell.last_message_type.backgroundColor = Colors.white
         }else{
-            cell.lastMessageType.backgroundColor = master.conversations[indexPath.row].conversation.last?.color
+            cell.last_message_type.backgroundColor = master.conversations[indexPath.row].conversation.last?.color
         }
         
-        cell.profileImage.layer.cornerRadius = cell.profileImage.layer.frame.width / 2
-        cell.profileImage.layer.masksToBounds = true
+        cell.profile_image.layer.cornerRadius = cell.profile_image.layer.frame.width / 2
+        cell.profile_image.layer.masksToBounds = true
         
-        cell.lastMessageType.layer.cornerRadius = cell.lastMessageType.layer.frame.width / 2
+        cell.last_message_type.layer.cornerRadius = cell.last_message_type.layer.frame.width / 2
         
         cell.view.layer.cornerRadius = 2
         cell.view.layer.shadowColor = UIColor.black.cgColor

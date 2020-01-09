@@ -10,20 +10,20 @@ import UIKit
 import FirebaseAuth
 
 enum ChangingData {
+    
+    
     case editing
+    
     case registration
+    
 }
-
-/**
- Master is the main user who is using the device
- */
 
 class Master: Person {
     
     internal var editingMode: ChangingData = .registration
     
-    //All people with whom the master has chats with
     internal var conversations: [User] = []
+    
     internal var blocked_users: Set<String> = []
     
     internal var unopened_chats: Int {
@@ -38,7 +38,6 @@ class Master: Person {
             
         }
         return count
-        
     }
     
     
@@ -52,10 +51,13 @@ class Master: Person {
         super.uid = uid
     }
     
+    required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+    
     override func toDictionary() -> [String : Any]{
         
         return [
-        
             "firstname": self.firstname,
             "lastname": self.lastname,
             "gender": gender!.toString(),

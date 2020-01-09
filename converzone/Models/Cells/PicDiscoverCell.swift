@@ -10,9 +10,12 @@ import UIKit
 
 class PicDiscoverCell: UITableViewCell {
     
-    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var profile_image: UIImageView!
+    
     @IBOutlet weak var name: UILabel!
+    
     @IBOutlet weak var view: UIView!
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

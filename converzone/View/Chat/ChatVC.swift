@@ -75,10 +75,6 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         }, completion: nil)
     }
     
-    @IBAction func audio_button(_ sender: Any) {
-        #warning("Implement sending audio messages")
-    }
-    
     @IBAction func more_button(_ sender: Any) {
         
         // Is this supposed to be the one of the first messages?
@@ -186,7 +182,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        listener_for_is_typing_observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "listener_for_is_typing"), object: nil, queue: .main) { [weak self] notification in
+        listener_for_is_typing_observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "listener_for_is_partner_typing"), object: nil, queue: .main) { [weak self] notification in
             
             if Internet.is_partner_typing {
                 self?.partnerStartedTyping()
@@ -474,7 +470,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 cell.message_label.textAlignment = .right
                 
                 if ((cell.message_label.text?.widthWithConstrained(cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - (2 * 36)){
-                    cell.leftConstraint.isActive = false
+                    cell.left_constraint.isActive = false
                 }
                 
             }else{
@@ -488,7 +484,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 
                 cell.message_label.textAlignment = .left
                 if ((cell.message_label.text?.widthWithConstrained(cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - (2 * 36)){
-                    cell.rightConstraint.isActive = false
+                    cell.right_constraint.isActive = false
                 }
             }
             
@@ -502,7 +498,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             if let last_message = chatOf.conversation[safe: indexPath.row - 1] {
                 if last_message.is_sender == message.is_sender{
-                    cell.topConstraint.constant = 3
+                    cell.top_constraint.constant = 3
                     
                     cell.view.layer.maskedCorners.remove(cornerToConnect)
                 }
@@ -510,7 +506,7 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             if let next_message = chatOf.conversation[safe: indexPath.row + 1] {
                 if next_message.is_sender == message.is_sender{
-                    cell.bottomConstraint.constant = 3
+                    cell.bottom_constraint.constant = 3
                     
 //                    cell.view.layer.maskedCorners.remove(.layerMaxXMaxYCorner)
 //                    cell.view.layer.maskedCorners.remove(.layerMaxXMinYCorner)
@@ -832,11 +828,10 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
-            #warning("Error message needed")
+            os_log("Could not extract image.")
             return
         }
         
-        // Display sent image in chat
         let message = ImageMessage(image: image, is_sender: true)
         chatOf.conversation.append(message)
         

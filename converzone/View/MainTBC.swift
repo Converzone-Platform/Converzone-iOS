@@ -12,6 +12,7 @@ class MainTBC: UITabBarController {
 
     @IBOutlet weak var tab_bar: UITabBar!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,9 +24,13 @@ class MainTBC: UITabBarController {
             tab_bar.items?[1].image = UIImage(systemName: "globe", withConfiguration: UIImage.SymbolConfiguration(pointSize: 17, weight: .medium))
             tab_bar.items?[2].image = UIImage(systemName: "rectangle.stack.person.crop", withConfiguration: configuration)
             tab_bar.items?[3].image = UIImage(systemName: "slider.horizontal.3", withConfiguration: configuration)
+            
         }else{
             
-            #warning("Add images for ios12 or less")
+            tab_bar.items?[0].image = UIImage(named: "chat_nav")
+            tab_bar.items?[1].image = UIImage(named: "web_nav")
+            tab_bar.items?[2].image = UIImage(named: "discover_nav")
+            tab_bar.items?[3].image = UIImage(named: "settings_nav")
             
         }
     }

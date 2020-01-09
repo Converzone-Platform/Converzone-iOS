@@ -7,13 +7,19 @@
 //
 
 import Foundation
+import os
 
 extension Date {
     
     enum Style {
+        
+        
         case dayMonthYear
+        
         case dayMonthYearHourMinute
+        
         case dayMonthYearHourMinuteSecondMillisecondTimezone
+        
     }
     
     static func dateAsString(style: Date.Style, date: Date) -> String{
@@ -35,14 +41,11 @@ extension Date {
         
         switch style {
             
-        case .dayMonthYear:
-            return "dd.MM.yyyy"
+        case .dayMonthYear: return "dd.MM.yyyy"
             
-        case .dayMonthYearHourMinute:
-            return "dd.MM.yyyy HH:mm"
+        case .dayMonthYearHourMinute: return "dd.MM.yyyy HH:mm"
             
-        case .dayMonthYearHourMinuteSecondMillisecondTimezone:
-            return "dd.MM.yyyy HH:mm:ss:SSS Z"
+        case .dayMonthYearHourMinuteSecondMillisecondTimezone: return "dd.MM.yyyy HH:mm:ss:SSS Z"
             
         }
         
@@ -54,7 +57,7 @@ extension Date {
         formatter.dateFormat = fromStyleToString(style: style)
         
         guard let date = formatter.date(from: string) else {
-            #warning("Error message needed")
+            os_log("Could not extract date from DateFormatter.")
             return Date()
         }
         
@@ -63,17 +66,13 @@ extension Date {
     }
     
     static func dateAsTimeIntervalSince1970WithoutDots(date: Date) -> String {
+        
         let rounded = round(1000 * date.timeIntervalSince1970) / 1000
         return String(rounded).replacingOccurrences(of: ".", with: "")
     }
     
-    #warning("Implement Today Date Of Birth")
-    static func isTodayDateOfBirth(date_1: Date, date_2: Date) -> Bool {
-        
-        return false
-    }
-    
     private static func yearsSince(date: Date) -> Int {
+        
         let now = Date()
         let calendar = Calendar.current
 

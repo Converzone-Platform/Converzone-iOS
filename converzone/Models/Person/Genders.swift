@@ -13,9 +13,13 @@ let genderStrings = ["any", "female", "male", "non binary"]
 enum Gender: Int, CaseIterable {
     
     case any
+    
     case female
+    
     case male
+    
     case non_binary
+    
     
     func toString() -> String {
         return genderStrings[self.rawValue]

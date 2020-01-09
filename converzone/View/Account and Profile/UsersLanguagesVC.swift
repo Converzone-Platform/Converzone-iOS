@@ -11,6 +11,7 @@ import UIKit
 enum languagePreficiency {
     
     case speaking
+    
     case learning
     
 }
@@ -60,7 +61,7 @@ class UsersLanguagesVC: UIViewController {
         master.speak_languages.removeDuplicates()
         master.learn_languages.removeDuplicates()
         
-        master.sortLanguagesAlphabetically()
+        master.sort()
         
         tableView.reloadData()
         

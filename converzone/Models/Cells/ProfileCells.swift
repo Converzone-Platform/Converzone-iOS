@@ -12,7 +12,9 @@ import MapKit
 class ImageProfileCell: UITableViewCell {
     
     @IBOutlet weak var view: UIView!
-    @IBOutlet weak var profileImage: UIImageView!
+    
+    @IBOutlet weak var profile_image: UIImageView!
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -25,11 +27,12 @@ class ImageProfileCell: UITableViewCell {
 
 class SendMessageProfileCell: UITableViewCell {
     
-    @IBOutlet weak var sendMessage: UIButton!
+    @IBOutlet weak var send_message: UIButton!
     
-    @IBAction func sendMessage(_ sender: Any) {
+    @IBAction func send_message(_ sender: Any) {
        
     }
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -43,8 +46,11 @@ class SendMessageProfileCell: UITableViewCell {
 class GeneralProfileCell: UITableViewCell {
     
     @IBOutlet weak var name: UILabel!
+    
     @IBOutlet weak var speaks: UILabel!
+    
     @IBOutlet weak var learning: UILabel!
+    
     @IBOutlet weak var view: UIView!
     
     
@@ -60,6 +66,7 @@ class GeneralProfileCell: UITableViewCell {
 class StatusProfileCell: UITableViewCell {
     
     @IBOutlet weak var status: UILabel!
+    
     @IBOutlet weak var view: UIView!
     
     
@@ -75,10 +82,12 @@ class StatusProfileCell: UITableViewCell {
 
 class BlockAndReportProfileCell: UITableViewCell {
     
-    @IBOutlet weak var blockAndReportOutlet: UIButton!
-    @IBAction func blockAndReport(_ sender: Any) {
+    @IBOutlet weak var block_and_report: UIButton!
+    
+    @IBAction func block_and_report(_ sender: Any) {
         
     }
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -92,6 +101,7 @@ class BlockAndReportProfileCell: UITableViewCell {
 class InterestsProfileCell: UITableViewCell {
     
     @IBOutlet weak var interests: UILabel!
+    
     @IBOutlet weak var view: UIView!
     
     
@@ -107,8 +117,11 @@ class InterestsProfileCell: UITableViewCell {
 class CountryProfileCell: UITableViewCell {
     
     @IBOutlet weak var view: UIView!
+    
     @IBOutlet weak var name: UILabel!
+    
     @IBOutlet weak var timezone: UILabel!
+    
     @IBOutlet weak var map: MKMapView!
     
     
@@ -124,7 +137,9 @@ class CountryProfileCell: UITableViewCell {
 class ReflectionProfileCell: UITableViewCell {
     
     @IBOutlet weak var view: UIView!
+    
     @IBOutlet weak var reflection: UILabel!
+    
     @IBOutlet weak var writer_of_reflection: UIButton!
     
     @IBAction func writer_of_reflection(_ sender: Any) {

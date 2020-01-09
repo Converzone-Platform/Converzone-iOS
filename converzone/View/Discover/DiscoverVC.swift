@@ -13,11 +13,11 @@ var discover_users: Set<User> = []
 var profileOf: User = User()
 var fetchedCount = 0
 
-var reachedTheEndForDiscoverableUsers: Bool {
+var no_discoverable_users_left: Bool {
     return Internet.user_count-1 /*- Internet.undiscoverable_counter*/ == discover_users.count
 }
 
-class DiscoverVC: NoAutoRotateViewController, DiscoverUpdateDelegate {
+class DiscoverVC: UIViewController, DiscoverUpdateDelegate {
     
     private let numberOfItemsPerFetch = 3
     private var discoverCard: DicoverCard = DicoverCard()
@@ -73,7 +73,7 @@ class DiscoverVC: NoAutoRotateViewController, DiscoverUpdateDelegate {
     
     private func fetchUsers(){
         
-        if reachedTheEndForDiscoverableUsers {
+        if no_discoverable_users_left {
             return
         }
         
@@ -132,7 +132,7 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         // Don't display if we have reached the end
-        if reachedTheEndForDiscoverableUsers == true{
+        if no_discoverable_users_left == true{
             
             tableView.tableFooterView = nil
             return
@@ -163,13 +163,13 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             cell.name.attributedText = discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)].fullname
             
             Internet.getImage(withURL: discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)].link_to_profile_image) { (image) in
-                cell.profileImage.image = image
+                cell.profile_image.image = image
             }
             
-            cell.profileImage.contentMode = .scaleAspectFill
-            cell.profileImage.clipsToBounds = true
-            cell.profileImage.layer.cornerRadius = 23
-            cell.profileImage.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            cell.profile_image.contentMode = .scaleAspectFill
+            cell.profile_image.clipsToBounds = true
+            cell.profile_image.layer.cornerRadius = 23
+            cell.profile_image.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
             
             cell.view.layer.cornerRadius = 23
             cell.view.layer.shadowColor = UIColor.black.cgColor
@@ -186,12 +186,12 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
             cell.name.attributedText = discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)].fullname
             
             Internet.getImage(withURL: discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)].link_to_profile_image) { (image) in
-                cell.profileImage.image = image
+                cell.profile_image.image = image
             }
             
-            cell.profileImage.layer.cornerRadius = cell.profileImage.layer.frame.width / 2
-            cell.profileImage.layer.masksToBounds = true
-            cell.profileImage.contentMode = .redraw
+            cell.profile_image.layer.cornerRadius = cell.profile_image.layer.frame.width / 2
+            cell.profile_image.layer.masksToBounds = true
+            cell.profile_image.contentMode = .redraw
             
             cell.view.layer.cornerRadius = 23
             cell.view.layer.shadowColor = UIColor.black.cgColor

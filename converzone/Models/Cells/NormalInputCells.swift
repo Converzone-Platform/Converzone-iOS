@@ -12,7 +12,9 @@ import RangeSeekSlider
 class NormalInputCell: UITableViewCell {
     
     @IBOutlet weak var title: UILabel?
+    
     @IBOutlet weak var input: UITextField?
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -24,9 +26,11 @@ class NormalInputCell: UITableViewCell {
 }
 
 class BooleanInputCell: UITableViewCell {
+    
     @IBOutlet weak var title: UILabel!
     
     @IBOutlet weak var boolean: UISwitch!
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -40,7 +44,9 @@ class BooleanInputCell: UITableViewCell {
 class InputLongTextCell: UITableViewCell {
     
     @IBOutlet weak var input: UILabel!
+    
     @IBOutlet weak var title: UILabel!
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -54,7 +60,9 @@ class InputLongTextCell: UITableViewCell {
 class InputGenderCell: UITableViewCell {
     
     @IBOutlet weak var title: UILabel!
+    
     @IBOutlet weak var gender: UITextField!
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -68,7 +76,9 @@ class InputGenderCell: UITableViewCell {
 class InputDateCell: UITableViewCell {
     
     @IBOutlet weak var title: UILabel!
+    
     @IBOutlet weak var date: UITextField!
+    
     
    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -82,7 +92,9 @@ class InputDateCell: UITableViewCell {
 class RangeInputCell: UITableViewCell {
     
     @IBOutlet weak var title: UILabel!
+    
     @IBOutlet weak var input: RangeSeekSlider!
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -96,6 +108,7 @@ class RangeInputCell: UITableViewCell {
 class GenderFilterInputCell: UITableViewCell {
     
     @IBOutlet weak var title: UILabel!
+    
     @IBOutlet weak var selector: UISegmentedControl!
     
     

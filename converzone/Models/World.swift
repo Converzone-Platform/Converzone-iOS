@@ -740,8 +740,11 @@ let all_languages = [
 class World {
     
     internal var continents: [Continent] = []
+    
     internal var languages: [Language] = []
+    
     internal var name: String
+    
     
     func getCountriesOf(_ continent: String) -> [Country]{
         for _continent in continents {
@@ -778,7 +781,7 @@ class World {
     }
     
     //Functionality
-    func sortLanguagesAlphabetically(){
+    func sort(){
         
         self.languages.sort{
             $0.name.localizedCaseInsensitiveCompare($1.name) == ComparisonResult.orderedAscending
@@ -802,9 +805,13 @@ class World {
 }
 
 class Country {
+    
     internal var name = ""
+    
     internal var spoken_languages: [String] = []
+    
     internal var flag_name = "austria"
+    
     
     init(name: String) {
         self.name = name
@@ -817,8 +824,11 @@ class Country {
 }
 
 class Continent {
+    
     internal var name: String
+    
     internal var countries: [Country] = []
+    
     
     init(name: String) {
         self.name = name
@@ -828,6 +838,7 @@ class Continent {
 class Language: Equatable {
     
     internal var name: String = ""
+    
     
     static func == (lhs: Language, rhs: Language) -> Bool {
         return lhs.name == rhs.name

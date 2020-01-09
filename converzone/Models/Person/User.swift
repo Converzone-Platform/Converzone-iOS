@@ -10,6 +10,13 @@ import UIKit
 
 class User: Person, Hashable {
     
+    internal var blocked: Bool = false
+    
+    internal var conversation: [Message] = []
+    
+    internal var discover_style: Int = 0
+    
+    
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.hashValue == rhs.hashValue
     }
@@ -17,10 +24,6 @@ class User: Person, Hashable {
     func hash(into hasher: inout Hasher){
         hasher.combine(self.uid)
     }
-    
-    internal var blocked: Bool = false
-    internal var conversation: [Message] = []
-    internal var discover_style: Int = 0
     
     internal var openedChat: Bool {
         

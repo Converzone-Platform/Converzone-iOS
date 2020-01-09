@@ -11,15 +11,20 @@ import os
 import PhoneNumberKit
 import NVActivityIndicatorView
 
-class PhoneVerificationVC: NoAutoRotateViewController {
+class PhoneVerificationVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    
     private var labels = ["Phone number", "Send code"]
+    
     private var footer_notes = ["Carrier SMS charges may apply.", "You must have received a 6 digit Code within a SMS. If not, try resending."]
+    
     private var timer: Timer? = nil
     
     private var seconds_until_retry = 25
+    
     private var tries = 0
+    
 }
 
 extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
@@ -79,7 +84,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             return cell!
             
         default:
-            #warning("Error message needed")
+            os_log("Wants to render cell type which isn't implemented.")
         }
         return tableView.dequeueReusableCell(withIdentifier: "SendCodeCell")!
     }
