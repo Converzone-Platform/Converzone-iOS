@@ -602,21 +602,21 @@ public class Internet: NSObject {
     private static func transformIntoMasterObject (dictionary: NSDictionary) {
         
         guard
-            let firstname = dictionary["firstname"] as? String,
-            let lastname = dictionary["lastname"] as? String,
-            let birthdate = dictionary["birthdate"] as? String,
-            let gender = dictionary["gender"] as? String,
-            let country = dictionary["country"] as? String,
-            let link_to_profile_image = dictionary["link_to_profile_image"] as? String,
-            let discoverable = dictionary["discoverable"] as? Bool,
-            let interests = dictionary["interests"] as? String,
-            let status = dictionary["status"] as? String,
-            let phonenumber = dictionary["phonenumber"] as? String,
-            let discover_min_age = dictionary["discover_min_age"] as? Int,
-            let discover_max_age = dictionary["discover_max_age"] as? Int,
-            let discover_gender_filter = dictionary["discover_gender_filter"] as? String,
-            let has_donated = dictionary["has_donated"] as? Bool,
-            let verified = dictionary["verified"] as? Bool
+            let firstname = dictionary[Person.Keys.firstname.rawValue] as? String,
+            let lastname = dictionary[Person.Keys.lastname.rawValue] as? String,
+            let birthdate = dictionary[Person.Keys.birthdate.rawValue] as? String,
+            let gender = dictionary[Person.Keys.gender.rawValue] as? String,
+            let country = dictionary[Person.Keys.country.rawValue] as? String,
+            let link_to_profile_image = dictionary[Person.Keys.link_to_profile_image.rawValue] as? String,
+            let discoverable = dictionary[Person.Keys.discoverable.rawValue] as? Bool,
+            let interests = dictionary[Person.Keys.interests.rawValue] as? String,
+            let status = dictionary[Person.Keys.status.rawValue] as? String,
+            let phonenumber = dictionary[Person.Keys.phonenumber.rawValue] as? String,
+            let discover_min_age = dictionary[Person.Keys.discover_min_filer_age.rawValue] as? Int,
+            let discover_max_age = dictionary[Person.Keys.discover_max_filter_age.rawValue] as? Int,
+            let discover_gender_filter = dictionary[Person.Keys.discover_gender_filter.rawValue] as? String,
+            let has_donated = dictionary[Person.Keys.has_donated.rawValue] as? Bool,
+            let verified = dictionary[Person.Keys.verified.rawValue] as? Bool
         else {
             
             os_log("Received master object is incomplete")
@@ -637,7 +637,7 @@ public class Internet: NSObject {
         master.discover_min_filer_age = discover_min_age
         master.discover_max_filter_age = discover_max_age
         master.discover_gender_filter = Gender.toGender(gender: discover_gender_filter)
-        master.hasDonated = has_donated
+        master.has_donated = has_donated
         master.verified = verified
     }
     
@@ -792,21 +792,23 @@ public class Internet: NSObject {
     private static func transformIntoUserObject(uid: String, user: User, dictionary: NSDictionary, closure: @escaping (User?) -> Void) {
         
         guard
-            let firstname = dictionary["firstname"] as? String,
-            let lastname = dictionary["lastname"] as? String,
-            let birthdate = dictionary["birthdate"] as? String,
-            let gender = dictionary["gender"] as? String,
-            let country = dictionary["country"] as? String,
-            let link_to_profile_image = dictionary["link_to_profile_image"] as? String,
-            let discoverable = dictionary["discoverable"] as? Bool,
-            let interests = dictionary["interests"] as? String,
-            let status = dictionary["status"] as? String,
-            let phonenumber = dictionary["phonenumber"] as? String,
-            let discover_min_age = dictionary["discover_min_age"] as? Int,
-            let discover_max_age = dictionary["discover_max_age"] as? Int,
-            let discover_gender_filter = dictionary["discover_gender_filter"] as? String,
-            let has_donated = dictionary["has_donated"] as? Bool,
-            let verified = dictionary["verified"] as? Bool
+            
+            let firstname = dictionary[Person.Keys.firstname.rawValue] as? String,
+            let lastname = dictionary[Person.Keys.lastname.rawValue] as? String,
+            let birthdate = dictionary[Person.Keys.birthdate.rawValue] as? String,
+            let gender = dictionary[Person.Keys.gender.rawValue] as? String,
+            let country = dictionary[Person.Keys.country.rawValue] as? String,
+            let link_to_profile_image = dictionary[Person.Keys.link_to_profile_image.rawValue] as? String,
+            let discoverable = dictionary[Person.Keys.discoverable.rawValue] as? Bool,
+            let interests = dictionary[Person.Keys.interests.rawValue] as? String,
+            let status = dictionary[Person.Keys.status.rawValue] as? String,
+            let phonenumber = dictionary[Person.Keys.phonenumber.rawValue] as? String,
+            let discover_min_age = dictionary[Person.Keys.discover_min_filer_age.rawValue] as? Int,
+            let discover_max_age = dictionary[Person.Keys.discover_max_filter_age.rawValue] as? Int,
+            let discover_gender_filter = dictionary[Person.Keys.discover_gender_filter.rawValue] as? String,
+            let has_donated = dictionary[Person.Keys.has_donated.rawValue] as? Bool,
+            let verified = dictionary[Person.Keys.verified.rawValue] as? Bool
+            
         else {
             
             os_log("Received master object is incomplete")
@@ -824,7 +826,7 @@ public class Internet: NSObject {
         user.interests = NSAttributedString(string: interests)
         user.status = NSAttributedString(string: status)
         user.phonenumber = phonenumber
-        user.hasDonated = has_donated
+        user.has_donated = has_donated
         user.verified = verified
         user.discover_min_filer_age = discover_min_age
         user.discover_max_filter_age = discover_max_age
@@ -970,7 +972,7 @@ public class Internet: NSObject {
         is_typing_timer?.invalidate()
         is_typing_timer = nil
         
-        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: uid)).child("isTyping").updateChildValues([String(master.uid) : 0])
+        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: uid)).child("is_typing").updateChildValues([String(master.uid) : 0])
     }
     
     static var is_partner_typing = false {
@@ -981,7 +983,7 @@ public class Internet: NSObject {
     
     static func listenForIsTyping(uid: String){
         
-        listener_for_is_partner_typing = self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: uid)).child("isTyping").child(uid)
+        listener_for_is_partner_typing = self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: uid)).child("is_typing").child(uid)
         
         listener_for_is_partner_typing?.observe(.value, with: { (snapshot) in
             

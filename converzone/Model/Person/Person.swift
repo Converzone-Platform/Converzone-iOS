@@ -9,7 +9,51 @@
 import Foundation
 import MapKit
 
-class Person {
+class Person: Codable {
+    
+    enum Keys: String, CodingKey {
+        
+        case firstname
+        
+        case lastname
+        
+        case discover_max_filter_age
+        
+        case discover_min_filer_age
+        
+        case discover_gender_filter
+        
+        case verified
+        
+        case has_donated
+        
+        case gender
+        
+        case birthdate
+        
+        case continent
+        
+        case country
+        
+        case timezone
+        
+        case interests
+        
+        case status
+        
+        case link_to_profile_image
+        
+        case uid
+        
+        case device_token
+        
+        case discoverable
+        
+        case phonenumber
+        
+        case fcm_token
+    
+    }
 
     internal var firstname: String = ""
     
@@ -23,7 +67,7 @@ class Person {
     
     internal var verified = false
     
-    internal var hasDonated = false
+    internal var has_donated = false
     
     internal var gender: Gender? = nil
     
@@ -81,7 +125,7 @@ class Person {
                 fullString.append(NSAttributedString(attachment: imageAttachment))
             }
             
-            if hasDonated {
+            if has_donated {
                 let imageAttachment = NSTextAttachment()
                 let config = UIImage.SymbolConfiguration(scale: .small)
                 
@@ -133,6 +177,57 @@ class Person {
         
     }
     
+    required init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: Keys.self)
+        
+        firstname = try container.decode(String.self, forKey: .firstname)
+        lastname = try container.decode(String.self, forKey: .lastname)
+        discover_max_filter_age = try container.decode(Int.self, forKey: .discover_max_filter_age)
+        discover_min_filer_age = try container.decode(Int.self, forKey: .discover_min_filer_age)
+        verified = try container.decode(Bool.self, forKey: .verified)
+        has_donated = try container.decode(Bool.self, forKey: .has_donated)
+        birthdate = try container.decode(Date.self, forKey: .birthdate)
+        link_to_profile_image = try container.decode(String.self, forKey: .link_to_profile_image)
+        uid = try container.decode(String.self, forKey: .uid)
+        device_token = try container.decode(String.self, forKey: .device_token)
+        discoverable = try container.decode(Bool.self, forKey: .discoverable)
+        phonenumber = try container.decode(String.self, forKey: .phonenumber)
+        continent = try container.decode(String.self, forKey: .continent)
+        discover_gender_filter = Gender.toGender(gender: try container.decode(String.self, forKey: .discover_gender_filter))
+        gender = Gender.toGender(gender: try container.decode(String.self, forKey: .gender))
+        country = Country(name: try container.decode(String.self, forKey: .country))
+        status = NSAttributedString(string: try container.decode(String.self, forKey: .status))
+        interests = NSAttributedString(string: try container.decode(String.self, forKey: .interests))
+        
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: Keys.self)
+        
+        try container.encode(firstname, forKey: .firstname)
+        try container.encode(lastname, forKey: .lastname)
+        try container.encode(discover_max_filter_age, forKey: .discover_max_filter_age)
+        try container.encode(discover_min_filer_age, forKey: .discover_min_filer_age)
+        try container.encode(verified, forKey: .verified)
+        try container.encode(has_donated, forKey: .has_donated)
+        try container.encode(link_to_profile_image, forKey: .link_to_profile_image)
+        try container.encode(uid, forKey: .uid)
+        try container.encode(device_token, forKey: .device_token)
+        try container.encode(discoverable, forKey: .discoverable)
+        try container.encode(phonenumber, forKey: .phonenumber)
+        try container.encode(continent, forKey: .continent)
+        try container.encode(discover_gender_filter.toString(), forKey: .discover_gender_filter)
+        try container.encode(gender?.toString(), forKey: .gender)
+        try container.encode(country.name, forKey: .country)
+        try container.encode(status.string, forKey: .status)
+        try container.encode(interests.string, forKey: .interests)
+        
+    }
+    
+    init() { }
+    
     func sort(){
 
         self.speak_languages.sort{
@@ -176,21 +271,36 @@ class Person {
         
         return [
         
-            "firstname": self.firstname,
-            "lastname": self.lastname,
-            "gender": gender!.toString(),
-            "birthdate": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: birthdate!),
-            "country": self.country.name,
-            "device_token": Internet.fcm_token,
-            "interests": self.interests.string,
-            "status": self.status.string,
-            "discoverable": self.discoverable,
-            "phonenumber": self.phonenumber,
-            "verified": self.verified,
-            "discover_max_age": self.discover_max_filter_age,
-            "discover_min_age": self.discover_min_filer_age,
-            "discover_gender_filter": self.discover_gender_filter.toString(),
-            "has_donated": self.hasDonated
+            Keys.firstname.rawValue : firstname,
+            
+            Keys.lastname.rawValue : lastname,
+            
+            Keys.gender.rawValue : gender!.toString(),
+            
+            Keys.birthdate.rawValue : Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: birthdate!),
+            
+            Keys.country.rawValue : country.name,
+            
+            Keys.fcm_token.rawValue : Internet.fcm_token,
+            
+            Keys.interests.rawValue : interests.string,
+            
+            Keys.status.rawValue : status.string,
+            
+            Keys.discoverable.rawValue : discoverable,
+            
+            Keys.phonenumber.rawValue : phonenumber,
+            
+            Keys.verified.rawValue : verified,
+            
+            Keys.discover_max_filter_age.rawValue : discover_max_filter_age,
+            
+            Keys.discover_min_filer_age.rawValue : discover_min_filer_age,
+            
+            Keys.discover_gender_filter.rawValue : discover_gender_filter.toString(),
+            
+            Keys.has_donated.rawValue : has_donated
+            
         ]
         
     }

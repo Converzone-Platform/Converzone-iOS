@@ -38,7 +38,6 @@
 		4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */; };
 		4A6C1DE322451D140055B5A5 /* TextMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C1DE222451D140055B5A5 /* TextMessageCell.xib */; };
 		4A6C1DE72246A2900055B5A5 /* InformationMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C1DE62246A2900055B5A5 /* InformationMessageCell.xib */; };
-		4A70F1E323C7C22B008B8AA4 /* Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A70F1E223C7C22B008B8AA4 /* Caching.swift */; };
 		4A7A70D1222405D80074BE5E /* ReflectionDiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A70D0222405D80074BE5E /* ReflectionDiscoverCell.swift */; };
 		4A950C72222D17A80089754D /* ProfileCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A950C71222D17A80089754D /* ProfileCells.swift */; };
 		4A950C7F222D4D360089754D /* SendMessageProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C7E222D4D360089754D /* SendMessageProfileCell.xib */; };
@@ -138,7 +137,6 @@
 		4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		4A6C1DE222451D140055B5A5 /* TextMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextMessageCell.xib; sourceTree = "<group>"; };
 		4A6C1DE62246A2900055B5A5 /* InformationMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InformationMessageCell.xib; sourceTree = "<group>"; };
-		4A70F1E223C7C22B008B8AA4 /* Caching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caching.swift; sourceTree = "<group>"; };
 		4A7A70D0222405D80074BE5E /* ReflectionDiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionDiscoverCell.swift; sourceTree = "<group>"; };
 		4A950C71222D17A80089754D /* ProfileCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCells.swift; sourceTree = "<group>"; };
 		4A950C7E222D4D360089754D /* SendMessageProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendMessageProfileCell.xib; sourceTree = "<group>"; };
@@ -232,7 +230,7 @@
 			path = Person;
 			sourceTree = "<group>";
 		};
-		4A1C985321BBF2CA00F99D62 /* Models */ = {
+		4A1C985321BBF2CA00F99D62 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				4AA8739D22143AF8006035A3 /* Cells */,
@@ -241,7 +239,7 @@
 				4A016FDF21B6B78B00095E26 /* Message.swift */,
 				4A016FE421B7188600095E26 /* Reflection.swift */,
 			);
-			path = Models;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		4A1C985621BC1BF300F99D62 /* View */ = {
@@ -261,7 +259,6 @@
 			isa = PBXGroup;
 			children = (
 				4A016FD121B585BF00095E26 /* Internet.swift */,
-				4A70F1E223C7C22B008B8AA4 /* Caching.swift */,
 				4A36EBD2232D2ACE0053361F /* Navigation.swift */,
 				4AC65934229F16F200BD2251 /* Alerts.swift */,
 				4A5D856621B29F07004E3E79 /* Colors.swift */,
@@ -391,7 +388,7 @@
 				4AAED915218336F400968E3E /* Assets.xcassets */,
 				4A1C985621BC1BF300F99D62 /* View */,
 				4A1C985721BC1C1400F99D62 /* Supporting Files */,
-				4A1C985321BBF2CA00F99D62 /* Models */,
+				4A1C985321BBF2CA00F99D62 /* Model */,
 			);
 			path = converzone;
 			sourceTree = "<group>";
@@ -730,7 +727,6 @@
 				4AD7D6832217292A000E4660 /* Genders.swift in Sources */,
 				4AAED90E218336F400968E3E /* SplashScreenVC.swift in Sources */,
 				4A016FD221B585BF00095E26 /* Internet.swift in Sources */,
-				4A70F1E323C7C22B008B8AA4 /* Caching.swift in Sources */,
 				4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */,
 				4A016FDA21B6B1B200095E26 /* Person.swift in Sources */,
 				4A950C72222D17A80089754D /* ProfileCells.swift in Sources */,

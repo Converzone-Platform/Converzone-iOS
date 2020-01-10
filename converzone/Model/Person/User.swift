@@ -56,4 +56,13 @@ class User: Person, Hashable {
             Internet.opened(message: message, sender: self)
         }
     }
+    
+    
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+    
+    override init() {
+        super.init()
+    }
 }

@@ -52,29 +52,6 @@ class Master: Person {
     }
     
     required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        try super.init(from: decoder)
     }
-    
-    override func toDictionary() -> [String : Any]{
-        
-        return [
-            "firstname": self.firstname,
-            "lastname": self.lastname,
-            "gender": gender!.toString(),
-            "birthdate": Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: birthdate!),
-            "country": self.country.name,
-            "device_token": Internet.fcm_token,
-            "interests": self.interests.string,
-            "status": self.status.string,
-            "discoverable": self.discoverable,
-            "phonenumber": self.phonenumber,
-            "discover_max_age": self.discover_max_filter_age,
-            "discover_min_age": self.discover_min_filer_age,
-            "discover_gender_filter": self.discover_gender_filter.toString(),
-            "has_donated": self.hasDonated,
-            "verified": self.verified
-        ]
-        
-    }
-    
 }

@@ -100,10 +100,10 @@ extension UsersLanguagesVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
-            return (master.speak_languages.count) + 1
+            return master.speak_languages.count + 1
         }
         
-        return (master.learn_languages.count) + 1
+        return master.learn_languages.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
