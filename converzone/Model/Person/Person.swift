@@ -161,7 +161,7 @@ class Person: Codable {
     internal var age: Int {
         
         guard let birthdate = self.birthdate else {
-            return 0
+            return 1
         }
         
         let now = Date()
@@ -170,7 +170,7 @@ class Person: Codable {
         let ageComponents = calendar.dateComponents([.year], from: birthdate, to: now)
         
         guard let age = ageComponents.year else {
-            return 0
+            return 1
         }
         
         return age

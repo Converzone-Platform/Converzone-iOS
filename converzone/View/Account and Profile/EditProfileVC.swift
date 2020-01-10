@@ -9,7 +9,7 @@
 import UIKit
 import os
 
-class EditProfileVC: UIViewController{
+class EditProfileVC: UIViewController {
     
     @IBOutlet weak var profile_image: UIImageView!
     
@@ -559,7 +559,7 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
 private func cropToBounds(image: UIImage, width: Double, height: Double) -> UIImage {
     
     guard let cgimage = image.cgImage else {
-        #warning("Error message needed")
+        os_log("Could not extract image")
         return image
     }
     

@@ -910,7 +910,6 @@ public class Internet: NSObject {
                     discover_users.contains(user!) ||
                     user?.discoverable == false ||
                     master.blocked_users.contains(user!.uid) ||
-                    user?.birthdate == nil ||
                     user!.age < master.discover_min_filer_age ||
                     user!.age > master.discover_max_filter_age ||
                     !(master.discover_gender_filter == .any || user?.gender == master.discover_gender_filter || user?.gender == .unknown) ||
