@@ -1,20 +1,23 @@
 //
-//  ReflectionDiscoverCell.swift
+//  StatusDiscoverCell.swift
 //  converzone
 //
-//  Created by Goga Barabadze on 25.02.19.
+//  Created by Goga Barabadze on 17.02.19.
 //  Copyright © 2019 Goga Barabadze. All rights reserved.
 //
 
 import UIKit
 
-class ReflectionDiscoverCell: UITableViewCell{
+class StatusDiscoverCell: UITableViewCell {
+    
+    @IBOutlet weak var profile_image: UIImageView!
+    
+    @IBOutlet weak var name: UILabel!
+    
+    @IBOutlet weak var status: UILabel!
     
     @IBOutlet weak var view: UIView!
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var reflection: UILabel!
-    @IBOutlet weak var reflectionWriter: UILabel!
-    @IBOutlet weak var name: UILabel!
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -23,5 +26,4 @@ class ReflectionDiscoverCell: UITableViewCell{
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
     }
-    
 }

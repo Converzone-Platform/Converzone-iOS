@@ -42,7 +42,7 @@ class LanguagesVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        world.sortLanguagesAlphabetically()
+        world.sort()
     }
     
     

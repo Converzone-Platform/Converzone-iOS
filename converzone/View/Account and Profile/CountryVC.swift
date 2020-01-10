@@ -7,15 +7,19 @@
 //
 
 import UIKit
+import os
 
 class CountryVC: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     
+    @IBOutlet weak var tableView: UITableView!
+    
+    
     var currentCountries: [Country]? = nil
+    
     var filteredCountries: [Country]? = nil
     
-    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +51,7 @@ extension CountryVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard let country = filteredCountries?[indexPath.row] else {
-            #warning("Error message needed")
+            os_log("Could not extract country.")
             return
         }
         
@@ -65,7 +69,7 @@ extension CountryVC: UITableViewDataSource, UITableViewDelegate{
         
     }
     
-    private func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height : CGFloat)->UIImage? {
+    private func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height : CGFloat) -> UIImage? {
         let oldWidth = image.size.width;
         let oldHeight = image.size.height;
         

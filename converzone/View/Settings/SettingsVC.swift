@@ -68,7 +68,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             Internet.getImage(withURL: master.link_to_profile_image) { (image) in
                 
                 guard let image = image else {
-                    #warning("Error message needed")
+                    os_log("Could not extract image.")
                     return
                 }
                 

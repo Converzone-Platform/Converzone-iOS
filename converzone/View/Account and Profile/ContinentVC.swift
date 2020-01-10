@@ -8,13 +8,16 @@
 
 import UIKit
 import MapKit
+import os
 
 var world = World(name: "Earth")
 
 class ContinentVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    let locationManager = CLLocationManager()
+    
+    let location_manager = CLLocationManager()
+    
     
     private func resizeImageWithAspect(image: UIImage,scaledToMaxWidth width:CGFloat,maxHeight height : CGFloat)->UIImage? {
         let oldWidth = image.size.width;
@@ -32,44 +35,6 @@ class ContinentVC: UIViewController {
         let newImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         return newImage
-    }
-    
-    private func getNameOfCountry() -> String {
-        
-//        let phoneNumberKit = PhoneNumberKit()
-//
-//        do {
-//            let phoneNumber = try phoneNumberKit.parse(master.phonenumber)
-//
-//            guard let main_country = phoneNumberKit.mainCountry(forCode: phoneNumber.countryCode) else {
-//                return ""
-//            }
-//
-//            guard let name = Country.countryName(countryCode: main_country) else {
-//                return ""
-//            }
-//
-//            return name
-//        }
-//        catch {
-//            print("Generic parser error")
-//        }
-        
-        return ""
-    }
-    
-    private func doesFlagExist(name: String) -> Bool {
-        
-        if UIImage(named: getFlagNameFor(name: name)) == nil{
-            return false
-        }
-        
-        return true
-    }
-    
-    private func getFlagNameFor(name: String) -> String {
-        
-        return name.replacingOccurrences(of: " ", with: "-").lowercased()
     }
 }
 
@@ -103,13 +68,6 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
             cell?.textLabel?.text = world.continents[indexPath.row].name
             
             return cell!
-            
-        case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "StandardCountryCell")
-            cell?.textLabel!.text = getNameOfCountry()
-            cell?.imageView?.image = resizeImageWithAspect(image: UIImage(named: getFlagNameFor(name: getNameOfCountry()))!, scaledToMaxWidth: 24.0, maxHeight: 24.0)
-            return cell!
-            
         default:
             return UITableViewCell()
         }
@@ -117,11 +75,7 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        if doesFlagExist(name: getNameOfCountry()) {
-            return 3
-        }else{
-            return 2
-        }
+        return 2
     }
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -135,24 +89,23 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
         
         switch indexPath.section {
         case 0:
-            locationManager.requestWhenInUseAuthorization()
+            location_manager.requestWhenInUseAuthorization()
             
             // If location services is enabled get the users location
             if CLLocationManager.locationServicesEnabled() {
-                locationManager.delegate = self as? CLLocationManagerDelegate
-                locationManager.desiredAccuracy = kCLLocationAccuracyBest
-                locationManager.startUpdatingLocation()
+                location_manager.delegate = self as? CLLocationManagerDelegate
+                location_manager.desiredAccuracy = kCLLocationAccuracyBest
+                location_manager.startUpdatingLocation()
             }else{
                 showLocationDisabledPopUp()
             }
             
             //Get Country
-            geocode(latitude: locationManager.location?.coordinate.latitude ?? 2123, longitude: locationManager.location?.coordinate.longitude ?? 2123) { placemark, error in
+            geocode(latitude: location_manager.location?.coordinate.latitude ?? 2123, longitude: location_manager.location?.coordinate.longitude ?? 2123) { placemark, error in
                 guard let placemark = placemark, error == nil else { return }
                 
                 DispatchQueue.main.async {
                     
-                    #warning("Not localized")
                     let current = Locale(identifier: "en_US")
                     
                     guard let name = current.localizedString(forRegionCode: placemark.isoCountryCode ?? "") else {
@@ -171,7 +124,7 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
             case 2:
                 
                 guard let name = tableView.cellForRow(at: indexPath)?.textLabel?.text else {
-                    #warning("Error message needed")
+                    os_log("Could not extract name.")
                     return
                 }
                 

@@ -27,5 +27,6 @@ target 'converzone' do
   pod 'NVActivityIndicatorView'
   pod 'RangeSeekSlider'
   pod 'SAConfettiView'
+  pod 'Cache'
 
 end

@@ -9,6 +9,8 @@
 import UIKit
 import MapKit
 
+// MARK: String
+
 extension String{
     func isURL() -> Bool {
 
@@ -110,7 +112,7 @@ extension UnicodeScalar {
     }
 }
 
-
+// MARK: UILabel
 
 extension UILabel {
 
@@ -168,6 +170,7 @@ func iterateEnum<T: Hashable>(_: T.Type) -> AnyIterator<T> {
 }
 
 // MARK: - Arrays
+
 extension Array where Element: Equatable {
     mutating func removeDuplicates() {
         var result = [Element]()
@@ -181,6 +184,7 @@ extension Array where Element: Equatable {
 }
 
 // MARK: - Table View
+
 extension UITableView {
     func globalIndexPath(for localIndexPath: NSIndexPath) -> Int {
         var totalRows = 0
@@ -190,6 +194,8 @@ extension UITableView {
         return totalRows + localIndexPath.row
     }
 }
+
+// MARK: CLLocationManager
 
 extension CLLocationManager {
     func getLocation(forPlaceCalled name: String,
@@ -221,12 +227,16 @@ extension CLLocationManager {
     }
 }
 
+// MARK: Hashable
+
 extension Hashable {
     func share() {
         let activity = UIActivityViewController(activityItems: [self], applicationActivities: nil)
         UIApplication.currentViewController()!.present(activity, animated: true)
     }
 }
+
+// MARK: UITableView
 
 extension UITableView {
     func setEmptyView(title: String, message: String) {
@@ -271,6 +281,8 @@ extension UITableView {
     }
 }
 
+// MARK: UIApplication
+
 extension UIApplication{
 
     class func currentViewController() -> UIViewController? {
@@ -285,6 +297,8 @@ extension UIApplication{
     }
 
 }
+
+// MARK: Bundle
 
 extension Bundle {
 
@@ -306,10 +320,25 @@ extension Bundle {
        return build
     }
 }
+
+// MARK: Collection
+
 extension Collection {
 
     /// Returns the element at the specified index if it is within bounds, otherwise nil.
     subscript (safe index: Index) -> Element? {
         return indices.contains(index) ? self[index] : nil
+    }
+}
+
+// MARK: Date
+
+extension Date {
+    func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
+        return calendar.dateComponents(Set(components), from: self)
+    }
+
+    func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
+        return calendar.component(component, from: self)
     }
 }

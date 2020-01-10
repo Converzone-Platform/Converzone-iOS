@@ -8,7 +8,9 @@
 import UIKit
 
 open class LabelForLogin : UILabel {
+    
     @IBInspectable open var characterSpacing:CGFloat = 1 {
+        
         didSet {
             updateWithSpacing()
         }
@@ -16,19 +18,23 @@ open class LabelForLogin : UILabel {
     }
     
     open override var text: String? {
+        
         set {
             super.text = newValue
             updateWithSpacing()
         }
+        
         get {
             return super.text
         }
     }
     open override var attributedText: NSAttributedString? {
+        
         set {
             super.attributedText = newValue
             updateWithSpacing()
         }
+        
         get {
             return super.attributedText
         }

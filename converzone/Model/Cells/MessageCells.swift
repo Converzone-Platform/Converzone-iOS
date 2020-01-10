@@ -11,13 +11,16 @@ import MapKit
 
 class TextMessageCell: UITableViewCell {
     
-    @IBOutlet weak var leftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var rightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var left_constraint: NSLayoutConstraint!
     
-    @IBOutlet weak var topConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var right_constraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var top_constraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var bottom_constraint: NSLayoutConstraint!
     
     @IBOutlet weak var view: UIView!
+    
     @IBOutlet weak var message_label: UILabel!
     
     
@@ -34,7 +37,9 @@ class TextMessageCell: UITableViewCell {
 class ImageMessageCell: UITableViewCell {
     
     @IBOutlet weak var view: UIView!
+    
     @IBOutlet weak var message_imageView: UIImageView!
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -48,7 +53,9 @@ class ImageMessageCell: UITableViewCell {
 class InformationMessageCell: UITableViewCell {
     
     @IBOutlet weak var view: UIView!
+    
     @IBOutlet weak var information: UILabel!
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -62,6 +69,7 @@ class InformationMessageCell: UITableViewCell {
 class LocationMessageCell: UITableViewCell {
     
     @IBOutlet weak var view: UIView!
+    
     @IBOutlet weak var map: MKMapView!
     
     
@@ -77,10 +85,15 @@ class LocationMessageCell: UITableViewCell {
 class NeedHelpMessageCell: UITableViewCell {
     
     @IBOutlet weak var view: UIView!
+    
     @IBOutlet weak var title: UILabel!
+    
     @IBOutlet weak var message: UILabel!
+    
     @IBOutlet weak var title_seperator: UIImageView!
+    
     @IBOutlet weak var action_seperator: UIImageView!
+    
     
     @IBAction func block_report(_ sender: Any) {
         
