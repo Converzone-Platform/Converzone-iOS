@@ -31,7 +31,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         
         setUpNavBar()
         
-        self.view.backgroundColor = Colors.backgroundGrey
+        self.view.backgroundColor = Colors.background_grey
         
         Internet.update_conversations_tableview_delegate = self
     }
@@ -80,6 +80,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         
         //MARK: TODO - Reloading the whole tableview might be too much
         tableView.reloadData()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -63,6 +63,7 @@ extension DiscoverFilterVC: UITableViewDelegate, UITableViewDataSource {
             case .female: cell?.selector.selectedSegmentIndex = 1
             case .male: cell?.selector.selectedSegmentIndex = 2
             case .non_binary: cell?.selector.selectedSegmentIndex = 3
+            case .unknown: cell?.selector.selectedSegmentIndex = 0
             }
             
             return cell!

@@ -16,7 +16,7 @@
 			<key>FooterText</key>
 			<string>Licensed under the **MIT** license
 
-&gt; Copyright (c) 2015 Hyper Interaktiv AS
+&gt; Copyright (c) 2015 Khoa Pham
 &gt;
 &gt; Permission is hereby granted, free of charge, to any person obtaining
 &gt; a copy of this software and associated documentation files (the
@@ -40,7 +40,7 @@
 			<key>License</key>
 			<string>MIT</string>
 			<key>Title</key>
-			<string>Cache</string>
+			<string>EasyStash</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>

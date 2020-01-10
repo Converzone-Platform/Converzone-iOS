@@ -829,16 +829,14 @@ class Continent {
     
     internal var countries: [Country] = []
     
-    
     init(name: String) {
         self.name = name
     }
 }
 
-class Language: Equatable {
+class Language: Equatable, Codable {
     
     internal var name: String = ""
-    
     
     static func == (lhs: Language, rhs: Language) -> Bool {
         return lhs.name == rhs.name

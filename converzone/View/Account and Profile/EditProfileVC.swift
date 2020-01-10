@@ -101,14 +101,14 @@ class EditProfileVC: UIViewController{
         }
         
         // 2. No emojis in the first and last name
-        if firstname.containsEmoji{
+        if firstname.contains_emoji{
             alert("Firstname", "Please make sure you don't use emojis in your firstname")
             return false
         }else{
             master.firstname = firstname.trimmingCharacters(in: .whitespaces).capitalizingFirstLetter()
         }
         
-        if lastname.containsEmoji{
+        if lastname.contains_emoji{
             alert("Lastname", "Please make sure you don't use emojis in your lastname")
             return false
         }else{
@@ -124,8 +124,7 @@ class EditProfileVC: UIViewController{
         }
         
         if found == false{
-            alert("Gender", "Please make sure you enter one of the predefined genders")
-            return false
+            master.gender = Gender.toGender(gender: "")
         }else{
             master.gender = Gender.toGender(gender: gender.trimmingCharacters(in: .whitespaces))
         }
@@ -143,15 +142,13 @@ class EditProfileVC: UIViewController{
             if components.year! > 3000{
                 alert("Wow", "Are you from the future? Write me an email. I have some questions :)")
                 return false
-            }else{
-                
-                master.birthdate = newDate
             }
             
-        }else{
-            alert("Birthdate", "Please enter a valid date")
-            return false
+            master.birthdate = newDate
+            
         }
+        
+        
         
         return true
     }
@@ -176,16 +173,12 @@ class EditProfileVC: UIViewController{
         
         var gender = (tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as! InputGenderCell).gender.text
         gender = gender?.trimmingCharacters(in: .whitespacesAndNewlines)
-        if gender == "" {
-            alert("Gender", "Please tell us your gender")
-            return
-        }
         
         var date = (tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as! InputDateCell).date.text
         date = date?.trimmingCharacters(in: .whitespacesAndNewlines)
         if date == "" {
-            alert("Birthdate", "Please tell us your birthdate")
-            return
+            
+            master.birthdate = nil
         }
         
         if master.interests.string.isEmpty {
@@ -237,7 +230,6 @@ class EditProfileVC: UIViewController{
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as! InputDateCell
         cell.date.text = formatter.string(from: datePicker.date)
         
-        master.birthdate = datePicker.date
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -247,6 +239,8 @@ class EditProfileVC: UIViewController{
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         
         switch section {
+        case 1:
+            return "These two fields are optional. We suggest entering them though. That way you (and other people) have access to a whole bunch of fancy filtering features."
         case 3:
             return "Disable this if you don't want new people to text you. This set on \"off\" will make sure you are not visible for others in the discover tab"
         default:
@@ -264,13 +258,13 @@ extension EditProfileVC: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return Gender.allCases.count
+        return Gender.allCases.count - 1
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
         if row == 0 {
-            return "Choose your gender"
+            return ""
         }
         
         return Gender.allCases[row].toString()
@@ -283,13 +277,11 @@ extension EditProfileVC: UIPickerViewDelegate, UIPickerViewDataSource {
             return
         }
         
-        if row == 0 {
-            pickerView.selectRow(1, inComponent: component, animated: true)
-            cell.gender.text = Gender.allCases[0].toString()
+        if row == 0{
+            cell.gender.text = ""
         }else{
             cell.gender.text = Gender.allCases[row].toString()
         }
-        
     }
     
     
@@ -386,14 +378,13 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             let datePicker = UIDatePicker()
             datePicker.datePickerMode = .date
             
-            
             datePicker.locale = NSLocale(localeIdentifier: Locale.current.languageCode!) as Locale
             
             let calendar = Calendar(identifier: .gregorian)
             var comps = DateComponents()
             comps.year = 0
             let maxDate = calendar.date(byAdding: comps, to: Date())
-            comps.year = -150
+            comps.year = -130
             let minDate = calendar.date(byAdding: comps, to: Date())
             
             datePicker.minimumDate = minDate
@@ -406,7 +397,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
             
             datePicker.addTarget(self, action: #selector(pickDate(datePicker:)), for: .valueChanged)
             
-            guard let birthdate = master.birthdate  else {
+            guard let birthdate = master.birthdate else {
                 return cell
             }
             

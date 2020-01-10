@@ -380,7 +380,7 @@ public class Internet: NSObject {
         let message = InformationMessage()
         message.text = text
         message.is_sender = is_sender
-        message.date = date
+        message.date = date ?? Date()
         message.opened = opened
         
         findConversationAndAddMessage(message: message, uid: receiver)
@@ -406,7 +406,7 @@ public class Internet: NSObject {
         let message = TextMessage()
         message.text = text
         message.is_sender = is_sender
-        message.date = date
+        message.date = date ?? Date()
         message.opened = opened
         
         findConversationAndAddMessage(message: message, uid: receiver)
@@ -543,6 +543,8 @@ public class Internet: NSObject {
             
             master = Master()
             
+            //try Disk.storage.removeAll()
+            
             UserDefaults.standard.removeObject(forKey: "DidFinishRegistration")
             
         }catch{
@@ -604,7 +606,6 @@ public class Internet: NSObject {
         guard
             let firstname = dictionary[Person.Keys.firstname.rawValue] as? String,
             let lastname = dictionary[Person.Keys.lastname.rawValue] as? String,
-            let birthdate = dictionary[Person.Keys.birthdate.rawValue] as? String,
             let gender = dictionary[Person.Keys.gender.rawValue] as? String,
             let country = dictionary[Person.Keys.country.rawValue] as? String,
             let link_to_profile_image = dictionary[Person.Keys.link_to_profile_image.rawValue] as? String,
@@ -627,7 +628,7 @@ public class Internet: NSObject {
         master.firstname = firstname
         master.lastname = lastname
         master.gender = Gender.toGender(gender: gender)
-        master.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: birthdate)
+        master.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: dictionary[Person.Keys.birthdate.rawValue] as? String ?? "")
         master.country = Country(name: country)
         master.link_to_profile_image = link_to_profile_image
         master.discoverable = discoverable
@@ -639,6 +640,9 @@ public class Internet: NSObject {
         master.discover_gender_filter = Gender.toGender(gender: discover_gender_filter)
         master.has_donated = has_donated
         master.verified = verified
+        
+        // Save changes to disk
+        //Disk.save()
     }
     
     // MARK: Languages
@@ -811,7 +815,7 @@ public class Internet: NSObject {
             
         else {
             
-            os_log("Received master object is incomplete")
+            os_log("Received user object is incomplete")
             
             return
         }
@@ -909,7 +913,7 @@ public class Internet: NSObject {
                     user?.birthdate == nil ||
                     user!.age < master.discover_min_filer_age ||
                     user!.age > master.discover_max_filter_age ||
-                    !(master.discover_gender_filter == .any || user?.gender == master.discover_gender_filter) ||
+                    !(master.discover_gender_filter == .any || user?.gender == master.discover_gender_filter || user?.gender == .unknown) ||
                     
                     master.age < user!.discover_min_filer_age ||
                     user!.age > user!.discover_max_filter_age ||
@@ -921,7 +925,7 @@ public class Internet: NSObject {
                     randomDiscoverStyle(for: user!)
                     discover_users.insert(user!)
                     
-                    fetchedCount += 1
+                    fetched_count += 1
                     
                     Internet.update_discovery_tableview_delegate?.didUpdate(sender: Internet())
                     
@@ -962,10 +966,19 @@ public class Internet: NSObject {
     }
     
     static private func typing(uid: String) {
+        
+        if uid.isEmpty {
+            return
+        }
+        
         self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: uid)).child("isTyping").updateChildValues([String(master.uid) : NSDate().timeIntervalSince1970])
     }
     
     static func stoppedTyping(uid: String){
+        
+        if uid.isEmpty {
+            return
+        }
         
         time_since_last_letter = 0
         

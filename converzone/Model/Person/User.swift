@@ -10,6 +10,14 @@ import UIKit
 
 class User: Person, Hashable {
     
+    enum UserKeys: String, CodingKey {
+        
+        case blocked
+        
+        case conversation
+    }
+    
+    
     internal var blocked: Bool = false
     
     internal var conversation: [Message] = []
@@ -60,6 +68,20 @@ class User: Person, Hashable {
     
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
+        
+        let container = try decoder.container(keyedBy: UserKeys.self)
+        
+        blocked = try container.decode(Bool.self, forKey: .blocked)
+        conversation = try container.decode([Message].self, forKey: .conversation)
+    }
+    
+    override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        
+        var container = encoder.container(keyedBy: UserKeys.self)
+        
+        try container.encode(blocked, forKey: .blocked)
+        try container.encode(conversation, forKey: .conversation)
     }
     
     override init() {

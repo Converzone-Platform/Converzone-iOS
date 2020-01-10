@@ -10,8 +10,8 @@ import UIKit
 import os
 
 var discover_users: Set<User> = []
-var profileOf: User = User()
-var fetchedCount = 0
+var profile_of: User = User()
+var fetched_count = 0
 
 var no_discoverable_users_left: Bool {
     return Internet.user_count-1 /*- Internet.undiscoverable_counter*/ == discover_users.count
@@ -19,11 +19,10 @@ var no_discoverable_users_left: Bool {
 
 class DiscoverVC: UIViewController, DiscoverUpdateDelegate {
     
-    private let numberOfItemsPerFetch = 3
-    private var discoverCard: DicoverCard = DicoverCard()
-    private let refreshControl = UIRefreshControl()
+    private let number_of_items_for_fetch = 3
+    private var discover_card: DicoverCard = DicoverCard()
+    private let refresh = UIRefreshControl()
     
-    // To update the table view from the Internet class
     let updates = Internet()
     
     @IBOutlet weak var tableView: UITableView!
@@ -33,7 +32,7 @@ class DiscoverVC: UIViewController, DiscoverUpdateDelegate {
         
         setUpNavBar()
         
-        self.view.backgroundColor = Colors.backgroundGrey
+        self.view.backgroundColor = Colors.background_grey
         
         Internet.update_discovery_tableview_delegate = self
         
@@ -64,7 +63,7 @@ class DiscoverVC: UIViewController, DiscoverUpdateDelegate {
         self.tableView.reloadData()
         
         //Internet.undiscoverable_counter = 0
-        fetchedCount = 0
+        fetched_count = 0
         fetchUsers()
         
         sender.endRefreshing()
@@ -77,7 +76,7 @@ class DiscoverVC: UIViewController, DiscoverUpdateDelegate {
             return
         }
         
-        for _ in 0...numberOfItemsPerFetch {
+        for _ in 0...number_of_items_for_fetch {
             Internet.getRandomUser()
             
         }
@@ -92,8 +91,8 @@ class DiscoverVC: UIViewController, DiscoverUpdateDelegate {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filter))
         }
         
-        refreshControl.addTarget(self, action: #selector(refreshUsers( sender:)), for: .valueChanged)
-        self.tableView.refreshControl = refreshControl
+        refresh.addTarget(self, action: #selector(refreshUsers( sender:)), for: .valueChanged)
+        self.tableView.refreshControl = refresh
     }
     
     @objc private func filter(){
@@ -107,10 +106,10 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
         
         //if (types[indexPath.row] == 3) { return }
         
-        profileOf = discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)]
+        profile_of = discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)]
         
-        self.discoverCard.setUpCard(caller: self)
-        self.discoverCard.animateTransitionIfNeeded(state: self.discoverCard.nextState, duration: 0.9)
+        self.discover_card.setUpCard(caller: self)
+        self.discover_card.animateTransitionIfNeeded(state: self.discover_card.nextState, duration: 0.9)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -20,6 +20,14 @@ enum ChangingData {
 
 class Master: Person {
     
+    enum MasterKeys: String, CodingKey {
+        
+        case conversations
+        
+        case blocked_users
+    }
+    
+    
     internal var editingMode: ChangingData = .registration
     
     internal var conversations: [User] = []
@@ -53,5 +61,19 @@ class Master: Person {
     
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
+        
+        let container = try decoder.container(keyedBy: MasterKeys.self)
+        
+        conversations = try container.decode([User].self, forKey: .conversations)
+        blocked_users = try container.decode(Set<String>.self, forKey: .blocked_users)
+    }
+    
+    override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        
+        var container = encoder.container(keyedBy: MasterKeys.self)
+        
+        try container.encode(conversations, forKey: .conversations)
+        try container.encode(blocked_users, forKey: .blocked_users)
     }
 }

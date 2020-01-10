@@ -22,12 +22,16 @@ extension Date {
         
     }
     
-    static func dateAsString(style: Date.Style, date: Date) -> String{
+    static func dateAsString(style: Date.Style, date: Date?) -> String{
+        
+        guard let unwrapped_date = date else {
+            return ""
+        }
         
         let formatter = DateFormatter()
         formatter.dateFormat = fromStyleToString(style: style)
 
-        return formatter.string(from: date)
+        return formatter.string(from: unwrapped_date)
         
     }
     
@@ -51,14 +55,14 @@ extension Date {
         
     }
     
-    static func stringAsDate(style: Date.Style, string: String) -> Date{
+    static func stringAsDate(style: Date.Style, string: String) -> Date?{
         
         let formatter = DateFormatter()
         formatter.dateFormat = fromStyleToString(style: style)
         
         guard let date = formatter.date(from: string) else {
             os_log("Could not extract date from DateFormatter.")
-            return Date()
+            return nil
         }
         
         return date

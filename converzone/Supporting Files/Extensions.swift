@@ -12,28 +12,25 @@ import MapKit
 // MARK: String
 
 extension String{
+    
     func isURL() -> Bool {
 
         if let url = NSURL(string: self) {
             return UIApplication.shared.canOpenURL(url as URL)
         }
+        
         return false
     }
-}
-
-extension String {
-    var containsOnlyEmoji: Bool {
+    var contains_only_emoji: Bool {
         return !isEmpty
             && !unicodeScalars.contains(where: {
                 !$0.isEmoji && !$0.isZeroWidthJoiner
             })
     }
-    var containsEmoji: Bool {
+    var contains_emoji: Bool {
         return unicodeScalars.contains { $0.isEmoji }
     }
-}
-
-extension String {
+    
     func capitalizingFirstLetter() -> String {
         return prefix(1).uppercased() + self.lowercased().dropFirst()
     }
@@ -41,10 +38,7 @@ extension String {
     mutating func capitalizeFirstLetter() {
         self = self.capitalizingFirstLetter()
     }
-}
-
-extension String{
-
+    
     func widthWithConstrained( _ height: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)
 
@@ -59,27 +53,32 @@ extension String{
 
         return ceil(boundingBox.height)
     }
-
 }
 
 extension StringProtocol {
+    
     subscript(offset: Int) -> Element {
         return self[index(startIndex, offsetBy: offset)]
     }
+    
     subscript(_ range: Range<Int>) -> SubSequence {
         return prefix(range.lowerBound + range.count)
             .suffix(range.count)
     }
+    
     subscript(range: ClosedRange<Int>) -> SubSequence {
         return prefix(range.lowerBound + range.count)
             .suffix(range.count)
     }
+    
     subscript(range: PartialRangeThrough<Int>) -> SubSequence {
         return prefix(range.upperBound.advanced(by: 1))
     }
+    
     subscript(range: PartialRangeUpTo<Int>) -> SubSequence {
         return prefix(range.upperBound)
     }
+    
     subscript(range: PartialRangeFrom<Int>) -> SubSequence {
         return suffix(Swift.max(0, count - range.lowerBound))
     }
@@ -88,8 +87,8 @@ extension StringProtocol {
 extension UnicodeScalar {
     var isEmoji: Bool {
         switch value {
-        case 0x1F600...0x1F64F, // Emoticons
-        0x1F300...0x1F5FF, // Misc Symbols and Pictographs
+        case 0x1F600...0x1F64F,
+        0x1F300...0x1F5FF,
         0x1F680...0x1F6FF, // Transport and Map
         0x1F1E6...0x1F1FF, // Regional country flags
         0x2600...0x26FF, // Misc symbols
@@ -260,8 +259,6 @@ extension UITableView {
         messageLabel.text = message
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center
-        
-        
         
         UIView.animate(withDuration: 0.5, delay: 4, options: .curveEaseInOut, animations: {
             self.backgroundView = emptyView

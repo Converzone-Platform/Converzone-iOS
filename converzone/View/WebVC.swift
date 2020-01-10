@@ -11,45 +11,45 @@ import WebKit
 
 class WebVC: UIViewController, WKUIDelegate {
 
-    @IBOutlet weak var webView: WKWebView!
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var web_view: WKWebView!
+    @IBOutlet weak var search_bar: UISearchBar!
+    @IBOutlet weak var progress_view: UIProgressView!
     
-    @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var search_bar_top_constraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         loadWebsite(search: "https://www.duckduckgo.com")
         
-        webView.uiDelegate = self
-        webView.navigationDelegate = self
-        webView.scrollView.delegate = self
+        web_view.uiDelegate = self
+        web_view.navigationDelegate = self
+        web_view.scrollView.delegate = self
         
-        webView.allowsLinkPreview = false
+        web_view.allowsLinkPreview = false
         
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
+        web_view.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
-        searchBar.autocapitalizationType = .none
-        searchBar.returnKeyType = .search
+        search_bar.autocapitalizationType = .none
+        search_bar.returnKeyType = .search
         
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
         UIView.animate(withDuration: 1, delay: 0.1, options: UIView.AnimationOptions.curveEaseInOut, animations: {
-            self.progressView.progressTintColor = Colors.random()
+            self.progress_view.progressTintColor = Colors.random()
         })
         
-        if self.webView.estimatedProgress >= 1.0 {
+        if self.web_view.estimatedProgress >= 1.0 {
             
             UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseIn, animations: {
                 
-                self.progressView.alpha = 0
+                self.progress_view.alpha = 0
                 
             }) { (finished: Bool) in
                 
-                self.progressView.alpha = 0
+                self.progress_view.alpha = 0
                 
             }
             
@@ -60,13 +60,13 @@ class WebVC: UIViewController, WKUIDelegate {
     
     private func showProgressView() {
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
-            self.progressView.alpha = 1
+            self.progress_view.alpha = 1
         }, completion: nil)
     }
     
     private func hideProgressView() {
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
-            self.progressView.alpha = 0
+            self.progress_view.alpha = 0
         }, completion: nil)
     }
     
@@ -91,10 +91,7 @@ class WebVC: UIViewController, WKUIDelegate {
             }
         }
         
-        
-        
-        let myRequest = URLRequest(url: myURL)
-        webView.load(myRequest)
+        web_view.load(URLRequest(url: myURL))
     }
     
     private func fromSimpleWordsToSearch(simpleWords: String) -> String{
@@ -119,14 +116,14 @@ extension WebVC: UIScrollViewDelegate {
         
         if offset > 1 {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
-                self.searchBar.alpha = 0
-                self.searchBarTopConstraint.constant = -self.searchBar.frame.height
+                self.search_bar.alpha = 0
+                self.search_bar_top_constraint.constant = -self.search_bar.frame.height
             }, completion: nil)
             
         }else{
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
-                self.searchBar.alpha = 1
-                self.searchBarTopConstraint.constant = 0
+                self.search_bar.alpha = 1
+                self.search_bar_top_constraint.constant = 0
             }, completion: nil)
         }
         

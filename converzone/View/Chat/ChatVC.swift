@@ -302,7 +302,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 1000
         
-        tableView.backgroundColor = Colors.backgroundGrey
+        tableView.backgroundColor = Colors.background_grey
     }
     
     private func setUpObervers(){
@@ -335,7 +335,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         guard !(hitView is UIControl) else { return }
         
-        profileOf = chatOf
+        profile_of = chatOf
         
         self.discover_card = DicoverCard()
         self.discover_card.setUpCard(caller: self)
@@ -522,89 +522,89 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
             
             return cell
             
-        case is ImageMessage:
-            
-            let cell = Bundle.main.loadNibNamed("ImageMessageCell", owner: self, options: nil)?.first as! ImageMessageCell
-            
-            let message = chatOf.conversation[indexPath.row] as! ImageMessage
-            
-            cell.message_imageView.image = message.image
-            cell.message_imageView.contentMode = .scaleAspectFill
-            cell.message_imageView.clipsToBounds = true
-            cell.message_imageView.layer.cornerRadius = 23
-            
-            cell.view.layer.cornerRadius = 23
-            cell.view.layer.shadowColor = UIColor.black.cgColor
-            cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
-            cell.view.layer.shadowOpacity = 0.2
-            cell.view.layer.shadowRadius = 4.0
-            
-            cell.selectionStyle = .none
-            
-            if  message.is_sender == true {
-                
-                cell.message_imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
-                
-                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
-                
-            }else{
-                cell.message_imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-                
-                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-            }
-            
-            return cell
-            
-        case is LocationMessage:
-            
-            let cell = Bundle.main.loadNibNamed("LocationMessageCell", owner: self, options: nil)?.first as! LocationMessageCell
-            
-            let message = chatOf.conversation[indexPath.row] as! LocationMessage
-            let latitude: CLLocationDegrees = (message.coordinate?.latitude)!
-            let longitude: CLLocationDegrees = (message.coordinate?.longitude)!
-            
-            let latDelta:CLLocationDegrees = 0.01
-            let lonDelta:CLLocationDegrees = 0.01
-            
-            let span = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
-            let location = CLLocationCoordinate2DMake(latitude, longitude)
-            let region = MKCoordinateRegion(center: location, span: span)
-            
-            let annotation = MKPointAnnotation()
-            
-            annotation.coordinate = message.coordinate!
-            
-            if message.is_sender {
-                annotation.title = master.fullname.string
-            }else{
-                annotation.title = chatOf.fullname.string
-            }
-            
-            cell.map.addAnnotation(annotation)
-            cell.map.setRegion(region, animated: false)
-            
-            cell.map.setCenter(message.coordinate!, animated: true)
-            
-            cell.map.layer.cornerRadius = 23
-            cell.view.layer.cornerRadius = 23
-            cell.view.layer.shadowColor = UIColor.black.cgColor
-            cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
-            cell.view.layer.shadowOpacity = 0.2
-            cell.view.layer.shadowRadius = 4.0
-            
-            cell.selectionStyle = .none
-            
-            if  message.is_sender == true {
-                
-                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
-                cell.map.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
-            }else{
-                
-                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-                cell.map.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
-            }
-            
-            return cell
+//        case is ImageMessage:
+//
+//            let cell = Bundle.main.loadNibNamed("ImageMessageCell", owner: self, options: nil)?.first as! ImageMessageCell
+//
+//            let message = chatOf.conversation[indexPath.row] as! ImageMessage
+//
+//            cell.message_imageView.image = message.image
+//            cell.message_imageView.contentMode = .scaleAspectFill
+//            cell.message_imageView.clipsToBounds = true
+//            cell.message_imageView.layer.cornerRadius = 23
+//
+//            cell.view.layer.cornerRadius = 23
+//            cell.view.layer.shadowColor = UIColor.black.cgColor
+//            cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
+//            cell.view.layer.shadowOpacity = 0.2
+//            cell.view.layer.shadowRadius = 4.0
+//
+//            cell.selectionStyle = .none
+//
+//            if  message.is_sender == true {
+//
+//                cell.message_imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
+//
+//                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
+//
+//            }else{
+//                cell.message_imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+//
+//                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+//            }
+//
+//            return cell
+//
+//        case is LocationMessage:
+//
+//            let cell = Bundle.main.loadNibNamed("LocationMessageCell", owner: self, options: nil)?.first as! LocationMessageCell
+//
+//            let message = chatOf.conversation[indexPath.row] as! LocationMessage
+//            let latitude: CLLocationDegrees = (message.coordinate?.latitude)!
+//            let longitude: CLLocationDegrees = (message.coordinate?.longitude)!
+//
+//            let latDelta:CLLocationDegrees = 0.01
+//            let lonDelta:CLLocationDegrees = 0.01
+//
+//            let span = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
+//            let location = CLLocationCoordinate2DMake(latitude, longitude)
+//            let region = MKCoordinateRegion(center: location, span: span)
+//
+//            let annotation = MKPointAnnotation()
+//
+//            annotation.coordinate = message.coordinate!
+//
+//            if message.is_sender {
+//                annotation.title = master.fullname.string
+//            }else{
+//                annotation.title = chatOf.fullname.string
+//            }
+//
+//            cell.map.addAnnotation(annotation)
+//            cell.map.setRegion(region, animated: false)
+//
+//            cell.map.setCenter(message.coordinate!, animated: true)
+//
+//            cell.map.layer.cornerRadius = 23
+//            cell.view.layer.cornerRadius = 23
+//            cell.view.layer.shadowColor = UIColor.black.cgColor
+//            cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
+//            cell.view.layer.shadowOpacity = 0.2
+//            cell.view.layer.shadowRadius = 4.0
+//
+//            cell.selectionStyle = .none
+//
+//            if  message.is_sender == true {
+//
+//                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
+//                cell.map.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
+//            }else{
+//
+//                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+//                cell.map.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
+//            }
+//
+//            return cell
             
         case is FirstInformationMessage:
             fallthrough
@@ -718,20 +718,20 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         
         switch chatOf.conversation[indexPath.row]{
             
-        case is ImageMessage:
-            if self.view.frame.width < self.view.frame.height{
-                return self.view.frame.width
-            }
-            
-            return self.view.frame.height
-            
-        case is LocationMessage:
-            
-            if self.view.frame.width < self.view.frame.height {
-                return self.view.frame.width
-            }
-            
-            return self.view.frame.height
+//        case is ImageMessage:
+//            if self.view.frame.width < self.view.frame.height{
+//                return self.view.frame.width
+//            }
+//
+//            return self.view.frame.height
+//
+//        case is LocationMessage:
+//
+//            if self.view.frame.width < self.view.frame.height {
+//                return self.view.frame.width
+//            }
+//
+//            return self.view.frame.height
             
         case is NeedHelpMessage:
             return 326
@@ -744,21 +744,21 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //Direct to maps if the message is a location
-        if chatOf.conversation[indexPath.row] is LocationMessage {
-            let message = chatOf.conversation[indexPath.row] as! LocationMessage
-            let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: (message.coordinate?.latitude)!, longitude: (message.coordinate?.longitude)!))
-            
-            let source = MKMapItem(placemark: placemark)
-            
-            if message.is_sender {
-                source.name = master.fullname.string
-            }else{
-                source.name = chatOf.fullname.string
-            }
-            
-            MKMapItem.openMaps(with: [source], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])
-            
-        }
+//        if chatOf.conversation[indexPath.row] is LocationMessage {
+//            let message = chatOf.conversation[indexPath.row] as! LocationMessage
+//            let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: (message.coordinate?.latitude)!, longitude: (message.coordinate?.longitude)!))
+//
+//            let source = MKMapItem(placemark: placemark)
+//
+//            if message.is_sender {
+//                source.name = master.fullname.string
+//            }else{
+//                source.name = chatOf.fullname.string
+//            }
+//
+//            MKMapItem.openMaps(with: [source], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])
+//
+//        }
     }
     
     
@@ -827,17 +827,17 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
-            os_log("Could not extract image.")
-            return
-        }
-        
-        let message = ImageMessage(image: image, is_sender: true)
-        chatOf.conversation.append(message)
-        
-        updateTableView(animated: true)
-        
-        picker.dismiss(animated: true, completion: nil)
+//        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+//            os_log("Could not extract image.")
+//            return
+//        }
+//
+//        let message = ImageMessage(image: image, is_sender: true)
+//        chatOf.conversation.append(message)
+//
+//        updateTableView(animated: true)
+//
+//        picker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

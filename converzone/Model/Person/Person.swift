@@ -277,7 +277,7 @@ class Person: Codable {
             
             Keys.gender.rawValue : gender!.toString(),
             
-            Keys.birthdate.rawValue : Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: birthdate!),
+            Keys.birthdate.rawValue : Date.dateAsString(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, date: birthdate),
             
             Keys.country.rawValue : country.name,
             

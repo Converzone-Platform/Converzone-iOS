@@ -9,7 +9,7 @@
 import Foundation
 
 
-private let genders = ["any", "female", "male", "non binary"]
+private let genders = ["any", "female", "male", "non binary", ""]
 
 enum Gender: Int, CaseIterable {
     
@@ -20,6 +20,8 @@ enum Gender: Int, CaseIterable {
     case male
     
     case non_binary
+    
+    case unknown
     
     
     func toString() -> String {
@@ -45,6 +47,9 @@ enum Gender: Int, CaseIterable {
         case "m":       fallthrough
             
         case "male":    return Gender.male
+         
+            
+        case "":        return Gender.unknown
             
         
         default:        return Gender.non_binary

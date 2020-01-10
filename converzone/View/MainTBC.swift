@@ -12,7 +12,6 @@ class MainTBC: UITabBarController {
 
     @IBOutlet weak var tab_bar: UITabBar!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
