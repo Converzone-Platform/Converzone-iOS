@@ -58,7 +58,7 @@ class UserProtection {
                 return
             }
             
-            Internet.report(userid: profileOf.uid, reason: text)
+            Internet.report(userid: profile_of.uid, reason: text)
         }
         
         alert.addTextField { (textField) in
