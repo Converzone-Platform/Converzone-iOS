@@ -11,9 +11,13 @@ import Foundation
 class Reflection {
     
     internal var text: NSAttributedString?
+    
     internal var user_name: String?
+    
     internal var user_id: String?
+    
     internal var date: Date?
+    
     
     init(text: NSAttributedString, user_name: String, user_id: String, date: Date) {
         

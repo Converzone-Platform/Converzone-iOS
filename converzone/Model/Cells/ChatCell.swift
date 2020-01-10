@@ -10,11 +10,14 @@ import UIKit
 
 class ChatCell: UITableViewCell {
     
-    
     @IBOutlet weak var view: UIView!
-    @IBOutlet weak var profileImage: UIImageView!
+    
+    @IBOutlet weak var profile_image: UIImageView!
+    
     @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var lastMessageType: UIImageView!
+    
+    @IBOutlet weak var last_message_type: UIImageView!
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

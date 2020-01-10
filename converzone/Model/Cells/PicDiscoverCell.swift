@@ -1,5 +1,5 @@
 //
-//  StatusDiscoverCell.swift
+//  PicDiscoverCell.swift
 //  converzone
 //
 //  Created by Goga Barabadze on 17.02.19.
@@ -8,11 +8,12 @@
 
 import UIKit
 
-class StatusDiscoverCell: UITableViewCell {
+class PicDiscoverCell: UITableViewCell {
     
-    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var profile_image: UIImageView!
+    
     @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var status: UILabel!
+    
     @IBOutlet weak var view: UIView!
     
     

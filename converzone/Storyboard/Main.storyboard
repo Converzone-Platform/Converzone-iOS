@@ -437,14 +437,14 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddLanguageCell" id="S5S-Hx-bsa">
-                                        <rect key="frame" x="0.0" y="99" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="99" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="S5S-Hx-bsa" id="Y0e-XZ-ajP">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5w-y1-UMR">
-                                                    <rect key="frame" x="15" y="11" width="368" height="21"/>
+                                                    <rect key="frame" x="15" y="11" width="368" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.12941176469999999" green="0.54117647059999996" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1118,7 +1118,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="name" destination="3ei-F1-JqH" id="ANb-99-aFf"/>
-                                            <outlet property="profileImage" destination="cRe-sN-l8e" id="LsJ-HH-BQm"/>
+                                            <outlet property="profile_image" destination="cRe-sN-l8e" id="LsJ-HH-BQm"/>
                                             <outlet property="view" destination="LkX-ey-YSJ" id="lCY-wR-r9g"/>
                                         </connections>
                                     </tableViewCell>
@@ -1181,7 +1181,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="name" destination="XRZ-3Z-gtE" id="aAc-GQ-OyV"/>
-                                            <outlet property="profileImage" destination="qdB-IH-bxe" id="GaV-0I-0Ru"/>
+                                            <outlet property="profile_image" destination="qdB-IH-bxe" id="GaV-0I-0Ru"/>
                                             <outlet property="status" destination="MnW-N3-kNJ" id="XKk-fk-crY"/>
                                             <outlet property="view" destination="XDP-Wb-hSz" id="sr8-S4-scu"/>
                                         </connections>
@@ -1583,9 +1583,9 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
-                                            <outlet property="lastMessageType" destination="lK0-0W-b8X" id="AY9-Fe-0gN"/>
+                                            <outlet property="last_message_type" destination="lK0-0W-b8X" id="AY9-Fe-0gN"/>
                                             <outlet property="name" destination="4Ii-7z-LtA" id="bp8-HU-kSH"/>
-                                            <outlet property="profileImage" destination="FaH-A4-xiQ" id="xSy-gs-dgI"/>
+                                            <outlet property="profile_image" destination="FaH-A4-xiQ" id="xSy-gs-dgI"/>
                                             <outlet property="view" destination="sQE-Pb-GrV" id="xH1-Rl-7lC"/>
                                         </connections>
                                     </tableViewCell>
@@ -1714,11 +1714,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xN9-eM-WNT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="tWT-qQ-BhU">
-                    <connections>
-                        <action selector="audio_button:" destination="79Y-ib-yzy" id="TUA-H9-CDZ"/>
-                    </connections>
-                </pongPressGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="tWT-qQ-BhU"/>
             </objects>
             <point key="canvasLocation" x="295.6521739130435" y="4493.3035714285716"/>
         </scene>

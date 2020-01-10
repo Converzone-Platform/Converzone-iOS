@@ -9,7 +9,7 @@
 import UIKit
 import CoreHaptics
 
-class WelcomeVC: NoAutoRotateViewController {
+class WelcomeVC: UIViewController {
     
     @IBOutlet weak var circle_imageView: UIImageView!
     @IBOutlet weak var welcomeMessage_label: UILabel!

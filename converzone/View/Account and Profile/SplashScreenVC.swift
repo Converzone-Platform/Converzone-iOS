@@ -12,10 +12,12 @@ import os
 
 var master: Master = Master()
 
-class SplashScreenVC: NoAutoRotateViewController, WKNavigationDelegate {
+class SplashScreenVC: UIViewController, WKNavigationDelegate {
     
     @IBOutlet weak var welcome_text_label: UILabel!
+    
     @IBOutlet weak var continue_button_outlet: UIButton!
+    
     @IBOutlet weak var flag_globe_webview: WKWebView!
     
     

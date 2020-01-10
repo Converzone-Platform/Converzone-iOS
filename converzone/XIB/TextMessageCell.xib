@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -45,11 +43,11 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="bottomConstraint" destination="0Xw-Dc-YbR" id="ueL-BU-Ege"/>
-                <outlet property="leftConstraint" destination="90K-yk-YTe" id="T8q-2o-hxa"/>
+                <outlet property="bottom_constraint" destination="0Xw-Dc-YbR" id="ueL-BU-Ege"/>
+                <outlet property="left_constraint" destination="90K-yk-YTe" id="T8q-2o-hxa"/>
                 <outlet property="message_label" destination="zjs-n3-eNT" id="Qt5-CO-9ib"/>
-                <outlet property="rightConstraint" destination="ad8-ma-ZUy" id="dE0-FH-Kp6"/>
-                <outlet property="topConstraint" destination="fMo-uy-ChH" id="xfW-n3-0H6"/>
+                <outlet property="right_constraint" destination="ad8-ma-ZUy" id="dE0-FH-Kp6"/>
+                <outlet property="top_constraint" destination="fMo-uy-ChH" id="xfW-n3-0H6"/>
                 <outlet property="view" destination="bb5-mb-yCh" id="E5i-2l-2QZ"/>
             </connections>
             <point key="canvasLocation" x="-120" y="-15"/>

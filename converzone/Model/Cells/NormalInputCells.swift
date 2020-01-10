@@ -1,51 +1,19 @@
 //
-//  ProfileCells.swift
+//  NormalInputCell.swift
 //  converzone
 //
-//  Created by Goga Barabadze on 04.03.19.
+//  Created by Goga Barabadze on 13.02.19.
 //  Copyright © 2019 Goga Barabadze. All rights reserved.
 //
 
 import UIKit
-import MapKit
+import RangeSeekSlider
 
-class ImageProfileCell: UITableViewCell {
+class NormalInputCell: UITableViewCell {
     
-    @IBOutlet weak var view: UIView!
-    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var title: UILabel?
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-    }
-}
-
-class SendMessageProfileCell: UITableViewCell {
-    
-    @IBOutlet weak var sendMessage: UIButton!
-    
-    @IBAction func sendMessage(_ sender: Any) {
-       
-    }
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-    }
-}
-
-class GeneralProfileCell: UITableViewCell {
-    
-    @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var speaks: UILabel!
-    @IBOutlet weak var learning: UILabel!
-    @IBOutlet weak var view: UIView!
+    @IBOutlet weak var input: UITextField?
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
@@ -57,42 +25,11 @@ class GeneralProfileCell: UITableViewCell {
     }
 }
 
-class StatusProfileCell: UITableViewCell {
+class BooleanInputCell: UITableViewCell {
     
-    @IBOutlet weak var status: UILabel!
-    @IBOutlet weak var view: UIView!
+    @IBOutlet weak var title: UILabel!
     
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-    }
-}
-
-
-class BlockAndReportProfileCell: UITableViewCell {
-    
-    @IBOutlet weak var blockAndReportOutlet: UIButton!
-    @IBAction func blockAndReport(_ sender: Any) {
-        
-    }
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-    }
-}
-
-class InterestsProfileCell: UITableViewCell {
-    
-    @IBOutlet weak var interests: UILabel!
-    @IBOutlet weak var view: UIView!
+    @IBOutlet weak var boolean: UISwitch!
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
@@ -104,12 +41,11 @@ class InterestsProfileCell: UITableViewCell {
     }
 }
 
-class CountryProfileCell: UITableViewCell {
+class InputLongTextCell: UITableViewCell {
     
-    @IBOutlet weak var view: UIView!
-    @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var timezone: UILabel!
-    @IBOutlet weak var map: MKMapView!
+    @IBOutlet weak var input: UILabel!
+    
+    @IBOutlet weak var title: UILabel!
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
@@ -121,19 +57,59 @@ class CountryProfileCell: UITableViewCell {
     }
 }
 
-class ReflectionProfileCell: UITableViewCell {
+class InputGenderCell: UITableViewCell {
     
-    @IBOutlet weak var view: UIView!
-    @IBOutlet weak var reflection: UILabel!
-    @IBOutlet weak var writer_of_reflection: UIButton!
+    @IBOutlet weak var title: UILabel!
     
-    @IBAction func writer_of_reflection(_ sender: Any) {
-        
+    @IBOutlet weak var gender: UITextField!
+    
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
-    @IBAction func show_all(_ sender: Any) {
-        
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
     }
+}
+
+class InputDateCell: UITableViewCell {
+    
+    @IBOutlet weak var title: UILabel!
+    
+    @IBOutlet weak var date: UITextField!
+    
+    
+   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+    }
+}
+
+class RangeInputCell: UITableViewCell {
+    
+    @IBOutlet weak var title: UILabel!
+    
+    @IBOutlet weak var input: RangeSeekSlider!
+    
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+    }
+}
+
+class GenderFilterInputCell: UITableViewCell {
+    
+    @IBOutlet weak var title: UILabel!
+    
+    @IBOutlet weak var selector: UISegmentedControl!
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!) {

@@ -209,7 +209,7 @@ class DicoverCard {
     
 }
 
-class DiscoverCardVC: NoAutoRotateViewController {
+class DiscoverCardVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var design_view: UIView!
@@ -311,12 +311,12 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
              let cell = Bundle.main.loadNibNamed("ImageProfileCell", owner: self, options: nil)?.first as! ImageProfileCell
             
             Internet.getImage(withURL: profileOf.link_to_profile_image) { (image) in
-                cell.profileImage.image = image
+                cell.profile_image.image = image
             }
             
-            cell.profileImage.contentMode = .scaleAspectFill
-            cell.profileImage.clipsToBounds = true
-            cell.profileImage.layer.cornerRadius = 23
+            cell.profile_image.contentMode = .scaleAspectFill
+            cell.profile_image.clipsToBounds = true
+            cell.profile_image.layer.cornerRadius = 23
             
             cell.view.layer.cornerRadius = 23
             cell.view.layer.shadowColor = UIColor.black.cgColor
@@ -331,15 +331,15 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             
              let cell = Bundle.main.loadNibNamed("SendMessageProfileCell", owner: self, options: nil)?.first as! SendMessageProfileCell
             
-            cell.sendMessage.setTitle("Send a message", for: .normal)
-            cell.sendMessage.backgroundColor = Colors.blue
-            cell.sendMessage.layer.cornerRadius = 10
-            cell.sendMessage.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
+            cell.send_message.setTitle("Send a message", for: .normal)
+            cell.send_message.backgroundColor = Colors.blue
+            cell.send_message.layer.cornerRadius = 10
+            cell.send_message.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
             
-            cell.sendMessage.layer.shadowColor = UIColor.black.cgColor
-            cell.sendMessage.layer.shadowOffset = CGSize(width: 3, height: 3)
-            cell.sendMessage.layer.shadowOpacity = 0.2
-            cell.sendMessage.layer.shadowRadius = 4.0
+            cell.send_message.layer.shadowColor = UIColor.black.cgColor
+            cell.send_message.layer.shadowOffset = CGSize(width: 3, height: 3)
+            cell.send_message.layer.shadowOpacity = 0.2
+            cell.send_message.layer.shadowRadius = 4.0
             
             cell.selectionStyle = .none
             
@@ -450,7 +450,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
         case 7:
              let cell = Bundle.main.loadNibNamed("BlockAndReportProfileCell", owner: self, options: nil)?.first as! BlockAndReportProfileCell
             
-             cell.blockAndReportOutlet.addTarget(self, action: #selector(displayBlockAndReport), for: UIControl.Event.touchUpInside)
+             cell.block_and_report.addTarget(self, action: #selector(displayBlockAndReport), for: UIControl.Event.touchUpInside)
              
             return cell
             

@@ -18,22 +18,29 @@ import os
 public class Internet: NSObject {
     
     static var update_chat_tableview_delegate: ChatUpdateDelegate?
+    
     static var update_conversations_tableview_delegate: ConversationUpdateDelegate?
+    
     static var update_discovery_tableview_delegate: DiscoverUpdateDelegate?
     
-    static var database_reference = Database.database().reference()
-    static var storage_reference = Storage.storage().reference()
+    private static var database_reference = Database.database().reference()
     
-    static var all_time_user_count = 1
+    private static var storage_reference = Storage.storage().reference()
+    
+    private static var all_time_user_count = 1
+    
     static var user_count = 1
-    //static var undiscoverable_counter = 0
     
     static var fcm_token = ""
     
     private static var listener_for_new_conversation: DatabaseReference? = nil
+    
     private static var listener_for_all_time_user_change: DatabaseReference? = nil
+    
     private static var listener_for_user_count: DatabaseReference? = nil
+    
     private static var listeners_for_new_messages: [DatabaseReference] = []
+    
     
     /// Set up value listeners for Database
     static func setUpListeners(){
@@ -61,11 +68,11 @@ public class Internet: NSObject {
     /// Return if we have an internet connection. No differenciation with Cellular or Wifi. They are treated the same way
     static func isOnline() -> Bool {
         
-        var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
-        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
-        zeroAddress.sin_family = sa_family_t(AF_INET)
+        var zero_address = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
+        zero_address.sin_len = UInt8(MemoryLayout.size(ofValue: zero_address))
+        zero_address.sin_family = sa_family_t(AF_INET)
         
-        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
+        let defaultRouteReachability = withUnsafePointer(to: &zero_address) {
             $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {zeroSockAddress in
                 SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
             }
@@ -80,10 +87,9 @@ public class Internet: NSObject {
             return false
         }
         
-        // Working for Cellular and WIFI
-        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
-        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
-        let ret = (isReachable && !needsConnection)
+        let is_reachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
+        let needs_connection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        let ret = (is_reachable && !needs_connection)
         
         return ret
         
@@ -109,11 +115,11 @@ public class Internet: NSObject {
     
     static func signIn(with verificationCode: String, closure: @escaping (Error?) -> Void) {
         
-        guard let verificationID = UserDefaults.standard.string(forKey: "verificationID") else {
+        guard let verification_id = UserDefaults.standard.string(forKey: "verificationID") else {
             return
         }
         
-        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID, verificationCode: verificationCode)
+        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verification_id, verificationCode: verificationCode)
         
         Auth.auth().signIn(with: credential) { (authResult, error) in
             
@@ -133,7 +139,6 @@ public class Internet: NSObject {
             
             master.uid = uid
             
-            // Delete Verification Code
             UserDefaults.standard.removeObject(forKey: "verificationID")
         }
         
@@ -142,34 +147,36 @@ public class Internet: NSObject {
     // MARK: Download and cache image
     
     /// Cache all images in the app
-    static let imageCache = NSCache<NSString, UIImage>()
+    static let image_cache = NSCache<NSString, UIImage>()
     
     
     /// Download any image from any url
     /// - Parameter url: The url from where to download the image
     /// - Parameter completion: Asynchronously give back the image we retrieved
     private static func downloadImage(withURL url: URL, completion: @escaping (_ image:UIImage?)->()) {
-        let dataTask = URLSession.shared.dataTask(with: url) { data, responseURL, error in
-            var downloadedImage: UIImage?
+        
+        let data_task = URLSession.shared.dataTask(with: url) { data, responseURL, error in
+            
+            var downloaded_image: UIImage?
             
             if let data = data {
-                downloadedImage = UIImage(data: data)
+                downloaded_image = UIImage(data: data)
             }
             
-            guard let download_image = downloadedImage else {
+            guard let download_image = downloaded_image else {
                 os_log("Could not cast data to UIImage")
                 return
             }
             
-            imageCache.setObject(download_image, forKey: url.absoluteString as NSString)
+            image_cache.setObject(download_image, forKey: url.absoluteString as NSString)
             
             DispatchQueue.main.async {
-                completion(downloadedImage)
+                completion(downloaded_image)
             }
             
         }
         
-        dataTask.resume()
+        data_task.resume()
     }
     
     /// Check if we need to download the image from the url or if we have it cached
@@ -181,7 +188,7 @@ public class Internet: NSObject {
             return
         }
         
-        if let image = imageCache.object(forKey: url as NSString) {
+        if let image = image_cache.object(forKey: url as NSString) {
             completion(image)
         } else {
             downloadImage(withURL: url_object, completion: completion)
@@ -269,9 +276,9 @@ public class Internet: NSObject {
     
     private static func addUserIfNew(user: User) {
         
-        for have_user in master.conversations {
+        for existing_user in master.conversations {
             
-            if user.uid == have_user.uid {
+            if user.uid == existing_user.uid {
                 return
             }
             
@@ -343,14 +350,14 @@ public class Internet: NSObject {
     private static func receive(message: NSDictionary){
         
         guard let type = message["type"] as? String else {
-            #warning("Error message needed")
+            os_log("Could not extract type from Message.")
             return
         }
         
         switch(type){
         case "TextMessage": receive(textMessage: message)
         case "InformationMessage": receive(informationMessage: message)
-        default: print("Message type is not supported yet")
+        default: os_log("Received Message which is not supported in current version of app.")
         }
         
     }
@@ -548,7 +555,7 @@ public class Internet: NSObject {
     static func upload(image: UIImage){
         
         guard let jpeg = image.jpegData(compressionQuality: 1) else {
-            #warning("Error message needed")
+            os_log("Could not extract JPEG from image")
             return
         }
         
@@ -567,7 +574,7 @@ public class Internet: NSObject {
                 }
                 
                 guard let url_link = url?.absoluteString else {
-                    #warning("Error message needed")
+                    os_log("Could not extract URL LINK from url")
                     return
                 }
                 
@@ -595,21 +602,21 @@ public class Internet: NSObject {
     private static func transformIntoMasterObject (dictionary: NSDictionary) {
         
         guard
-            let firstname = dictionary["firstname"] as? String,
-            let lastname = dictionary["lastname"] as? String,
-            let birthdate = dictionary["birthdate"] as? String,
-            let gender = dictionary["gender"] as? String,
-            let country = dictionary["country"] as? String,
-            let link_to_profile_image = dictionary["link_to_profile_image"] as? String,
-            let discoverable = dictionary["discoverable"] as? Bool,
-            let interests = dictionary["interests"] as? String,
-            let status = dictionary["status"] as? String,
-            let phonenumber = dictionary["phonenumber"] as? String,
-            let discover_min_age = dictionary["discover_min_age"] as? Int,
-            let discover_max_age = dictionary["discover_max_age"] as? Int,
-            let discover_gender_filter = dictionary["discover_gender_filter"] as? String,
-            let has_donated = dictionary["has_donated"] as? Bool,
-            let verified = dictionary["verified"] as? Bool
+            let firstname = dictionary[Person.Keys.firstname.rawValue] as? String,
+            let lastname = dictionary[Person.Keys.lastname.rawValue] as? String,
+            let birthdate = dictionary[Person.Keys.birthdate.rawValue] as? String,
+            let gender = dictionary[Person.Keys.gender.rawValue] as? String,
+            let country = dictionary[Person.Keys.country.rawValue] as? String,
+            let link_to_profile_image = dictionary[Person.Keys.link_to_profile_image.rawValue] as? String,
+            let discoverable = dictionary[Person.Keys.discoverable.rawValue] as? Bool,
+            let interests = dictionary[Person.Keys.interests.rawValue] as? String,
+            let status = dictionary[Person.Keys.status.rawValue] as? String,
+            let phonenumber = dictionary[Person.Keys.phonenumber.rawValue] as? String,
+            let discover_min_age = dictionary[Person.Keys.discover_min_filer_age.rawValue] as? Int,
+            let discover_max_age = dictionary[Person.Keys.discover_max_filter_age.rawValue] as? Int,
+            let discover_gender_filter = dictionary[Person.Keys.discover_gender_filter.rawValue] as? String,
+            let has_donated = dictionary[Person.Keys.has_donated.rawValue] as? Bool,
+            let verified = dictionary[Person.Keys.verified.rawValue] as? Bool
         else {
             
             os_log("Received master object is incomplete")
@@ -630,7 +637,7 @@ public class Internet: NSObject {
         master.discover_min_filer_age = discover_min_age
         master.discover_max_filter_age = discover_max_age
         master.discover_gender_filter = Gender.toGender(gender: discover_gender_filter)
-        master.hasDonated = has_donated
+        master.has_donated = has_donated
         master.verified = verified
     }
     
@@ -736,7 +743,7 @@ public class Internet: NSObject {
         
         listener_for_all_time_user_change?.observe(.value, with: { (snapshot) in
             guard let count = snapshot.value as? Int else{
-                #warning("Error message needed")
+                os_log("Could not extract count.")
                 return
             }
             self.all_time_user_count = count
@@ -751,7 +758,7 @@ public class Internet: NSObject {
         listener_for_user_count?.observe(.value, with: { (snapshot) in
             
             guard let count = snapshot.value as? Int else {
-                #warning("Error message needed")
+                os_log("Could not extract count.")
                 return
             }
             self.user_count = count
@@ -784,35 +791,24 @@ public class Internet: NSObject {
     
     private static func transformIntoUserObject(uid: String, user: User, dictionary: NSDictionary, closure: @escaping (User?) -> Void) {
         
-//            let firstname = dictionary["firstname"] as? String,
-//            let lastname = dictionary["lastname"] as? String,
-//            let birthdate = dictionary["birthdate"] as? String,
-//            let gender = dictionary["gender"] as? String,
-//            let country = dictionary["country"] as? String,
-//            let link_to_profile_image = dictionary["link_to_profile_image"] as? String,
-//            let discoverable = dictionary["discoverable"] as? Bool,
-//            let interests = dictionary["interests"] as? String,
-//            let status = dictionary["status"] as? String,
-//            let phonenumber = dictionary["phonenumber"] as? String,
-//            let has_donated = dictionary["has_donated"] as? Bool,
-//            let verified = dictionary["verified"] as? Bool
-        
         guard
-            let firstname = dictionary["firstname"] as? String,
-            let lastname = dictionary["lastname"] as? String,
-            let birthdate = dictionary["birthdate"] as? String,
-            let gender = dictionary["gender"] as? String,
-            let country = dictionary["country"] as? String,
-            let link_to_profile_image = dictionary["link_to_profile_image"] as? String,
-            let discoverable = dictionary["discoverable"] as? Bool,
-            let interests = dictionary["interests"] as? String,
-            let status = dictionary["status"] as? String,
-            let phonenumber = dictionary["phonenumber"] as? String,
-            let discover_min_age = dictionary["discover_min_age"] as? Int,
-            let discover_max_age = dictionary["discover_max_age"] as? Int,
-            let discover_gender_filter = dictionary["discover_gender_filter"] as? String,
-            let has_donated = dictionary["has_donated"] as? Bool,
-            let verified = dictionary["verified"] as? Bool
+            
+            let firstname = dictionary[Person.Keys.firstname.rawValue] as? String,
+            let lastname = dictionary[Person.Keys.lastname.rawValue] as? String,
+            let birthdate = dictionary[Person.Keys.birthdate.rawValue] as? String,
+            let gender = dictionary[Person.Keys.gender.rawValue] as? String,
+            let country = dictionary[Person.Keys.country.rawValue] as? String,
+            let link_to_profile_image = dictionary[Person.Keys.link_to_profile_image.rawValue] as? String,
+            let discoverable = dictionary[Person.Keys.discoverable.rawValue] as? Bool,
+            let interests = dictionary[Person.Keys.interests.rawValue] as? String,
+            let status = dictionary[Person.Keys.status.rawValue] as? String,
+            let phonenumber = dictionary[Person.Keys.phonenumber.rawValue] as? String,
+            let discover_min_age = dictionary[Person.Keys.discover_min_filer_age.rawValue] as? Int,
+            let discover_max_age = dictionary[Person.Keys.discover_max_filter_age.rawValue] as? Int,
+            let discover_gender_filter = dictionary[Person.Keys.discover_gender_filter.rawValue] as? String,
+            let has_donated = dictionary[Person.Keys.has_donated.rawValue] as? Bool,
+            let verified = dictionary[Person.Keys.verified.rawValue] as? Bool
+            
         else {
             
             os_log("Received master object is incomplete")
@@ -830,7 +826,7 @@ public class Internet: NSObject {
         user.interests = NSAttributedString(string: interests)
         user.status = NSAttributedString(string: status)
         user.phonenumber = phonenumber
-        user.hasDonated = has_donated
+        user.has_donated = has_donated
         user.verified = verified
         user.discover_min_filer_age = discover_min_age
         user.discover_max_filter_age = discover_max_age
@@ -867,12 +863,12 @@ public class Internet: NSObject {
             
             
             guard let dictionary = snapshot.value as? NSDictionary else {
-                os_log("Could not retreave dictionary")
+                os_log("Could not retreave dictionary.")
                 return
             }
             
             guard let uid = dictionary.allKeys.first as? String else {
-                os_log("Could not retreave uid")
+                os_log("Could not retreave uid.")
                 return
             }
             
@@ -891,7 +887,7 @@ public class Internet: NSObject {
     
     static func getRandomUser(){
         
-        if reachedTheEndForDiscoverableUsers {
+        if no_discoverable_users_left {
             return
         }
         
@@ -939,7 +935,11 @@ public class Internet: NSObject {
     // MARK: IsTyping
     
     static var is_typing_timer: Timer? = nil
+    
     static private var time_since_last_letter = 0
+    
+    private static var listener_for_is_partner_typing: DatabaseReference? = nil
+    
     
     static func startedTyping(uid: String){
         
@@ -972,23 +972,20 @@ public class Internet: NSObject {
         is_typing_timer?.invalidate()
         is_typing_timer = nil
         
-        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: uid)).child("isTyping").updateChildValues([String(master.uid) : 0])
+        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: uid)).child("is_typing").updateChildValues([String(master.uid) : 0])
     }
-    
-    // Is the partner typing?
-    private static var listener_for_is_typing: DatabaseReference? = nil
     
     static var is_partner_typing = false {
         didSet{
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "listener_for_is_typing"), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "listener_for_is_partner_typing"), object: nil)
         }
     }
     
     static func listenForIsTyping(uid: String){
         
-        listener_for_is_typing = self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: uid)).child("isTyping").child(uid)
+        listener_for_is_partner_typing = self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: uid)).child("is_typing").child(uid)
         
-        listener_for_is_typing?.observe(.value, with: { (snapshot) in
+        listener_for_is_partner_typing?.observe(.value, with: { (snapshot) in
             
             guard let time = snapshot.value as? Double else {
                 return
