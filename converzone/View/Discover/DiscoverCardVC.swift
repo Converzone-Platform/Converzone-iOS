@@ -349,7 +349,11 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             
              let cell = Bundle.main.loadNibNamed("GeneralProfileCell", owner: self, options: nil)?.first as! GeneralProfileCell
             
-             cell.name.text = profile_of.fullname.string + " (" + String(profile_of.age) + ")"
+             cell.name.text = profile_of.fullname.string
+             
+             if profile_of.age > 0 {
+                cell.name.text? += " (" + String(profile_of.age) + ")"
+             }
             
             cell.speaks.numberOfLines = 0
             cell.learning.numberOfLines = 0
@@ -504,7 +508,6 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
                 chatOf = user
             }
         }
-        
         
         Navigation.push(viewController: "ChatVC", context: self.tabBarController?.viewControllers?[0] as! UINavigationController)
         
