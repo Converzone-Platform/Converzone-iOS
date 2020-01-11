@@ -64,6 +64,10 @@ class LongTextEditVC: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        text.becomeFirstResponder()
+    }
+    
     @objc private func save(){
         
         if longTextInputFor == .interests{

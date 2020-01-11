@@ -209,10 +209,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                     return
                 }
                 
-                alert("Verified", "Let's continue with entering further user information now") {
-                    
-                   // Does this user already exist?
-                    
+                alert("Verified", "Let's continue with entering further user information now or let's skip that if you are already registered.") {
                     Internet.doesUserExist(uid: master.uid) { (exists) in
                         if exists {
                             master.editingMode = .editing
@@ -227,10 +224,16 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                             
                             self.performSegue(withIdentifier: "showActualAppSegue", sender: nil)
                         }else{
+                            
                             self.performSegue(withIdentifier: "userWasVerifiedSegue", sender: self)
+                        
                         }
                     }
                 }
+                
+                
+                
+                
             }
             
         }

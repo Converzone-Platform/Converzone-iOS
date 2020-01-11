@@ -20,7 +20,6 @@ export const startedNewConversation = functions.database
             receiverid = value.val().receiver
 
             return true
-
         });
 
         // Add conversationid to the receiver's conversations and vice versa
@@ -106,8 +105,7 @@ export const newMessage = functions.database
                 const payload = {
                     notification: {
                         title: sender_firstname + " " + sender_lastname,
-                        sound: "default",
-                        badge: "1"
+                        sound: "default"
                     },
                     data: {
                         "sender_id": sender_id

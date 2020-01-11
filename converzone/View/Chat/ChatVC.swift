@@ -191,6 +191,8 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
             }
         }
         
+        input_textview.text = chatOf.unfinished_message
+        
         ConversationsVC().title = ""
         
         Internet.listenForIsTyping(uid: chatOf.uid)
@@ -281,7 +283,10 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         self.navigationController?.navigationBar.removeGestureRecognizer(tapGestureRecognizer)
         
+        chatOf.unfinished_message = input_textview.text
+        
         chatOf = User()
+        
     }
     
     

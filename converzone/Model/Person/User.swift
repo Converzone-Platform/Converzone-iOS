@@ -24,6 +24,8 @@ class User: Person, Hashable {
     
     internal var discover_style: Int = 0
     
+    internal var unfinished_message = ""
+    
     
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.hashValue == rhs.hashValue

@@ -113,9 +113,7 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        
-        
+       
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell") as! ChatCell
         
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))

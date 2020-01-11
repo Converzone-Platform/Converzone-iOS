@@ -444,7 +444,7 @@ public class Internet: NSObject {
     /// - Parameter token: The token to update
     static func upload(token: String){
         
-        if Auth.auth().currentUser == nil {
+        if Auth.auth().currentUser == nil || token.isEmpty {
             return
         }
         
@@ -458,7 +458,7 @@ public class Internet: NSObject {
             return
         }
         
-        self.database_reference.child("users").child(master.uid).child("device_token").removeValue()
+        self.database_reference.child("users").child(master.uid).child(Person.Keys.device_token.rawValue).removeValue()
     }
     
     // MARK: Master
@@ -471,13 +471,13 @@ public class Internet: NSObject {
     }
     
     static func donated(){
-        self.database_reference.child("users").child(master.uid).updateChildValues(["has_donated": true])
+        self.database_reference.child("users").child(master.uid).updateChildValues([Person.Keys.has_donated: true])
     }
     
     /// Update the country on the database
     /// - Parameter country: The country to chango to
     static func upload(country: Country){
-        self.database_reference.child("users").child(master.uid).updateChildValues(["country" : country.name])
+        self.database_reference.child("users").child(master.uid).updateChildValues([Person.Keys.country : country.name])
     }
     
     static func doesUserExist(uid: String, closure: @escaping (Bool) -> ()) {
@@ -593,7 +593,7 @@ public class Internet: NSObject {
     }
     
     static func upload(discoverMinAge: Int, discoverMaxAge: Int){
-        self.database_reference.child("users").child(master.uid).updateChildValues(["discover_min_age": discoverMinAge, "discover_max_age": discoverMaxAge])
+        self.database_reference.child("users").child(master.uid).updateChildValues(["discover_min_filer_age": discoverMinAge, "discover_max_filter_age": discoverMaxAge])
     }
     
     static func upload(discoverGender: Gender) {
@@ -603,43 +603,66 @@ public class Internet: NSObject {
     /// Transforms the dictionary to master
     private static func transformIntoMasterObject (dictionary: NSDictionary) {
         
-        guard
-            let firstname = dictionary[Person.Keys.firstname.rawValue] as? String,
-            let lastname = dictionary[Person.Keys.lastname.rawValue] as? String,
-            let gender = dictionary[Person.Keys.gender.rawValue] as? String,
-            let country = dictionary[Person.Keys.country.rawValue] as? String,
-            let link_to_profile_image = dictionary[Person.Keys.link_to_profile_image.rawValue] as? String,
-            let discoverable = dictionary[Person.Keys.discoverable.rawValue] as? Bool,
-            let interests = dictionary[Person.Keys.interests.rawValue] as? String,
-            let status = dictionary[Person.Keys.status.rawValue] as? String,
-            let phonenumber = dictionary[Person.Keys.phonenumber.rawValue] as? String,
-            let discover_min_age = dictionary[Person.Keys.discover_min_filer_age.rawValue] as? Int,
-            let discover_max_age = dictionary[Person.Keys.discover_max_filter_age.rawValue] as? Int,
-            let discover_gender_filter = dictionary[Person.Keys.discover_gender_filter.rawValue] as? String,
-            let has_donated = dictionary[Person.Keys.has_donated.rawValue] as? Bool,
-            let verified = dictionary[Person.Keys.verified.rawValue] as? Bool
-        else {
-            
-            os_log("Received master object is incomplete")
-            
-            return
+        if let firstname = dictionary[Person.Keys.firstname.rawValue] as? String {
+            master.firstname = firstname
         }
         
-        master.firstname = firstname
-        master.lastname = lastname
-        master.gender = Gender.toGender(gender: gender)
-        master.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: dictionary[Person.Keys.birthdate.rawValue] as? String ?? "")
-        master.country = Country(name: country)
-        master.link_to_profile_image = link_to_profile_image
-        master.discoverable = discoverable
-        master.interests = NSAttributedString(string: interests)
-        master.status = NSAttributedString(string: status)
-        master.phonenumber = phonenumber
-        master.discover_min_filer_age = discover_min_age
-        master.discover_max_filter_age = discover_max_age
-        master.discover_gender_filter = Gender.toGender(gender: discover_gender_filter)
-        master.has_donated = has_donated
-        master.verified = verified
+        if let lastname = dictionary[Person.Keys.lastname.rawValue] as? String {
+            master.lastname = lastname
+        }
+        
+        if let gender = dictionary[Person.Keys.gender.rawValue] as? String {
+            master.gender = Gender.toGender(gender: gender)
+        }
+        
+        if let birthdate = dictionary[Person.Keys.birthdate.rawValue] as? String {
+            master.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: birthdate)
+        }
+        
+        if let country = dictionary[Person.Keys.country.rawValue] as? String {
+            master.country = Country(name: country)
+        }
+        
+        if let link_to_profile_image = dictionary[Person.Keys.link_to_profile_image.rawValue] as? String {
+            master.link_to_profile_image = link_to_profile_image
+        }
+        
+        if let discoverable = dictionary[Person.Keys.discoverable.rawValue] as? Bool {
+            master.discoverable = discoverable
+        }
+        
+        if let interests = dictionary[Person.Keys.interests.rawValue] as? String {
+            master.interests = NSAttributedString(string: interests)
+        }
+        
+        if let status = dictionary[Person.Keys.status.rawValue] as? String {
+            master.status = NSAttributedString(string: status)
+        }
+        
+        if let phonenumber = dictionary[Person.Keys.phonenumber.rawValue] as? String {
+             master.phonenumber = phonenumber
+        }
+        
+        if let discover_min_age = dictionary[Person.Keys.discover_min_filer_age.rawValue] as? Int {
+            master.discover_min_filer_age = discover_min_age
+        }
+        
+        if let discover_max_age = dictionary[Person.Keys.discover_max_filter_age.rawValue] as? Int {
+            master.discover_max_filter_age = discover_max_age
+        }
+        
+        if let discover_gender_filter = dictionary[Person.Keys.discover_gender_filter.rawValue] as? String {
+            master.discover_gender_filter = Gender.toGender(gender: discover_gender_filter)
+        }
+        
+        if let has_donated = dictionary[Person.Keys.has_donated.rawValue] as? Bool {
+            master.has_donated = has_donated
+        }
+        
+        if let verified = dictionary[Person.Keys.verified.rawValue] as? Bool {
+            master.verified = verified
+        }
+        
         
         // Save changes to disk
         //Disk.save()
@@ -834,7 +857,7 @@ public class Internet: NSObject {
         user.verified = verified
         user.discover_min_filer_age = discover_min_age
         user.discover_max_filter_age = discover_max_age
-        master.discover_gender_filter = Gender.toGender(gender: discover_gender_filter)
+        user.discover_gender_filter = Gender.toGender(gender: discover_gender_filter)
         
         getAllLanguagesFor(uid, user) { (user) in
             closure(user)
@@ -890,6 +913,8 @@ public class Internet: NSObject {
     }
     
     static func getRandomUser(){
+        
+        os_log("Looking for user for discover tab.")
         
         if no_discoverable_users_left {
             return
@@ -966,16 +991,16 @@ public class Internet: NSObject {
     
     static private func typing(uid: String) {
         
-        if uid.isEmpty {
+        if uid.isEmpty || chatOf.conversation.count == 0 || chatOf.conversation.first is FirstInformationMessage {
             return
         }
         
-        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: uid)).child("isTyping").updateChildValues([String(master.uid) : NSDate().timeIntervalSince1970])
+        self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: uid)).child("is_typing").updateChildValues([String(master.uid) : NSDate().timeIntervalSince1970])
     }
     
     static func stoppedTyping(uid: String){
         
-        if uid.isEmpty {
+        if uid.isEmpty || chatOf.conversation.count == 0 || chatOf.conversation.first is FirstInformationMessage {
             return
         }
         
