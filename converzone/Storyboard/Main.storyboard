@@ -437,14 +437,14 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddLanguageCell" id="S5S-Hx-bsa">
-                                        <rect key="frame" x="0.0" y="99" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="99" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="S5S-Hx-bsa" id="Y0e-XZ-ajP">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5w-y1-UMR">
-                                                    <rect key="frame" x="15" y="11" width="368" height="21"/>
+                                                    <rect key="frame" x="15" y="11" width="368" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.12941176469999999" green="0.54117647059999996" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -903,10 +903,24 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                     <constraint firstAttribute="height" constant="2" id="4dz-7t-ElC"/>
                                 </constraints>
                             </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vhk-Qx-xa2">
+                                <rect key="frame" x="40" y="627" width="334" height="135"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="135" id="Rvz-V4-tNh"/>
+                                </constraints>
+                                <string key="text">Use the in-app browser to do everything that is fun &amp; productive without having to leave the app.
+
+Listen to music or quickly check the translation of a word. It is up to you.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.55673801899999997" green="0.55652600529999996" blue="0.57718861099999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="vhk-Qx-xa2" firstAttribute="leading" secondItem="Z06-vH-YVN" secondAttribute="leadingMargin" constant="20" id="1TI-cU-Cbd"/>
                             <constraint firstItem="yv9-mq-U9K" firstAttribute="leading" secondItem="Z06-vH-YVN" secondAttribute="leading" id="373-M8-QyD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="vhk-Qx-xa2" secondAttribute="trailing" constant="20" id="4jo-Ko-Imv"/>
                             <constraint firstAttribute="trailing" secondItem="Q4d-90-XK7" secondAttribute="trailing" id="9Ez-yN-BhQ"/>
                             <constraint firstItem="yv9-mq-U9K" firstAttribute="top" secondItem="ieF-WV-Gx4" secondAttribute="bottom" id="Jwh-ar-PXi"/>
                             <constraint firstItem="qgL-cm-ule" firstAttribute="top" secondItem="Q4d-90-XK7" secondAttribute="bottom" id="S57-Kw-wGj"/>
@@ -915,11 +929,13 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                             <constraint firstItem="ieF-WV-Gx4" firstAttribute="leading" secondItem="Z06-vH-YVN" secondAttribute="leading" id="cNg-nl-7iW"/>
                             <constraint firstItem="ieF-WV-Gx4" firstAttribute="top" secondItem="0Mh-4x-Clf" secondAttribute="bottom" id="rCr-L5-0hJ"/>
                             <constraint firstAttribute="trailing" secondItem="yv9-mq-U9K" secondAttribute="trailing" id="s1C-uf-44m"/>
+                            <constraint firstItem="Q4d-90-XK7" firstAttribute="top" secondItem="vhk-Qx-xa2" secondAttribute="bottom" constant="49" id="sdc-cL-dLQ"/>
                             <constraint firstAttribute="trailing" secondItem="ieF-WV-Gx4" secondAttribute="trailing" id="xbk-t0-olu"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" id="wlc-qE-Yxv"/>
                     <connections>
+                        <outlet property="explanation_label" destination="vhk-Qx-xa2" id="QcO-Sw-qRu"/>
                         <outlet property="progress_view" destination="Q4d-90-XK7" id="Jlp-BO-Mw4"/>
                         <outlet property="search_bar" destination="ieF-WV-Gx4" id="zty-im-E1I"/>
                         <outlet property="search_bar_top_constraint" destination="rCr-L5-0hJ" id="eEr-nW-qUn"/>
@@ -928,7 +944,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yKS-6U-TlW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2108" y="3707.4962518740631"/>
+            <point key="canvasLocation" x="2107.2463768115945" y="3707.1428571428569"/>
         </scene>
         <!--Filter-->
         <scene sceneID="nu4-IR-LnY">

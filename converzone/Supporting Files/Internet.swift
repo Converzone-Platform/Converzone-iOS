@@ -470,6 +470,10 @@ public class Internet: NSObject {
         
     }
     
+    static func upload(browser_introductory_text_shown: Bool) {
+        self.database_reference.child("users").child(master.uid).updateChildValues(["browser_introductory_text_shown": browser_introductory_text_shown])
+    }
+    
     static func donated(){
         self.database_reference.child("users").child(master.uid).updateChildValues([Person.Keys.has_donated: true])
     }
@@ -661,6 +665,10 @@ public class Internet: NSObject {
         
         if let verified = dictionary[Person.Keys.verified.rawValue] as? Bool {
             master.verified = verified
+        }
+        
+        if let browser_introductory_text_shown = dictionary[Master.MasterKeys.browser_introductory_text_shown] as? Bool {
+            master.browser_introductory_text_shown = browser_introductory_text_shown
         }
         
         

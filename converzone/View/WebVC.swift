@@ -12,10 +12,15 @@ import WebKit
 class WebVC: UIViewController, WKUIDelegate {
 
     @IBOutlet weak var web_view: WKWebView!
+    
     @IBOutlet weak var search_bar: UISearchBar!
+    
     @IBOutlet weak var progress_view: UIProgressView!
     
     @IBOutlet weak var search_bar_top_constraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var explanation_label: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +37,29 @@ class WebVC: UIViewController, WKUIDelegate {
         
         search_bar.autocapitalizationType = .none
         search_bar.returnKeyType = .search
+        
+        if master.browser_introductory_text_shown == false {
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(fadeAwayBrowserIntroductoryText), name: UIApplication.keyboardWillShowNotification, object: nil)
+            
+            explanation_label.alpha = 0
+            
+            UIView.animate(withDuration: 2, delay: 0, options: .curveEaseInOut, animations: {
+                self.explanation_label.alpha = 1
+            }, completion: nil)
+        }
+        
+    }
+    
+    @objc func fadeAwayBrowserIntroductoryText () {
+        
+        master.browser_introductory_text_shown = true
+        
+        UIView.animate(withDuration: 2, delay: 0, options: .curveEaseInOut, animations: {
+            self.explanation_label.alpha = 0
+        }, completion: nil)
+        
+        Internet.upload(browser_introductory_text_shown: true)
         
     }
     
@@ -128,6 +156,7 @@ extension WebVC: UIScrollViewDelegate {
         }
         
     }
+    
     
 }
 

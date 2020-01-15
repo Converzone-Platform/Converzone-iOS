@@ -11,7 +11,7 @@ import SAConfettiView
 import StoreKit
 import os
 
-private class DonationOptions {
+class DonationOptions {
     var price = "Loading..."
     var id = ""
     
@@ -20,21 +20,29 @@ private class DonationOptions {
     }
 }
 
+var tier_options = [DonationOptions(id: "com.hashtag.oct.converzone.tier1")]
+
 class DonationVC: UIViewController {
     
     @IBOutlet weak var confetti: SAConfettiView!
     
-    private var options = [DonationOptions(id: "com.hashtag.oct.converzone.tier1")]
-    
     @IBAction func choose_an_amount(_ sender: Any) {
+        
+        for option in tier_options {
+            loadPrices(id: option.id)
+        }
+        
         displayDonationOptions()
     }
     
-    override func viewDidLoad() {
-        
-        for option in options {
+    
+    override func viewWillAppear(_ animated: Bool) {
+        for option in tier_options {
             loadPrices(id: option.id)
         }
+    }
+    
+    override func viewDidLoad() {
         
         confetti.alpha = 0
         
@@ -60,7 +68,7 @@ class DonationVC: UIViewController {
         let controller = UIAlertController(title: "Donate to converzone", message: "Choose an amount to donate. Click 'Cancel' if you accidently came here.", preferredStyle: .actionSheet)
         
         
-        for option in options {
+        for option in tier_options {
             controller.addAction(UIAlertAction(title: option.price, style: .default, handler: { (alert_controller) in
                 
                 if SKPaymentQueue.canMakePayments() {
@@ -119,7 +127,7 @@ extension DonationVC: SKPaymentTransactionObserver, SKProductsRequestDelegate {
        if !validProducts.isEmpty {
            let validProduct: SKProduct = response.products[0] as SKProduct
            
-           for option in options {
+           for option in tier_options {
                 if option.id == validProduct.productIdentifier {
                     option.price = validProduct.localizedPrice
                 }

@@ -25,6 +25,8 @@ class Master: Person {
         case conversations
         
         case blocked_users
+        
+        case browser_introductory_text_shown
     }
     
     
@@ -33,6 +35,8 @@ class Master: Person {
     internal var conversations: [User] = []
     
     internal var blocked_users: Set<String> = []
+    
+    internal var browser_introductory_text_shown = false
     
     internal var unopened_chats: Int {
         
@@ -66,6 +70,7 @@ class Master: Person {
         
         conversations = try container.decode([User].self, forKey: .conversations)
         blocked_users = try container.decode(Set<String>.self, forKey: .blocked_users)
+        browser_introductory_text_shown = try container.decode(Bool.self, forKey: .browser_introductory_text_shown)
     }
     
     override func encode(to encoder: Encoder) throws {
@@ -75,5 +80,16 @@ class Master: Person {
         
         try container.encode(conversations, forKey: .conversations)
         try container.encode(blocked_users, forKey: .blocked_users)
+        try container.encode(browser_introductory_text_shown, forKey: .browser_introductory_text_shown)
+    }
+    
+    override func toDictionary() -> [String : Any] {
+        var user_dictionary = super.toDictionary()
+        
+        user_dictionary.merge([MasterKeys.browser_introductory_text_shown.rawValue : browser_introductory_text_shown]) { (one, two) -> Any in
+            return one
+        }
+        
+        return user_dictionary
     }
 }
