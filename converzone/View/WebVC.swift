@@ -38,11 +38,11 @@ class WebVC: UIViewController, WKUIDelegate {
         search_bar.autocapitalizationType = .none
         search_bar.returnKeyType = .search
         
+        explanation_label.alpha = 0
+        
         if master.browser_introductory_text_shown == false {
             
             NotificationCenter.default.addObserver(self, selector: #selector(fadeAwayBrowserIntroductoryText), name: UIApplication.keyboardWillShowNotification, object: nil)
-            
-            explanation_label.alpha = 0
             
             UIView.animate(withDuration: 2, delay: 0, options: .curveEaseInOut, animations: {
                 self.explanation_label.alpha = 1

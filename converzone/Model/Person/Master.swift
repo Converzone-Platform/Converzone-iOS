@@ -36,7 +36,7 @@ class Master: Person {
     
     internal var blocked_users: Set<String> = []
     
-    internal var browser_introductory_text_shown = false
+    internal var browser_introductory_text_shown = true
     
     internal var unopened_chats: Int {
         

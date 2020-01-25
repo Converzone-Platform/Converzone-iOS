@@ -759,7 +759,7 @@ public class Internet: NSObject {
             master.verified = verified
         }
         
-        if let browser_introductory_text_shown = dictionary[Master.MasterKeys.browser_introductory_text_shown] as? Bool {
+        if let browser_introductory_text_shown = dictionary["browser_introductory_text_shown"] as? Bool {
             master.browser_introductory_text_shown = browser_introductory_text_shown
         }
         
