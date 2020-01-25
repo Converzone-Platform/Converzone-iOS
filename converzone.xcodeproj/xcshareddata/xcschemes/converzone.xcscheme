@@ -59,6 +59,12 @@
             ReferencedContainer = "container:converzone.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-FIRAnalyticsDebugEnabled"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <LocationScenarioReference
          identifier = "Sydney, Australia"
          referenceType = "1">

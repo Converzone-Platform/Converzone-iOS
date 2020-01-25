@@ -55,11 +55,9 @@ class WelcomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        circle_imageView.layer.cornerRadius = circle_imageView.layer.frame.width / 2
-        circle_imageView.layer.masksToBounds = true
+        circle_imageView.roundCorners(radius: circle_imageView.layer.frame.width / 2, masksToBounds: true)
         
-        journey_outlet.layer.cornerRadius = 15
-        journey_outlet.layer.masksToBounds = true
+        journey_outlet.roundCorners(radius: 15, masksToBounds: true)
     }
     
     override var prefersStatusBarHidden: Bool{

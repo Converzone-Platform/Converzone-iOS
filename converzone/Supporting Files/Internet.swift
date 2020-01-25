@@ -215,6 +215,10 @@ public class Internet: NSObject {
     /// - Parameter receiver: The user who will receive the message
     private static func send(message: TextMessage, receiver: User){
         
+        if master.uid.isEmpty || receiver.uid.isEmpty {
+            return
+        }
+        
         let message_id = Date.dateAsTimeIntervalSince1970WithoutDots(date: message.date)
         
         self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: receiver.uid)).child("messages").child(message_id).setValue(
@@ -231,6 +235,10 @@ public class Internet: NSObject {
     /// - Parameter message: The InformationMessage to send
     /// - Parameter receiver: The user who will receive the message
     private static func send(message: InformationMessage, receiver: User){
+        
+        if master.uid.isEmpty || receiver.uid.isEmpty {
+            return
+        }
         
         let message_id = Date.dateAsTimeIntervalSince1970WithoutDots(date: message.date)
         
@@ -264,7 +272,7 @@ public class Internet: NSObject {
     static func opened(message: Message, sender: User){
         
         // If we sent the message there is no need to set it on read
-        if message.is_sender {
+        if message.is_sender || master.uid.isEmpty || sender.uid.isEmpty {
             return
         }
         
@@ -324,17 +332,17 @@ public class Internet: NSObject {
     /// Listen for messages in the conversation
     private static func listenForNewMessageAt(conversationID: String){
         
-        if master.uid.isEmpty {
+        if master.uid.isEmpty || conversationID.isEmpty {
             return
         }
         
         let message_listener = self.database_reference.child("conversations").child(conversationID).child("messages")
-            
-        message_listener.queryOrdered(byChild: "date").observe(.childAdded) { (snapshot) in
+        
+        message_listener.queryOrdered(byChild: "date")/*.queryLimited(toLast: 3)*/.observe(.childAdded) { (snapshot) in
             
             let message = snapshot.value as! NSDictionary
             
-            receive(message: message)
+            receive(message: message, insertPosition: .end)
             
             self.update_conversations_tableview_delegate?.didUpdate(sender: Internet())
             
@@ -344,10 +352,53 @@ public class Internet: NSObject {
         
     }
     
+    private enum ArrayInsertPosition {
+        
+        case start
+        
+        case end
+        
+    }
+    
+    static func loadOlderMessages(sender: UIRefreshControl) {
+        
+//        let conversationID = generateConversationID(first: master.uid, second: chatOf.uid)
+//
+//        let message_listener = self.database_reference.child("conversations").child(conversationID).child("messages")
+//
+//        // Find last message
+//
+//        chatOf.conversation.forEach { (message) in
+//            print(Date.dateAsTimeIntervalSince1970WithoutDots(date: message.date))
+//            continue
+//        }
+//
+//        guard let last_message_date = chatOf.conversation[safe: 0]?.date else {
+//            os_log("There is no first message.")
+//            return
+//        }
+//
+//        let last_message_id = Date.dateAsTimeIntervalSince1970WithoutDots(date: last_message_date)
+//
+//
+//
+//        message_listener.queryEnding(atValue: last_message_id).queryOrdered(byChild: "reversed_date").queryLimited(toFirst: 7).observe(.childAdded) { (snapshot) in
+//
+//            let message = snapshot.value as! NSDictionary
+//
+//            receive(message: message, insertPosition: .start)
+//
+//            self.update_conversations_tableview_delegate?.didUpdate(sender: Internet())
+//
+//            sender.endRefreshing()
+//        }
+        
+    }
+    
     
     /// Decides what type of message it is and redirects to it's specific function to further handling
     /// - Parameter message: The received message
-    private static func receive(message: NSDictionary){
+    private static func receive(message: NSDictionary, insertPosition: ArrayInsertPosition = .end){
         
         guard let type = message["type"] as? String else {
             os_log("Could not extract type from Message.")
@@ -355,8 +406,8 @@ public class Internet: NSObject {
         }
         
         switch(type){
-        case "TextMessage": receive(textMessage: message)
-        case "InformationMessage": receive(informationMessage: message)
+        case "TextMessage": receive(textMessage: message, insertPosition: insertPosition)
+        case "InformationMessage": receive(informationMessage: message, insertPosition: insertPosition)
         default: os_log("Received Message which is not supported in current version of app.")
         }
         
@@ -364,7 +415,7 @@ public class Internet: NSObject {
     
     /// Handles the receiving of a InformationMessages
     /// - Parameter textMessage: The received InformationMessage
-    private static func receive(informationMessage: NSDictionary){
+    private static func receive(informationMessage: NSDictionary, insertPosition: ArrayInsertPosition){
         
         let sender = informationMessage["sender"] as! String
         let is_sender = sender == master.uid
@@ -383,14 +434,14 @@ public class Internet: NSObject {
         message.date = date ?? Date()
         message.opened = opened
         
-        findConversationAndAddMessage(message: message, uid: receiver)
-        findConversationAndAddMessage(message: message, uid: sender)
+        findConversationAndAddMessage(message: message, uid: receiver, insertPosition: insertPosition)
+        findConversationAndAddMessage(message: message, uid: sender, insertPosition: insertPosition)
         
     }
     
     /// Handles the receiving of a TextMessage
     /// - Parameter textMessage: The received TextMessage
-    private static func receive(textMessage: NSDictionary){
+    private static func receive(textMessage: NSDictionary, insertPosition: ArrayInsertPosition){
         
         let sender = textMessage["sender"] as! String
         let is_sender = sender == master.uid
@@ -409,8 +460,8 @@ public class Internet: NSObject {
         message.date = date ?? Date()
         message.opened = opened
         
-        findConversationAndAddMessage(message: message, uid: receiver)
-        findConversationAndAddMessage(message: message, uid: sender)
+        findConversationAndAddMessage(message: message, uid: receiver, insertPosition: insertPosition)
+        findConversationAndAddMessage(message: message, uid: sender, insertPosition: insertPosition)
         
     }
     
@@ -419,20 +470,24 @@ public class Internet: NSObject {
     }
     
     /// Find the conversation with the correct partner id and add the message
-    private static func findConversationAndAddMessage(message: Message, uid: String){
+    private static func findConversationAndAddMessage(message: Message, uid: String, insertPosition: ArrayInsertPosition){
         
         // Iterate through the conversations and find the right person
         for user in master.conversations {
             
             if user.uid == uid {
                 
-                user.conversation.append(message)
+                if insertPosition == .end {
+                    user.conversation.append(message)
+                }else{
+                    user.conversation.insert(message, at: 0)
+                }
                 
                 if user.uid == chatOf.uid{
                     user.openChat()
                 }
                 
-                self.update_chat_tableview_delegate?.didUpdate(sender: Internet())
+                self.update_chat_tableview_delegate?.didUpdate(sender: Internet(), scrollToBottom: insertPosition == .end)
             }
         }
         
@@ -444,7 +499,7 @@ public class Internet: NSObject {
     /// - Parameter token: The token to update
     static func upload(token: String){
         
-        if Auth.auth().currentUser == nil || token.isEmpty {
+        if Auth.auth().currentUser == nil || token.isEmpty || master.uid.isEmpty {
             return
         }
         
@@ -454,7 +509,7 @@ public class Internet: NSObject {
     
     static func removeToken(){
         
-        if Auth.auth().currentUser == nil {
+        if Auth.auth().currentUser == nil || master.uid.isEmpty {
             return
         }
         
@@ -466,15 +521,29 @@ public class Internet: NSObject {
     /// Packs all the data from the master and sends it to the database
     static func upload(){
         
+        if master.uid.isEmpty {
+            return
+        }
+        
         self.database_reference.child("users").child(master.uid).updateChildValues(master.toDictionary())
         
     }
     
     static func upload(browser_introductory_text_shown: Bool) {
+        
+        if master.uid.isEmpty {
+            return
+        }
+        
         self.database_reference.child("users").child(master.uid).updateChildValues(["browser_introductory_text_shown": browser_introductory_text_shown])
     }
     
     static func donated(){
+        
+        if master.uid.isEmpty {
+            return
+        }
+        
         self.database_reference.child("users").child(master.uid).updateChildValues([Person.Keys.has_donated: true])
     }
     
@@ -486,6 +555,10 @@ public class Internet: NSObject {
     
     static func doesUserExist(uid: String, closure: @escaping (Bool) -> ()) {
         
+        if master.uid.isEmpty {
+            closure(false)
+            return
+        }
         self.database_reference.child("users").child(master.uid).child("firstname").observeSingleEvent(of: .value) { (snapshot) in
             
             guard (snapshot.value as? String) != nil else {
@@ -501,7 +574,7 @@ public class Internet: NSObject {
     /// Get the newest version of the master from the database
     static func getMaster(){
         
-        if Auth.auth().currentUser == nil || Navigation.didNotFinishRegistration() {
+        if Auth.auth().currentUser == nil || Navigation.didNotFinishRegistration() || master.uid.isEmpty {
             return
         }
         
@@ -560,6 +633,10 @@ public class Internet: NSObject {
     /// - Parameter image: The image to upload
     static func upload(image: UIImage){
         
+        if master.uid.isEmpty {
+            return
+        }
+        
         guard let jpeg = image.jpegData(compressionQuality: 1) else {
             os_log("Could not extract JPEG from image")
             return
@@ -593,14 +670,29 @@ public class Internet: NSObject {
     ///  link to profile image to Firebase Database
     /// - Parameter linkToProfileImage: Link to be uploaded
     private static func upload(linkToProfileImage: String){
+        
+        if master.uid.isEmpty {
+            return
+        }
+        
         self.database_reference.child("users").child(master.uid).updateChildValues(["link_to_profile_image": linkToProfileImage])
     }
     
     static func upload(discoverMinAge: Int, discoverMaxAge: Int){
+        
+        if master.uid.isEmpty {
+            return
+        }
+        
         self.database_reference.child("users").child(master.uid).updateChildValues(["discover_min_filer_age": discoverMinAge, "discover_max_filter_age": discoverMaxAge])
     }
     
     static func upload(discoverGender: Gender) {
+        
+        if master.uid.isEmpty || discoverGender.toString().isEmpty {
+            return
+        }
+        
         self.database_reference.child("users").child(master.uid).updateChildValues(["discover_gender_filter": discoverGender.toString()])
     }
     
@@ -681,6 +773,10 @@ public class Internet: NSObject {
     /// Upload Languages of the master to the database
     static func uploadLanguages(){
         
+        if master.uid.isEmpty {
+            return
+        }
+        
         Internet.removeLanguages()
         
         self.database_reference.child("users").child(master.uid).child("speak_languages").setValue(master.speakLanguagesToDictionary())
@@ -704,6 +800,9 @@ public class Internet: NSObject {
     /// - Parameter closure: Give back the languages array once the asynchronous task is finished
     static func getLanguagesFor(uid: String, progress: String, closure: @escaping ([Language]?) -> Void){
         
+        if uid.isEmpty {
+            return
+        }
         self.database_reference.child("users").child(uid).child(progress).observeSingleEvent(of: .value) { (snapshot) in
             
             guard let language_array = snapshot.value as? [String] else {
@@ -729,11 +828,20 @@ public class Internet: NSObject {
     /// - Parameter reason: Reson of report
     static func report(userid: String, reason: String){
         
+        if master.uid.isEmpty {
+            return
+        }
+        
         self.database_reference.child("users").child(master.uid).child("reportee").child(userid).setValue(["reason" : reason])
         
     }
     
     static func upload(potentiallyNeedsHelp: Bool, user: String){
+        
+        if master.uid.isEmpty {
+            return
+        }
+        
         self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: user)).child("settings").setValue(["potentially_needs_help" : potentiallyNeedsHelp])
         
         
@@ -742,6 +850,10 @@ public class Internet: NSObject {
     /// Block an user locally and on the database
     /// - Parameter userid: User's uid to be blocked
     static func block(userid: String){
+        
+        if master.uid.isEmpty {
+            return
+        }
         
         master.blocked_users.insert(userid)
         
@@ -753,12 +865,21 @@ public class Internet: NSObject {
     /// - Parameter userid: User's uid to be unblocked
     static func unblock(userid: String){
         
+        if master.uid.isEmpty {
+            return
+        }
+        
         master.blocked_users.remove(userid)
         
         self.database_reference.child("users").child(master.uid).child("blockee").setValue(Array(master.blocked_users))
     }
     
     static func getBlockedUsers(){
+        
+        if master.uid.isEmpty {
+            return
+        }
+        
         self.database_reference.child("users").child(master.uid).child("blockee").observe(.value) { (snapshot) in
             
             guard let blocked_users = snapshot.value as? Array<String> else {
@@ -874,6 +995,10 @@ public class Internet: NSObject {
     
     static func getUser(with uid: String, closure: @escaping (User?) -> Void) {
         
+        if uid.isEmpty {
+            return
+        }
+        
         self.database_reference.child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             
             guard let dictionary = snapshot.value as? NSDictionary else {
@@ -893,6 +1018,10 @@ public class Internet: NSObject {
     }
     
     static func getUIDOfUser(with number: String, closure: @escaping (String) -> Void) {
+        
+        if number.isEmpty {
+            return
+        }
         
         self.database_reference.child("users").queryOrdered(byChild: "all_time_user_count").queryEqual(toValue: number).queryLimited(toFirst: 1).observeSingleEvent(of: .value) { (snapshot) in
             
@@ -999,7 +1128,7 @@ public class Internet: NSObject {
     
     static private func typing(uid: String) {
         
-        if uid.isEmpty || chatOf.conversation.count == 0 || chatOf.conversation.first is FirstInformationMessage {
+        if master.uid.isEmpty || uid.isEmpty || chatOf.conversation.count == 0 || chatOf.conversation.first is FirstInformationMessage {
             return
         }
         
@@ -1008,7 +1137,7 @@ public class Internet: NSObject {
     
     static func stoppedTyping(uid: String){
         
-        if uid.isEmpty || chatOf.conversation.count == 0 || chatOf.conversation.first is FirstInformationMessage {
+        if master.uid.isEmpty || uid.isEmpty || chatOf.conversation.count == 0 || chatOf.conversation.first is FirstInformationMessage {
             return
         }
         
@@ -1027,6 +1156,10 @@ public class Internet: NSObject {
     }
     
     static func listenForIsTyping(uid: String){
+        
+        if master.uid.isEmpty {
+            return
+        }
         
         listener_for_is_partner_typing = self.database_reference.child("conversations").child(generateConversationID(first: master.uid, second: uid)).child("is_typing").child(uid)
         

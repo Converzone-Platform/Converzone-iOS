@@ -28,11 +28,19 @@ class DonationVC: UIViewController {
     
     @IBAction func choose_an_amount(_ sender: Any) {
         
-        for option in tier_options {
-            loadPrices(id: option.id)
-        }
+//        for option in tier_options {
+//            loadPrices(id: option.id)
+//        }
+//
+//        displayDonationOptions()
         
-        displayDonationOptions()
+        if SKPaymentQueue.canMakePayments() {
+            let paymentRequest = SKMutablePayment()
+            paymentRequest.productIdentifier = "com.hashtag.oct.converzone.tier1"
+            SKPaymentQueue.default().add(paymentRequest)
+        }else{
+            Alert.alert(title: "Cannot make Donation", message: "Your current settings do not support in-app purchases.")
+        }
     }
     
     
@@ -67,6 +75,11 @@ class DonationVC: UIViewController {
         
         let controller = UIAlertController(title: "Donate to converzone", message: "Choose an amount to donate. Click 'Cancel' if you accidently came here.", preferredStyle: .actionSheet)
         
+        if let popoverController = controller.popoverPresentationController {
+            popoverController.sourceView = self.view // to set the source of your alert
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
+            popoverController.permittedArrowDirections = []
+        }
         
         for option in tier_options {
             controller.addAction(UIAlertAction(title: option.price, style: .default, handler: { (alert_controller) in
@@ -76,7 +89,7 @@ class DonationVC: UIViewController {
                     paymentRequest.productIdentifier = option.id
                     SKPaymentQueue.default().add(paymentRequest)
                 }else{
-                    alert("Cannot make Donation", "Your current settings do not support in-app purchases.")
+                    Alert.alert(title: "Cannot make Donation", message: "Your current settings do not support in-app purchases.")
                 }
                 
             }))
@@ -100,7 +113,7 @@ extension DonationVC: SKPaymentTransactionObserver, SKProductsRequestDelegate {
                 os_log("Donated!")
                 Internet.donated()
                 
-                alert("Thank you!", "You are the best!")
+                Alert.alert(title: "Thank you!", message: "You are the best <3")
                 
             case .deferred: fallthrough
             case .failed: fallthrough

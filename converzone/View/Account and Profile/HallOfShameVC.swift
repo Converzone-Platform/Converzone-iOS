@@ -62,8 +62,7 @@ extension HallOfShameVC: UITableViewDataSource, UITableViewDelegate {
                 
                 let resized = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 24.0, maxHeight: 24.0)
                 
-                cell.imageView?.layer.cornerRadius = 12
-                cell.imageView?.layer.masksToBounds = true
+                cell.imageView?.roundCorners(radius: 12, masksToBounds: true)
                 
                 cell.imageView!.image = resized
             }

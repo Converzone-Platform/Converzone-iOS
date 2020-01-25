@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0NX-P2-7IM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0NX-P2-7IM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -946,6 +946,39 @@ Listen to music or quickly check the translation of a word. It is up to you.</st
             </objects>
             <point key="canvasLocation" x="2107.2463768115945" y="3707.1428571428569"/>
         </scene>
+        <!--Friend GlobeVC-->
+        <scene sceneID="xmd-tO-o2H">
+            <objects>
+                <viewController id="8ZK-BN-5d8" customClass="FriendGlobeVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FAv-Mm-alV"/>
+                        <viewControllerLayoutGuide type="bottom" id="TFC-Ka-Qab"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GAU-Bm-HaB">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Dpc-oM-0wL">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Dpc-oM-0wL" secondAttribute="trailing" constant="-20" id="08O-Uj-epB"/>
+                            <constraint firstItem="Dpc-oM-0wL" firstAttribute="leading" secondItem="GAU-Bm-HaB" secondAttribute="leadingMargin" constant="-20" id="5ey-7n-QZE"/>
+                            <constraint firstItem="TFC-Ka-Qab" firstAttribute="top" secondItem="Dpc-oM-0wL" secondAttribute="bottom" constant="-34" id="n5I-un-pDw"/>
+                            <constraint firstItem="Dpc-oM-0wL" firstAttribute="top" secondItem="FAv-Mm-alV" secondAttribute="bottom" id="xZH-4b-XxY"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="OFs-r1-64g"/>
+                    <connections>
+                        <outlet property="map" destination="Dpc-oM-0wL" id="fLK-J9-tWV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eLc-KS-ysa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2486.9565217391305" y="4511.3839285714284"/>
+        </scene>
         <!--Filter-->
         <scene sceneID="nu4-IR-LnY">
             <objects>
@@ -1463,7 +1496,7 @@ Listen to music or quickly check the translation of a word. It is up to you.</st
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rGo-B8-maw">
-                                            <rect key="frame" x="44" y="70" width="342" height="183.5"/>
+                                            <rect key="frame" x="44" y="70" width="342" height="250.5"/>
                                             <attributedString key="attributedText">
                                                 <fragment>
                                                     <string key="content">We are a small team based in Austria. Converzone is a project we have been working on for years. If you like the platform &amp; want to support it, consider donating. Cheers!</string>
@@ -1477,12 +1510,12 @@ Listen to music or quickly check the translation of a word. It is up to you.</st
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M5i-De-6FO">
-                                            <rect key="frame" x="20" y="341" width="374" height="39"/>
+                                            <rect key="frame" x="20" y="340.5" width="374" height="39"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="39" id="1y5-U4-daT"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                                            <state key="normal" title="Choose an amount"/>
+                                            <state key="normal" title="Donate"/>
                                             <connections>
                                                 <action selector="choose_an_amount:" destination="Iee-hn-Di7" eventType="touchUpInside" id="lCt-jb-G76"/>
                                             </connections>
@@ -1494,7 +1527,7 @@ Listen to music or quickly check the translation of a word. It is up to you.</st
                                         <constraint firstAttribute="trailing" secondItem="YZV-yR-uDX" secondAttribute="trailing" constant="28" id="Lf3-UI-hyX"/>
                                         <constraint firstItem="YZV-yR-uDX" firstAttribute="leading" secondItem="58V-IR-aW1" secondAttribute="leading" constant="44" id="Qui-VK-3Cs"/>
                                         <constraint firstAttribute="trailing" secondItem="rGo-B8-maw" secondAttribute="trailing" constant="28" id="bpI-E1-mw4"/>
-                                        <constraint firstItem="M5i-De-6FO" firstAttribute="top" secondItem="rGo-B8-maw" secondAttribute="bottom" constant="87.5" id="eaY-oC-Qn4"/>
+                                        <constraint firstItem="M5i-De-6FO" firstAttribute="top" secondItem="rGo-B8-maw" secondAttribute="bottom" constant="20" id="eaY-oC-Qn4"/>
                                         <constraint firstAttribute="trailing" secondItem="M5i-De-6FO" secondAttribute="trailing" constant="20" id="iet-7b-hYV"/>
                                         <constraint firstItem="YZV-yR-uDX" firstAttribute="top" secondItem="58V-IR-aW1" secondAttribute="top" constant="25" id="kjK-lh-LMb"/>
                                         <constraint firstItem="rGo-B8-maw" firstAttribute="top" secondItem="YZV-yR-uDX" secondAttribute="bottom" constant="8" id="rIh-yx-Ayk"/>
@@ -1879,6 +1912,7 @@ Listen to music or quickly check the translation of a word. It is up to you.</st
                     <nil name="viewControllers"/>
                     <connections>
                         <segue destination="HbG-Y7-T4u" kind="relationship" relationship="rootViewController" id="Pjg-Bj-MiY"/>
+                        <segue destination="8ZK-BN-5d8" kind="show" id="qFX-m8-IrZ"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ah2-rL-68Y" userLabel="First Responder" sceneMemberID="firstResponder"/>

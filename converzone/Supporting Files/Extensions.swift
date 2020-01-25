@@ -41,15 +41,15 @@ extension String{
     
     func widthWithConstrained( _ height: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: height)
-
+        
         let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-
+        
         return ceil(boundingBox.width)
     }
-
-    func heightWithConstrained(_ width: CGFloat, font: UIFont) -> CGFloat? {
-        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+    
+    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
 
         return ceil(boundingBox.height)
     }
@@ -123,15 +123,14 @@ extension UILabel {
         paragraphStyle.lineSpacing = lineSpacing
         paragraphStyle.lineHeightMultiple = lineHeightMultiple
 
-        let attributedString:NSMutableAttributedString
+        let attributedString: NSMutableAttributedString
         if let labelattributedText = self.attributedText {
             attributedString = NSMutableAttributedString(attributedString: labelattributedText)
         } else {
             attributedString = NSMutableAttributedString(string: labelText)
         }
 
-        // (Swift 4.2 and above) Line spacing attribute
-        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range:NSMakeRange(0, attributedString.length))
 
         self.attributedText = attributedString
     }
@@ -151,21 +150,10 @@ public extension UIColor {
 //MARK: - CG
 
 extension CGRect{
-    init(_ x:CGFloat,_ y:CGFloat,_ width:CGFloat,_ height:CGFloat) {
+    init(_ x: CGFloat,_ y: CGFloat,_ width: CGFloat,_ height: CGFloat) {
         self.init(x:x,y:y,width:width,height:height)
     }
 
-}
-
-//MARK: - Enums
-func iterateEnum<T: Hashable>(_: T.Type) -> AnyIterator<T> {
-    var i = 0
-    return AnyIterator {
-        let next = withUnsafeBytes(of: &i) { $0.load(as: T.self) }
-        if next.hashValue != i { return nil }
-        i += 1
-        return next
-    }
 }
 
 // MARK: - Arrays
@@ -173,11 +161,13 @@ func iterateEnum<T: Hashable>(_: T.Type) -> AnyIterator<T> {
 extension Array where Element: Equatable {
     mutating func removeDuplicates() {
         var result = [Element]()
+        
         for value in self {
             if !result.contains(value) {
                 result.append(value)
             }
         }
+        
         self = result
     }
 }

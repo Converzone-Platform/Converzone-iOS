@@ -12,13 +12,16 @@ import CoreLocation
 import AVFoundation
 import os
 import MathParser
+import Crashlytics
 
 var chatOf: User = User()
 
 class ChatVC: UIViewController, ChatUpdateDelegate {
     
     @IBOutlet weak var message_input_height_constraint: UIView!
+    
     @IBOutlet weak var message_input_bottom_constraint: NSLayoutConstraint!
+    
     @IBOutlet weak var input_message: UIView!
     
     @IBOutlet weak var input_textview: UITextView!
@@ -29,9 +32,15 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     
     
     var discover_card: DicoverCard!
+    
     var tapGestureRecognizer: UITapGestureRecognizer!
+    
     let updates = Internet()
+    
     let locationManager = CLLocationManager()
+    
+    private let refresh_controller = UIRefreshControl()
+    
     
     @IBAction func send(_ sender: Any) {
         
@@ -83,28 +92,24 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
             let message = chatOf.conversation[0] as! FirstInformationMessage
             
             if message.text == "Be creative with the first message :)"{
-                alert("Not yet", "Please talk with your partner a little more before sending one of these")
+                
+                Alert.alert(title: "Not yet", message: "Please talk with your partner a little more before sending one of these")
+                
                 return
             }
         }
         
-        let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+        let actions = [
+            UIAlertAction(title: "Send Image", style: .default, handler: { (alert) in
+                if #available(iOS 13.0, *) {
+                    alert.setValue(UIImage(systemName: "camera"), forKey: "image")
+                }
+            }),
+            
+            UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        ]
         
-        if let popoverController = alert.popoverPresentationController {
-            popoverController.sourceView = self.view // to set the source of your alert
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
-            popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
-        }
-        
-        alert.addAction(UIAlertAction(title: "Send image", style: .default, handler: { (alert_action) in
-            if #available(iOS 13.0, *) {
-                alert_action.setValue(UIImage(systemName: "camera"), forKey: "image")
-            }
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: .none))
-        
-        present(alert, animated: true, completion: nil)
+        Alert.alert(title: "", message: "", target: UIApplication.currentViewController()!, actions: actions)
     }
     
     @IBOutlet weak var tableView: UITableView!
@@ -129,17 +134,31 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         navigationItem.titleView = navTitleWithImageAndText(titleText: chatOf.fullname, imageLink: chatOf.link_to_profile_image)
         
         Internet.update_chat_tableview_delegate = self
+        
+//        refresh_controller.addTarget(self, action: #selector(loadOldMessages( sender:)), for: .valueChanged)
+//        self.tableView.refreshControl = refresh_controller
     }
    
-    func didUpdate(sender: Internet) {
+    func didUpdate(sender: Internet, scrollToBottom: Bool) {
         DispatchQueue.main.async {
             
             //self.tableView.insertRows(at: [IndexPath(row: self.tableView.numberOfRows(inSection: 0), section: 0)], with: .automatic)
             
             self.tableView.reloadData()
             
-            self.scrollToBottom(animated: true)
+            if scrollToBottom {
+                self.scrollToBottom(animated: true)
+            }
+            
         }
+    }
+    
+    @objc func loadOldMessages(sender: UIRefreshControl){
+        
+//        sender.beginRefreshing()
+//
+//        Internet.loadOlderMessages(sender: sender)
+        
     }
     
     private var is_partner_typing_timer: Timer? = nil
@@ -210,22 +229,10 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         // This allows controlls in the navigation bar to continue receiving touches
         tapGestureRecognizer.cancelsTouchesInView = false
         
-        getNotificationPermissionFromUser()
-        
         chatOf.openChat()
     }
     
-    /// Ask if we can send notifications to this device
-    private func getNotificationPermissionFromUser() {
-        
-        let center = UNUserNotificationCenter.current()
-        
-        center.requestAuthorization(options: [.alert, .sound, .badge]) { (bool, error) in
-            
-            Internet.upload(token: Internet.fcm_token)
-            
-        }
-    }
+    
     
     @objc private func goToConversations(){
         
@@ -261,7 +268,8 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = imageView.frame.width / 2
+        
+        imageView.roundCorners(radius: imageView.frame.width / 2, masksToBounds: true)
         
         // Adds both the label and image view to the titleView
         titleView.addSubview(label)
@@ -284,8 +292,6 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         self.navigationController?.navigationBar.removeGestureRecognizer(tapGestureRecognizer)
         
         chatOf.unfinished_message = input_textview.text
-        
-        chatOf = User()
         
     }
     
@@ -423,239 +429,14 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         return chatOf.conversation.count
     }
     
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row >= chatOf.conversation.count {
-            return UITableViewCell()
-        }
-        
-        switch chatOf.conversation[indexPath.row]{
-            
-        case is TextMessage:
-            
-            let cell = Bundle.main.loadNibNamed("TextMessageCell", owner: self, options: nil)?.first as! TextMessageCell
-            
-            let message = chatOf.conversation[indexPath.row] as! TextMessage
-            
-            // Add Long pressure gesture
-            let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))
-            cell.addGestureRecognizer(longPressRecognizer)
-            
-            cell.message_label.text = message.text
-            cell.selectionStyle = .none
-            
-            if message.only_emojies == false {
-                
-                if message.is_sender == true{
-                    cell.message_label.textColor = Colors.white
-                    cell.view.backgroundColor = Colors.blue
-                }else{
-                    cell.message_label.textColor = Colors.black
-                    cell.view.backgroundColor = Colors.white
-                }
-                
-                cell.view.layer.cornerRadius = 18
-                cell.view.layer.shadowColor = UIColor.black.cgColor
-                cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
-                cell.view.layer.shadowOpacity = 0.2
-                cell.view.layer.shadowRadius = 4.0
-                
-            }else{
-                if message.text.count <= 5{
-                    cell.message_label.font = UIFont.systemFont(ofSize: 50)
-                }else{
-                    cell.message_label.font = UIFont.systemFont(ofSize: 30)
-                }
-            }
-            
-            if  message.is_sender == true {
-                
-                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
-                
-                cell.message_label.textAlignment = .right
-                
-                if ((cell.message_label.text?.widthWithConstrained(cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - (2 * 36)){
-                    cell.left_constraint.isActive = false
-                }
-                
-            }else{
-                
-                if message.only_emojies == false {
-                    cell.view.backgroundColor = Colors.white
-                    cell.message_label.textColor = Colors.black
-                }
-                
-                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-                
-                cell.message_label.textAlignment = .left
-                if ((cell.message_label.text?.widthWithConstrained(cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - (2 * 36)){
-                    cell.right_constraint.isActive = false
-                }
-            }
-            
-            var cornerToConnect = CACornerMask.layerMaxXMinYCorner
-            var cornerToConnect2 = CACornerMask.layerMaxXMaxYCorner
-            
-            if message.is_sender == false {
-                cornerToConnect = .layerMinXMinYCorner
-                cornerToConnect2 = .layerMinXMaxYCorner
-            }
-            
-            if let last_message = chatOf.conversation[safe: indexPath.row - 1] {
-                if last_message.is_sender == message.is_sender{
-                    cell.top_constraint.constant = 3
-                    
-                    cell.view.layer.maskedCorners.remove(cornerToConnect)
-                }
-            }
-            
-            if let next_message = chatOf.conversation[safe: indexPath.row + 1] {
-                if next_message.is_sender == message.is_sender{
-                    cell.bottom_constraint.constant = 3
-                    
-//                    cell.view.layer.maskedCorners.remove(.layerMaxXMaxYCorner)
-//                    cell.view.layer.maskedCorners.remove(.layerMaxXMinYCorner)
-//                    cell.view.layer.maskedCorners.remove(.layerMinXMaxYCorner)
-//                    cell.view.layer.maskedCorners.remove(.layerMinXMinYCorner)
-                }else{
-                    cell.view.layer.maskedCorners.insert(cornerToConnect2)
-                }
-            }else{
-                cell.view.layer.maskedCorners.insert(cornerToConnect2)
-                
-            }
-            
-            return cell
-            
-//        case is ImageMessage:
-//
-//            let cell = Bundle.main.loadNibNamed("ImageMessageCell", owner: self, options: nil)?.first as! ImageMessageCell
-//
-//            let message = chatOf.conversation[indexPath.row] as! ImageMessage
-//
-//            cell.message_imageView.image = message.image
-//            cell.message_imageView.contentMode = .scaleAspectFill
-//            cell.message_imageView.clipsToBounds = true
-//            cell.message_imageView.layer.cornerRadius = 23
-//
-//            cell.view.layer.cornerRadius = 23
-//            cell.view.layer.shadowColor = UIColor.black.cgColor
-//            cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
-//            cell.view.layer.shadowOpacity = 0.2
-//            cell.view.layer.shadowRadius = 4.0
-//
-//            cell.selectionStyle = .none
-//
-//            if  message.is_sender == true {
-//
-//                cell.message_imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
-//
-//                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
-//
-//            }else{
-//                cell.message_imageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-//
-//                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-//            }
-//
-//            return cell
-//
-//        case is LocationMessage:
-//
-//            let cell = Bundle.main.loadNibNamed("LocationMessageCell", owner: self, options: nil)?.first as! LocationMessageCell
-//
-//            let message = chatOf.conversation[indexPath.row] as! LocationMessage
-//            let latitude: CLLocationDegrees = (message.coordinate?.latitude)!
-//            let longitude: CLLocationDegrees = (message.coordinate?.longitude)!
-//
-//            let latDelta:CLLocationDegrees = 0.01
-//            let lonDelta:CLLocationDegrees = 0.01
-//
-//            let span = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
-//            let location = CLLocationCoordinate2DMake(latitude, longitude)
-//            let region = MKCoordinateRegion(center: location, span: span)
-//
-//            let annotation = MKPointAnnotation()
-//
-//            annotation.coordinate = message.coordinate!
-//
-//            if message.is_sender {
-//                annotation.title = master.fullname.string
-//            }else{
-//                annotation.title = chatOf.fullname.string
-//            }
-//
-//            cell.map.addAnnotation(annotation)
-//            cell.map.setRegion(region, animated: false)
-//
-//            cell.map.setCenter(message.coordinate!, animated: true)
-//
-//            cell.map.layer.cornerRadius = 23
-//            cell.view.layer.cornerRadius = 23
-//            cell.view.layer.shadowColor = UIColor.black.cgColor
-//            cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
-//            cell.view.layer.shadowOpacity = 0.2
-//            cell.view.layer.shadowRadius = 4.0
-//
-//            cell.selectionStyle = .none
-//
-//            if  message.is_sender == true {
-//
-//                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
-//                cell.map.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
-//            }else{
-//
-//                cell.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-//                cell.map.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner]
-//            }
-//
-//            return cell
-            
-        case is FirstInformationMessage:
-            fallthrough
-        case is InformationMessage:
-            let cell = Bundle.main.loadNibNamed("InformationMessageCell", owner: self, options: nil)?.first as! InformationMessageCell
-            let message = chatOf.conversation[indexPath.row] as! InformationMessage
-            
-            cell.information.text = message.text
-            
-            cell.view.layer.cornerRadius = 15
-            
-            cell.view.layer.shadowColor = UIColor.black.cgColor
-            cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
-            cell.view.layer.shadowOpacity = 0.2
-            cell.view.layer.shadowRadius = 4.0
-            
-            cell.selectionStyle = .none
-            
-            return cell
-            
-        case is NeedHelpMessage:
-            let cell = Bundle.main.loadNibNamed("NeedHelpMessageCell", owner: self, options: nil)?.first as! NeedHelpMessageCell
-            
-            cell.title.text = "Need some help?"
-            cell.message.text = "We have noticed that your partner acts a little weird."
-            
-            cell.backgroundColor = .clear
-            
-            cell.view.layer.cornerRadius = 15
-
-            cell.view.layer.shadowColor = UIColor.black.cgColor
-            cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
-            cell.view.layer.shadowOpacity = 0.2
-            cell.view.layer.shadowRadius = 4.0
-
-            cell.selectionStyle = .none
-            
-            return cell
-            
-        default:
-            print("that is a new kind of message")
-        }
-        return Bundle.main.loadNibNamed("ImageMessageCell", owner: self, options: nil)?.first as! ImageMessageCell
+        return renderMessageCell(indexPath)
     }
     
-    @objc private func longPressed(sender: UILongPressGestureRecognizer) {
+    @objc func longPressed(sender: UILongPressGestureRecognizer) {
         
         if sender.state == UIGestureRecognizer.State.began {
             
@@ -667,45 +448,35 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
                 switch chatOf.conversation[indexPath.row]{
                 case is TextMessage:
                     
-                let alertController = UIAlertController(title: nil,
-                                                            message: nil,
-                                                            preferredStyle: .actionSheet)
+                let actions = [
                     
-                if let popoverController = alertController.popoverPresentationController {
-                    popoverController.sourceView = self.view // to set the source of your alert
-                    popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
-                    popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
-                }
-                
-                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                alertController.addAction(cancelAction)
-                
-                let copy = UIAlertAction(title: "Copy", style: .default) { (action) in
+                    UIAlertAction(title: "Cancel", style: .cancel, handler: nil),
                     
-                    UIPasteboard.general.string = (message as! TextMessage).text
+                    UIAlertAction(title: "Copy", style: .default) { (action) in
+                        
+                        UIPasteboard.general.string = (message as! TextMessage).text
+                        
+                    },
                     
-                }
-                let speak = UIAlertAction(title: "Speak", style: .default) { (action) in
-                    
-                    // Line 1. Create an instance of AVSpeechSynthesizer.
-                    let speechSynthesizer = AVSpeechSynthesizer()
-                    let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: (message as! TextMessage).text)
-                    if let language = NSLinguisticTagger.dominantLanguage(for: (message as! TextMessage).text) {
-                        speechUtterance.voice = AVSpeechSynthesisVoice(language: language)
-                    } else {
-                        speechUtterance.voice = AVSpeechSynthesisVoice(language: Locale.preferredLanguages[0])
+                    UIAlertAction(title: "Speak", style: .default) { (action) in
+                        
+                        // Line 1. Create an instance of AVSpeechSynthesizer.
+                        let speechSynthesizer = AVSpeechSynthesizer()
+                        let speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: (message as! TextMessage).text)
+                        if let language = NSLinguisticTagger.dominantLanguage(for: (message as! TextMessage).text) {
+                            speechUtterance.voice = AVSpeechSynthesisVoice(language: language)
+                        } else {
+                            speechUtterance.voice = AVSpeechSynthesisVoice(language: Locale.preferredLanguages[0])
+                        }
+                        
+                        // Line 5. Pass in the urrerance to the synthesizer to actually speak.
+                        speechSynthesizer.speak(speechUtterance)
+                        
                     }
+                        
+                ]
                     
-                    // Line 5. Pass in the urrerance to the synthesizer to actually speak.
-                    speechSynthesizer.speak(speechUtterance)
-                    
-                }
-                    
-                alertController.addAction(speak)
-                alertController.addAction(copy)
-                
-                self.present(alertController, animated: true, completion: nil)
-                
+                Alert.alert(title: nil, message: nil, actions: actions)
                     
                 default:
                     fatalError()
@@ -717,32 +488,17 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if chatOf.conversation.isEmpty {
+        guard let message = chatOf.conversation[safe: indexPath.row] else {
             return UITableView.automaticDimension
         }
         
-        switch chatOf.conversation[indexPath.row]{
+        
+        switch message {
+        
+        case is NeedHelpMessage: return 326
             
-//        case is ImageMessage:
-//            if self.view.frame.width < self.view.frame.height{
-//                return self.view.frame.width
-//            }
-//
-//            return self.view.frame.height
-//
-//        case is LocationMessage:
-//
-//            if self.view.frame.width < self.view.frame.height {
-//                return self.view.frame.width
-//            }
-//
-//            return self.view.frame.height
+        default: return UITableView.automaticDimension
             
-        case is NeedHelpMessage:
-            return 326
-            
-        default:
-            return UITableView.automaticDimension
         }
     }
     
@@ -851,18 +607,21 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
 }
 
 extension ChatVC: CLLocationManagerDelegate {
+    
     func setUpLocationServices(){
-        // Ask for Authorisation from the User.
+        
         self.locationManager.requestAlwaysAuthorization()
         
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled() {
+            
             locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.pausesLocationUpdatesAutomatically = true
             locationManager.startUpdatingLocation()
+            
         }
     }
     
@@ -871,7 +630,7 @@ extension ChatVC: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        
+        print(error)
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -896,5 +655,20 @@ extension ChatVC {
 
 // To update the table view from another class
 protocol ChatUpdateDelegate {
-    func didUpdate(sender: Internet)
+    func didUpdate(sender: Internet, scrollToBottom: Bool)
+}
+
+extension ChatVC: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // UITableView only moves in one direction, y axis
+        let currentOffset = scrollView.contentOffset.y
+        
+        if currentOffset < -100 {
+            //Load more messages
+            
+//            Internet.loadMessages()
+        }
+    }
+    
 }

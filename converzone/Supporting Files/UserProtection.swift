@@ -14,28 +14,22 @@ class UserProtection {
     
     @objc static func displayBlockAndReport(){
         
-        let alertController = UIAlertController(title: "What do you want to do?", message: "Please help us make our platform a little better.", preferredStyle: .actionSheet)
+        let actions = [
         
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = UserProtection.self.context?.view
-            popoverController.sourceRect = CGRect(x: (UserProtection.self.context?.view.bounds.midX)!, y: (UserProtection.self.context?.view.bounds.midY)!, width: 0, height: 0)
-            popoverController.permittedArrowDirections = []
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        
-        let blockAndReport = UIAlertAction(title: "Report", style: .destructive) { (action) in
+            UIAlertAction(title: "Report", style: .destructive) { (action) in
+                
+                UserProtection.self.report(title: "Report user", message: "Tell us why you want to report this user.")
+            },
             
-            UserProtection.self.report(title: "Report user", message: "Tell us why you want to report this user.")
-        }
-        alertController.addAction(blockAndReport)
+            UIAlertAction(title: "Block", style: .destructive, handler: { (aler_action) in
+                Internet.block(userid: chatOf.uid)
+            }),
+            
+            UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+        ]
         
-        alertController.addAction(UIAlertAction(title: "Block", style: .destructive, handler: { (aler_action) in
-            Internet.block(userid: chatOf.uid)
-        }))
-        
-        UIApplication.currentViewController()?.present(alertController, animated: true, completion: nil)
+        Alert.alert(title: "What do you want to do?", message: "Please help us make our platform a little better.", actions: actions)
     }
     
     static func report(title: String, message: String) {
@@ -70,5 +64,6 @@ class UserProtection {
         
         alert.addAction(action)
         UIApplication.currentViewController()?.present(alert, animated:true, completion: nil)
+        
     }
 }

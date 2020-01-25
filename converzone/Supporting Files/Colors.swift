@@ -37,7 +37,7 @@ enum Colors {
     static let background_grey = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1.0)
     
     
-    static func random() -> UIColor{
+    static func random() -> UIColor {
         
         switch Int.random(in: 0...5) {
             

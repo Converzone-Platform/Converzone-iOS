@@ -1,5 +1,8 @@
 PODS:
+  - Crashlytics (3.14.0):
+    - Fabric (~> 1.10.2)
   - EasyStash (1.0.0)
+  - Fabric (1.10.2)
   - Firebase/Analytics (6.8.1):
     - Firebase/Core
   - Firebase/Auth (6.8.1):
@@ -118,6 +121,7 @@ PODS:
   - SAConfettiView (0.1.8)
 
 DEPENDENCIES:
+  - Crashlytics (~> 3.14.0)
   - EasyStash
   - Firebase/Analytics
   - Firebase/Auth
@@ -150,7 +154,9 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
   trunk:
+    - Crashlytics
     - EasyStash
+    - Fabric
     - FirebaseAnalyticsInterop
     - FirebaseMessaging
     - MathParser
@@ -161,7 +167,9 @@ SPEC REPOS:
     - SAConfettiView
 
 SPEC CHECKSUMS:
+  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   EasyStash: f42c709eaaa0cd83167163998b0746b4defb0015
+  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   Firebase: 9cbe4e5b5eaafa05dc932be58b7c8c3820d71e88
   FirebaseAnalytics: 843c7f64a8f9c79f0d03281197ebe7bb1d58d477
   FirebaseAnalyticsInterop: d48b6ab67bcf016a05e55b71fc39c61c0cb6b7f3
@@ -188,6 +196,6 @@ SPEC CHECKSUMS:
   RangeSeekSlider: 650b11fa1edcb92e1e0ede797669d98622570fb5
   SAConfettiView: c87031a2280659261b730fce3669fb10e73636ee
 
-PODFILE CHECKSUM: c887838e35b23f8b3f233f1a9499fca13725f61a
+PODFILE CHECKSUM: 851e3d9a39c6778bb1150ab4c026a9dbf36fff67
 
 COCOAPODS: 1.8.4

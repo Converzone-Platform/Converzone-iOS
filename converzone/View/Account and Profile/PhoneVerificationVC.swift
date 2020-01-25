@@ -47,6 +47,8 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             cell.textLabel?.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             cell.input?.textContentType = .telephoneNumber
             
+            
+            
             return cell
             
         case 1:
@@ -70,6 +72,9 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                 cell.input?.textContentType = .oneTimeCode
             }
             
+            cell.input?.tag = 777
+            cell.input?.delegate = self
+            
             cell.title?.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
             return cell
@@ -86,18 +91,24 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
         default:
             os_log("Wants to render cell type which isn't implemented.")
         }
-        return tableView.dequeueReusableCell(withIdentifier: "SendCodeCell")!
+        
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return footer_notes[section]
+        return footer_notes[safe: section]
     }
     
     /// Add the second section so that the user can enter the OTP
     /// - Parameter tableView: The tableView to which we add the section
     fileprivate func addNewSectionTo(_ tableView: UITableView) {
+        
+        if tableView.numberOfSections > 1 {
+            return
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            // Add two new cells
+            
             tableView.beginUpdates()
             
             self.labels.append("Code (OTP)")
@@ -132,6 +143,16 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             }
             
             if phonenumber.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                return
+            }
+            
+            // Check if it is a valid phone number
+            let phoneNumberKit = PhoneNumberKit()
+            do {
+                _ = try phoneNumberKit.parse(phonenumber)
+            }
+            catch {
+                alert("Enter valid phonenumber", "Please enter a phonenumber in the international format. For example: +43 650 3314 001")
                 return
             }
             
@@ -264,5 +285,11 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             cell?.contentView.alpha = 1
         }
     }
+}
+
+extension PhoneVerificationVC: UITextFieldDelegate {
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return textField.text?.count ?? 0 < 6 && textField.tag == 777 ? true : false
+    }
 }

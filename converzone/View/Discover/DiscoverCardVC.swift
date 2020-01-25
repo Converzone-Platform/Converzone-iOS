@@ -397,7 +397,6 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             
         case 4:
             
-             
             let cell = Bundle.main.loadNibNamed("StatusProfileCell", owner: self, options: nil)?.first as! StatusProfileCell
             
             cell.status.attributedText = profile_of.status
@@ -464,28 +463,23 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func displayBlockAndReport(){
-        let alertController = UIAlertController(title: "What do you want to do?", message: "Please help us make our platform a little better.", preferredStyle: .actionSheet)
         
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-            popoverController.permittedArrowDirections = []
-        }
+        let actions = [
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        
-        let blockAndReport = UIAlertAction(title: "Report", style: .destructive) { (action) in
+            UIAlertAction(title: "Cancel", style: .cancel, handler: nil),
             
-            UserProtection.report(title: "Report user", message: "Tell us why you want to report this user.")
-        }
-        alertController.addAction(blockAndReport)
+            UIAlertAction(title: "Report", style: .destructive) { (action) in
+                
+                UserProtection.report(title: "Report user", message: "Tell us why you want to report this user.")
+            },
+            
+            UIAlertAction(title: "Block", style: .destructive, handler: { (alert_action) in
+                Internet.block(userid: chatOf.uid)
+            })
         
-        alertController.addAction(UIAlertAction(title: "Block", style: .destructive, handler: { (aler_action) in
-            Internet.block(userid: chatOf.uid)
-        }))
+        ]
         
-        UIApplication.currentViewController()?.present(alertController, animated: true, completion: nil)
+        Alert.alert(title: "What do you want to do?", message: "Please help us make our platform a little better.", actions: actions)
     }
     
     @objc func handleSendMessage(){

@@ -87,6 +87,8 @@ export const newMessage = functions.database
         let sender_lastname: any = null
         let receiver_token: any = null
 
+        snapshot.ref.child("reversed_date").set(-snapshot.key).catch
+
         // Get token of receiver
         const ref_receiver_id = admin.database().ref("users").child(receiver_id)
         ref_receiver_id.once("value").then((snapshot_token: any) => {
@@ -112,6 +114,7 @@ export const newMessage = functions.database
                     }
                 };
     
+                
                 return admin.messaging().sendToDevice(receiver_token, payload);
 
         })

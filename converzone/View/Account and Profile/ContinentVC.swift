@@ -161,58 +161,42 @@ extension ContinentVC {
     
     // Show the popup to the user if we have been deined access
     func showLocationDisabledPopUp() {
-        let alertController = UIAlertController(title: "Location Access Disabled",
-                                                message: "In order for us to make your life simpler we need your location",
-                                                preferredStyle: .alert)
         
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = self.view //to set the source of your alert
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
-            popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
-        }
+        let actions = [
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        
-        let openAction = UIAlertAction(title: "Open Settings", style: .default) { (action) in
-            if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            UIAlertAction(title: "Cancel", style: .cancel, handler: nil),
+            
+            UIAlertAction(title: "Open Settings", style: .default) { (action) in
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
             }
-        }
-        alertController.addAction(openAction)
+            
+        ]
         
-        self.present(alertController, animated: true, completion: nil)
+        Alert.alert(title: "Location Access Disabled", message: "In order for us to make your life simpler we need your location", actions: actions)
     }
     
     private func askIfRightCountry(_ country: Country){
         
-        let alertController = UIAlertController(title: "Your location",
-                                                message: "Do you live in " + country.name + "?",
-                                                preferredStyle: .actionSheet)
+        let actions = [
         
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = self.view //to set the source of your alert
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
-            popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
-        }
-        
-        let cancelAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
-        
-        let openAction = UIAlertAction(title: "Yes!", style: .default) { (action) in
-            master.country = country
+            UIAlertAction(title: "No", style: .cancel, handler: nil),
             
-            if master.editingMode == .registration {
-                Navigation.push(viewController: "UsersLanguagesVC", context: self)
-            }else{
-                Navigation.pop(context: self)
-                Internet.upload(country: master.country)
+            UIAlertAction(title: "Yes!", style: .default) { (action) in
+                master.country = country
+                
+                if master.editingMode == .registration {
+                    Navigation.push(viewController: "UsersLanguagesVC", context: self)
+                }else{
+                    Navigation.pop(context: self)
+                    Internet.upload(country: master.country)
+                }
             }
-        }
+            
+        ]
         
-        alertController.addAction(cancelAction)
-        alertController.addAction(openAction)
-        
-        self.present(alertController, animated: true, completion: nil)
+        Alert.alert(title: "Your location", message: "Do you live in " + country.name + "?", actions: actions)
     }
     
 }

@@ -65,7 +65,6 @@ class UsersLanguagesVC: UIViewController {
         
         tableView.reloadData()
         
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

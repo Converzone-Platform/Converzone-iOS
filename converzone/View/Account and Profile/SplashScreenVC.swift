@@ -81,11 +81,13 @@ class SplashScreenVC: UIViewController, WKNavigationDelegate {
      Message is displayed on the welcome screen and is meant to be in English for every user
      */
     private func renderWelcomeMessage(){
+        
         let attributedString = NSMutableAttributedString(string: "Chat with the world.")
         
         let attributes: [NSAttributedString.Key : Any] = [
             .foregroundColor: Colors.blue
         ]
+        
         attributedString.addAttributes(attributes, range: NSRange(location: 10, length: 9))
         
         welcome_text_label.attributedText = attributedString
@@ -93,10 +95,5 @@ class SplashScreenVC: UIViewController, WKNavigationDelegate {
     
     override var prefersStatusBarHidden: Bool {
         return true
-    }
-    
-    //Close keyboard when touched somewhere else
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
     }
 }

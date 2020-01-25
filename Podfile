@@ -17,11 +17,13 @@ target 'converzone' do
     # Pods for testing
   end
 
+  pod 'Crashlytics', '~> 3.14.0'
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
   pod 'Firebase/Messaging'
+
   pod 'MathParser', '~> 1.5'
   pod 'PhoneNumberKit', '~> 3.1'
   pod 'NVActivityIndicatorView'

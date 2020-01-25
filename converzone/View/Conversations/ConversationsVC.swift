@@ -81,6 +81,17 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         //MARK: TODO - Reloading the whole tableview might be too much
         tableView.reloadData()
         
+        getNotificationPermissionFromUser()
+    }
+    
+    /// Ask if we can send notifications to this device
+    private func getNotificationPermissionFromUser() {
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (bool, error) in
+            
+            Internet.upload(token: Internet.fcm_token)
+            
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -131,16 +142,13 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
             cell.last_message_type.backgroundColor = master.conversations[indexPath.row].conversation.last?.color
         }
         
-        cell.profile_image.layer.cornerRadius = cell.profile_image.layer.frame.width / 2
-        cell.profile_image.layer.masksToBounds = true
+        cell.profile_image.roundCorners(radius: cell.profile_image.layer.frame.width / 2, masksToBounds: true)
         
-        cell.last_message_type.layer.cornerRadius = cell.last_message_type.layer.frame.width / 2
+        cell.last_message_type.roundCorners(radius: cell.last_message_type.layer.frame.width / 2)
         
-        cell.view.layer.cornerRadius = 2
-        cell.view.layer.shadowColor = UIColor.black.cgColor
-        cell.view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        cell.view.layer.shadowOpacity = 0.2
-        cell.view.layer.shadowRadius = 3.0
+        cell.view.roundCorners(radius: 2)
+        
+        cell.view.addShadow(radius: 3.0, opacity: 0.2, offset: CGSize(width: 0, height: 0), color: .black)
         
         cell.selectionStyle = .none
         

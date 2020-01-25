@@ -49,8 +49,7 @@ class EditProfileVC: UIViewController {
                 self.profile_image.image = image
             }
             
-            profile_image.layer.masksToBounds = true
-            profile_image.layer.cornerRadius = profile_image.frame.width / 2
+            profile_image.roundCorners(radius: profile_image.frame.width / 2, masksToBounds: true)
         }
     }
     
@@ -64,19 +63,21 @@ class EditProfileVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
         // We need to save the first and lastname from the input fields
-        guard let firstname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! NormalInputCell).input!.text else{
+        guard let firstname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? NormalInputCell)?.input?.text else{
             return
         }
         
-        guard let lastname = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! NormalInputCell).input!.text else{
+        guard let lastname = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? NormalInputCell)?.input?.text else{
             return
         }
         
         master.firstname = firstname
         master.lastname = lastname
         
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
     }
     
     @objc func endEditing() {
@@ -90,26 +91,26 @@ class EditProfileVC: UIViewController {
         // 1. Did the user pick an image?
         if #available(iOS 13.0, *) {
             if profile_image.image.hashValue == UIImage(systemName: "person.circle").hashValue {
-                alert("Profile Image", "Please choose a profile image")
+                Alert.alert(title: "Profile Image", message: "Please choose a profile image")
                 return false
             }
         } else {
             if profile_image.image.hashValue == UIImage(named: "user").hashValue {
-                alert("Profile Image", "Please choose a profile image")
+                Alert.alert(title: "Profile Image", message: "Please choose a profile image")
                 return false
             }
         }
         
         // 2. No emojis in the first and last name
         if firstname.contains_emoji{
-            alert("Firstname", "Please make sure you don't use emojis in your firstname")
+            Alert.alert(title: "Firstname", message: "Please make sure you don't use emojis in your firstname")
             return false
         }else{
             master.firstname = firstname.trimmingCharacters(in: .whitespaces).capitalizingFirstLetter()
         }
         
         if lastname.contains_emoji{
-            alert("Lastname", "Please make sure you don't use emojis in your lastname")
+            Alert.alert(title: "Lastname", message: "Please make sure you don't use emojis in your lastname")
             return false
         }else{
             master.lastname = lastname.trimmingCharacters(in: .whitespaces).capitalizingFirstLetter()
@@ -140,7 +141,7 @@ class EditProfileVC: UIViewController {
             // Let's check if the components can be correct practically
             
             if components.year! > 3000{
-                alert("Wow", "Are you from the future? Write me an email. I have some questions :)")
+                Alert.alert(title: "Wow", message: "Are you from the future? Write me an email. I have some questions :)")
                 return false
             }
             
@@ -155,19 +156,18 @@ class EditProfileVC: UIViewController {
     
     @objc private func donePressed(){
         
-        // Get inputs
-        
         var firstname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! NormalInputCell).input!.text
         firstname = firstname?.trimmingCharacters(in: .whitespacesAndNewlines)
         if firstname == "" {
-            alert("Firstname", "Please tell us your first name")
+            Alert.alert(title: "Firstname", message: "Please tell us your first name")
+            
             return
         }
         
         var lastname = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! NormalInputCell).input!.text
         lastname = lastname?.trimmingCharacters(in: .whitespacesAndNewlines)
         if lastname == "" {
-            alert("Lastname", "Please tell us your last name")
+            Alert.alert(title: "Lastname", message: "Please tell us your last name")
             return
         }
         
@@ -182,12 +182,12 @@ class EditProfileVC: UIViewController {
         }
         
         if master.interests.string.isEmpty {
-            alert("Interests", "Please tell us about your intersts")
+            Alert.alert(title: "Interests", message: "Please tell us about your intersts")
             return
         }
         
         if master.status.string.isEmpty {
-            alert("Status", "Please tell us what you want your status to be")
+            Alert.alert(title: "Status", message: "Please tell us what you want your status to be")
             return
         }
         
@@ -512,29 +512,25 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
     
     @objc private func imageTapped(){
         
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let actions = [
         
-        if let popoverController = alert.popoverPresentationController {
-            popoverController.sourceView = self.view //to set the source of your alert
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
-            popoverController.permittedArrowDirections = [] //to hide the arrow of any particular direction
-        }
-        
-        alert.addAction(UIAlertAction(title: "Library", style: .default, handler: { action in
+            UIAlertAction(title: "Camera", style: .default, handler: { action in
+                
+                self.getImageFromCamera()
+                
+            }),
             
-            self.getImageFromLibrary()
+            UIAlertAction(title: "Library", style: .default, handler: { action in
+                
+                self.getImageFromLibrary()
+                
+            }),
             
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { action in
+            UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
-            self.getImageFromCamera()
-            
-        }))
+        ]
         
-        alert.addAction ( UIAlertAction(title: "Cancel", style: .cancel, handler: { action in }))
-        
-        self.present(alert, animated: true, completion: nil)
+        Alert.alert(title: nil, message: nil, actions: actions)
         
     }
     
@@ -545,8 +541,8 @@ extension EditProfileVC: UIImagePickerControllerDelegate, UINavigationController
         }
         
         profile_image.image = cropToBounds(image: image, width: 500, height: 500)
-        profile_image.layer.cornerRadius = profile_image.layer.frame.width / 2
-        profile_image.layer.masksToBounds = true
+        
+        profile_image.roundCorners(radius: profile_image.layer.frame.width / 2, masksToBounds: true)
         
         picker.dismiss(animated: true, completion: nil)
     }
