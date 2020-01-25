@@ -153,59 +153,14 @@ extension DiscoverVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)].discover_style {
-        case 0:
+        guard let discover_user = discover_users[safe: discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)] else {
             
+            os_log("Could not get user for discver tab.")
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PicDiscoverCell") as! PicDiscoverCell
-            
-            cell.name.attributedText = discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)].fullname
-            
-            Internet.getImage(withURL: discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)].link_to_profile_image) { (image) in
-                cell.profile_image.image = image
-            }
-            
-            cell.profile_image.contentMode = .scaleAspectFill
-            cell.profile_image.clipsToBounds = true
-            cell.profile_image.layer.cornerRadius = 23
-            cell.profile_image.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            
-            cell.view.layer.cornerRadius = 23
-            cell.view.layer.shadowColor = UIColor.black.cgColor
-            cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
-            cell.view.layer.shadowOpacity = 0.2
-            cell.view.layer.shadowRadius = 4.0
-            
-            return cell
-            
-        case 1:
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "StatusDiscoverCell") as! StatusDiscoverCell
-            
-            cell.name.attributedText = discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)].fullname
-            
-            Internet.getImage(withURL: discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)].link_to_profile_image) { (image) in
-                cell.profile_image.image = image
-            }
-            
-            cell.profile_image.layer.cornerRadius = cell.profile_image.layer.frame.width / 2
-            cell.profile_image.layer.masksToBounds = true
-            cell.profile_image.contentMode = .redraw
-            
-            cell.view.layer.cornerRadius = 23
-            cell.view.layer.shadowColor = UIColor.black.cgColor
-            cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
-            cell.view.layer.shadowOpacity = 0.2
-            cell.view.layer.shadowRadius = 4.0
-            
-            cell.status.text = discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)].status.string
-            
-            return cell
-            
-        
-        default:
-            fatalError()
+            return UITableViewCell()
         }
+        
+        return renderDiscoverCell(tableView, indexPath, discover_user)
     }
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {

@@ -156,17 +156,19 @@ class EditProfileVC: UIViewController {
     
     @objc private func donePressed(){
         
-        var firstname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! NormalInputCell).input!.text
-        firstname = firstname?.trimmingCharacters(in: .whitespacesAndNewlines)
-        if firstname == "" {
+        // Let's find the motherducker which crashed my app
+        
+        var firstname = master.firstname
+        firstname = firstname.trimmingCharacters(in: .whitespacesAndNewlines)
+        if firstname.isEmpty {
             Alert.alert(title: "Firstname", message: "Please tell us your first name")
             
             return
         }
         
-        var lastname = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! NormalInputCell).input!.text
-        lastname = lastname?.trimmingCharacters(in: .whitespacesAndNewlines)
-        if lastname == "" {
+        var lastname = master.lastname
+        lastname = lastname.trimmingCharacters(in: .whitespacesAndNewlines)
+        if lastname.isEmpty {
             Alert.alert(title: "Lastname", message: "Please tell us your last name")
             return
         }
@@ -192,10 +194,9 @@ class EditProfileVC: UIViewController {
         }
         
         
-        if checkInputOfUser(firstname!, lastname!, gender!, date!, master.interests.string, master.status.string) == false{
+        if checkInputOfUser(firstname, lastname, gender!, date!, master.interests.string, master.status.string) == false{
             return
         }
-        
         
         master.discoverable = (tableView.cellForRow(at: IndexPath(row: 0, section: 3)) as! BooleanInputCell).boolean.isOn
         
@@ -210,9 +211,16 @@ class EditProfileVC: UIViewController {
         
         Internet.upload()
         
-        Internet.upload(image: profile_image.image!)
-        
         Internet.uploadLanguages()
+        
+        guard let image = profile_image.image else {
+            Alert.alert(title: "Could not upload image", message: "Please choose an image and try again.")
+            return
+        }
+        
+        Internet.upload(image: image)
+        
+        
     }
     
     @objc private func pickDate (datePicker: UIDatePicker){
@@ -281,6 +289,7 @@ extension EditProfileVC: UIPickerViewDelegate, UIPickerViewDataSource {
             cell.gender.text = ""
         }else{
             cell.gender.text = Gender.allCases[row].toString()
+            master.gender = Gender.allCases[row]
         }
     }
     

@@ -14,18 +14,18 @@ extension ChatVC {
     fileprivate func maskCorners(_ message: TextMessage, _ indexPath: IndexPath, _ cell: TextMessageCell) {
         
         cell.view.layer.maskedCorners = message.is_sender ? [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner] : [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-        
+
         let cornerToConnect = message.is_sender ? CACornerMask.layerMaxXMinYCorner : .layerMinXMinYCorner
         let cornerToConnect2 = message.is_sender ? CACornerMask.layerMaxXMaxYCorner : .layerMinXMaxYCorner
-        
+
         if let last_message = chatOf.conversation[safe: indexPath.row - 1] {
             if last_message.is_sender == message.is_sender{
                 cell.top_constraint.constant = 3
-                
+
                 cell.view.layer.maskedCorners.remove(cornerToConnect)
             }
         }
-        
+
         if let next_message = chatOf.conversation[safe: indexPath.row + 1] {
             if next_message.is_sender == message.is_sender {
                 cell.bottom_constraint.constant = 3
@@ -34,7 +34,7 @@ extension ChatVC {
             }
         }else{
             cell.view.layer.maskedCorners.insert(cornerToConnect2)
-            
+
         }
     }
     

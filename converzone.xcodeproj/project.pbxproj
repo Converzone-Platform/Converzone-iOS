@@ -81,6 +81,15 @@
 		4ADDF69D23A62CF80096529C /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADDF69C23A62CF80096529C /* LocalNotification.swift */; };
 		4AE35A78232C3BF60098320C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE35A77232C3BF60098320C /* WebKit.framework */; };
 		4AE934CE23C26C2700B2E17F /* DonationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE934CD23C26C2700B2E17F /* DonationVC.swift */; };
+		4AEF319523DC70B40023BCD3 /* DiscoverRenderingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF319423DC70B40023BCD3 /* DiscoverRenderingEngine.swift */; };
+		4AEF319923DC766E0023BCD3 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF319823DC766E0023BCD3 /* Notifications.swift */; };
+		4AEF319B23DC776B0023BCD3 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF319A23DC776B0023BCD3 /* Connectivity.swift */; };
+		4AEF319D23DC77980023BCD3 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF319C23DC77980023BCD3 /* Account.swift */; };
+		4AEF319F23DC77DA0023BCD3 /* Messaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF319E23DC77DA0023BCD3 /* Messaging.swift */; };
+		4AEF31A123DC79470023BCD3 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF31A023DC79470023BCD3 /* Images.swift */; };
+		4AEF31A323DC79C20023BCD3 /* BlockingAndReporting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF31A223DC79C20023BCD3 /* BlockingAndReporting.swift */; };
+		4AEF31A523DC7A1D0023BCD3 /* Discover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF31A423DC7A1D0023BCD3 /* Discover.swift */; };
+		4AEF31A823DC81910023BCD3 /* ParsingUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF31A723DC81910023BCD3 /* ParsingUsers.swift */; };
 		66FFDDBC461D8B204C38B49F /* Pods_converzone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BAD40D8AEA15DA82C953B1 /* Pods_converzone.framework */; };
 		70FF92AAB74600C4B77523F2 /* Pods_converzoneUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 946B7DD54271449BEA8D61B5 /* Pods_converzoneUITests.framework */; };
 		A40749364057A422638A8CEA /* Pods_converzoneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D0D0AE14D34555E48487DB /* Pods_converzoneTests.framework */; };
@@ -189,6 +198,15 @@
 		4ADDF69C23A62CF80096529C /* LocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
 		4AE35A77232C3BF60098320C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		4AE934CD23C26C2700B2E17F /* DonationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationVC.swift; sourceTree = "<group>"; };
+		4AEF319423DC70B40023BCD3 /* DiscoverRenderingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverRenderingEngine.swift; sourceTree = "<group>"; };
+		4AEF319823DC766E0023BCD3 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		4AEF319A23DC776B0023BCD3 /* Connectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
+		4AEF319C23DC77980023BCD3 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		4AEF319E23DC77DA0023BCD3 /* Messaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messaging.swift; sourceTree = "<group>"; };
+		4AEF31A023DC79470023BCD3 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		4AEF31A223DC79C20023BCD3 /* BlockingAndReporting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingAndReporting.swift; sourceTree = "<group>"; };
+		4AEF31A423DC7A1D0023BCD3 /* Discover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discover.swift; sourceTree = "<group>"; };
+		4AEF31A723DC81910023BCD3 /* ParsingUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsingUsers.swift; sourceTree = "<group>"; };
 		63D0D0AE14D34555E48487DB /* Pods_converzoneTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_converzoneTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ACAB697A06921313C55196C /* Pods-converzone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-converzone.release.xcconfig"; path = "Pods/Target Support Files/Pods-converzone/Pods-converzone.release.xcconfig"; sourceTree = "<group>"; };
 		946B7DD54271449BEA8D61B5 /* Pods_converzoneUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_converzoneUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -266,7 +284,7 @@
 		4A1C985721BC1C1400F99D62 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				4A016FD121B585BF00095E26 /* Internet.swift */,
+				4AEF319723DC76570023BCD3 /* Internet */,
 				4A36EBD2232D2ACE0053361F /* Navigation.swift */,
 				4AC65934229F16F200BD2251 /* Alerts.swift */,
 				4A5D856621B29F07004E3E79 /* Colors.swift */,
@@ -459,10 +477,43 @@
 			path = Chat;
 			sourceTree = "<group>";
 		};
+		4AEF319623DC70CB0023BCD3 /* DiscoverVC */ = {
+			isa = PBXGroup;
+			children = (
+				4AEF319423DC70B40023BCD3 /* DiscoverRenderingEngine.swift */,
+				4AD7D686221A090A000E4660 /* DiscoverVC.swift */,
+			);
+			path = DiscoverVC;
+			sourceTree = "<group>";
+		};
+		4AEF319723DC76570023BCD3 /* Internet */ = {
+			isa = PBXGroup;
+			children = (
+				4A016FD121B585BF00095E26 /* Internet.swift */,
+				4AEF319823DC766E0023BCD3 /* Notifications.swift */,
+				4AEF319A23DC776B0023BCD3 /* Connectivity.swift */,
+				4AEF319C23DC77980023BCD3 /* Account.swift */,
+				4AEF31A623DC816C0023BCD3 /* Messaging */,
+				4AEF31A023DC79470023BCD3 /* Images.swift */,
+				4AEF31A223DC79C20023BCD3 /* BlockingAndReporting.swift */,
+				4AEF31A423DC7A1D0023BCD3 /* Discover.swift */,
+				4AEF31A723DC81910023BCD3 /* ParsingUsers.swift */,
+			);
+			path = Internet;
+			sourceTree = "<group>";
+		};
+		4AEF31A623DC816C0023BCD3 /* Messaging */ = {
+			isa = PBXGroup;
+			children = (
+				4AEF319E23DC77DA0023BCD3 /* Messaging.swift */,
+			);
+			path = Messaging;
+			sourceTree = "<group>";
+		};
 		4AF3728B23BA0AF100D21C9E /* Discover */ = {
 			isa = PBXGroup;
 			children = (
-				4AD7D686221A090A000E4660 /* DiscoverVC.swift */,
+				4AEF319623DC70CB0023BCD3 /* DiscoverVC */,
 				4AA328882229269500AB79C4 /* DiscoverCardVC.swift */,
 				4A0A311423B801E800DBC897 /* DiscoverFilterVC.swift */,
 				4ADC7BF323D84EB4000DEE1D /* FriendGlobeVC.swift */,
@@ -764,6 +815,8 @@
 				4A36EBD3232D2ACE0053361F /* Navigation.swift in Sources */,
 				4AD7D6832217292A000E4660 /* Genders.swift in Sources */,
 				4AAED90E218336F400968E3E /* SplashScreenVC.swift in Sources */,
+				4AEF319523DC70B40023BCD3 /* DiscoverRenderingEngine.swift in Sources */,
+				4AEF319B23DC776B0023BCD3 /* Connectivity.swift in Sources */,
 				4A016FD221B585BF00095E26 /* Internet.swift in Sources */,
 				4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */,
 				4A016FDA21B6B1B200095E26 /* Person.swift in Sources */,
@@ -775,6 +828,7 @@
 				4AA8739F2214816B006035A3 /* WelcomeVC.swift in Sources */,
 				4AE934CE23C26C2700B2E17F /* DonationVC.swift in Sources */,
 				4ADC7BF623D87508000DEE1D /* MessageRenderingEngine.swift in Sources */,
+				4AEF31A523DC7A1D0023BCD3 /* Discover.swift in Sources */,
 				4AC65935229F16F200BD2251 /* Alerts.swift in Sources */,
 				4AD6F878223B9AD400138EAD /* MessageCells.swift in Sources */,
 				4A016FD421B6716800095E26 /* Extensions.swift in Sources */,
@@ -786,10 +840,15 @@
 				4ADC7BF423D84EB4000DEE1D /* FriendGlobeVC.swift in Sources */,
 				4ADDF69B23A626260096529C /* ReminderVC.swift in Sources */,
 				4A60337623C530EF007A3481 /* UserProtection.swift in Sources */,
+				4AEF319D23DC77980023BCD3 /* Account.swift in Sources */,
+				4AEF319923DC766E0023BCD3 /* Notifications.swift in Sources */,
 				4AD7D685221A0800000E4660 /* PicDiscoverCell.swift in Sources */,
+				4AEF31A823DC81910023BCD3 /* ParsingUsers.swift in Sources */,
+				4AEF31A323DC79C20023BCD3 /* BlockingAndReporting.swift in Sources */,
 				4A7A70D1222405D80074BE5E /* ReflectionDiscoverCell.swift in Sources */,
 				4A3CF8FE23C8BDAA00D88F16 /* Disk.swift in Sources */,
 				4A016FDC21B6B61F00095E26 /* User.swift in Sources */,
+				4AEF319F23DC77DA0023BCD3 /* Messaging.swift in Sources */,
 				4AA2FC1F22281BC600A10A4A /* ConversationsVC.swift in Sources */,
 				4A016FDE21B6B6A500095E26 /* Master.swift in Sources */,
 				4A1C985D21BC720A00F99D62 /* LanguagesVC.swift in Sources */,
@@ -799,6 +858,7 @@
 				4A5EC47223635CD800EFD7CE /* PhoneVerificationVC.swift in Sources */,
 				4AA3288B22294E4700AB79C4 /* ChatVC.swift in Sources */,
 				4A26B2622295AEC0001EA17E /* LongTextEditVC.swift in Sources */,
+				4AEF31A123DC79470023BCD3 /* Images.swift in Sources */,
 				4AA8739C22143AE7006035A3 /* NormalInputCells.swift in Sources */,
 				4AA873A12214952F006035A3 /* WebVC.swift in Sources */,
 				4AD7D68B221B2FFA000E4660 /* SettingsVC.swift in Sources */,
