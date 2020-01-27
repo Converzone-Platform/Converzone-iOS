@@ -61,6 +61,7 @@ public class Internet: NSObject {
         listener_for_new_conversation?.removeAllObservers()
         listener_for_all_time_user_change?.removeAllObservers()
         listeners_for_new_messages.removeAll()
+        self.removeListenerForIsPartnerTyping()
     }
     
     static func updateBadges() {

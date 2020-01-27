@@ -45,9 +45,7 @@ class EditProfileVC: UIViewController {
         
         if master.editingMode == .editing {
             
-            Internet.getImage(withURL: master.link_to_profile_image) { (image) in
-                self.profile_image.image = image
-            }
+            Internet.setImage(withURL: master.link_to_profile_image, imageView: self.profile_image)
             
             profile_image.roundCorners(radius: profile_image.frame.width / 2, masksToBounds: true)
         }
@@ -149,25 +147,32 @@ class EditProfileVC: UIViewController {
             
         }
         
-        
+        guard let image = profile_image.image else {
+            Alert.alert(title: "Could not upload image", message: "Please choose an image and try again.")
+            return false
+        }
         
         return true
     }
     
     @objc private func donePressed(){
         
-        // Let's find the motherducker which crashed my app
+        if let _firstname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? NormalInputCell)?.input?.text {
+            master.firstname = _firstname
+        }
         
-        var firstname = master.firstname
-        firstname = firstname.trimmingCharacters(in: .whitespacesAndNewlines)
+        let firstname = master.firstname.trimmingCharacters(in: .whitespacesAndNewlines)
         if firstname.isEmpty {
             Alert.alert(title: "Firstname", message: "Please tell us your first name")
             
             return
         }
         
-        var lastname = master.lastname
-        lastname = lastname.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let _lastname = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? NormalInputCell)?.input?.text {
+            master.firstname = _lastname
+        }
+        
+        let lastname = master.lastname.trimmingCharacters(in: .whitespacesAndNewlines)
         if lastname.isEmpty {
             Alert.alert(title: "Lastname", message: "Please tell us your last name")
             return
@@ -211,7 +216,9 @@ class EditProfileVC: UIViewController {
         
         Internet.upload()
         
-        Internet.uploadLanguages()
+        if master.speak_languages.isEmpty == false {
+            Internet.uploadLanguages()
+        }
         
         guard let image = profile_image.image else {
             Alert.alert(title: "Could not upload image", message: "Please choose an image and try again.")
@@ -219,8 +226,6 @@ class EditProfileVC: UIViewController {
         }
         
         Internet.upload(image: image)
-        
-        
     }
     
     @objc private func pickDate (datePicker: UIDatePicker){

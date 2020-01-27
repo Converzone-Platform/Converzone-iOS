@@ -9,13 +9,9 @@
 import UIKit
 import os
 
-var discover_users: Set<User> = []
+var discover_users: [User] = []
 var profile_of: User = User()
 var fetched_count = 0
-
-var no_discoverable_users_left: Bool {
-    return Internet.user_count-1 /*- Internet.undiscoverable_counter*/ == discover_users.count
-}
 
 class DiscoverVC: UIViewController, DiscoverUpdateDelegate {
     

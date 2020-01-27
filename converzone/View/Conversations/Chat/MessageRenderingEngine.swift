@@ -57,7 +57,7 @@ extension ChatVC {
             cell.view.backgroundColor = message.is_sender ? Colors.blue : .white
             
             cell.view.roundCorners(radius: 18)
-            cell.view.addShadow()
+            cell.view.addShadow(opacity: 0.05)
             
         }else{
             
@@ -65,7 +65,7 @@ extension ChatVC {
             
         }
         
-        if ((cell.message_label.text?.widthWithConstrained(cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - (2 * 36)){
+        if ((cell.message_label.text?.widthWithConstrained(cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - 56) {
 
             cell.left_constraint.isActive = message.is_sender ? false : true
             cell.right_constraint.isActive = message.is_sender ? true : false

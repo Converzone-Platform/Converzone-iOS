@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -47,6 +47,10 @@
 		4A950C85222E64600089754D /* BlockAndReportProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C84222E64600089754D /* BlockAndReportProfileCell.xib */; };
 		4A950C87222FB3C30089754D /* InterestsProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C86222FB3C30089754D /* InterestsProfileCell.xib */; };
 		4A950C8A222FF1960089754D /* ReflectionProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C89222FF1960089754D /* ReflectionProfileCell.xib */; };
+		4A9C673B23DD8B3C0091742A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 4A9C673A23DD8B3C0091742A /* Kingfisher */; };
+		4A9C673D23DDC3DA0091742A /* SendingMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9C673C23DDC3DA0091742A /* SendingMessages.swift */; };
+		4A9C673F23DDC4150091742A /* ReceiveMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9C673E23DDC4150091742A /* ReceiveMessages.swift */; };
+		4A9C674123DDC47D0091742A /* TypingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9C674023DDC47D0091742A /* TypingIndicator.swift */; };
 		4AA2FC1B22281AD000A10A4A /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA2FC1A22281AD000A10A4A /* ChatCell.swift */; };
 		4AA2FC1F22281BC600A10A4A /* ConversationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA2FC1E22281BC600A10A4A /* ConversationsVC.swift */; };
 		4AA32887222925DD00AB79C4 /* DiscoverCardVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AA32886222925DD00AB79C4 /* DiscoverCardVC.xib */; };
@@ -159,6 +163,9 @@
 		4A950C84222E64600089754D /* BlockAndReportProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockAndReportProfileCell.xib; sourceTree = "<group>"; };
 		4A950C86222FB3C30089754D /* InterestsProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InterestsProfileCell.xib; sourceTree = "<group>"; };
 		4A950C89222FF1960089754D /* ReflectionProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReflectionProfileCell.xib; sourceTree = "<group>"; };
+		4A9C673C23DDC3DA0091742A /* SendingMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendingMessages.swift; sourceTree = "<group>"; };
+		4A9C673E23DDC4150091742A /* ReceiveMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveMessages.swift; sourceTree = "<group>"; };
+		4A9C674023DDC47D0091742A /* TypingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingIndicator.swift; sourceTree = "<group>"; };
 		4AA2FC1A22281AD000A10A4A /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		4AA2FC1E22281BC600A10A4A /* ConversationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsVC.swift; sourceTree = "<group>"; };
 		4AA32886222925DD00AB79C4 /* DiscoverCardVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiscoverCardVC.xib; sourceTree = "<group>"; };
@@ -223,6 +230,7 @@
 				4AC0A6062271AF36007FA5AB /* libz.tbd in Frameworks */,
 				66FFDDBC461D8B204C38B49F /* Pods_converzone.framework in Frameworks */,
 				4AC659E623C29A81004E2262 /* StoreKit.framework in Frameworks */,
+				4A9C673B23DD8B3C0091742A /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,6 +514,9 @@
 			isa = PBXGroup;
 			children = (
 				4AEF319E23DC77DA0023BCD3 /* Messaging.swift */,
+				4A9C673C23DDC3DA0091742A /* SendingMessages.swift */,
+				4A9C673E23DDC4150091742A /* ReceiveMessages.swift */,
+				4A9C674023DDC47D0091742A /* TypingIndicator.swift */,
 			);
 			path = Messaging;
 			sourceTree = "<group>";
@@ -555,6 +566,7 @@
 			);
 			name = converzone;
 			packageProductDependencies = (
+				4A9C673A23DD8B3C0091742A /* Kingfisher */,
 			);
 			productName = converzone;
 			productReference = 4AAED908218336F400968E3E /* converzone.app */;
@@ -642,6 +654,7 @@
 			);
 			mainGroup = 4AAED8FF218336F400968E3E;
 			packageReferences = (
+				4A9C673923DD8B3C0091742A /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 4AAED909218336F400968E3E /* Products */;
 			projectDirPath = "";
@@ -818,6 +831,7 @@
 				4AEF319523DC70B40023BCD3 /* DiscoverRenderingEngine.swift in Sources */,
 				4AEF319B23DC776B0023BCD3 /* Connectivity.swift in Sources */,
 				4A016FD221B585BF00095E26 /* Internet.swift in Sources */,
+				4A9C673D23DDC3DA0091742A /* SendingMessages.swift in Sources */,
 				4A653B2F21BFFBAC00C22065 /* EditProfileVC.swift in Sources */,
 				4A016FDA21B6B1B200095E26 /* Person.swift in Sources */,
 				4A950C72222D17A80089754D /* ProfileCells.swift in Sources */,
@@ -847,6 +861,7 @@
 				4AEF31A323DC79C20023BCD3 /* BlockingAndReporting.swift in Sources */,
 				4A7A70D1222405D80074BE5E /* ReflectionDiscoverCell.swift in Sources */,
 				4A3CF8FE23C8BDAA00D88F16 /* Disk.swift in Sources */,
+				4A9C674123DDC47D0091742A /* TypingIndicator.swift in Sources */,
 				4A016FDC21B6B61F00095E26 /* User.swift in Sources */,
 				4AEF319F23DC77DA0023BCD3 /* Messaging.swift in Sources */,
 				4AA2FC1F22281BC600A10A4A /* ConversationsVC.swift in Sources */,
@@ -854,6 +869,7 @@
 				4A1C985D21BC720A00F99D62 /* LanguagesVC.swift in Sources */,
 				4A0A311523B801E800DBC897 /* DiscoverFilterVC.swift in Sources */,
 				4A5EC4742363654C00EFD7CE /* LabelForLogin.swift in Sources */,
+				4A9C673F23DDC4150091742A /* ReceiveMessages.swift in Sources */,
 				4AD7D689221A19A4000E4660 /* StatusDiscoverCell.swift in Sources */,
 				4A5EC47223635CD800EFD7CE /* PhoneVerificationVC.swift in Sources */,
 				4AA3288B22294E4700AB79C4 /* ChatVC.swift in Sources */,
@@ -1037,7 +1053,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hashtag.oct.converzone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1061,7 +1077,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hashtag.oct.converzone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1196,6 +1212,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4A9C673923DD8B3C0091742A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.13.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4A9C673A23DD8B3C0091742A /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A9C673923DD8B3C0091742A /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4AAED900218336F400968E3E /* Project object */;
 }

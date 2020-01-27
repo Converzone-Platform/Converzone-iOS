@@ -37,21 +37,13 @@ class User: Person, Hashable {
     
     internal var openedChat: Bool {
         
-        set {
-            
-            conversation.forEach { (message) in
-                message.opened = true
-            }
-            
-        }
-        
         get {
             
-            var opened = false
+            var opened = true
             
             conversation.forEach { (message) in
-                if message.opened {
-                    opened = true
+                if message.opened == false {
+                    opened = false
                 }
             }
             
@@ -62,8 +54,11 @@ class User: Person, Hashable {
     internal func openChat(){
         
         conversation.forEach { (message) in
-            message.opened = true
-            Internet.opened(message: message, sender: self)
+            
+            if message.opened == false {
+                message.opened = true
+                Internet.opened(message: message, sender: self)
+            }
         }
     }
     

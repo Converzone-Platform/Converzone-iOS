@@ -17,9 +17,7 @@ extension DiscoverVC {
         
         cell.name.attributedText = user.fullname
         
-        Internet.getImage(withURL: user.link_to_profile_image) { (image) in
-            cell.profile_image.image = image
-        }
+        Internet.setImage(withURL: user.link_to_profile_image, imageView: cell.profile_image)
         
         cell.profile_image.contentMode = .scaleAspectFill
         cell.profile_image.clipsToBounds = true
@@ -40,9 +38,7 @@ extension DiscoverVC {
         
         cell.name.attributedText = user.fullname
         
-        Internet.getImage(withURL: user.link_to_profile_image) { (image) in
-            cell.profile_image.image = image
-        }
+        Internet.setImage(withURL: user.link_to_profile_image, imageView: cell.profile_image)
         
         cell.profile_image.roundCorners(radius: cell.profile_image.layer.frame.width / 2, masksToBounds: true)
         

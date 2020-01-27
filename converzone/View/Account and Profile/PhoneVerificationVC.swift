@@ -72,8 +72,8 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                 cell.input?.textContentType = .oneTimeCode
             }
             
-            cell.input?.tag = 777
-            cell.input?.delegate = self
+//            cell.input?.tag = 777
+//            cell.input?.delegate = self
             
             cell.title?.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
@@ -287,9 +287,14 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension PhoneVerificationVC: UITextFieldDelegate {
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return textField.text?.count ?? 0 < 6 && textField.tag == 777 ? true : false
-    }
-}
+//extension PhoneVerificationVC: UITextFieldDelegate {
+//    
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        
+//        if string.count < textField.text?.count ?? 0 {
+//            return true
+//        }
+//        
+//        return textField.text?.count ?? 0 < 6 && textField.tag == 777 ? true : false
+//    }
+//}

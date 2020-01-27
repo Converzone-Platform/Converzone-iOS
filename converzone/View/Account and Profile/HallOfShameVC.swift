@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os
 
 class HallOfShameVC: UIViewController {
     
@@ -58,14 +59,26 @@ extension HallOfShameVC: UITableViewDataSource, UITableViewDelegate {
         
         Internet.getUser(with: sorted_blocked_users[indexPath.row]) { (user) in
             
-            Internet.getImage(withURL: user!.link_to_profile_image) { (image) in
-                
-                let resized = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 24.0, maxHeight: 24.0)
-                
-                cell.imageView?.roundCorners(radius: 12, masksToBounds: true)
-                
-                cell.imageView!.image = resized
+//            Internet.getImage(withURL: user!.link_to_profile_image) { (image) in
+//
+//                let resized = self.resizeImageWithAspect(image: image!, scaledToMaxWidth: 24.0, maxHeight: 24.0)
+//
+//                cell.imageView?.roundCorners(radius: 12, masksToBounds: true)
+//
+//                cell.imageView!.image = resized
+//            }
+            
+            guard let image_view = cell.imageView else {
+                os_log("Could not load imageView.")
+                return
             }
+            
+            guard let link_to_profile_image = user?.link_to_profile_image else {
+                os_log("Could not get link to profile image.")
+                return
+            }
+            
+            Internet.setImage(withURL: link_to_profile_image, imageView: image_view)
             
             cell.textLabel!.text = user?.fullname.string
             

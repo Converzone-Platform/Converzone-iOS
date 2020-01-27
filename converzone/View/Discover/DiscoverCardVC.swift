@@ -310,9 +310,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             
              let cell = Bundle.main.loadNibNamed("ImageProfileCell", owner: self, options: nil)?.first as! ImageProfileCell
             
-            Internet.getImage(withURL: profile_of.link_to_profile_image) { (image) in
-                cell.profile_image.image = image
-            }
+            Internet.setImage(withURL: profile_of.link_to_profile_image, imageView: cell.profile_image)
             
             cell.profile_image.contentMode = .scaleAspectFill
             cell.profile_image.clipsToBounds = true
@@ -515,17 +513,11 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             return ""
         }
         
-        var new_label = level + ": "
+        var new_label = "\n" + level + "\n"
         
         for i in 0...languages.endIndex-1 {
             
-            if i == languages.endIndex-1 && languages.count > 1{
-                new_label += " & "
-            }else{
-                if i != 0{
-                    new_label += ", "
-                }
-            }
+            new_label += "\n• "
             
             new_label += languages[i].name
         }

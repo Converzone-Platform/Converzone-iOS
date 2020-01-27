@@ -9,6 +9,7 @@
 import Foundation
 import FirebaseAuth
 import os
+import Kingfisher
 
 extension Internet {
     
@@ -86,7 +87,7 @@ extension Internet {
             
             master = Master()
             
-            //try Disk.storage.removeAll()
+            ImageCache.default.clearMemoryCache()
             
             UserDefaults.standard.removeObject(forKey: "DidFinishRegistration")
             

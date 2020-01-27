@@ -125,16 +125,14 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell") as! ChatCell
         
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))
-        cell.addGestureRecognizer(longPressRecognizer)
+//        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))
+//        cell.addGestureRecognizer(longPressRecognizer)
         
         cell.name.attributedText = master.conversations[indexPath.row].fullname
         
-        Internet.getImage(withURL: master.conversations[indexPath.row].link_to_profile_image) { (image) in
-            cell.profile_image.image = image
-        }
+        Internet.setImage(withURL: master.conversations[indexPath.row].link_to_profile_image, imageView: cell.profile_image)
         
-        if master.conversations[indexPath.row].openedChat || master.conversations[indexPath.row].conversation.last?.is_sender ?? false{
+        if master.conversations[indexPath.row].openedChat || master.conversations[indexPath.row].conversation.last?.is_sender ?? false {
             cell.last_message_type.backgroundColor = Colors.white
         }else{
             cell.last_message_type.backgroundColor = master.conversations[indexPath.row].conversation.last?.color

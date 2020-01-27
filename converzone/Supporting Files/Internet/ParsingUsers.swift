@@ -13,46 +13,61 @@ extension Internet {
     
     static func transformIntoUserObject(uid: String, user: User, dictionary: NSDictionary, closure: @escaping (User?) -> Void) {
         
-        guard
-            
-            let firstname = dictionary[Person.Keys.firstname.rawValue] as? String,
-            let lastname = dictionary[Person.Keys.lastname.rawValue] as? String,
-            let birthdate = dictionary[Person.Keys.birthdate.rawValue] as? String,
-            let gender = dictionary[Person.Keys.gender.rawValue] as? String,
-            let country = dictionary[Person.Keys.country.rawValue] as? String,
-            let link_to_profile_image = dictionary[Person.Keys.link_to_profile_image.rawValue] as? String,
-            let discoverable = dictionary[Person.Keys.discoverable.rawValue] as? Bool,
-            let interests = dictionary[Person.Keys.interests.rawValue] as? String,
-            let status = dictionary[Person.Keys.status.rawValue] as? String,
-            let phonenumber = dictionary[Person.Keys.phonenumber.rawValue] as? String,
-            let discover_min_age = dictionary[Person.Keys.discover_min_filer_age.rawValue] as? Int,
-            let discover_max_age = dictionary[Person.Keys.discover_max_filter_age.rawValue] as? Int,
-            let discover_gender_filter = dictionary[Person.Keys.discover_gender_filter.rawValue] as? String,
-            let has_donated = dictionary[Person.Keys.has_donated.rawValue] as? Bool,
-            let verified = dictionary[Person.Keys.verified.rawValue] as? Bool
-            
-        else {
-            
-            os_log("Received user object is incomplete")
-            
-            return
+        if let firstname = dictionary[Person.Keys.firstname.rawValue] as? String {
+            user.firstname = firstname
         }
-          
-        user.firstname = firstname
-        user.lastname = lastname
-        user.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: birthdate)
-        user.gender = Gender.toGender(gender: gender)
-        user.country = Country(name: country)
-        user.link_to_profile_image = link_to_profile_image
-        user.discoverable = discoverable
-        user.interests = NSAttributedString(string: interests)
-        user.status = NSAttributedString(string: status)
-        user.phonenumber = phonenumber
-        user.has_donated = has_donated
-        user.verified = verified
-        user.discover_min_filer_age = discover_min_age
-        user.discover_max_filter_age = discover_max_age
-        user.discover_gender_filter = Gender.toGender(gender: discover_gender_filter)
+        
+        if let lastname = dictionary[Person.Keys.lastname.rawValue] as? String {
+            user.lastname = lastname
+        }
+        
+        if let gender = dictionary[Person.Keys.gender.rawValue] as? String {
+            user.gender = Gender.toGender(gender: gender)
+        }
+        
+        if let birthdate = dictionary[Person.Keys.birthdate.rawValue] as? String {
+            user.birthdate = Date.stringAsDate(style: .dayMonthYearHourMinuteSecondMillisecondTimezone, string: birthdate)
+        }
+        
+        if let country = dictionary[Person.Keys.country.rawValue] as? String {
+            user.country = Country(name: country)
+        }
+        
+        if let link_to_profile_image = dictionary[Person.Keys.link_to_profile_image.rawValue] as? String {
+            user.link_to_profile_image = link_to_profile_image
+        }
+        
+        if let discoverable = dictionary[Person.Keys.discoverable.rawValue] as? Bool {
+            user.discoverable = discoverable
+        }
+        
+        if let interests = dictionary[Person.Keys.interests.rawValue] as? String {
+            user.interests = NSAttributedString(string: interests)
+        }
+        
+        if let status = dictionary[Person.Keys.status.rawValue] as? String {
+            user.status = NSAttributedString(string: status)
+        }
+        
+        if let discover_min_age = dictionary[Person.Keys.discover_min_filer_age.rawValue] as? Int {
+            user.discover_min_filer_age = discover_min_age
+        }
+        
+        if let discover_max_age = dictionary[Person.Keys.discover_max_filter_age.rawValue] as? Int {
+            user.discover_max_filter_age = discover_max_age
+        }
+        
+        if let discover_gender_filter = dictionary[Person.Keys.discover_gender_filter.rawValue] as? String {
+            user.discover_gender_filter = Gender.toGender(gender: discover_gender_filter)
+        }
+        
+        if let has_donated = dictionary[Person.Keys.has_donated.rawValue] as? Bool {
+            user.has_donated = has_donated
+        }
+        
+        if let verified = dictionary[Person.Keys.verified.rawValue] as? Bool {
+            user.verified = verified
+        }
         
         getAllLanguagesFor(uid, user) { (user) in
             closure(user)
@@ -248,10 +263,6 @@ extension Internet {
         if let browser_introductory_text_shown = dictionary["browser_introductory_text_shown"] as? Bool {
             master.browser_introductory_text_shown = browser_introductory_text_shown
         }
-        
-        
-        // Save changes to disk
-        //Disk.save()
     }
     
 }

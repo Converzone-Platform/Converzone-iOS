@@ -195,7 +195,13 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     private var listener_for_is_typing_observer: NSObjectProtocol!
     
     deinit {
-        NotificationCenter.default.removeObserver(listener_for_is_typing_observer!)
+        
+        guard let observer = listener_for_is_typing_observer else {
+            os_log("Observer cannot be removed because it is already nil.")
+            return
+        }
+        
+        NotificationCenter.default.removeObserver(observer)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -254,9 +260,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         // Creates the image view
         let imageView = UIImageView()
         
-        Internet.getImage(withURL: chatOf.link_to_profile_image) { (image) in
-            imageView.image = image
-        }
+        Internet.setImage(withURL: chatOf.link_to_profile_image, imageView: imageView)
         
         let imageWidth = label.frame.size.height * 1.3
         let imageHeight = label.frame.size.height * 1.3
@@ -293,6 +297,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         chatOf.unfinished_message = input_textview.text
         
+        Internet.removeListenerForIsPartnerTyping()
     }
     
     

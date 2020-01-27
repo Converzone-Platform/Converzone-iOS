@@ -10,6 +10,7 @@ import UIKit
 import NotificationCenter
 import FirebaseAuth
 import os
+import Kingfisher
 
 class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -66,18 +67,26 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             cell?.detailTextLabel?.text = master.status.string
             
             Internet.getImage(withURL: master.link_to_profile_image) { (image) in
-                
+
                 guard let image = image else {
                     os_log("Could not extract image.")
                     return
                 }
-                
+
                 cell?.imageView?.image = self.resizeImageWithAspect(image: image, scaledToMaxWidth: 50, maxHeight: 50)
                 cell?.imageView?.layer.cornerRadius = 25
                 cell?.imageView?.layer.masksToBounds = true
-                
+
                 tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
             }
+            
+            
+            guard let image_view = cell?.imageView else {
+                os_log("Could not get imageView.")
+                return UITableViewCell()
+            }
+
+//            Internet.setImage(withURL: master.link_to_profile_image, imageView: image_view)
             
             cell?.accessoryType = .disclosureIndicator
             
