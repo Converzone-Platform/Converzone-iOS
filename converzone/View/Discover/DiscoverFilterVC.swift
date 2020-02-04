@@ -46,7 +46,7 @@ extension DiscoverFilterVC: UITableViewDelegate, UITableViewDataSource {
             cell?.input.delegate = self
             
             cell?.input.selectedMaxValue = CGFloat(master.discover_max_filter_age)
-            cell?.input.selectedMinValue = CGFloat(master.discover_min_filer_age)
+            cell?.input.selectedMinValue = CGFloat(master.discover_min_filter_age)
             
             return cell!
             
@@ -109,10 +109,10 @@ extension DiscoverFilterVC: UITableViewDelegate, UITableViewDataSource {
 extension DiscoverFilterVC: RangeSeekSliderDelegate {
     
     func didEndTouches(in slider: RangeSeekSlider) {
-        master.discover_min_filer_age = Int(slider.selectedMinValue)
+        master.discover_min_filter_age = Int(slider.selectedMinValue)
         master.discover_max_filter_age = Int(slider.selectedMaxValue)
         
-        Internet.upload(discoverMinAge: master.discover_min_filer_age, discoverMaxAge: master.discover_max_filter_age)
+        Internet.upload(discoverMinAge: master.discover_min_filter_age, discoverMaxAge: master.discover_max_filter_age)
     }
     
 }

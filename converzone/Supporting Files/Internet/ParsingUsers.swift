@@ -50,7 +50,7 @@ extension Internet {
         }
         
         if let discover_min_age = dictionary[Person.Keys.discover_min_filer_age.rawValue] as? Int {
-            user.discover_min_filer_age = discover_min_age
+            user.discover_min_filter_age = discover_min_age
         }
         
         if let discover_max_age = dictionary[Person.Keys.discover_max_filter_age.rawValue] as? Int {
@@ -241,7 +241,7 @@ extension Internet {
         }
         
         if let discover_min_age = dictionary[Person.Keys.discover_min_filer_age.rawValue] as? Int {
-            master.discover_min_filer_age = discover_min_age
+            master.discover_min_filter_age = discover_min_age
         }
         
         if let discover_max_age = dictionary[Person.Keys.discover_max_filter_age.rawValue] as? Int {

@@ -46,7 +46,7 @@ extension ChatVC {
         
         cell.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:))))
         
-        cell.message_label.text = message.text
+        cell.message_label.text = message.text.trimmingCharacters(in: .nonBaseCharacters)
         cell.selectionStyle = .none
         
         cell.message_label.textAlignment = message.is_sender ? .right : .left
@@ -92,7 +92,7 @@ extension ChatVC {
         cell.selectionStyle = .none
         
         cell.view.roundCorners(radius: 15)
-        cell.view.addShadow()
+        cell.view.addShadow(opacity: 0.05)
         
         return cell
     }
@@ -108,7 +108,7 @@ extension ChatVC {
         cell.selectionStyle = .none
         
         cell.view.roundCorners(radius: 15)
-        cell.view.addShadow()
+        cell.view.addShadow(opacity: 0.05)
         
         return cell
     }

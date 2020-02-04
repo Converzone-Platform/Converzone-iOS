@@ -73,7 +73,7 @@ class DiscoverVC: UIViewController, DiscoverUpdateDelegate {
         }
         
         for _ in 0...number_of_items_for_fetch {
-            Internet.getRandomUser()
+            Internet.findRandomUsers()
             
         }
     }

@@ -107,7 +107,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             return
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
             
             tableView.beginUpdates()
             
@@ -160,12 +160,19 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             
             master.phonenumber = phonenumber
             
-            Internet.verify(phoneNumber: phonenumber)
-        
-            if (labels.count <= 2){
-                addNewSectionTo(tableView)
-            }
+            // Start animating
+            let loading_animation = NVActivityIndicatorView(frame: self.view.bounds, type: .ballScaleMultiple, color: .white, padding: nil)
+            self.view.addSubview(loading_animation)
+            loading_animation.startAnimating()
             
+            Internet.verify(phoneNumber: phonenumber) { succeeded in
+                if self.labels.count <= 2 && succeeded{
+                    self.addNewSectionTo(tableView)
+                }
+                
+                loading_animation.removeFromSuperview()
+            }
+        
             if tries <= 5 {
                 return
             }
@@ -215,7 +222,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             loading_animation.startAnimating()
             
             // Stop animation in 7 seconds
-            Timer.scheduledTimer(withTimeInterval: 7, repeats: false) { (timer) in
+            Timer.scheduledTimer(withTimeInterval: 15, repeats: false) { (timer) in
                 loading_animation.removeFromSuperview()
             }
             
@@ -225,7 +232,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                 
                 if error != nil{
                     
-                    alert("Something went wrong", "Try resending the SMS")
+                    Alert.alert(title: "Error while checking the code", message: error?.localizedDescription)
                     
                     return
                 }
@@ -233,6 +240,9 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                 alert("Verified", "Let's continue with entering further user information now or let's skip that if you are already registered.") {
                     Internet.doesUserExist(uid: master.uid) { (exists) in
                         if exists {
+                            
+                            self.performSegue(withIdentifier: "showActualAppSegue", sender: nil)
+                            
                             master.editingMode = .editing
                             
                             UserDefaults.standard.set(true, forKey: "DidFinishRegistration")
@@ -243,7 +253,6 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                             
                             Internet.upload(token: master.device_token)
                             
-                            self.performSegue(withIdentifier: "showActualAppSegue", sender: nil)
                         }else{
                             
                             self.performSegue(withIdentifier: "userWasVerifiedSegue", sender: self)

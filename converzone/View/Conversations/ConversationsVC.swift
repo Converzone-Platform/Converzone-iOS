@@ -38,13 +38,6 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     
     private func sortUsersByLastMessageDate() {
         
-        // Don't do it if there are users without a message
-        master.conversations.forEach { (user) in
-            if user.conversation.count == 0{
-                return
-            }
-        }
-        
         master.conversations.sort(by: { (user1, user2) -> Bool in
             guard let date_1 = user1.conversation.last?.date,
                 let date_2 = user2.conversation.last?.date else {

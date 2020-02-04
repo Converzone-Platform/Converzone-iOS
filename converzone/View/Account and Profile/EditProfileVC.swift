@@ -147,7 +147,7 @@ class EditProfileVC: UIViewController {
             
         }
         
-        guard let image = profile_image.image else {
+        guard profile_image.image != nil else {
             Alert.alert(title: "Could not upload image", message: "Please choose an image and try again.")
             return false
         }
@@ -157,19 +157,11 @@ class EditProfileVC: UIViewController {
     
     @objc private func donePressed(){
         
-        if let _firstname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? NormalInputCell)?.input?.text {
-            master.firstname = _firstname
-        }
-        
         let firstname = master.firstname.trimmingCharacters(in: .whitespacesAndNewlines)
         if firstname.isEmpty {
             Alert.alert(title: "Firstname", message: "Please tell us your first name")
             
             return
-        }
-        
-        if let _lastname = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? NormalInputCell)?.input?.text {
-            master.firstname = _lastname
         }
         
         let lastname = master.lastname.trimmingCharacters(in: .whitespacesAndNewlines)

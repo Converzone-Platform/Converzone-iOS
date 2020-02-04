@@ -54,7 +54,7 @@ class DicoverCard {
         caller.view.addSubview(discoverCardVC.view)
         
         cardHeight = self.caller.view.frame.height
-        cardHeight -= self.caller.view.frame.height * 0.10
+        cardHeight -= self.caller.view.frame.height * 0.05
         
         guard let height = self.caller.navigationController?.navigationBar.frame.height else {
             os_log("NavigationController has no navigationBar")
@@ -71,7 +71,7 @@ class DicoverCard {
         discoverCardVC.handleArea_view.addGestureRecognizer(tapGestureRecognizer)
         discoverCardVC.handleArea_view.addGestureRecognizer(panGestureRecognizer)
         
-        animateTransitionIfNeeded(state: .expanded, duration: 0.9)
+        animateTransitionIfNeeded(state: .expanded, duration: 0.3)
     }
     
     @objc func handleCardTap(recognizer: UITapGestureRecognizer ){
@@ -79,7 +79,7 @@ class DicoverCard {
         switch recognizer.state {
             
         case .ended:
-            animateTransitionIfNeeded(state: nextState, duration: 0.9)
+            animateTransitionIfNeeded(state: nextState, duration: 0.7)
         default:
             break
         }
@@ -91,7 +91,7 @@ class DicoverCard {
         switch recognizer.state {
             
         case .began:
-            startInteractiveTransition(state: nextState, duration: 0.9)
+            startInteractiveTransition(state: nextState, duration: 0.3)
             
         case .changed:
             let transition = recognizer.translation(in: self.discoverCardVC.handleArea_view)
@@ -371,24 +371,23 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             
         case 3:
             
-             
             let cell = Bundle.main.loadNibNamed("CountryProfileCell", owner: self, options: nil)?.first as! CountryProfileCell
-            
+
             cell.name.text = profile_of.country.name
             cell.timezone.text = ""
-            
+
             cell.view.layer.cornerRadius = 23
             cell.view.layer.shadowColor = UIColor.black.cgColor
             cell.view.layer.shadowOffset = CGSize(width: 3, height: 3)
             cell.view.layer.shadowOpacity = 0.2
             cell.view.layer.shadowRadius = 4.0
-            
+
             cell.map.layer.cornerRadius = 23
-            
+
             if Internet.isOnline(){
                 getLocationInformation(cell)
             }
-            
+
             cell.selectionStyle = .none
             
             return cell

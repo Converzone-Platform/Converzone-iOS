@@ -54,8 +54,10 @@ extension Internet {
     }
     
     static func setImage(withURL url: String, imageView: UIImageView) {
+        
         let url = URL(string: url)
         imageView.kf.setImage(with: url)
+        
     }
     
 }

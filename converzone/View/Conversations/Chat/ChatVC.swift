@@ -133,6 +133,14 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         navigationItem.titleView = navTitleWithImageAndText(titleText: chatOf.fullname, imageLink: chatOf.link_to_profile_image)
         
+        #if DEBUG
+        
+        if #available(iOS 13.0, *) {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
+        }
+        
+        #endif
+        
         Internet.update_chat_tableview_delegate = self
         
 //        refresh_controller.addTarget(self, action: #selector(loadOldMessages( sender:)), for: .valueChanged)

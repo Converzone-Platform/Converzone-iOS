@@ -15,15 +15,22 @@ extension Internet {
     
     /// Requests a silent push notification to the device and afterwards it send a SMS to the phone number
     /// - Parameter phoneNumber: The phone number to which the SMS is sent
-    static func verify(phoneNumber: String){
+    static func verify(phoneNumber: String, closure: @escaping (Bool) -> Void){
     
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) { (verificationID, error) in
             
           if error != nil {
+            
+            Alert.alert(title: "Error while verifying", message: error?.localizedDescription)
+            
+            closure(false)
+            
             return
           }
             
           UserDefaults.standard.setValue(verificationID, forKey: "verificationID")
+            
+            closure(true)
         }
         
     }
@@ -86,8 +93,6 @@ extension Internet {
             Internet.removeToken()
             
             master = Master()
-            
-            ImageCache.default.clearMemoryCache()
             
             UserDefaults.standard.removeObject(forKey: "DidFinishRegistration")
             

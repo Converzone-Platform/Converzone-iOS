@@ -61,7 +61,7 @@ class Person: Codable {
     
     internal var discover_max_filter_age = 130
     
-    internal var discover_min_filer_age = 0
+    internal var discover_min_filter_age = 0
     
     internal var discover_gender_filter = Gender.any
     
@@ -103,9 +103,12 @@ class Person: Codable {
         
         if #available(iOS 13.0, *) {
             
-            let fullString = NSMutableAttributedString(string: firstname + " " + lastname + " ")
+            let fullString = NSMutableAttributedString(string: firstname + " " + lastname)
             
             if isTodayBirthday {
+                
+                fullString.append(NSAttributedString(string: " "))
+                
                 let imageAttachment = NSTextAttachment()
                 let config = UIImage.SymbolConfiguration(scale: .small)
                 
@@ -116,6 +119,9 @@ class Person: Codable {
             }
             
             if verified {
+                
+                fullString.append(NSAttributedString(string: " "))
+                
                 let imageAttachment = NSTextAttachment()
                 let config = UIImage.SymbolConfiguration(scale: .small)
                 
@@ -126,6 +132,9 @@ class Person: Codable {
             }
             
             if has_donated {
+                
+                fullString.append(NSAttributedString(string: " "))
+                
                 let imageAttachment = NSTextAttachment()
                 let config = UIImage.SymbolConfiguration(scale: .small)
                 
@@ -139,7 +148,7 @@ class Person: Codable {
             
         }
         
-        return NSMutableAttributedString(string: firstname + " " + lastname)
+        return NSAttributedString(string: firstname + " " + lastname)
     }
     
     internal var isTodayBirthday: Bool {
@@ -184,7 +193,7 @@ class Person: Codable {
         firstname = try container.decode(String.self, forKey: .firstname)
         lastname = try container.decode(String.self, forKey: .lastname)
         discover_max_filter_age = try container.decode(Int.self, forKey: .discover_max_filter_age)
-        discover_min_filer_age = try container.decode(Int.self, forKey: .discover_min_filer_age)
+        discover_min_filter_age = try container.decode(Int.self, forKey: .discover_min_filer_age)
         verified = try container.decode(Bool.self, forKey: .verified)
         has_donated = try container.decode(Bool.self, forKey: .has_donated)
         birthdate = try container.decode(Date.self, forKey: .birthdate)
@@ -209,7 +218,7 @@ class Person: Codable {
         try container.encode(firstname, forKey: .firstname)
         try container.encode(lastname, forKey: .lastname)
         try container.encode(discover_max_filter_age, forKey: .discover_max_filter_age)
-        try container.encode(discover_min_filer_age, forKey: .discover_min_filer_age)
+        try container.encode(discover_min_filter_age, forKey: .discover_min_filer_age)
         try container.encode(verified, forKey: .verified)
         try container.encode(has_donated, forKey: .has_donated)
         try container.encode(link_to_profile_image, forKey: .link_to_profile_image)
@@ -295,7 +304,7 @@ class Person: Codable {
             
             Keys.discover_max_filter_age.rawValue : discover_max_filter_age,
             
-            Keys.discover_min_filer_age.rawValue : discover_min_filer_age,
+            Keys.discover_min_filer_age.rawValue : discover_min_filter_age,
             
             Keys.discover_gender_filter.rawValue : discover_gender_filter.toString(),
             
