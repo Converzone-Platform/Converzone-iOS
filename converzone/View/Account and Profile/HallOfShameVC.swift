@@ -47,7 +47,7 @@ extension HallOfShameVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if sorted_blocked_users.count == 0{
+        if sorted_blocked_users.count == 0 {
             tableView.setEmptyView(title: "No blocked users", message: "The users you block will appear here")
         }
         
@@ -65,20 +65,20 @@ extension HallOfShameVC: UITableViewDataSource, UITableViewDelegate {
 //
 //                cell.imageView?.roundCorners(radius: 12, masksToBounds: true)
 //
-//                cell.imageView!.image = resized
+//                cell.imageView?.image = resized
+//            }
+//            
+//            guard let image_view = cell.imageView else {
+//                os_log("Could not load imageView.")
+//                return
+//            }
+//            
+//            guard let link_to_profile_image = user?.link_to_profile_image else {
+//                os_log("Could not get link to profile image.")
+//                return
 //            }
             
-            guard let image_view = cell.imageView else {
-                os_log("Could not load imageView.")
-                return
-            }
-            
-            guard let link_to_profile_image = user?.link_to_profile_image else {
-                os_log("Could not get link to profile image.")
-                return
-            }
-            
-            Internet.setImage(withURL: link_to_profile_image, imageView: image_view)
+//            Internet.setImage(withURL: link_to_profile_image, imageView: image_view)
             
             cell.textLabel!.text = user?.fullname.string
             

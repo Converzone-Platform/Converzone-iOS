@@ -476,7 +476,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
     
     @objc func firstNameTextFieldChanged(){
         
-        guard let firstname = tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel!.text else {
+        guard let firstname = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! NormalInputCell).input?.text else {
             return
         }
         master.firstname = firstname
@@ -484,7 +484,7 @@ extension EditProfileVC: UITableViewDataSource, UITableViewDelegate{
     
     @objc func lastNameTextFieldChanged(){
         
-        guard let lastname = tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel!.text else {
+        guard let lastname = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! NormalInputCell).input?.text else {
             return
         }
         

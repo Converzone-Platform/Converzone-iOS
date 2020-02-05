@@ -54,7 +54,7 @@ class DicoverCard {
         caller.view.addSubview(discoverCardVC.view)
         
         cardHeight = self.caller.view.frame.height
-        cardHeight -= self.caller.view.frame.height * 0.05
+        cardHeight -= self.caller.view.frame.height * 0.10
         
         guard let height = self.caller.navigationController?.navigationBar.frame.height else {
             os_log("NavigationController has no navigationBar")
@@ -71,7 +71,7 @@ class DicoverCard {
         discoverCardVC.handleArea_view.addGestureRecognizer(tapGestureRecognizer)
         discoverCardVC.handleArea_view.addGestureRecognizer(panGestureRecognizer)
         
-        animateTransitionIfNeeded(state: .expanded, duration: 0.3)
+        animateTransitionIfNeeded(state: .expanded, duration: 0.5)
     }
     
     @objc func handleCardTap(recognizer: UITapGestureRecognizer ){
@@ -91,7 +91,7 @@ class DicoverCard {
         switch recognizer.state {
             
         case .began:
-            startInteractiveTransition(state: nextState, duration: 0.3)
+            startInteractiveTransition(state: nextState, duration: 0.5)
             
         case .changed:
             let transition = recognizer.translation(in: self.discoverCardVC.handleArea_view)
