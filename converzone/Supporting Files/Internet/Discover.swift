@@ -16,7 +16,7 @@ var no_discoverable_users_left: Bool {
 extension Internet {
     
     static private func randomDiscoverStyle(for user: User){
-        if Int.random(in: 0...100) >= 80 {
+        if user.status.string.count > 20 && Int.random(in: 0...100) >= 95 {
             user.discover_style = 1
             return
         }

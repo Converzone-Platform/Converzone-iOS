@@ -30,6 +30,10 @@ import Fabric
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         
+        StoreReview.incrementAppOpenedCount()
+        
+        //Internet.updateLastActive()
+        
         return true
     }
     

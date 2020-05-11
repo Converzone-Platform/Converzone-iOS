@@ -10,21 +10,21 @@ import UIKit
 
 enum Colors {
     
-    static let red = UIColor(red: 255/255, green: 59/255, blue: 49/255, alpha: 1.0)
+    static let red = UIColor.systemRed
     
-    static let orange = UIColor(red: 255/255, green: 149/255, blue: 1/255, alpha: 1.0)
+    static let orange = UIColor.systemOrange
     
-    static let yellow = UIColor(red: 255/255, green: 204/255, blue: 1/255, alpha: 1.0)
+    static let yellow = UIColor.systemYellow
     
-    static let green = UIColor(red: 76/255, green: 217/255, blue: 101/255, alpha: 1.0)
+    static let green = UIColor.systemGreen
     
     static let light_blue = UIColor(red: 90/255, green: 200/255, blue: 251/255, alpha: 1.0)
     
-    static let blue = UIColor(hex: 0x007AFA)
+    static let blue = UIColor.systemBlue
     
-    static let violet = UIColor(red: 88/255, green: 86/255, blue: 215/255, alpha: 1.0)
+    static let violet = UIColor.systemPurple
     
-    static let pink = UIColor(red: 255/255, green: 45/255, blue: 86/255, alpha: 1.0)
+    static let pink = UIColor.systemPurple
     
     static let white = UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)
     

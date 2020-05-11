@@ -101,4 +101,9 @@ extension Internet {
         }
     }
     
+    static func updateLastActive(){
+        
+        self.database_reference.child("users").child(master.uid).child("last_active").setValue(Date.dateAsTimeIntervalSince1970WithoutDots(date: Date()))
+        
+    }
 }

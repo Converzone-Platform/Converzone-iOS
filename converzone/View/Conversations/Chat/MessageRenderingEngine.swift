@@ -46,7 +46,7 @@ extension ChatVC {
         
         cell.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:))))
         
-        cell.message_label.text = message.text.trimmingCharacters(in: .nonBaseCharacters)
+        cell.message_label.text = message.text
         cell.selectionStyle = .none
         
         cell.message_label.textAlignment = message.is_sender ? .right : .left
@@ -65,11 +65,16 @@ extension ChatVC {
             
         }
         
-        if ((cell.message_label.text?.widthWithConstrained(cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - 56) {
-
+        if (cell.message_label.text?.width(withConstrainedHeight: cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - 56 {
             cell.left_constraint.isActive = message.is_sender ? false : true
             cell.right_constraint.isActive = message.is_sender ? true : false
         }
+        
+//        if ((cell.message_label.text?.widthWithConstrained(cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - 56) {
+//
+//            cell.left_constraint.isActive = message.is_sender ? false : true
+//            cell.right_constraint.isActive = message.is_sender ? true : false
+//        }
         
 //        if ((cell.message_label.text?.height(withConstrainedWidth: cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - 60){
 //

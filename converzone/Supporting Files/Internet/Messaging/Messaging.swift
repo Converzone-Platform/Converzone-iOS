@@ -110,36 +110,30 @@ extension Internet {
         
         static func loadOlderMessages(sender: UIRefreshControl) {
             
-    //        let conversationID = generateConversationID(first: master.uid, second: chatOf.uid)
-    //
-    //        let message_listener = self.database_reference.child("conversations").child(conversationID).child("messages")
-    //
-    //        // Find last message
-    //
-    //        chatOf.conversation.forEach { (message) in
-    //            print(Date.dateAsTimeIntervalSince1970WithoutDots(date: message.date))
-    //            continue
-    //        }
-    //
-    //        guard let last_message_date = chatOf.conversation[safe: 0]?.date else {
-    //            os_log("There is no first message.")
-    //            return
-    //        }
-    //
-    //        let last_message_id = Date.dateAsTimeIntervalSince1970WithoutDots(date: last_message_date)
-    //
-    //
-    //
-    //        message_listener.queryEnding(atValue: last_message_id).queryOrdered(byChild: "reversed_date").queryLimited(toFirst: 7).observe(.childAdded) { (snapshot) in
-    //
-    //            let message = snapshot.value as! NSDictionary
-    //
-    //            receive(message: message, insertPosition: .start)
-    //
-    //            self.update_conversations_tableview_delegate?.didUpdate(sender: Internet())
-    //
-    //            sender.endRefreshing()
-    //        }
+            let conversationID = generateConversationID(first: master.uid, second: chatOf.uid)
+    
+            let message_listener = self.database_reference.child("conversations").child(conversationID).child("messages")
+    
+            // Find last message
+            guard let last_message_date = chatOf.conversation[safe: 0]?.date else {
+                os_log("There is no first message.")
+                return
+            }
+    
+            let last_message_id = Date.dateAsTimeIntervalSince1970WithoutDots(date: last_message_date)
+            
+            print(last_message_id)
+    
+            message_listener.queryOrdered(byChild: "reversed_date").queryEnding(atValue: last_message_id).queryLimited(toLast: 7).observe(.childAdded) { (snapshot) in
+    
+                let message = snapshot.value as! NSDictionary
+    
+                receive(message: message, insertPosition: .start)
+    
+                self.update_conversations_tableview_delegate?.didUpdate(sender: Internet())
+    
+                sender.endRefreshing()
+            }
             
         }
     

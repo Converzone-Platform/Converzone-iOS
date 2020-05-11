@@ -96,13 +96,13 @@ public class Internet: NSObject {
             return
         }
         
-        self.database_reference.child("users").child(master.uid).updateChildValues([Person.Keys.has_donated: true])
+        self.database_reference.child("users").child(master.uid).updateChildValues(["has_donated": true])
     }
     
     /// Update the country on the database
     /// - Parameter country: The country to chango to
     static func upload(country: Country){
-        self.database_reference.child("users").child(master.uid).updateChildValues([Person.Keys.country : country.name])
+        self.database_reference.child("users").child(master.uid).updateChildValues(["country" : country.name])
     }
     
     static func doesUserExist(uid: String, closure: @escaping (Bool) -> ()) {
@@ -214,10 +214,7 @@ public class Internet: NSObject {
         self.database_reference.child("users").child(master.uid).updateChildValues(["discover_gender_filter": discoverGender.toString()])
     }
     
-    
     // MARK: Languages
-    
-    
     
     static func generateConversationID(first: String, second: String) -> String{
         
@@ -230,8 +227,6 @@ public class Internet: NSObject {
         return second + first
         
     }
-    
-    
     
     // MARK: Discovery
     
@@ -261,8 +256,5 @@ public class Internet: NSObject {
             }
             self.user_count = count
         })
-        
     }
-    
-    
 }

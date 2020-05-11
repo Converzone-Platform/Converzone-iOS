@@ -57,6 +57,7 @@
 		4AA328892229269500AB79C4 /* DiscoverCardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA328882229269500AB79C4 /* DiscoverCardVC.swift */; };
 		4AA3288B22294E4700AB79C4 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA3288A22294E4700AB79C4 /* ChatVC.swift */; };
 		4AA3288D2229D3B300AB79C4 /* ImageProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AA3288C2229D3B300AB79C4 /* ImageProfileCell.xib */; };
+		4AA8406C23F473BB00A5433E /* StoreReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA8406B23F473BB00A5433E /* StoreReview.swift */; };
 		4AA8739C22143AE7006035A3 /* NormalInputCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA8739B22143AE7006035A3 /* NormalInputCells.swift */; };
 		4AA8739F2214816B006035A3 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA8739E2214816B006035A3 /* WelcomeVC.swift */; };
 		4AA873A12214952F006035A3 /* WebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA873A02214952F006035A3 /* WebVC.swift */; };
@@ -172,6 +173,7 @@
 		4AA328882229269500AB79C4 /* DiscoverCardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverCardVC.swift; sourceTree = "<group>"; };
 		4AA3288A22294E4700AB79C4 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
 		4AA3288C2229D3B300AB79C4 /* ImageProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageProfileCell.xib; sourceTree = "<group>"; };
+		4AA8406B23F473BB00A5433E /* StoreReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreReview.swift; sourceTree = "<group>"; };
 		4AA8739B22143AE7006035A3 /* NormalInputCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalInputCells.swift; sourceTree = "<group>"; };
 		4AA8739E2214816B006035A3 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		4AA873A02214952F006035A3 /* WebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebVC.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				4A60337523C530EF007A3481 /* UserProtection.swift */,
 				4A3CF8FD23C8BDAA00D88F16 /* Disk.swift */,
 				4ADC7BF723D87732000DEE1D /* Designs.swift */,
+				4AA8406B23F473BB00A5433E /* StoreReview.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -876,6 +879,7 @@
 				4A26B2622295AEC0001EA17E /* LongTextEditVC.swift in Sources */,
 				4AEF31A123DC79470023BCD3 /* Images.swift in Sources */,
 				4AA8739C22143AE7006035A3 /* NormalInputCells.swift in Sources */,
+				4AA8406C23F473BB00A5433E /* StoreReview.swift in Sources */,
 				4AA873A12214952F006035A3 /* WebVC.swift in Sources */,
 				4AD7D68B221B2FFA000E4660 /* SettingsVC.swift in Sources */,
 				4A016FE021B6B78B00095E26 /* Message.swift in Sources */,
@@ -1053,7 +1057,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hashtag.oct.converzone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1077,7 +1081,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hashtag.oct.converzone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
