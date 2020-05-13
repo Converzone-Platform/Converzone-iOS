@@ -471,7 +471,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
             },
             
             UIAlertAction(title: "Block", style: .destructive, handler: { (alert_action) in
-                Internet.block(userid: chatOf.uid)
+                Internet.block(userid: profile_of.uid)
             })
         
         ]

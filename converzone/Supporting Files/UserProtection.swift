@@ -22,7 +22,7 @@ class UserProtection {
             },
             
             UIAlertAction(title: "Block", style: .destructive, handler: { (aler_action) in
-                Internet.block(userid: chatOf.uid)
+                Internet.block(userid: profile_of.uid)
             }),
             
             UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

@@ -39,6 +39,15 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     private func sortUsersByLastMessageDate() {
         
         master.conversations.sort(by: { (user1, user2) -> Bool in
+            
+            if user1.pinned_to_top == true && !user2.pinned_to_top {
+                return true
+            }
+            
+            if user2.pinned_to_top == true && !user1.pinned_to_top {
+                return false
+            }
+            
             guard let date_1 = user1.conversation.last?.date,
                 let date_2 = user2.conversation.last?.date else {
                     
@@ -97,7 +106,26 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     
     @objc func longPressed(sender: UILongPressGestureRecognizer) {
         
+        guard let sender = sender as? CustomTapGesture else {
+            return
+        }
+        
+        let pin = UIAlertAction(title: "Pin/Unpin", style: .default) { (action) in
+            sender.user.pinned_to_top = !sender.user.pinned_to_top
+            self.sortUsersByLastMessageDate()
+            self.tableView.reloadData()
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        Alert.alert(title: "Options", message: "What would you like to do?", target: self, actions: [pin, cancel])
+        
+        print("I was long pressed")
     }
+}
+
+class CustomTapGesture: UILongPressGestureRecognizer {
+    var user: User = User()
 }
 
 extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
@@ -118,10 +146,29 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell") as! ChatCell
         
-//        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(sender:)))
-//        cell.addGestureRecognizer(longPressRecognizer)
+        let longPressRecognizer = CustomTapGesture(target: self, action: #selector(longPressed(sender:)))
+        longPressRecognizer.user = master.conversations[indexPath.row]
+        cell.addGestureRecognizer(longPressRecognizer)
         
         cell.name.attributedText = master.conversations[indexPath.row].fullname
+        
+        if master.conversations[indexPath.row].pinned_to_top {
+            
+            if #available(iOS 13.0, *) {
+                
+                let name = NSMutableAttributedString(string: master.conversations[indexPath.row].fullname.string + " ")
+                
+                let imageAttachment = NSTextAttachment()
+                let config = UIImage.SymbolConfiguration(scale: .small)
+                
+                let image = UIImage(systemName: "pin.circle", withConfiguration: config)
+                image?.withBaselineOffset(fromBottom: 1.0)
+                imageAttachment.image = image
+                name.append(NSAttributedString(attachment: imageAttachment))
+                
+                cell.name.attributedText = name
+            }
+        }
         
         Internet.setImage(withURL: master.conversations[indexPath.row].link_to_profile_image, imageView: cell.profile_image)
         

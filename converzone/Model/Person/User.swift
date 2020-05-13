@@ -26,6 +26,8 @@ class User: Person, Hashable {
     
     internal var unfinished_message = ""
     
+    internal var pinned_to_top: Bool = false
+    
     
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.hashValue == rhs.hashValue
