@@ -116,9 +116,15 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
             self.tableView.reloadData()
         }
         
+        let mute = UIAlertAction(title: "Mute/Unmute", style: .default) { (action) in
+            sender.user.muted = !sender.user.muted
+            self.sortUsersByLastMessageDate()
+            self.tableView.reloadData()
+        }
+        
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        Alert.alert(title: "Options", message: "What would you like to do?", target: self, actions: [pin, cancel])
+        Alert.alert(title: "Options", message: "What would you like to do?", target: self, actions: [pin, mute, cancel])
         
         print("I was long pressed")
     }

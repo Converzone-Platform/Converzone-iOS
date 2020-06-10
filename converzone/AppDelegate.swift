@@ -76,6 +76,12 @@ import Fabric
             return
         }
         
+        for user in master.conversations {
+            if user.uid == sender_id && user.muted {
+                return
+            }
+        }
+        
         completionHandler([.alert, .badge, .sound])
     }
     

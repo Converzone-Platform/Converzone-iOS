@@ -28,6 +28,8 @@ class User: Person, Hashable {
     
     internal var pinned_to_top: Bool = false
     
+    internal var muted: Bool = false
+    
     
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.hashValue == rhs.hashValue

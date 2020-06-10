@@ -42,7 +42,24 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
     private let refresh_controller = UIRefreshControl()
     
     
+    private func allMessagesByMe() -> Bool{
+        
+        for message in chatOf.conversation {
+            if message.is_sender == false {
+                return false
+            }
+        }
+        
+        return true
+        
+    }
+    
     @IBAction func send(_ sender: Any) {
+        
+        if allMessagesByMe() && master.conversations.count >= 10 {
+            Alert.alert(title: "Please don't spam", message: "Give your friend a little bit of time to reply")
+            return
+        }
         
         guard var text = input_textview.text else {
             os_log("User is trying to send a message without any content")
