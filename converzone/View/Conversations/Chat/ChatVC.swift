@@ -80,6 +80,8 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         let message = TextMessage(text: text, is_sender: true)
         Internet.send(message: message, receiver: chatOf)
+        
+        print(message.text)
 
         guard let last = text.last else {
             return
