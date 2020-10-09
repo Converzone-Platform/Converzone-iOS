@@ -9,7 +9,7 @@ jobs:
     runs-on: [macos-latest]
     env:
       XC_VERSION: ${{ '11.4' }}
-      XC_WORKSPACE: ${{ converzone.xcworkspace' }}
+      XC_WORKSPACE: ${{ 'converzone.xcworkspace' }}
       XC_SCHEME: ${{ 'converzone' }}
     steps:
     - name: Select latest Xcode
