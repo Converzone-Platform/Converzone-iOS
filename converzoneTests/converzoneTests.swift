@@ -20,8 +20,7 @@ class converzoneTests: XCTestCase {
     }
 
     func testExample() {
-        XCTAssert(true, "This is meant to succeed")
-        XCTAssert(false, "This is meant to fail")
+        //
     }
 
     func testPerformanceExample() {
