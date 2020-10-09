@@ -10,7 +10,7 @@ jobs:
     env:
       XC_VERSION: ${{ '11.4' }}
       XC_WORKSPACE: ${{ 'converzone.xcworkspace' }}
-      XC_SCHEME: ${{ 'converzone' }}
+      XC_SCHEME: ${{ 'converzoneTests' }}
     steps:
     - name: Select latest Xcode
       run: "sudo xcode-select -s /Applications/Xcode_$XC_VERSION.app"
