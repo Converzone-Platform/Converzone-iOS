@@ -20,7 +20,8 @@ class converzoneTests: XCTestCase {
     }
 
     func testExample() {
-        XCTAssert(true)
+        // Testing
+        XCTAssert(true, "Did something")
     }
 
     func testPerformanceExample() {
