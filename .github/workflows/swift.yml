@@ -1,23 +1,19 @@
-name: Swift
+name: Build and Test app
 
-on:
+on: 
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+    branches: [master]
+    
 jobs:
   build:
-
-    runs-on: macos-latest
-
+    runs-on: [macos-latest]
+    env:
+      XC_VERSION: ${{ '11.4' }}
+      XC_WORKSPACE: ${{ 'converzone.xcworkspace' }}
+      XC_SCHEME: ${{ 'converzoneTests' }}
     steps:
+    - name: Select latest Xcode
+      run: "sudo xcode-select -s /Applications/Xcode_$XC_VERSION.app"
     - uses: actions/checkout@v2
-      
-    - name: Build for iOS
-      run: xcodebuild -workspace converzone.xcworkspace -scheme converzone -allowProvisioningUpdates build
-      #run: swift build -v
-      
-    - name: Run tests for iOS
-      run: xcodebuild build-for-testing -workspace converzone.xcworkspace -scheme converzone
-      #run: swift test -v
+    - name: Run Unit and UI Tests
+      run: /usr/bin/xcodebuild test -workspace "$XC_WORKSPACE" -scheme "$XC_SCHEME" -destination 'platform=iOS Simulator,name=iPhone 11'
