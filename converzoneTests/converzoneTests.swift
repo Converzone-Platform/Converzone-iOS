@@ -21,7 +21,7 @@ class converzoneTests: XCTestCase {
 
     func testExample() {
         // Testing
-        XCTAssert(true, "Did something")
+        XCTAssert(false, "Did something")
     }
 
     func testPerformanceExample() {
