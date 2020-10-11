@@ -40,6 +40,7 @@
 		4A6C1DE322451D140055B5A5 /* TextMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C1DE222451D140055B5A5 /* TextMessageCell.xib */; };
 		4A6C1DE72246A2900055B5A5 /* InformationMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A6C1DE62246A2900055B5A5 /* InformationMessageCell.xib */; };
 		4A7A70D1222405D80074BE5E /* ReflectionDiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A70D0222405D80074BE5E /* ReflectionDiscoverCell.swift */; };
+		4A886D82253315BE0045C455 /* PersonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A886D81253315BE0045C455 /* PersonTests.swift */; };
 		4A950C72222D17A80089754D /* ProfileCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A950C71222D17A80089754D /* ProfileCells.swift */; };
 		4A950C7F222D4D360089754D /* SendMessageProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C7E222D4D360089754D /* SendMessageProfileCell.xib */; };
 		4A950C81222D583E0089754D /* GeneralProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A950C80222D583E0089754D /* GeneralProfileCell.xib */; };
@@ -149,6 +150,7 @@
 		4A6C1DE222451D140055B5A5 /* TextMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextMessageCell.xib; sourceTree = "<group>"; };
 		4A6C1DE62246A2900055B5A5 /* InformationMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InformationMessageCell.xib; sourceTree = "<group>"; };
 		4A7A70D0222405D80074BE5E /* ReflectionDiscoverCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionDiscoverCell.swift; sourceTree = "<group>"; };
+		4A886D81253315BE0045C455 /* PersonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonTests.swift; sourceTree = "<group>"; };
 		4A950C71222D17A80089754D /* ProfileCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCells.swift; sourceTree = "<group>"; };
 		4A950C7E222D4D360089754D /* SendMessageProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendMessageProfileCell.xib; sourceTree = "<group>"; };
 		4A950C80222D583E0089754D /* GeneralProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GeneralProfileCell.xib; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 			isa = PBXGroup;
 			children = (
 				4AAED923218336F400968E3E /* converzoneTests.swift */,
+				4A886D81253315BE0045C455 /* PersonTests.swift */,
 				4AAED925218336F400968E3E /* Info.plist */,
 			);
 			path = converzoneTests;
@@ -816,6 +819,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A886D82253315BE0045C455 /* PersonTests.swift in Sources */,
 				4AAED924218336F400968E3E /* converzoneTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
