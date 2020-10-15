@@ -1407,7 +1407,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                             <visualEffectView opaque="NO" alpha="0.98999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EI1-Gs-OYP">
                                 <rect key="frame" x="0.0" y="456.5" width="414" height="439.5"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="58V-IR-aW1">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="439.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="440"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support converzone." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZV-yR-uDX">
@@ -1690,36 +1690,6 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="tWT-qQ-BhU"/>
             </objects>
             <point key="canvasLocation" x="295.6521739130435" y="4493.3035714285716"/>
-        </scene>
-        <!--Chat SettingsVC-->
-        <scene sceneID="DkA-IV-rWl">
-            <objects>
-                <viewController storyboardIdentifier="ChatSettingsVC" id="cuL-xu-pVa" customClass="ChatSettingsVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="VH6-kq-TKL"/>
-                        <viewControllerLayoutGuide type="bottom" id="YSn-ZK-ATe"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="uGB-O1-gD8">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bKN-5B-nKK">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="YSn-ZK-ATe" firstAttribute="top" secondItem="bKN-5B-nKK" secondAttribute="bottom" id="7Ox-r3-Hrx"/>
-                            <constraint firstAttribute="trailing" secondItem="bKN-5B-nKK" secondAttribute="trailing" id="Gve-WN-R8w"/>
-                            <constraint firstItem="bKN-5B-nKK" firstAttribute="leading" secondItem="uGB-O1-gD8" secondAttribute="leading" id="pWW-iD-s2M"/>
-                            <constraint firstItem="bKN-5B-nKK" firstAttribute="top" secondItem="VH6-kq-TKL" secondAttribute="bottom" id="sY5-JR-RIQ"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gMX-Z6-psW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1045.5999999999999" y="4491.9040479760124"/>
         </scene>
         <!--MainTBC-->
         <scene sceneID="BvW-kS-1Xj">

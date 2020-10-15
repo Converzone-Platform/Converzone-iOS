@@ -29,7 +29,6 @@
 		4A4CEEE7238EA2AA00602B62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A4CEEE5238EA2AA00602B62 /* LaunchScreen.storyboard */; };
 		4A4CEEED238EA30200602B62 /* js in Resources */ = {isa = PBXBuildFile; fileRef = 4A4CEEEB238EA30200602B62 /* js */; };
 		4A4CEEEE238EA30200602B62 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 4A4CEEEC238EA30200602B62 /* index.html */; };
-		4A5A618422563A1B00CBA4F8 /* ChatSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */; };
 		4A5D856721B29F07004E3E79 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D856621B29F07004E3E79 /* Colors.swift */; };
 		4A5EC47223635CD800EFD7CE /* PhoneVerificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5EC47123635CD800EFD7CE /* PhoneVerificationVC.swift */; };
 		4A5EC4742363654C00EFD7CE /* LabelForLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5EC4732363654C00EFD7CE /* LabelForLogin.swift */; };
@@ -136,7 +135,6 @@
 		4A4CEEE5238EA2AA00602B62 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4A4CEEEB238EA30200602B62 /* js */ = {isa = PBXFileReference; lastKnownFileType = folder; path = js; sourceTree = "<group>"; };
 		4A4CEEEC238EA30200602B62 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
-		4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsVC.swift; sourceTree = "<group>"; };
 		4A5D856621B29F07004E3E79 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		4A5EC47123635CD800EFD7CE /* PhoneVerificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationVC.swift; sourceTree = "<group>"; };
 		4A5EC4732363654C00EFD7CE /* LabelForLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelForLogin.swift; sourceTree = "<group>"; };
@@ -452,7 +450,6 @@
 			children = (
 				4AA3288A22294E4700AB79C4 /* ChatVC.swift */,
 				4ADC7BF523D87508000DEE1D /* MessageRenderingEngine.swift */,
-				4A5A618322563A1B00CBA4F8 /* ChatSettingsVC.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -745,7 +742,6 @@
 			files = (
 				4A5D856721B29F07004E3E79 /* Colors.swift in Sources */,
 				4AA328892229269500AB79C4 /* DiscoverCardVC.swift in Sources */,
-				4A5A618422563A1B00CBA4F8 /* ChatSettingsVC.swift in Sources */,
 				4AB1B22523AF859700BB29FF /* HallOfShameVC.swift in Sources */,
 				4A36EBD3232D2ACE0053361F /* Navigation.swift in Sources */,
 				4AD7D6832217292A000E4660 /* Genders.swift in Sources */,
