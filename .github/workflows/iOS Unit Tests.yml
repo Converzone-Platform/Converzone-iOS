@@ -1,6 +1,10 @@
 name: iOS Unit Tests
 
-on: [push, pull_request]
+on: 
+  push:
+    branches: [ master, refactor ]
+  pull_request:
+    branches: [ master, refactor ]
     
 jobs:
   build:
