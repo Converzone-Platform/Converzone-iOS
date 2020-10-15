@@ -103,35 +103,6 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     private func setUpNavBar(){
         navigationController?.navigationBar.prefersLargeTitles = true
     }
-    
-    @objc func longPressed(sender: UILongPressGestureRecognizer) {
-        
-        guard let sender = sender as? CustomTapGesture else {
-            return
-        }
-        
-        let pin = UIAlertAction(title: "Pin/Unpin", style: .default) { (action) in
-            sender.user.pinned_to_top = !sender.user.pinned_to_top
-            self.sortUsersByLastMessageDate()
-            self.tableView.reloadData()
-        }
-        
-        let mute = UIAlertAction(title: "Mute/Unmute", style: .default) { (action) in
-            sender.user.muted = !sender.user.muted
-            self.sortUsersByLastMessageDate()
-            self.tableView.reloadData()
-        }
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        Alert.alert(title: "Options", message: "What would you like to do?", target: self, actions: [pin, mute, cancel])
-        
-        print("I was long pressed")
-    }
-}
-
-class CustomTapGesture: UILongPressGestureRecognizer {
-    var user: User = User()
 }
 
 extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
@@ -151,10 +122,6 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell") as! ChatCell
-        
-        let longPressRecognizer = CustomTapGesture(target: self, action: #selector(longPressed(sender:)))
-        longPressRecognizer.user = master.conversations[indexPath.row]
-        cell.addGestureRecognizer(longPressRecognizer)
         
         cell.name.attributedText = master.conversations[indexPath.row].fullname
         
