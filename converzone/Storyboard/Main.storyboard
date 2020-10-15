@@ -1211,80 +1211,12 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                     <connections>
                         <outlet property="tableView" destination="GFa-wJ-UMO" id="hLM-Q5-Pj1"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="signOutUserSegue" modalPresentationStyle="fullScreen" id="fDF-FW-xub"/>
-                        <segue destination="MXz-oQ-Bh8" kind="show" identifier="showReminderSettingsSegue" id="hbA-PK-b6X"/>
                         <segue destination="8VX-4i-Idr" kind="show" identifier="showBlockedUsersSegue" id="nEW-1w-wBk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hfd-C9-i42" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5462" y="4469"/>
-        </scene>
-        <!--Reminder-->
-        <scene sceneID="sRm-hr-PMV">
-            <objects>
-                <viewController id="MXz-oQ-Bh8" customClass="ReminderVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="FFT-3T-yPU"/>
-                        <viewControllerLayoutGuide type="bottom" id="A8W-ZS-T0b"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Mt1-U6-xFF">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="r4d-Ik-fLs">
-                                <rect key="frame" x="0.0" y="140" width="414" height="673"/>
-                                <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="BooleanInputCell" id="jJF-xc-4em" customClass="BooleanInputCell" customModule="converzone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="414" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jJF-xc-4em" id="nep-yx-MVz">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Reminder" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JeP-tT-qiM">
-                                                    <rect key="frame" x="15" y="11" width="108" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TFw-2A-7kO">
-                                                    <rect key="frame" x="346" y="6" width="51" height="31.5"/>
-                                                    <color key="onTintColor" red="0.16862745100000001" green="0.55294117649999996" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </switch>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="TFw-2A-7kO" firstAttribute="top" secondItem="nep-yx-MVz" secondAttribute="top" constant="6" id="5Bf-zm-Hu0"/>
-                                                <constraint firstAttribute="trailing" secondItem="TFw-2A-7kO" secondAttribute="trailing" constant="19" id="PTs-7e-DT2"/>
-                                                <constraint firstAttribute="bottom" secondItem="TFw-2A-7kO" secondAttribute="bottom" constant="6.5" id="oFA-28-PWb"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="boolean" destination="TFw-2A-7kO" id="8iZ-CQ-9n4"/>
-                                            <outlet property="title" destination="JeP-tT-qiM" id="j6v-cf-g9O"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="MXz-oQ-Bh8" id="0Vl-FD-An4"/>
-                                    <outlet property="delegate" destination="MXz-oQ-Bh8" id="f9Z-cr-47c"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="r4d-Ik-fLs" firstAttribute="leading" secondItem="Mt1-U6-xFF" secondAttribute="leading" id="4if-xt-h0C"/>
-                            <constraint firstAttribute="trailing" secondItem="r4d-Ik-fLs" secondAttribute="trailing" id="6GV-BW-yb4"/>
-                            <constraint firstItem="r4d-Ik-fLs" firstAttribute="top" secondItem="FFT-3T-yPU" secondAttribute="bottom" id="EWv-zn-DKD"/>
-                            <constraint firstItem="A8W-ZS-T0b" firstAttribute="top" secondItem="r4d-Ik-fLs" secondAttribute="bottom" id="H2x-o4-X9I"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Reminder" id="N6f-Wx-idH"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="K57-ro-ZYX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4614" y="5194"/>
         </scene>
         <!--Hall of Shame-->
         <scene sceneID="nsa-jm-JeW">
@@ -1792,9 +1724,6 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
         <image name="user-2" width="512" height="512"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

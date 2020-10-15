@@ -79,7 +79,6 @@
 		4ADC7BF623D87508000DEE1D /* MessageRenderingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC7BF523D87508000DEE1D /* MessageRenderingEngine.swift */; };
 		4ADC7BF823D87732000DEE1D /* Designs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC7BF723D87732000DEE1D /* Designs.swift */; };
 		4ADDF69323A50E7A0096529C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4ADDF69223A50E7A0096529C /* Main.storyboard */; };
-		4ADDF69B23A626260096529C /* ReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADDF69A23A626260096529C /* ReminderVC.swift */; };
 		4ADDF69D23A62CF80096529C /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADDF69C23A62CF80096529C /* LocalNotification.swift */; };
 		4AE35A78232C3BF60098320C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE35A77232C3BF60098320C /* WebKit.framework */; };
 		4AEF319523DC70B40023BCD3 /* DiscoverRenderingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF319423DC70B40023BCD3 /* DiscoverRenderingEngine.swift */; };
@@ -186,7 +185,6 @@
 		4ADC7BF523D87508000DEE1D /* MessageRenderingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRenderingEngine.swift; sourceTree = "<group>"; };
 		4ADC7BF723D87732000DEE1D /* Designs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Designs.swift; sourceTree = "<group>"; };
 		4ADDF69223A50E7A0096529C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		4ADDF69A23A626260096529C /* ReminderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderVC.swift; sourceTree = "<group>"; };
 		4ADDF69C23A62CF80096529C /* LocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
 		4AE35A77232C3BF60098320C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		4AEF319423DC70B40023BCD3 /* DiscoverRenderingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverRenderingEngine.swift; sourceTree = "<group>"; };
@@ -424,7 +422,6 @@
 				4A653B2E21BFFBAC00C22065 /* EditProfileVC.swift */,
 				4A26B2612295AEC0001EA17E /* LongTextEditVC.swift */,
 				4AA8739E2214816B006035A3 /* WelcomeVC.swift */,
-				4ADDF69A23A626260096529C /* ReminderVC.swift */,
 				4AB1B22423AF859700BB29FF /* HallOfShameVC.swift */,
 			);
 			path = "Account and Profile";
@@ -763,7 +760,6 @@
 				4A1C985921BC288F00F99D62 /* CountryVC.swift in Sources */,
 				4A1C985B21BC5D7800F99D62 /* UsersLanguagesVC.swift in Sources */,
 				4A016FE521B7188600095E26 /* Reflection.swift in Sources */,
-				4ADDF69B23A626260096529C /* ReminderVC.swift in Sources */,
 				4A60337623C530EF007A3481 /* UserProtection.swift in Sources */,
 				4AEF319D23DC77980023BCD3 /* Account.swift in Sources */,
 				4AEF319923DC766E0023BCD3 /* Notifications.swift in Sources */,
