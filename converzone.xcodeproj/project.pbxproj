@@ -18,7 +18,6 @@
 		4A05490E235F2BB6000B00FB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05490D235F2BB6000B00FB /* Date.swift */; };
 		4A07981F224D661E00C39927 /* LocationMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A07981E224D661E00C39927 /* LocationMessageCell.xib */; };
 		4A0A2A6821B9238200EB2232 /* ContinentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0A2A6721B9238200EB2232 /* ContinentVC.swift */; };
-		4A0A311523B801E800DBC897 /* DiscoverFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0A311423B801E800DBC897 /* DiscoverFilterVC.swift */; };
 		4A1C985221BA639C00F99D62 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C985121BA639C00F99D62 /* World.swift */; };
 		4A1C985921BC288F00F99D62 /* CountryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C985821BC288F00F99D62 /* CountryVC.swift */; };
 		4A1C985B21BC5D7800F99D62 /* UsersLanguagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1C985A21BC5D7800F99D62 /* UsersLanguagesVC.swift */; };
@@ -120,7 +119,6 @@
 		4A05490D235F2BB6000B00FB /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		4A07981E224D661E00C39927 /* LocationMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocationMessageCell.xib; sourceTree = "<group>"; };
 		4A0A2A6721B9238200EB2232 /* ContinentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentVC.swift; sourceTree = "<group>"; };
-		4A0A311423B801E800DBC897 /* DiscoverFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverFilterVC.swift; sourceTree = "<group>"; };
 		4A1C985121BA639C00F99D62 /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		4A1C985821BC288F00F99D62 /* CountryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryVC.swift; sourceTree = "<group>"; };
 		4A1C985A21BC5D7800F99D62 /* UsersLanguagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersLanguagesVC.swift; sourceTree = "<group>"; };
@@ -487,7 +485,6 @@
 			children = (
 				4AEF319623DC70CB0023BCD3 /* DiscoverVC */,
 				4AA328882229269500AB79C4 /* DiscoverCardVC.swift */,
-				4A0A311423B801E800DBC897 /* DiscoverFilterVC.swift */,
 			);
 			path = Discover;
 			sourceTree = "<group>";
@@ -773,7 +770,6 @@
 				4AA2FC1F22281BC600A10A4A /* ConversationsVC.swift in Sources */,
 				4A016FDE21B6B6A500095E26 /* Master.swift in Sources */,
 				4A1C985D21BC720A00F99D62 /* LanguagesVC.swift in Sources */,
-				4A0A311523B801E800DBC897 /* DiscoverFilterVC.swift in Sources */,
 				4A5EC4742363654C00EFD7CE /* LabelForLogin.swift in Sources */,
 				4A9C673F23DDC4150091742A /* ReceiveMessages.swift in Sources */,
 				4AD7D689221A19A4000E4660 /* StatusDiscoverCell.swift in Sources */,

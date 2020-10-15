@@ -870,131 +870,6 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
             </objects>
             <point key="canvasLocation" x="2691" y="1835"/>
         </scene>
-        <!--Filter-->
-        <scene sceneID="nu4-IR-LnY">
-            <objects>
-                <viewController id="hdV-rP-rgP" customClass="DiscoverFilterVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="xbJ-sK-od7"/>
-                        <viewControllerLayoutGuide type="bottom" id="Ezn-dg-eBL"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="jax-Fi-A4l">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="7Lw-1o-Nza">
-                                <rect key="frame" x="0.0" y="148" width="414" height="665"/>
-                                <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="RangeInputCell" rowHeight="90" id="vHO-29-DMe" customClass="RangeInputCell" customModule="converzone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="414" height="90"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vHO-29-DMe" id="SxU-Dj-dD6">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Age" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TZd-L3-QWG">
-                                                    <rect key="frame" x="15" y="34.5" width="108" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="108" id="sEN-Gg-Z2L"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UEo-K1-zuU" customClass="RangeSeekSlider" customModule="RangeSeekSlider">
-                                                    <rect key="frame" x="154" y="12.5" width="240" height="65"/>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="minValue">
-                                                            <real key="value" value="0.0"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="maxValue">
-                                                            <real key="value" value="130"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="selectedMinValue">
-                                                            <real key="value" value="0.0"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="selectedMaxValue">
-                                                            <real key="value" value="130"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="TZd-L3-QWG" firstAttribute="centerY" secondItem="SxU-Dj-dD6" secondAttribute="centerY" id="TgG-yu-qLH"/>
-                                                <constraint firstItem="UEo-K1-zuU" firstAttribute="centerY" secondItem="SxU-Dj-dD6" secondAttribute="centerY" id="Wkj-kp-igk"/>
-                                                <constraint firstItem="UEo-K1-zuU" firstAttribute="leading" secondItem="TZd-L3-QWG" secondAttribute="trailing" constant="31" id="XCT-nm-JMo"/>
-                                                <constraint firstItem="TZd-L3-QWG" firstAttribute="leading" secondItem="SxU-Dj-dD6" secondAttribute="leading" constant="15" id="dNP-TD-DSz"/>
-                                                <constraint firstItem="UEo-K1-zuU" firstAttribute="top" secondItem="SxU-Dj-dD6" secondAttribute="topMargin" constant="1.5" id="kRP-aM-SLh"/>
-                                                <constraint firstItem="UEo-K1-zuU" firstAttribute="trailing" secondItem="SxU-Dj-dD6" secondAttribute="trailingMargin" id="pdf-Ww-oV5"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="input" destination="UEo-K1-zuU" id="yEf-AS-STq"/>
-                                            <outlet property="title" destination="TZd-L3-QWG" id="9rY-9h-k6K"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="GenderFilterInputCell" rowHeight="60" id="xc1-Pc-zqp" customClass="GenderFilterInputCell" customModule="converzone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="145.5" width="414" height="60"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xc1-Pc-zqp" id="R68-Sg-Rr9">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gdB-Sg-laa">
-                                                    <rect key="frame" x="15" y="19.5" width="108" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="108" id="nSa-WE-nQt"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Pfd-Kr-mSa">
-                                                    <rect key="frame" x="164" y="14.5" width="223" height="32"/>
-                                                    <segments>
-                                                        <segment title="All"/>
-                                                        <segment title="F"/>
-                                                        <segment title="M"/>
-                                                        <segment title="NB"/>
-                                                    </segments>
-                                                </segmentedControl>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Pfd-Kr-mSa" secondAttribute="trailing" constant="7" id="Fqw-62-Qu9"/>
-                                                <constraint firstItem="gdB-Sg-laa" firstAttribute="centerY" secondItem="R68-Sg-Rr9" secondAttribute="centerY" id="K2x-xI-cZQ"/>
-                                                <constraint firstItem="gdB-Sg-laa" firstAttribute="leading" secondItem="R68-Sg-Rr9" secondAttribute="leading" constant="15" id="TOd-Yw-s1O"/>
-                                                <constraint firstItem="Pfd-Kr-mSa" firstAttribute="centerY" secondItem="R68-Sg-Rr9" secondAttribute="centerY" id="krS-LQ-QBg"/>
-                                                <constraint firstItem="Pfd-Kr-mSa" firstAttribute="leading" secondItem="gdB-Sg-laa" secondAttribute="trailing" constant="41" id="xTu-c8-uIG"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="selector" destination="Pfd-Kr-mSa" id="LeC-8R-BDp"/>
-                                            <outlet property="title" destination="gdB-Sg-laa" id="bkw-UQ-Njr"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="hdV-rP-rgP" id="1Uy-5l-yhT"/>
-                                    <outlet property="delegate" destination="hdV-rP-rgP" id="Y22-98-IDn"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="7Lw-1o-Nza" firstAttribute="leading" secondItem="jax-Fi-A4l" secondAttribute="leading" id="EwJ-1X-kti"/>
-                            <constraint firstAttribute="trailing" secondItem="7Lw-1o-Nza" secondAttribute="trailing" id="JXB-EM-re1"/>
-                            <constraint firstItem="Ezn-dg-eBL" firstAttribute="top" secondItem="7Lw-1o-Nza" secondAttribute="bottom" id="OFF-Nd-kia"/>
-                            <constraint firstItem="7Lw-1o-Nza" firstAttribute="top" secondItem="xbJ-sK-od7" secondAttribute="bottom" constant="8" symbolic="YES" id="UTj-fz-G5Y"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Filter" id="tRU-l9-CLz"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hdf-Et-8dD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3271.0144927536235" y="5235.9375"/>
-        </scene>
         <!--Discover-->
         <scene sceneID="n2N-Ac-Ecd">
             <objects>
@@ -1144,7 +1019,6 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                     <navigationItem key="navigationItem" title="Discover" id="Aqg-YY-54P"/>
                     <connections>
                         <outlet property="tableView" destination="kXl-qQ-3F2" id="etd-ck-xFb"/>
-                        <segue destination="hdV-rP-rgP" kind="show" identifier="showDiscoverFilterSegue" id="VbR-Jh-8il"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6D6-Nv-R41" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1724,9 +1598,6 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
         <image name="user-2" width="512" height="512"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

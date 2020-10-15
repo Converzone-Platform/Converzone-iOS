@@ -80,15 +80,8 @@ class DiscoverVC: UIViewController, DiscoverUpdateDelegate {
     
     private func setUpNavBar(){
         navigationController?.navigationBar.prefersLargeTitles = true
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3.decrease.circle"), style: .plain, target: self, action: #selector(filter))
-        
         refresh.addTarget(self, action: #selector(refreshUsers( sender:)), for: .valueChanged)
         self.tableView.refreshControl = refresh
-    }
-    
-    @objc private func filter(){
-        performSegue(withIdentifier: "showDiscoverFilterSegue", sender: self)
     }
 }
 
