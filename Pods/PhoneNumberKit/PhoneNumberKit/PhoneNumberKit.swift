@@ -3,7 +3,7 @@
 //  PhoneNumberKit
 //
 //  Created by Roy Marmelstein on 03/10/2015.
-//  Copyright © 2015 Roy Marmelstein. All rights reserved.
+//  Copyright © 2020 Roy Marmelstein. All rights reserved.
 //
 
 import Foundation
@@ -58,6 +58,19 @@ public final class PhoneNumberKit: NSObject {
     /// - returns: array of PhoneNumber objects.
     public func parse(_ numberStrings: [String], withRegion region: String = PhoneNumberKit.defaultRegionCode(), ignoreType: Bool = false, shouldReturnFailedEmptyNumbers: Bool = false) -> [PhoneNumber] {
         return self.parseManager.parseMultiple(numberStrings, withRegion: region, ignoreType: ignoreType, shouldReturnFailedEmptyNumbers: shouldReturnFailedEmptyNumbers)
+    }
+    
+    // MARK: Checking
+    
+    /// Checks if a number string is a valid PhoneNumber object
+    ///
+    /// - Parameters:
+    ///   - numberString: the raw number string.
+    ///   - region: ISO 639 compliant region code.
+    ///   - ignoreType: Avoids number type checking for faster performance.
+    /// - Returns: Bool
+    public func isValidPhoneNumber(_ numberString: String, withRegion region: String = PhoneNumberKit.defaultRegionCode(), ignoreType: Bool = false) -> Bool {
+        return (try? self.parse(numberString, withRegion: region, ignoreType: ignoreType)) != nil
     }
 
     // MARK: Formatting
@@ -211,13 +224,77 @@ public final class PhoneNumberKit: NSObject {
         return self.metadataManager.filterTerritories(byCode: countryCode)
     }
 
+    /// Get an array of possible phone number lengths for the country, as specified by the parameters.
+    ///
+    /// - parameter country: ISO 639 compliant region code.
+    /// - parameter phoneNumberType: PhoneNumberType enum.
+    /// - parameter lengthType: PossibleLengthType enum.
+    ///
+    /// - returns: Array of possible lengths for the country. May be empty.
+    public func possiblePhoneNumberLengths(forCountry country: String, phoneNumberType: PhoneNumberType, lengthType: PossibleLengthType) -> [Int] {
+        guard let territory = metadataManager.filterTerritories(byCountry: country) else { return [] }
+
+        let possibleLengths = possiblePhoneNumberLengths(forTerritory: territory, phoneNumberType: phoneNumberType)
+
+        switch lengthType {
+        case .national:     return possibleLengths?.national.flatMap { self.parsePossibleLengths($0) } ?? []
+        case .localOnly:    return possibleLengths?.localOnly.flatMap { self.parsePossibleLengths($0) } ?? []
+        }
+    }
+
+    private func possiblePhoneNumberLengths(forTerritory territory: MetadataTerritory, phoneNumberType: PhoneNumberType) -> MetadataPossibleLengths? {
+        switch phoneNumberType {
+        case .fixedLine:        return territory.fixedLine?.possibleLengths
+        case .mobile:           return territory.mobile?.possibleLengths
+        case .pager:            return territory.pager?.possibleLengths
+        case .personalNumber:   return territory.personalNumber?.possibleLengths
+        case .premiumRate:      return territory.premiumRate?.possibleLengths
+        case .sharedCost:       return territory.sharedCost?.possibleLengths
+        case .tollFree:         return territory.tollFree?.possibleLengths
+        case .voicemail:        return territory.voicemail?.possibleLengths
+        case .voip:             return territory.voip?.possibleLengths
+        case .uan:              return territory.uan?.possibleLengths
+        case .fixedOrMobile:    return nil // caller needs to combine results for .fixedLine and .mobile
+        case .unknown:          return nil
+        case .notParsed:        return nil
+        }
+    }
+
+    /// Parse lengths string into array of Int, e.g. "6,[8-10]" becomes [6,8,9,10]
+    private func parsePossibleLengths(_ lengths: String) -> [Int] {
+        let components = lengths.components(separatedBy: ",")
+        let results = components.reduce([Int](), { result, component in
+            let newComponents = parseLengthComponent(component)
+            return result + newComponents
+        })
+
+        return results
+    }
+
+    /// Parses numbers and ranges into array of Int
+    private func parseLengthComponent(_ component: String) -> [Int] {
+        if let int = Int(component) {
+            return [int]
+        } else {
+            let trimmedComponent = component.trimmingCharacters(in: CharacterSet(charactersIn: "[]"))
+            let rangeLimits = trimmedComponent.components(separatedBy: "-").compactMap { Int($0) }
+
+            guard rangeLimits.count == 2,
+                let rangeStart = rangeLimits.first,
+                let rangeEnd = rangeLimits.last
+                else { return [] }
+
+            return Array(rangeStart...rangeEnd)
+        }
+    }
+
     // MARK: Class functions
 
     /// Get a user's default region code
     ///
     /// - returns: A computed value for the user's current region - based on the iPhone's carrier and if not available, the device region.
     public class func defaultRegionCode() -> String {
-#if os(iOS)
+#if os(iOS) && !targetEnvironment(simulator) && !targetEnvironment(macCatalyst)
         let networkInfo = CTTelephonyNetworkInfo()
         let carrier = networkInfo.subscriberCellularProvider
         if let isoCountryCode = carrier?.isoCountryCode {
@@ -239,7 +316,7 @@ public final class PhoneNumberKit: NSObject {
     ///
     /// - returns: an optional Data representation of the metadata.
     public static func defaultMetadataCallback() throws -> Data? {
-        let frameworkBundle = Bundle(for: PhoneNumberKit.self)
+        let frameworkBundle = Bundle.module
         guard let jsonPath = frameworkBundle.path(forResource: "PhoneNumberMetadata", ofType: "json") else {
             throw PhoneNumberError.metadataNotFound
         }
@@ -247,3 +324,17 @@ public final class PhoneNumberKit: NSObject {
         return data
     }
 }
+
+#if canImport(UIKit)
+extension PhoneNumberKit {
+
+    /// Configuration for the CountryCodePicker presented from PhoneNumberTextField if `withDefaultPickerUI` is `true`
+    public enum CountryCodePicker {
+        /// Common Country Codes are shown below the Current section in the CountryCodePicker by default
+        public static var commonCountryCodes: [String] = []
+
+        /// When the Picker is shown from the textfield it is presented modally
+        public static var forceModalPresentation: Bool = false
+    }
+}
+#endif

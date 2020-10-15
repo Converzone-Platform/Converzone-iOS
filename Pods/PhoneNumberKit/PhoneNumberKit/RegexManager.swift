@@ -3,7 +3,7 @@
 //  PhoneNumberKit
 //
 //  Created by Roy Marmelstein on 04/10/2015.
-//  Copyright © 2015 Roy Marmelstein. All rights reserved.
+//  Copyright © 2020 Roy Marmelstein. All rights reserved.
 //
 
 import Foundation
@@ -181,13 +181,15 @@ final class RegexManager {
         }
     }
 
-    func stringByReplacingOccurrences(_ string: String, map: [String: String]) -> String {
+    func stringByReplacingOccurrences(_ string: String, map: [String: String], keepUnmapped: Bool = false) -> String {
         var targetString = String()
         for i in 0..<string.count {
             let oneChar = string[string.index(string.startIndex, offsetBy: i)]
             let keyString = String(oneChar).uppercased()
             if let mappedValue = map[keyString] {
                 targetString.append(mappedValue)
+            } else if keepUnmapped {
+                targetString.append(keyString)
             }
         }
         return targetString

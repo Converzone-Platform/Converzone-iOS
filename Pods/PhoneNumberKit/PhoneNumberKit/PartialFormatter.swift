@@ -3,7 +3,7 @@
 //  PhoneNumberKit
 //
 //  Created by Roy Marmelstein on 29/11/2015.
-//  Copyright © 2015 Roy Marmelstein. All rights reserved.
+//  Copyright © 2020 Roy Marmelstein. All rights reserved.
 //
 
 import Foundation
@@ -58,7 +58,13 @@ public final class PartialFormatter {
     // MARK: Status
 
     public var currentRegion: String {
-        return self.currentMetadata?.codeID ?? self.defaultRegion
+        if self.phoneNumberKit.countryCode(for: self.defaultRegion) != 1 {
+            return currentMetadata?.codeID ?? "US"
+        } else {
+            return self.currentMetadata?.countryCode == 1
+                ? self.defaultRegion
+                : self.currentMetadata?.codeID ?? self.defaultRegion
+        }
     }
 
     public func nationalNumber(from rawNumber: String) -> String {
@@ -114,12 +120,12 @@ public final class PartialFormatter {
                 }
             }
         }
-        
+
         var finalNumber = String()
-        if self.prefixBeforeNationalNumber.count > 0 {
+        if self.withPrefix, self.prefixBeforeNationalNumber.count > 0 {
             finalNumber.append(self.prefixBeforeNationalNumber)
         }
-        if self.shouldAddSpaceAfterNationalPrefix, self.prefixBeforeNationalNumber.count > 0, self.prefixBeforeNationalNumber.last != PhoneNumberConstants.separatorBeforeNationalNumber.first {
+        if self.withPrefix, self.shouldAddSpaceAfterNationalPrefix, self.prefixBeforeNationalNumber.count > 0, self.prefixBeforeNationalNumber.last != PhoneNumberConstants.separatorBeforeNationalNumber.first {
             finalNumber.append(PhoneNumberConstants.separatorBeforeNationalNumber)
         }
         if nationalNumber.count > 0 {
