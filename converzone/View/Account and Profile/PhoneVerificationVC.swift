@@ -68,9 +68,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             cell.textLabel?.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             cell.input?.becomeFirstResponder()
             
-            if #available(iOS 12.0, *) {
-                cell.input?.textContentType = .oneTimeCode
-            }
+            cell.input?.textContentType = .oneTimeCode
             
 //            cell.input?.tag = 777
 //            cell.input?.delegate = self

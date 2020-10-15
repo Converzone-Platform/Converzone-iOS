@@ -101,52 +101,48 @@ class Person: Codable {
     
     internal var fullname: NSAttributedString {
         
-        if #available(iOS 13.0, *) {
+        let fullString = NSMutableAttributedString(string: firstname + " " + lastname)
+        
+        if isTodayBirthday {
             
-            let fullString = NSMutableAttributedString(string: firstname + " " + lastname)
+            fullString.append(NSAttributedString(string: " "))
             
-            if isTodayBirthday {
-                
-                fullString.append(NSAttributedString(string: " "))
-                
-                let imageAttachment = NSTextAttachment()
-                let config = UIImage.SymbolConfiguration(scale: .small)
-                
-                let image = UIImage(systemName: "gift", withConfiguration: config)
-                image?.withBaselineOffset(fromBottom: 1.0)
-                imageAttachment.image = image
-                fullString.append(NSAttributedString(attachment: imageAttachment))
-            }
+            let imageAttachment = NSTextAttachment()
+            let config = UIImage.SymbolConfiguration(scale: .small)
             
-            if verified {
-                
-                fullString.append(NSAttributedString(string: " "))
-                
-                let imageAttachment = NSTextAttachment()
-                let config = UIImage.SymbolConfiguration(scale: .small)
-                
-                let image = UIImage(systemName: "checkmark.seal", withConfiguration: config)
-                image?.withBaselineOffset(fromBottom: 1.0)
-                imageAttachment.image = image
-                fullString.append(NSAttributedString(attachment: imageAttachment))
-            }
-            
-            if has_donated {
-                
-                fullString.append(NSAttributedString(string: " "))
-                
-                let imageAttachment = NSTextAttachment()
-                let config = UIImage.SymbolConfiguration(scale: .small)
-                
-                let image = UIImage(systemName: "heart.fill", withConfiguration: config)
-                image?.withBaselineOffset(fromBottom: 1.0)
-                imageAttachment.image = image
-                fullString.append(NSAttributedString(attachment: imageAttachment))
-            }
-            
-            return fullString
-            
+            let image = UIImage(systemName: "gift", withConfiguration: config)
+            image?.withBaselineOffset(fromBottom: 1.0)
+            imageAttachment.image = image
+            fullString.append(NSAttributedString(attachment: imageAttachment))
         }
+        
+        if verified {
+            
+            fullString.append(NSAttributedString(string: " "))
+            
+            let imageAttachment = NSTextAttachment()
+            let config = UIImage.SymbolConfiguration(scale: .small)
+            
+            let image = UIImage(systemName: "checkmark.seal", withConfiguration: config)
+            image?.withBaselineOffset(fromBottom: 1.0)
+            imageAttachment.image = image
+            fullString.append(NSAttributedString(attachment: imageAttachment))
+        }
+        
+        if has_donated {
+            
+            fullString.append(NSAttributedString(string: " "))
+            
+            let imageAttachment = NSTextAttachment()
+            let config = UIImage.SymbolConfiguration(scale: .small)
+            
+            let image = UIImage(systemName: "heart.fill", withConfiguration: config)
+            image?.withBaselineOffset(fromBottom: 1.0)
+            imageAttachment.image = image
+            fullString.append(NSAttributedString(attachment: imageAttachment))
+        }
+        
+        return fullString
         
         return NSAttributedString(string: firstname + " " + lastname)
     }

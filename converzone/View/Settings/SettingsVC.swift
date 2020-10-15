@@ -103,22 +103,15 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             }
             
             if settings[ tableView.globalIndexPath(for: indexPath as NSIndexPath) ] == "Reminder" {
-                if #available(iOS 13.0, *) {
-                    cell?.imageView?.image = UIImage(systemName: "calendar")
-                }
+                cell?.imageView?.image = UIImage(systemName: "calendar")
             }
             
             if settings[ tableView.globalIndexPath(for: indexPath as NSIndexPath) ] == "Blocked users" {
-                if #available(iOS 13.0, *) {
-                    cell?.imageView?.image = UIImage(systemName: "person.crop.circle.fill.badge.exclam")
-                }
+                cell?.imageView?.image = UIImage(systemName: "person.crop.circle.fill.badge.exclam")
             }
             
             if settings[ tableView.globalIndexPath(for: indexPath as NSIndexPath) ] == "Donate" {
-                if #available(iOS 13.0, *) {
-                    
-                    cell?.imageView?.image = UIImage(systemName: "heart.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)
-                }
+                cell?.imageView?.image = UIImage(systemName: "heart.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)
             }
             
         }

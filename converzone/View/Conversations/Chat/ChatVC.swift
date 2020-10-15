@@ -126,9 +126,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         let actions = [
             UIAlertAction(title: "Send Image", style: .default, handler: { (alert) in
-                if #available(iOS 13.0, *) {
-                    alert.setValue(UIImage(systemName: "camera"), forKey: "image")
-                }
+                alert.setValue(UIImage(systemName: "camera"), forKey: "image")
             }),
             
             UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -157,14 +155,6 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         setUpInfoButton()
         
         navigationItem.titleView = navTitleWithImageAndText(titleText: chatOf.fullname, imageLink: chatOf.link_to_profile_image)
-        
-        #if DEBUG
-        
-        if #available(iOS 13.0, *) {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
-        }
-        
-        #endif
         
         Internet.update_chat_tableview_delegate = self
         

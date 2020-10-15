@@ -160,20 +160,17 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         
         if master.conversations[indexPath.row].pinned_to_top {
             
-            if #available(iOS 13.0, *) {
-                
-                let name = NSMutableAttributedString(string: master.conversations[indexPath.row].fullname.string + " ")
-                
-                let imageAttachment = NSTextAttachment()
-                let config = UIImage.SymbolConfiguration(scale: .small)
-                
-                let image = UIImage(systemName: "pin.circle", withConfiguration: config)
-                image?.withBaselineOffset(fromBottom: 1.0)
-                imageAttachment.image = image
-                name.append(NSAttributedString(attachment: imageAttachment))
-                
-                cell.name.attributedText = name
-            }
+            let name = NSMutableAttributedString(string: master.conversations[indexPath.row].fullname.string + " ")
+            
+            let imageAttachment = NSTextAttachment()
+            let config = UIImage.SymbolConfiguration(scale: .small)
+            
+            let image = UIImage(systemName: "pin.circle", withConfiguration: config)
+            image?.withBaselineOffset(fromBottom: 1.0)
+            imageAttachment.image = image
+            name.append(NSAttributedString(attachment: imageAttachment))
+            
+            cell.name.attributedText = name
         }
         
         Internet.setImage(withURL: master.conversations[indexPath.row].link_to_profile_image, imageView: cell.profile_image)

@@ -55,9 +55,7 @@ extension ContinentVC: UITableViewDataSource, UITableViewDelegate{
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "LocatePositionCell")
             
-            if #available(iOS 13.0, *) {
-                cell?.imageView?.image = UIImage(systemName: "location.fill")
-            }
+            cell?.imageView?.image = UIImage(systemName: "location.fill")
             
             cell?.textLabel?.text = NSLocalizedString("Locate my position...", comment: "Should we find out where you live?")
             
