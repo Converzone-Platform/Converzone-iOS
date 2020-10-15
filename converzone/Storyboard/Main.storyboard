@@ -1407,7 +1407,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                             <visualEffectView opaque="NO" alpha="0.98999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EI1-Gs-OYP">
                                 <rect key="frame" x="0.0" y="456.5" width="414" height="439.5"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="58V-IR-aW1">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="440"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="439.5"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support converzone." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZV-yR-uDX">
@@ -1920,11 +1920,6 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
             <point key="canvasLocation" x="1348" y="-828"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="UEo-K1-zuU">
-            <size key="intrinsicContentSize" width="-1" height="65"/>
-        </designable>
-    </designables>
     <inferredMetricsTieBreakers>
         <segue reference="ly0-KE-icv"/>
         <segue reference="Iid-4S-LK8"/>
