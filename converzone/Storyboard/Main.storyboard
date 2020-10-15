@@ -438,14 +438,14 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddLanguageCell" id="S5S-Hx-bsa">
-                                        <rect key="frame" x="0.0" y="99" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="99" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="S5S-Hx-bsa" id="Y0e-XZ-ajP">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5w-y1-UMR">
-                                                    <rect key="frame" x="15" y="11" width="368" height="21"/>
+                                                    <rect key="frame" x="15" y="11" width="368" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.12941176469999999" green="0.54117647059999996" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1213,7 +1213,6 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="signOutUserSegue" modalPresentationStyle="fullScreen" id="fDF-FW-xub"/>
                         <segue destination="MXz-oQ-Bh8" kind="show" identifier="showReminderSettingsSegue" id="hbA-PK-b6X"/>
                         <segue destination="8VX-4i-Idr" kind="show" identifier="showBlockedUsersSegue" id="nEW-1w-wBk"/>
-                        <segue destination="Iee-hn-Di7" kind="show" identifier="showDonationScreenSegue" id="WUb-4I-g31"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hfd-C9-i42" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1346,110 +1345,6 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bd0-OW-z8q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5461" y="5194"/>
-        </scene>
-        <!--Donate-->
-        <scene sceneID="gIu-bu-4Tj">
-            <objects>
-                <viewController id="Iee-hn-Di7" customClass="DonationVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="WJ8-kw-ILU"/>
-                        <viewControllerLayoutGuide type="bottom" id="Qkq-tW-ONz"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="YIl-xk-UjL">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i3v-rz-b4b">
-                                <rect key="frame" x="206.5" y="447.5" width="1" height="1"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="1" id="Cnv-1Q-Z8z"/>
-                                    <constraint firstAttribute="height" constant="1" id="w8h-v1-uVJ"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aKI-nK-Rnu" customClass="SAConfettiView" customModule="SAConfettiView">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
-                            <visualEffectView opaque="NO" alpha="0.98999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EI1-Gs-OYP">
-                                <rect key="frame" x="0.0" y="456.5" width="414" height="439.5"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="58V-IR-aW1">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="439.5"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support converzone." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZV-yR-uDX">
-                                            <rect key="frame" x="44" y="25" width="342" height="37"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="37" id="WMd-fN-16F"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="25"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rGo-B8-maw">
-                                            <rect key="frame" x="44" y="70" width="342" height="251"/>
-                                            <attributedString key="attributedText">
-                                                <fragment>
-                                                    <string key="content">We are a small team based in Austria. Converzone is a project we have been working on for years. If you like the platform &amp; want to support it, consider donating. Cheers!</string>
-                                                    <attributes>
-                                                        <color key="NSColor" red="0.37055522200000002" green="0.37056469920000001" blue="0.37055957319999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <font key="NSFont" size="17" name="HelveticaNeue"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.3" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M5i-De-6FO">
-                                            <rect key="frame" x="20" y="341" width="374" height="39"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="39" id="1y5-U4-daT"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                                            <state key="normal" title="Donate"/>
-                                            <connections>
-                                                <action selector="choose_an_amount:" destination="Iee-hn-Di7" eventType="touchUpInside" id="lCt-jb-G76"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="M5i-De-6FO" secondAttribute="bottom" constant="60" id="AAl-RK-hZ6"/>
-                                        <constraint firstItem="rGo-B8-maw" firstAttribute="leading" secondItem="58V-IR-aW1" secondAttribute="leading" constant="44" id="GCA-ND-QaS"/>
-                                        <constraint firstAttribute="trailing" secondItem="YZV-yR-uDX" secondAttribute="trailing" constant="28" id="Lf3-UI-hyX"/>
-                                        <constraint firstItem="YZV-yR-uDX" firstAttribute="leading" secondItem="58V-IR-aW1" secondAttribute="leading" constant="44" id="Qui-VK-3Cs"/>
-                                        <constraint firstAttribute="trailing" secondItem="rGo-B8-maw" secondAttribute="trailing" constant="28" id="bpI-E1-mw4"/>
-                                        <constraint firstItem="M5i-De-6FO" firstAttribute="top" secondItem="rGo-B8-maw" secondAttribute="bottom" constant="20" id="eaY-oC-Qn4"/>
-                                        <constraint firstAttribute="trailing" secondItem="M5i-De-6FO" secondAttribute="trailing" constant="20" id="iet-7b-hYV"/>
-                                        <constraint firstItem="YZV-yR-uDX" firstAttribute="top" secondItem="58V-IR-aW1" secondAttribute="top" constant="25" id="kjK-lh-LMb"/>
-                                        <constraint firstItem="rGo-B8-maw" firstAttribute="top" secondItem="YZV-yR-uDX" secondAttribute="bottom" constant="8" id="rIh-yx-Ayk"/>
-                                        <constraint firstItem="M5i-De-6FO" firstAttribute="leading" secondItem="58V-IR-aW1" secondAttribute="leading" constant="20" id="y9W-1C-XjH"/>
-                                    </constraints>
-                                </view>
-                                <blurEffect style="regular"/>
-                            </visualEffectView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="EI1-Gs-OYP" firstAttribute="top" secondItem="i3v-rz-b4b" secondAttribute="bottom" constant="8" symbolic="YES" id="7Qd-7V-JKa"/>
-                            <constraint firstItem="i3v-rz-b4b" firstAttribute="centerX" secondItem="YIl-xk-UjL" secondAttribute="centerX" id="837-Cd-bzM"/>
-                            <constraint firstItem="EI1-Gs-OYP" firstAttribute="leading" secondItem="YIl-xk-UjL" secondAttribute="leading" id="EMH-1u-WNl"/>
-                            <constraint firstAttribute="bottom" secondItem="EI1-Gs-OYP" secondAttribute="bottom" id="MCf-M9-33B"/>
-                            <constraint firstItem="aKI-nK-Rnu" firstAttribute="leading" secondItem="YIl-xk-UjL" secondAttribute="leadingMargin" constant="-20" id="OTu-3K-ayR"/>
-                            <constraint firstItem="aKI-nK-Rnu" firstAttribute="top" secondItem="WJ8-kw-ILU" secondAttribute="bottom" constant="-88" id="Ru3-Ns-QyC"/>
-                            <constraint firstItem="aKI-nK-Rnu" firstAttribute="trailing" secondItem="YIl-xk-UjL" secondAttribute="trailingMargin" constant="20" id="WBq-Yh-llk"/>
-                            <constraint firstItem="i3v-rz-b4b" firstAttribute="centerY" secondItem="YIl-xk-UjL" secondAttribute="centerY" id="aDh-bE-Z2o"/>
-                            <constraint firstAttribute="trailing" secondItem="EI1-Gs-OYP" secondAttribute="trailing" id="iOp-ut-PSz"/>
-                            <constraint firstItem="Qkq-tW-ONz" firstAttribute="top" secondItem="aKI-nK-Rnu" secondAttribute="bottom" id="n78-ZE-kAi"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Donate" largeTitleDisplayMode="never" id="uDh-5F-isX"/>
-                    <connections>
-                        <outlet property="confetti" destination="aKI-nK-Rnu" id="eAx-cG-bl5"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9x7-DD-kh3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6205.7971014492759" y="5193.75"/>
         </scene>
         <!--Conversations-->
         <scene sceneID="QP7-XK-GAJ">
@@ -1795,14 +1690,14 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                 <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NormalInputCell" id="viX-ec-GAZ" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="414" height="22"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="414" height="22.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="viX-ec-GAZ" id="IBd-rO-0eR" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="22"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="22.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. +43 650 3314000" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BYg-QQ-33n" customClass="PhoneNumberTextField" customModule="PhoneNumberKit">
-                                                    <rect key="frame" x="192" y="11" width="203" height="0.0"/>
+                                                    <rect key="frame" x="192" y="11" width="203" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
@@ -1814,10 +1709,10 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NormalOTPCell" id="agA-k7-gud" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="77.5" width="414" height="22"/>
+                                        <rect key="frame" x="0.0" y="78" width="414" height="22.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="agA-k7-gud" id="3s6-Au-aHI" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="22"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="22.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. 123456" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rDB-xd-H1V">
@@ -1833,7 +1728,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SendCodeCell" id="sSu-dp-bpx">
-                                        <rect key="frame" x="0.0" y="99.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="100.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sSu-dp-bpx" id="7qz-3v-ruV">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -1886,11 +1781,6 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
             <point key="canvasLocation" x="1348" y="-828"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="UEo-K1-zuU">
-            <size key="intrinsicContentSize" width="-1" height="65"/>
-        </designable>
-    </designables>
     <inferredMetricsTieBreakers>
         <segue reference="ly0-KE-icv"/>
         <segue reference="Iid-4S-LK8"/>

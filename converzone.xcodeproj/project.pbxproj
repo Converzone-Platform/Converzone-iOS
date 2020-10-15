@@ -82,7 +82,6 @@
 		4ADDF69B23A626260096529C /* ReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADDF69A23A626260096529C /* ReminderVC.swift */; };
 		4ADDF69D23A62CF80096529C /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADDF69C23A62CF80096529C /* LocalNotification.swift */; };
 		4AE35A78232C3BF60098320C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE35A77232C3BF60098320C /* WebKit.framework */; };
-		4AE934CE23C26C2700B2E17F /* DonationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE934CD23C26C2700B2E17F /* DonationVC.swift */; };
 		4AEF319523DC70B40023BCD3 /* DiscoverRenderingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF319423DC70B40023BCD3 /* DiscoverRenderingEngine.swift */; };
 		4AEF319923DC766E0023BCD3 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF319823DC766E0023BCD3 /* Notifications.swift */; };
 		4AEF319B23DC776B0023BCD3 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF319A23DC776B0023BCD3 /* Connectivity.swift */; };
@@ -190,7 +189,6 @@
 		4ADDF69A23A626260096529C /* ReminderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderVC.swift; sourceTree = "<group>"; };
 		4ADDF69C23A62CF80096529C /* LocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
 		4AE35A77232C3BF60098320C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		4AE934CD23C26C2700B2E17F /* DonationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationVC.swift; sourceTree = "<group>"; };
 		4AEF319423DC70B40023BCD3 /* DiscoverRenderingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverRenderingEngine.swift; sourceTree = "<group>"; };
 		4AEF319823DC766E0023BCD3 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		4AEF319A23DC776B0023BCD3 /* Connectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
@@ -319,7 +317,6 @@
 			isa = PBXGroup;
 			children = (
 				4AD7D68A221B2FFA000E4660 /* SettingsVC.swift */,
-				4AE934CD23C26C2700B2E17F /* DonationVC.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -756,7 +753,6 @@
 				4AD7D687221A090A000E4660 /* DiscoverVC.swift in Sources */,
 				4AA2FC1B22281AD000A10A4A /* ChatCell.swift in Sources */,
 				4AA8739F2214816B006035A3 /* WelcomeVC.swift in Sources */,
-				4AE934CE23C26C2700B2E17F /* DonationVC.swift in Sources */,
 				4ADC7BF623D87508000DEE1D /* MessageRenderingEngine.swift in Sources */,
 				4AEF31A523DC7A1D0023BCD3 /* Discover.swift in Sources */,
 				4AC65935229F16F200BD2251 /* Alerts.swift in Sources */,

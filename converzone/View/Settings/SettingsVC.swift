@@ -16,7 +16,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private var settings = ["", "Languages", "Country", "Reminder", "Blocked users", "Donate", "Sign out"]
+    private var settings = ["", "Languages", "Country", "Reminder", "Blocked users", "Sign out"]
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -51,7 +51,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -128,8 +128,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         case 2: Navigation.push(viewController: "ContinentVC", context: self)
         case 3: performSegue(withIdentifier: "showReminderSettingsSegue", sender: self)
         case 4: performSegue(withIdentifier: "showBlockedUsersSegue", sender: self)
-        case 5: performSegue(withIdentifier: "showDonationScreenSegue", sender: self)
-        case 6:
+        case 5:
             
             performSegue(withIdentifier: "signOutUserSegue", sender: nil)
             
