@@ -870,39 +870,6 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
             </objects>
             <point key="canvasLocation" x="2691" y="1835"/>
         </scene>
-        <!--Friend GlobeVC-->
-        <scene sceneID="xmd-tO-o2H">
-            <objects>
-                <viewController id="8ZK-BN-5d8" customClass="FriendGlobeVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="FAv-Mm-alV"/>
-                        <viewControllerLayoutGuide type="bottom" id="TFC-Ka-Qab"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="GAU-Bm-HaB">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Dpc-oM-0wL">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                            </mapView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="Dpc-oM-0wL" secondAttribute="trailing" constant="-20" id="08O-Uj-epB"/>
-                            <constraint firstItem="Dpc-oM-0wL" firstAttribute="leading" secondItem="GAU-Bm-HaB" secondAttribute="leadingMargin" constant="-20" id="5ey-7n-QZE"/>
-                            <constraint firstItem="TFC-Ka-Qab" firstAttribute="top" secondItem="Dpc-oM-0wL" secondAttribute="bottom" constant="-34" id="n5I-un-pDw"/>
-                            <constraint firstItem="Dpc-oM-0wL" firstAttribute="top" secondItem="FAv-Mm-alV" secondAttribute="bottom" id="xZH-4b-XxY"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="OFs-r1-64g"/>
-                    <connections>
-                        <outlet property="map" destination="Dpc-oM-0wL" id="fLK-J9-tWV"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="eLc-KS-ysa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2486.9565217391305" y="4511.3839285714284"/>
-        </scene>
         <!--Filter-->
         <scene sceneID="nu4-IR-LnY">
             <objects>
@@ -1805,7 +1772,6 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                     <nil name="viewControllers"/>
                     <connections>
                         <segue destination="HbG-Y7-T4u" kind="relationship" relationship="rootViewController" id="Pjg-Bj-MiY"/>
-                        <segue destination="8ZK-BN-5d8" kind="show" id="qFX-m8-IrZ"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ah2-rL-68Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1920,6 +1886,11 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
             <point key="canvasLocation" x="1348" y="-828"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="UEo-K1-zuU">
+            <size key="intrinsicContentSize" width="-1" height="65"/>
+        </designable>
+    </designables>
     <inferredMetricsTieBreakers>
         <segue reference="ly0-KE-icv"/>
         <segue reference="Iid-4S-LK8"/>
