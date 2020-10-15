@@ -12,11 +12,6 @@ target 'converzone' do
     # Pods for testing
   end
 
-  target 'converzoneUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
   pod 'Crashlytics', '~> 3.14.0'
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
@@ -29,6 +24,5 @@ target 'converzone' do
   pod 'NVActivityIndicatorView'
   pod 'RangeSeekSlider'
   pod 'SAConfettiView'
-  pod 'EasyStash'
 
 end
