@@ -238,7 +238,7 @@ class EditProfileVC: UIViewController {
         
         switch section {
         case 1:
-            return "These two fields are optional. We suggest entering them though. That way you (and other people) have access to a whole bunch of fancy filtering features."
+            return "The above two fields are optional."
         case 3:
             return "Disable this if you don't want new people to text you. This set on \"off\" will make sure you are not visible for others in the discover tab"
         default:
