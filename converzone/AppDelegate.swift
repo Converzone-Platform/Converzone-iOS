@@ -12,7 +12,6 @@ import UserNotifications
 import Firebase
 import FirebaseMessaging
 import os
-import Fabric
 
 @UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
@@ -23,8 +22,6 @@ import Fabric
         UNUserNotificationCenter.current().delegate = self
     
         FirebaseApp.configure()
-        
-        Fabric.sharedSDK().debug = true
         
         Messaging.messaging().delegate = self
         

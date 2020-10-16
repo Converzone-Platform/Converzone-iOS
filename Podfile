@@ -12,7 +12,6 @@ target 'converzone' do
     # Pods for testing
   end
 
-  pod 'Crashlytics', '~> 3.14.0'
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'

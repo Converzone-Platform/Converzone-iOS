@@ -1,7 +1,4 @@
 PODS:
-  - Crashlytics (3.14.0):
-    - Fabric (~> 1.10.2)
-  - Fabric (1.10.2)
   - Firebase/Analytics (6.34.0):
     - Firebase/Core
   - Firebase/Auth (6.34.0):
@@ -117,7 +114,6 @@ PODS:
   - RangeSeekSlider (1.8.0)
 
 DEPENDENCIES:
-  - Crashlytics (~> 3.14.0)
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Database
@@ -130,8 +126,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Crashlytics
-    - Fabric
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -156,8 +150,6 @@ SPEC REPOS:
     - RangeSeekSlider
 
 SPEC CHECKSUMS:
-  Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
-  Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
   Firebase: c23a36d9e4cdf7877dfcba8dd0c58add66358999
   FirebaseAnalytics: 3bb096873ee0d7fa4b6c70f5e9166b6da413cc7f
   FirebaseAuth: c92d49ada7948d1a23466e3db17bc4c2039dddc3
@@ -181,6 +173,6 @@ SPEC CHECKSUMS:
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   RangeSeekSlider: 650b11fa1edcb92e1e0ede797669d98622570fb5
 
-PODFILE CHECKSUM: 981708ff96a638fc8012fa838fbcb8e88ebd687f
+PODFILE CHECKSUM: 7629b3d08f34a833ced70be80dc9f153dd62c1b2
 
 COCOAPODS: 1.8.4

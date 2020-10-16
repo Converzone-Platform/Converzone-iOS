@@ -12,7 +12,6 @@ import CoreLocation
 import AVFoundation
 import os
 import MathParser
-import Crashlytics
 
 var chatOf: User = User()
 
