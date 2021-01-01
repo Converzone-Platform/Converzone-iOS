@@ -100,7 +100,7 @@ extension Internet {
                     return
                 }
                 
-                // Passed all test
+                // Passed all tests
                 randomDiscoverStyle(for: user)
                 discover_users.append(user)
                 

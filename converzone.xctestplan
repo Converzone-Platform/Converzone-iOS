@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+
+  ],
+  "defaultOptions" : {
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-FIRAnalyticsDebugEnabled"
+      }
+    ],
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:converzone.xcodeproj",
+      "identifier" : "4AAED907218336F400968E3E",
+      "name" : "converzone"
+    },
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:converzone.xcodeproj",
+        "identifier" : "4AAED91E218336F400968E3E",
+        "name" : "converzoneTests"
+      }
+    }
+  ],
+  "version" : 1
+}

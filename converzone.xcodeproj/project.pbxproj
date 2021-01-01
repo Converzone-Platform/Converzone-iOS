@@ -61,7 +61,6 @@
 		4AAED90C218336F400968E3E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED90B218336F400968E3E /* AppDelegate.swift */; };
 		4AAED90E218336F400968E3E /* SplashScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED90D218336F400968E3E /* SplashScreenVC.swift */; };
 		4AAED916218336F400968E3E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AAED915218336F400968E3E /* Assets.xcassets */; };
-		4AAED924218336F400968E3E /* converzoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAED923218336F400968E3E /* converzoneTests.swift */; };
 		4AB1B22523AF859700BB29FF /* HallOfShameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB1B22423AF859700BB29FF /* HallOfShameVC.swift */; };
 		4ABDAC4C2490D104001E418C /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABDAC4B2490D104001E418C /* Metadata.swift */; };
 		4ABFF718236EF095000C5785 /* MainTBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABFF717236EF095000C5785 /* MainTBC.swift */; };
@@ -166,7 +165,6 @@
 		4AAED915218336F400968E3E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4AAED91A218336F400968E3E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4AAED91F218336F400968E3E /* converzoneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = converzoneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4AAED923218336F400968E3E /* converzoneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = converzoneTests.swift; sourceTree = "<group>"; };
 		4AAED925218336F400968E3E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4AB1B22423AF859700BB29FF /* HallOfShameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HallOfShameVC.swift; sourceTree = "<group>"; };
 		4ABDAC4B2490D104001E418C /* Metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
@@ -400,7 +398,6 @@
 		4AAED922218336F400968E3E /* converzoneTests */ = {
 			isa = PBXGroup;
 			children = (
-				4AAED923218336F400968E3E /* converzoneTests.swift */,
 				4A886D81253315BE0045C455 /* PersonTests.swift */,
 				4AAED925218336F400968E3E /* Info.plist */,
 			);
@@ -774,7 +771,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A886D82253315BE0045C455 /* PersonTests.swift in Sources */,
-				4AAED924218336F400968E3E /* converzoneTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
