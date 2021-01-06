@@ -67,6 +67,7 @@
 		4AC0A6062271AF36007FA5AB /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5F59B92264CE680065F47B /* libz.tbd */; };
 		4AC65935229F16F200BD2251 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC65934229F16F200BD2251 /* Alerts.swift */; };
 		4AC659E623C29A81004E2262 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AC659E523C29A81004E2262 /* StoreKit.framework */; };
+		4ACE3F20259F377400328C79 /* WorldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACE3F1F259F377400328C79 /* WorldTests.swift */; };
 		4AD6F878223B9AD400138EAD /* MessageCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD6F877223B9AD400138EAD /* MessageCells.swift */; };
 		4AD6F87A223B9B5A00138EAD /* ImageMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AD6F879223B9B5A00138EAD /* ImageMessageCell.xib */; };
 		4AD7D6832217292A000E4660 /* Genders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD7D6822217292A000E4660 /* Genders.swift */; };
@@ -171,6 +172,7 @@
 		4ABFF717236EF095000C5785 /* MainTBC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTBC.swift; sourceTree = "<group>"; };
 		4AC65934229F16F200BD2251 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		4AC659E523C29A81004E2262 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		4ACE3F1F259F377400328C79 /* WorldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldTests.swift; sourceTree = "<group>"; };
 		4AD6F877223B9AD400138EAD /* MessageCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCells.swift; sourceTree = "<group>"; };
 		4AD6F879223B9B5A00138EAD /* ImageMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageMessageCell.xib; sourceTree = "<group>"; };
 		4AD7D6822217292A000E4660 /* Genders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genders.swift; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 		4AAED922218336F400968E3E /* converzoneTests */ = {
 			isa = PBXGroup;
 			children = (
+				4ACE3F1F259F377400328C79 /* WorldTests.swift */,
 				4A886D81253315BE0045C455 /* PersonTests.swift */,
 				4AAED925218336F400968E3E /* Info.plist */,
 			);
@@ -770,6 +773,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4ACE3F20259F377400328C79 /* WorldTests.swift in Sources */,
 				4A886D82253315BE0045C455 /* PersonTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

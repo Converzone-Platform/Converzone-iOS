@@ -780,7 +780,6 @@ class World {
         
     }
     
-    //Functionality
     func sort(){
         
         self.languages.sort{
@@ -817,8 +816,8 @@ class Country {
         self.name = name
     }
     
-    static func countryName(countryCode: String) -> String? {
-        let current = Locale(identifier: "en_US")
+    static func countryName(countryCode: String, with identifier: String = "en_US") -> String? {
+        let current = Locale(identifier: identifier)
         return current.localizedString(forRegionCode: countryCode)
     }
 }

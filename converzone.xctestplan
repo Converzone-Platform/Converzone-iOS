@@ -1,6 +1,12 @@
 {
   "configurations" : [
+    {
+      "id" : "25212A1B-7545-4791-B620-CD9F0CBE0236",
+      "name" : "Configuration 1",
+      "options" : {
 
+      }
+    }
   ],
   "defaultOptions" : {
     "commandLineArgumentEntries" : [
