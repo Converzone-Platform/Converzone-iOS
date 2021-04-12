@@ -80,7 +80,7 @@ class WorldTests: XCTestCase {
     }
     
     func testCountryNameForCountryCodeNil(){
-        let inputs = ["baba", "dede", "rrr"]
+        let inputs = ["baba", "dde", "rrr"]
         
         for input in inputs {
             XCTAssertNil(Country.countryName(countryCode: input))
