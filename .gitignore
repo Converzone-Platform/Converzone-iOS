@@ -1,5 +1,5 @@
 
 .github/.DS_Store
 converzone/.DS_Store
-.DS_Store
+*.DS_Store
 *.xcuserstate

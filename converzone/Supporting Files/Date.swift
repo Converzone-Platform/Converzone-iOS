@@ -13,7 +13,6 @@ extension Date {
     
     enum Style {
         
-        
         case dayMonthYear
         
         case dayMonthYearHourMinute
