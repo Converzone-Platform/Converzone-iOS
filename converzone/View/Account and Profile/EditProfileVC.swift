@@ -168,6 +168,7 @@ class EditProfileVC: UIViewController {
         
         var date = (tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as! InputDateCell).date.text
         date = date?.trimmingCharacters(in: .whitespacesAndNewlines)
+        
         if date == "" {
             
             master.birthdate = nil
