@@ -19,8 +19,8 @@ target 'converzone' do
   pod 'Firebase/Messaging'
 
   pod 'MathParser', '~> 1.5'
-  pod 'PhoneNumberKit', '~> 3.1'
-  pod 'NVActivityIndicatorView'
+  # pod 'PhoneNumberKit', '~> 3.1'
+  # pod 'NVActivityIndicatorView'
   pod 'RangeSeekSlider'
 
 end
