@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0NX-P2-7IM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0NX-P2-7IM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -438,14 +438,14 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddLanguageCell" id="S5S-Hx-bsa">
-                                        <rect key="frame" x="0.0" y="99" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="99" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="S5S-Hx-bsa" id="Y0e-XZ-ajP">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5w-y1-UMR">
-                                                    <rect key="frame" x="15" y="11" width="368" height="21.5"/>
+                                                    <rect key="frame" x="15" y="11" width="368" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.12941176469999999" green="0.54117647059999996" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1359,10 +1359,10 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
             </objects>
             <point key="canvasLocation" x="1346" y="4493"/>
         </scene>
-        <!--MainTBC-->
+        <!--Tab Bar Controller-->
         <scene sceneID="BvW-kS-1Xj">
             <objects>
-                <tabBarController storyboardIdentifier="MainTBC" id="0NX-P2-7IM" customClass="MainTBC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="0NX-P2-7IM" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="qG1-CC-Buw"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="TDa-in-Kv1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
@@ -1370,7 +1370,6 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <outlet property="tab_bar" destination="TDa-in-Kv1" id="ULx-9a-mY3"/>
                         <segue destination="Y6b-ff-kdK" kind="relationship" relationship="viewControllers" id="Sx8-qy-2lM"/>
                         <segue destination="e1l-qM-2Jo" kind="relationship" relationship="viewControllers" id="dNF-PW-Kky"/>
                         <segue destination="hFk-gY-rhq" kind="relationship" relationship="viewControllers" id="V1w-tC-Gym"/>
@@ -1423,7 +1422,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
         <scene sceneID="u7d-h2-NIq">
             <objects>
                 <navigationController storyboardIdentifier="ConversationsNC" automaticallyAdjustsScrollViewInsets="NO" id="Y6b-ff-kdK" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" id="3zz-F2-pYb"/>
+                    <tabBarItem key="tabBarItem" title="" image="ellipses.bubble" catalog="system" id="3zz-F2-pYb"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="goM-ND-r3B">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -1442,7 +1441,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
         <scene sceneID="API-Xc-TM2">
             <objects>
                 <navigationController storyboardIdentifier="SettingsNC" automaticallyAdjustsScrollViewInsets="NO" id="hFk-gY-rhq" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" id="pFo-kf-ry5"/>
+                    <tabBarItem key="tabBarItem" title="" image="slider.horizontal.3" catalog="system" id="pFo-kf-ry5"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="ep9-aC-Jjz">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -1464,7 +1463,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
         <scene sceneID="9f1-lF-ysP">
             <objects>
                 <navigationController storyboardIdentifier="DiscoverNC" automaticallyAdjustsScrollViewInsets="NO" id="e1l-qM-2Jo" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" id="Jxr-St-IXu"/>
+                    <tabBarItem key="tabBarItem" title="" image="person.2" catalog="system" id="Jxr-St-IXu"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Xan-7J-odU">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -1496,14 +1495,14 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                 <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NormalInputCell" id="viX-ec-GAZ" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="414" height="22.5"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="414" height="22"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="viX-ec-GAZ" id="IBd-rO-0eR" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="22.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. +43 650 3314000" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BYg-QQ-33n" customClass="PhoneNumberTextField" customModule="PhoneNumberKit">
-                                                    <rect key="frame" x="192" y="11" width="203" height="1"/>
+                                                    <rect key="frame" x="192" y="11" width="203" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
@@ -1515,10 +1514,10 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NormalOTPCell" id="agA-k7-gud" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="78" width="414" height="22.5"/>
+                                        <rect key="frame" x="0.0" y="77.5" width="414" height="23"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="agA-k7-gud" id="3s6-Au-aHI" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="22.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="23"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. 123456" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rDB-xd-H1V">
@@ -1593,32 +1592,14 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
         <segue reference="zsM-s8-wDg"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="ellipses.bubble" catalog="system" width="128" height="110"/>
         <image name="paperplane.fill" catalog="system" width="128" height="118"/>
+        <image name="person.2" catalog="system" width="128" height="81"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
+        <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
         <image name="user-2" width="512" height="512"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

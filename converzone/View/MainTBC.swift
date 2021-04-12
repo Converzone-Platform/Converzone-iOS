@@ -15,10 +15,10 @@ class MainTBC: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let configuration = UIImage.SymbolConfiguration(pointSize: 17, weight: .medium)
-
-        tab_bar.items?[0].image = UIImage(systemName: "ellipses.bubble", withConfiguration: configuration)
-        tab_bar.items?[1].image = UIImage(systemName: "globe", withConfiguration: UIImage.SymbolConfiguration(pointSize: 17, weight: .medium))
-        tab_bar.items?[2].image = UIImage(systemName: "rectangle.stack.person.crop", withConfiguration: configuration)
+//        let configuration = UIImage.SymbolConfiguration(pointSize: 17, weight: .medium)
+//
+//        tab_bar.items?[0].image = UIImage(systemName: "ellipses.bubble", withConfiguration: configuration)
+//        tab_bar.items?[1].image = UIImage(systemName: "globe", withConfiguration: UIImage.SymbolConfiguration(pointSize: 17, weight: .medium))
+//        tab_bar.items?[2].image = UIImage(systemName: "rectangle.stack.person.crop", withConfiguration: configuration)
     }
 }
