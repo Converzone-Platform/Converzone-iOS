@@ -69,7 +69,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
             return
         }
         
-        self.title = "Conversations"
+        self.title = "Converzone"
         self.tabBarController?.tabBar.items?[0].title = ""
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -108,6 +108,10 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
 }
 
 extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        ["Conversations", "Discover"][section]
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         

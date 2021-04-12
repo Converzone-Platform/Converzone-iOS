@@ -438,14 +438,14 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddLanguageCell" id="S5S-Hx-bsa">
-                                        <rect key="frame" x="0.0" y="99" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="99" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="S5S-Hx-bsa" id="Y0e-XZ-ajP">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5w-y1-UMR">
-                                                    <rect key="frame" x="15" y="11" width="368" height="21.5"/>
+                                                    <rect key="frame" x="15" y="11" width="368" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.12941176469999999" green="0.54117647059999996" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1152,7 +1152,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
             </objects>
             <point key="canvasLocation" x="5461" y="5194"/>
         </scene>
-        <!--Conversations-->
+        <!--Converzone-->
         <scene sceneID="QP7-XK-GAJ">
             <objects>
                 <viewController storyboardIdentifier="ConversationsVC" id="adX-g0-jiE" customClass="ConversationsVC" customModule="converzone" customModuleProvider="target" sceneMemberID="viewController">
@@ -1164,13 +1164,13 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="okL-nn-9kh">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="okL-nn-9kh">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="separatorColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ChatCell" rowHeight="120" id="WoR-sX-8d5" customClass="ChatCell" customModule="converzone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="120"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="414" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WoR-sX-8d5" id="5ye-YF-zy6">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
@@ -1245,7 +1245,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                             <constraint firstAttribute="trailing" secondItem="okL-nn-9kh" secondAttribute="trailing" id="xXt-iE-yeO"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Conversations" largeTitleDisplayMode="always" id="WXE-6a-9mo"/>
+                    <navigationItem key="navigationItem" title="Converzone" largeTitleDisplayMode="always" id="WXE-6a-9mo"/>
                     <connections>
                         <outlet property="tableView" destination="okL-nn-9kh" id="yVu-aY-gO1"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="signOutUserSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="zsM-s8-wDg"/>
@@ -1495,14 +1495,14 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                 <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NormalInputCell" id="viX-ec-GAZ" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="414" height="22.5"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="414" height="22"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="viX-ec-GAZ" id="IBd-rO-0eR" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="22.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. +43 650 3314000" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BYg-QQ-33n" customClass="PhoneNumberTextField" customModule="PhoneNumberKit">
-                                                    <rect key="frame" x="191" y="11" width="204" height="1"/>
+                                                    <rect key="frame" x="190" y="11" width="205" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
@@ -1514,14 +1514,14 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NormalOTPCell" id="agA-k7-gud" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="78" width="414" height="23.5"/>
+                                        <rect key="frame" x="0.0" y="77.5" width="414" height="24"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="agA-k7-gud" id="3s6-Au-aHI" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="23.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="24"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. 123456" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rDB-xd-H1V">
-                                                    <rect key="frame" x="191" y="11" width="204" height="0.0"/>
+                                                    <rect key="frame" x="190" y="11" width="205" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
