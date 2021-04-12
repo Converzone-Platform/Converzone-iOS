@@ -56,6 +56,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
                     
                     return false
             }
+            
             return date_1.timeIntervalSince1970 >= date_2.timeIntervalSince1970
         })
     }
@@ -64,7 +65,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         super.viewWillAppear(animated)
         
         if Navigation.didNotFinishRegistration() {
-            performSegue(withIdentifier: "signOutUserSegue", sender: nil)
+            performSegue(withIdentifier: "signOutUserSegue", sender: self)
             return
         }
         
@@ -160,10 +161,6 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         cell.selectionStyle = .none
         
         return cell
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

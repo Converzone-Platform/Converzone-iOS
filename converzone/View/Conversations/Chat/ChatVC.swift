@@ -239,7 +239,6 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         Internet.listenForIsTyping(uid: chatOf.uid)
         
-        setUpLocationServices()
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.tableView.reloadData()
@@ -524,27 +523,6 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        //Direct to maps if the message is a location
-//        if chatOf.conversation[indexPath.row] is LocationMessage {
-//            let message = chatOf.conversation[indexPath.row] as! LocationMessage
-//            let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: (message.coordinate?.latitude)!, longitude: (message.coordinate?.longitude)!))
-//
-//            let source = MKMapItem(placemark: placemark)
-//
-//            if message.is_sender {
-//                source.name = master.fullname.string
-//            }else{
-//                source.name = chatOf.fullname.string
-//            }
-//
-//            MKMapItem.openMaps(with: [source], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])
-//
-//        }
-    }
-    
-    
 }
 
 // MARK: Send message
@@ -628,39 +606,6 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
     }
 }
 
-extension ChatVC: CLLocationManagerDelegate {
-    
-    func setUpLocationServices(){
-        
-        self.locationManager.requestAlwaysAuthorization()
-        
-        // For use in foreground
-        self.locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.pausesLocationUpdatesAutomatically = true
-            locationManager.startUpdatingLocation()
-            
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //master.coordinate = manager.location!.coordinate
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            locationManager.requestLocation()
-        }
-    }
-}
 
 //Disable Auto Rotation
 extension ChatVC {
