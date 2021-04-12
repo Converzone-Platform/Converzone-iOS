@@ -8,6 +8,7 @@
 
 import UIKit
 import os
+import SwiftAlert
 
 class EditProfileVC: UIViewController {
     
@@ -74,7 +75,6 @@ class EditProfileVC: UIViewController {
         
         master.firstname = firstname
         master.lastname = lastname
-        
         
     }
     

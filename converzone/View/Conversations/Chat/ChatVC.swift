@@ -12,6 +12,7 @@ import CoreLocation
 import AVFoundation
 import os
 import MathParser
+import SwiftAlert
 
 var chatOf: User = User()
 
@@ -66,12 +67,6 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         }
         
         Internet.stoppedTyping(uid: chatOf.uid)
-        
-        // Let's check if the input is not too long
-        if text.count > 10000 {
-            alert("Your message is very long", "Please consider splitting it up in multiple messages.")
-            return
-        }
         
         deleteFirstMessage()
 

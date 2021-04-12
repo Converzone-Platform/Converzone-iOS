@@ -14,6 +14,7 @@ import FirebaseDatabase
 import FirebaseStorage
 import MapKit
 import os
+import SwiftAlert
 
 public class Internet: NSObject {
     
@@ -164,7 +165,7 @@ public class Internet: NSObject {
             
             if error != nil {
                 
-                alert("Image upload went wrong", error!.localizedDescription)
+                Alert.alert(title: "Image upload went wrong", message: error!.localizedDescription)
                 return
             }
             

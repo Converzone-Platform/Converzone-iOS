@@ -10,6 +10,8 @@ import UIKit
 import os
 import PhoneNumberKit
 import NVActivityIndicatorView
+import SwiftAlert
+import SwiftNetworking
 
 class PhoneVerificationVC: UIViewController {
     
@@ -47,7 +49,9 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             cell.textLabel?.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             cell.input?.textContentType = .telephoneNumber
             
-            
+            #if DEBUG
+            cell.input?.text = "+43 650 3314000"
+            #endif
             
             return cell
             
@@ -70,8 +74,9 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             
             cell.input?.textContentType = .oneTimeCode
             
-//            cell.input?.tag = 777
-//            cell.input?.delegate = self
+            #if DEBUG
+            cell.input?.text = "123456"
+            #endif
             
             cell.title?.text = labels[tableView.globalIndexPath(for: indexPath as NSIndexPath)]
             
@@ -126,9 +131,8 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
         if tableView.globalIndexPath(for: indexPath as NSIndexPath) == 1 {
             
             // Check for internet connection
-            if !Internet.isOnline() {
-                
-                alert("You seem to be offline", "Please establish an internet connection.")
+            if !Networking.isOnline() {
+                Alert.alert(title: "You seem to be offline", message: "Please establish an internet connection.")
                 
                 return
             }
@@ -150,7 +154,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                 _ = try phoneNumberKit.parse(phonenumber)
             }
             catch {
-                alert("Enter valid phonenumber", "Please enter a phonenumber in the international format. For example: +43 650 3314 001")
+                Alert.alert(title: "Enter valid phonenumber", message: "Please enter a phonenumber in the international format. For example: +43 650 3314 001")
                 return
             }
             
@@ -210,7 +214,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
             }
             
             if code.isEmpty {
-                alert("No Code", "Please enter the code you received from the SMS. If you didn't receive one, try resending again.")
+                Alert.alert(title: "No Code", message: "Please enter the code you received from the SMS. If you didn't receive one, try resending again.")
                 return
             }
             
@@ -235,7 +239,8 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                     return
                 }
                 
-                alert("Verified", "Let's continue with entering further user information now or let's skip that if you are already registered.") {
+                Alert.alert(title: "Verified", message: "Let's continue with entering further user information now or let's skip that if you are already registered.", actions: [UIAlertAction(title: "OK", style: .default, handler: { (_) in
+                    
                     Internet.doesUserExist(uid: master.uid) { (exists) in
                         if exists {
                             
@@ -257,11 +262,7 @@ extension PhoneVerificationVC: UITableViewDataSource, UITableViewDelegate {
                         
                         }
                     }
-                }
-                
-                
-                
-                
+                })])
             }
             
         }

@@ -8,47 +8,47 @@
 
 import UIKit
 
-func alert(_ title: String, _ message: String, _ target: UIViewController = UIApplication.currentViewController()!, closure: (() -> Void)? = nil){
-    
-    let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-    
-    if let popoverController = alert.popoverPresentationController {
-        popoverController.sourceView = target.view // to set the source of your alert
-        popoverController.sourceRect = CGRect(x: target.view.bounds.midX, y: target.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
-        popoverController.permittedArrowDirections = []
-    }
-    
-    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alert) in
-        
-        guard let closure = closure else {
-            return
-        }
-        
-        closure()
-        
-    }))
-    
-    target.present(alert, animated: true, completion: nil)
-}
+//func alert(_ title: String, _ message: String, _ target: UIViewController = UIApplication.currentViewController()!, closure: (() -> Void)? = nil){
+//    
+//    let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+//    
+//    if let popoverController = alert.popoverPresentationController {
+//        popoverController.sourceView = target.view // to set the source of your alert
+//        popoverController.sourceRect = CGRect(x: target.view.bounds.midX, y: target.view.bounds.midY, width: 0, height: 0) // you can set this as per your requirement.
+//        popoverController.permittedArrowDirections = []
+//    }
+//    
+//    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alert) in
+//        
+//        guard let closure = closure else {
+//            return
+//        }
+//        
+//        closure()
+//        
+//    }))
+//    
+//    target.present(alert, animated: true, completion: nil)
+//}
 
-class Alert {
-    
-    static func alert(title: String?, message: String?, target: UIViewController = UIApplication.currentViewController()!, actions: [UIAlertAction] = [UIAlertAction(title: "OK", style: .default, handler: nil)]){
-        
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        
-        if let popoverController = alert.popoverPresentationController {
-            popoverController.sourceView = target.view
-            popoverController.sourceRect = CGRect(x: target.view.bounds.midX, y: target.view.bounds.midY, width: 0, height: 0)
-            popoverController.permittedArrowDirections = []
-        }
-        
-        for action in actions {
-            alert.addAction(action)
-        }
-        
-        target.present(alert, animated: true, completion: nil)
-        
-    }
-    
-}
+//class Alert {
+//
+//    static func alert(title: String?, message: String?, target: UIViewController = UIApplication.currentViewController()!, actions: [UIAlertAction] = [UIAlertAction(title: "OK", style: .default, handler: nil)]){
+//
+//        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+//
+//        if let popoverController = alert.popoverPresentationController {
+//            popoverController.sourceView = target.view
+//            popoverController.sourceRect = CGRect(x: target.view.bounds.midX, y: target.view.bounds.midY, width: 0, height: 0)
+//            popoverController.permittedArrowDirections = []
+//        }
+//
+//        for action in actions {
+//            alert.addAction(action)
+//        }
+//
+//        target.present(alert, animated: true, completion: nil)
+//
+//    }
+//
+//}

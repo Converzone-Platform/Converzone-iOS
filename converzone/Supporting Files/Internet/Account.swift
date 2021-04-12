@@ -10,6 +10,7 @@ import Foundation
 import FirebaseAuth
 import os
 import Kingfisher
+import SwiftAlert
 
 extension Internet {
     
@@ -97,7 +98,7 @@ extension Internet {
             UserDefaults.standard.removeObject(forKey: "DidFinishRegistration")
             
         }catch{
-            alert("Signing out...", "An unknown error occurred")
+            Alert.alert(title: "Signing out...", message: "An unknown error occurred")
         }
     }
     

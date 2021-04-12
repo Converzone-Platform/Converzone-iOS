@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import os
+import SwiftAlert
 
 var world = World(name: "Earth")
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftAlert
 
 enum languagePreficiency {
     
@@ -51,7 +52,7 @@ class UsersLanguagesVC: UIViewController {
         }else{
             
             //Display warning
-            alert("At least one language", "Please select at least one language which you speak.", closure: nil)
+            Alert.alert(title: "At least one language", message: "Please select at least one language which you speak.")
         }
     }
     
