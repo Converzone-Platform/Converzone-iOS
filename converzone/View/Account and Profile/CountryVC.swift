@@ -57,7 +57,7 @@ extension CountryVC: UITableViewDataSource, UITableViewDelegate{
         
         master.country = country
         
-        if master.editingMode == .editing{
+        if master.editingMode == .editing {
             Navigation.pop(context: self)
             Navigation.pop(context: self)
             

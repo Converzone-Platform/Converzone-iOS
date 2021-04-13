@@ -438,14 +438,14 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddLanguageCell" id="S5S-Hx-bsa">
-                                        <rect key="frame" x="0.0" y="99" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="99" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="S5S-Hx-bsa" id="Y0e-XZ-ajP">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5w-y1-UMR">
-                                                    <rect key="frame" x="15" y="11" width="368" height="21"/>
+                                                    <rect key="frame" x="15" y="11" width="368" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.12941176469999999" green="0.54117647059999996" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1034,11 +1034,11 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                         <viewControllerLayoutGuide type="bottom" id="Lvd-fx-DSg"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="gn6-26-VDe">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" sectionIndexMinimumDisplayRowCount="5" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="GFa-wJ-UMO">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="56" width="414" height="752"/>
                                 <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SettingsCell" textLabel="zkt-4A-IvH" detailTextLabel="9JN-hj-QHo" style="IBUITableViewCellStyleSubtitle" id="sUB-9t-NLb">
@@ -1090,7 +1090,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hfd-C9-i42" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5462" y="4469"/>
+            <point key="canvasLocation" x="-130" y="6147"/>
         </scene>
         <!--Hall of Shame-->
         <scene sceneID="nsa-jm-JeW">
@@ -1101,11 +1101,11 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                         <viewControllerLayoutGuide type="bottom" id="b0c-tm-ePD"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="YC6-Z0-Yyv">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="fm8-nw-I5u">
-                                <rect key="frame" x="0.0" y="140" width="414" height="673"/>
+                                <rect key="frame" x="0.0" y="108" width="414" height="700"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="3bq-Cy-Nfe" imageView="tKj-6h-gqc" style="IBUITableViewCellStyleDefault" id="wz8-cE-l5t">
                                         <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
@@ -1150,7 +1150,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bd0-OW-z8q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5461" y="5194"/>
+            <point key="canvasLocation" x="-130" y="6940"/>
         </scene>
         <!--Converzone-->
         <scene sceneID="QP7-XK-GAJ">
@@ -1245,7 +1245,15 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                             <constraint firstAttribute="trailing" secondItem="okL-nn-9kh" secondAttribute="trailing" id="xXt-iE-yeO"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Converzone" largeTitleDisplayMode="always" id="WXE-6a-9mo"/>
+                    <navigationItem key="navigationItem" title="Converzone" largeTitleDisplayMode="always" id="WXE-6a-9mo">
+                        <barButtonItem key="rightBarButtonItem" title="Preferences" image="slider.horizontal.3" catalog="system" id="npz-Jj-nmX">
+                            <connections>
+                                <segue destination="hFk-gY-rhq" kind="popoverPresentation" popoverAnchorBarButtonItem="npz-Jj-nmX" id="evM-39-g6y">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="okL-nn-9kh" id="yVu-aY-gO1"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="signOutUserSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="zsM-s8-wDg"/>
@@ -1372,7 +1380,6 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                     <connections>
                         <segue destination="Y6b-ff-kdK" kind="relationship" relationship="viewControllers" id="Sx8-qy-2lM"/>
                         <segue destination="e1l-qM-2Jo" kind="relationship" relationship="viewControllers" id="dNF-PW-Kky"/>
-                        <segue destination="hFk-gY-rhq" kind="relationship" relationship="viewControllers" id="V1w-tC-Gym"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PUL-vd-qBd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1444,11 +1451,12 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                     <tabBarItem key="tabBarItem" title="" image="slider.horizontal.3" catalog="system" id="pFo-kf-ry5"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="ep9-aC-Jjz">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="108"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Uuf-9Q-3l9">
+                        <rect key="frame" x="0.0" y="-54" width="0.0" height="0.0"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
@@ -1457,7 +1465,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N4F-5S-aAM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5462" y="3707"/>
+            <point key="canvasLocation" x="-130" y="5294"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9f1-lF-ysP">
@@ -1495,14 +1503,14 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                 <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NormalInputCell" id="viX-ec-GAZ" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="414" height="22"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="414" height="22.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="viX-ec-GAZ" id="IBd-rO-0eR" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="22"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="22.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. +43 650 3314000" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BYg-QQ-33n" customClass="PhoneNumberTextField" customModule="PhoneNumberKit">
-                                                    <rect key="frame" x="190" y="11" width="205" height="0.0"/>
+                                                    <rect key="frame" x="188" y="11" width="207" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
@@ -1514,14 +1522,14 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NormalOTPCell" id="agA-k7-gud" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="77.5" width="414" height="24"/>
+                                        <rect key="frame" x="0.0" y="78" width="414" height="25.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="agA-k7-gud" id="3s6-Au-aHI" customClass="NormalInputCell" customModule="converzone" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="24"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="25.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="700" verticalCompressionResistancePriority="700" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. 123456" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rDB-xd-H1V">
-                                                    <rect key="frame" x="190" y="11" width="205" height="0.0"/>
+                                                    <rect key="frame" x="188" y="11" width="207" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
@@ -1533,7 +1541,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SendCodeCell" id="sSu-dp-bpx">
-                                        <rect key="frame" x="0.0" y="101.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="103.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sSu-dp-bpx" id="7qz-3v-ruV">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -1589,7 +1597,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
     <inferredMetricsTieBreakers>
         <segue reference="ly0-KE-icv"/>
         <segue reference="Iid-4S-LK8"/>
-        <segue reference="zsM-s8-wDg"/>
+        <segue reference="fDF-FW-xub"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="ellipses.bubble" catalog="system" width="128" height="110"/>
