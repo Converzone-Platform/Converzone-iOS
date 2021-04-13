@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0NX-P2-7IM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Y6b-ff-kdK">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -864,6 +864,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                         <outlet property="journey_outlet" destination="en0-cN-Nun" id="LBA-0f-0Yy"/>
                         <outlet property="welcomeMessage_label" destination="XjS-ro-4pa" id="1TB-re-EhB"/>
                         <segue destination="0NX-P2-7IM" kind="presentation" identifier="showActualAppSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="ly0-KE-icv"/>
+                        <segue destination="Y6b-ff-kdK" kind="presentation" identifier="showActualAppSegue" modalPresentationStyle="fullScreen" id="3I2-oc-Z4x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cBU-lj-uWT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1165,7 +1166,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="okL-nn-9kh">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="separatorColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
@@ -1230,6 +1231,57 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                                             <outlet property="view" destination="sQE-Pb-GrV" id="xH1-Rl-7lC"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PicDiscoverCell" rowHeight="250" id="AoI-fu-sHj" customClass="PicDiscoverCell" customModule="converzone" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="175.5" width="414" height="250"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AoI-fu-sHj" id="1G5-Vz-vSy">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JW2-n9-t3s">
+                                                    <rect key="frame" x="55" y="22.5" width="304" height="205"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oJJ-Xi-m0B">
+                                                            <rect key="frame" x="0.0" y="0.0" width="304" height="170"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="TvK-cN-XXp">
+                                                            <rect key="frame" x="8" y="177" width="288" height="21"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="21" id="dn0-fY-oDb"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="TvK-cN-XXp" secondAttribute="trailing" constant="8" id="EiX-5g-ZMG"/>
+                                                        <constraint firstItem="oJJ-Xi-m0B" firstAttribute="leading" secondItem="JW2-n9-t3s" secondAttribute="leading" id="G8G-Yk-Uxf"/>
+                                                        <constraint firstItem="oJJ-Xi-m0B" firstAttribute="top" secondItem="JW2-n9-t3s" secondAttribute="top" id="M18-VN-ntz"/>
+                                                        <constraint firstAttribute="trailing" secondItem="oJJ-Xi-m0B" secondAttribute="trailing" id="RHH-Rd-3b2"/>
+                                                        <constraint firstAttribute="bottom" secondItem="TvK-cN-XXp" secondAttribute="bottom" constant="7" id="bjV-Z3-3cL"/>
+                                                        <constraint firstAttribute="width" secondItem="JW2-n9-t3s" secondAttribute="height" multiplier="55:41" id="vAZ-fl-P0n"/>
+                                                        <constraint firstItem="TvK-cN-XXp" firstAttribute="top" secondItem="oJJ-Xi-m0B" secondAttribute="bottom" constant="7" id="xH8-lT-tWE"/>
+                                                        <constraint firstItem="TvK-cN-XXp" firstAttribute="leading" secondItem="JW2-n9-t3s" secondAttribute="leading" constant="8" id="zmW-EZ-Me3"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="JW2-n9-t3s" secondAttribute="bottom" constant="11.5" id="7Xe-0i-TZn"/>
+                                                <constraint firstItem="JW2-n9-t3s" firstAttribute="top" secondItem="1G5-Vz-vSy" secondAttribute="topMargin" constant="11.5" id="Vwc-hI-dKg"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="JW2-n9-t3s" secondAttribute="trailing" constant="35" id="dIf-1E-YfP"/>
+                                                <constraint firstItem="JW2-n9-t3s" firstAttribute="leading" secondItem="1G5-Vz-vSy" secondAttribute="leadingMargin" constant="35" id="ih0-Xk-jze"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="name" destination="TvK-cN-XXp" id="FvW-gu-4iv"/>
+                                            <outlet property="profile_image" destination="oJJ-Xi-m0B" id="7DQ-OM-9ew"/>
+                                            <outlet property="view" destination="JW2-n9-t3s" id="kxU-nZ-InR"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="adX-g0-jiE" id="AHH-Oz-66p"/>
@@ -1239,10 +1291,10 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="mWa-zq-iYP" firstAttribute="top" secondItem="okL-nn-9kh" secondAttribute="bottom" id="dkP-E2-tcd"/>
-                            <constraint firstItem="okL-nn-9kh" firstAttribute="leading" secondItem="IPL-A4-YvE" secondAttribute="leading" id="dq5-lj-8nP"/>
-                            <constraint firstItem="okL-nn-9kh" firstAttribute="top" secondItem="9ra-im-Cnf" secondAttribute="bottom" id="o61-bn-rtt"/>
-                            <constraint firstAttribute="trailing" secondItem="okL-nn-9kh" secondAttribute="trailing" id="xXt-iE-yeO"/>
+                            <constraint firstAttribute="trailing" secondItem="okL-nn-9kh" secondAttribute="trailing" id="07C-Id-Juj"/>
+                            <constraint firstItem="mWa-zq-iYP" firstAttribute="top" secondItem="okL-nn-9kh" secondAttribute="bottom" id="5GL-zg-z7M"/>
+                            <constraint firstItem="okL-nn-9kh" firstAttribute="leading" secondItem="IPL-A4-YvE" secondAttribute="leading" id="cd2-VN-N6D"/>
+                            <constraint firstItem="okL-nn-9kh" firstAttribute="top" secondItem="9ra-im-Cnf" secondAttribute="bottom" id="qCp-3C-aBL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Converzone" largeTitleDisplayMode="always" id="WXE-6a-9mo">
@@ -1442,7 +1494,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b4Q-67-K4U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="623" y="3706"/>
+            <point key="canvasLocation" x="-130" y="3706"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="API-Xc-TM2">
@@ -1567,7 +1619,7 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
                     <connections>
                         <outlet property="tableView" destination="MgX-ny-sO1" id="mPA-xN-Xvu"/>
                         <segue destination="pbM-lk-L4V" kind="presentation" identifier="userWasVerifiedSegue" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="S7H-BA-xFV"/>
-                        <segue destination="0NX-P2-7IM" kind="presentation" identifier="showActualAppSegue" modalPresentationStyle="fullScreen" id="aJH-0W-Js2"/>
+                        <segue destination="Y6b-ff-kdK" kind="presentation" identifier="showActualAppSegue" modalPresentationStyle="fullScreen" id="OrN-hW-m4n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qYJ-KI-Nub" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1595,9 +1647,9 @@ CONVERZONE HAS NO TOLERANCE FOR OBJECTIONABLE CONTENT OR ABUSIVE USERS.</string>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ly0-KE-icv"/>
+        <segue reference="3I2-oc-Z4x"/>
         <segue reference="Iid-4S-LK8"/>
-        <segue reference="fDF-FW-xub"/>
+        <segue reference="zsM-s8-wDg"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="ellipses.bubble" catalog="system" width="128" height="110"/>

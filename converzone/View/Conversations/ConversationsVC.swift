@@ -11,7 +11,7 @@ import FirebaseAuth
 import os
 import SwiftDesign
 
-class ConversationsVC: UIViewController, ConversationUpdateDelegate {
+class ConversationsVC: UIViewController, ConversationUpdateDelegate, DiscoverUpdateDelegate {
     
     func didUpdate(sender: Internet) {
         DispatchQueue.main.async {
@@ -20,6 +20,9 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
             self.tableView.reloadData()
         }
     }
+    
+    private let number_of_items_for_fetch = 3
+    private var discover_card: DicoverCard = DicoverCard()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -35,6 +38,11 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         self.view.backgroundColor = Colors.background_grey
         
         Internet.update_conversations_tableview_delegate = self
+        Internet.update_discovery_tableview_delegate = self
+        
+        if discover_users.count == 0 {
+            fetchUsers()
+        }
     }
     
     private func sortUsersByLastMessageDate() {
@@ -76,8 +84,6 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         
         Internet.getMaster()
         
-        //filtered_converations = master?.conversations
-        
         sortUsersByLastMessageDate()
         
         //MARK: TODO - Reloading the whole tableview might be too much
@@ -105,6 +111,18 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
     private func setUpNavBar(){
         navigationController?.navigationBar.prefersLargeTitles = true
     }
+    
+    private func fetchUsers(){
+        
+        if no_discoverable_users_left {
+            return
+        }
+        
+        for _ in 0...number_of_items_for_fetch {
+            Internet.findRandomUsers()
+            
+        }
+    }
 }
 
 extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
@@ -113,20 +131,27 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         ["Conversations", "Discover"][section]
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if master.conversations.count == 0 {
-            tableView.setEmptyView(title: "No conversations yet.", message: "Text a random person in the discover tab")
-        }
-        else {
-            tableView.restore()
-        }
-        
-        return master.conversations.count
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if section == 0 {
+            if master.conversations.count == 0 {
+                tableView.setEmptyView(title: "No conversations yet.", message: "Text a random person in the discover tab")
+            }
+            else {
+                tableView.restore()
+            }
+            
+            return master.conversations.count
+        }else{
+            return discover_users.count
+        }
+    }
+    
+    fileprivate func renderConversationCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell") as! ChatCell
         
         cell.name.attributedText = master.conversations[indexPath.row].fullname
@@ -167,16 +192,73 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if indexPath.section == 0{
+            return renderConversationCell(tableView, indexPath)
+        }else{
+            
+            guard let discover_user = discover_users[safe: discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)] else {
+                
+                os_log("Could not get user for discver tab.")
+                
+                return UITableViewCell()
+            }
+            
+            return renderPicDiscoverCell(tableView, indexPath, discover_user)
+        }
+        
+    }
+    
+    fileprivate func renderPicDiscoverCell(_ tableView: UITableView, _ indexPath: IndexPath, _ user: User) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PicDiscoverCell") as! PicDiscoverCell
+        
+        cell.name.attributedText = user.fullname
+        
+        Internet.setImage(withURL: user.link_to_profile_image, imageView: cell.profile_image)
+        
+        cell.profile_image.contentMode = .scaleAspectFill
+        cell.profile_image.clipsToBounds = true
+        
+        cell.profile_image.roundCorners(radius: 23, masksToBounds: true)
+        
+        cell.profile_image.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
+        cell.view.roundCorners(radius: 23)
+        cell.view.addShadow()
+        
+        return cell
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 110
+        [110, 250][indexPath.section]
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        chatOf = master.conversations[indexPath.row]
+        if indexPath.section == 0{
+            chatOf = master.conversations[indexPath.row]
+            
+            Navigation.push(viewController: "ChatVC", context: self)
+        }else{
+            profile_of = discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)]
+            
+            self.discover_card.setUpCard(caller: self)
+            self.discover_card.animateTransitionIfNeeded(state: self.discover_card.nextState, duration: 0.9)
+        }
         
-        Navigation.push(viewController: "ChatVC", context: self)
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         
+        // UITableView only moves in one direction, y axis
+        let currentOffset = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        
+        if maximumOffset - currentOffset <= 2000 {
+            fetchUsers()
+        }
     }
 }
 
