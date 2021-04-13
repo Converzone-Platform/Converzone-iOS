@@ -9,6 +9,8 @@
 import UIKit
 import MapKit
 import os
+import SwiftAlert
+import SwiftNetworking
 
 class DicoverCard {
     
@@ -384,7 +386,7 @@ extension DiscoverCardVC: UITableViewDataSource, UITableViewDelegate {
 
             cell.map.layer.cornerRadius = 23
 
-            if Internet.isOnline(){
+            if Networking.isOnline(){
                 getLocationInformation(cell)
             }
 

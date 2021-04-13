@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftAlert
 
 class UserProtection {
     

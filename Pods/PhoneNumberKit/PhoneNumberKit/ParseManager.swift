@@ -3,7 +3,7 @@
 //  PhoneNumberKit
 //
 //  Created by Roy Marmelstein on 01/11/2015.
-//  Copyright © 2015 Roy Marmelstein. All rights reserved.
+//  Copyright © 2020 Roy Marmelstein. All rights reserved.
 //
 
 import Foundation
@@ -38,7 +38,8 @@ final class ParseManager {
 
         let match = try regexManager.phoneDataDetectorMatch(numberString)
         let matchedNumber = nationalNumber.substring(with: match.range)
-        nationalNumber = matchedNumber
+        // Replace Arabic and Persian numerals and let the rest unchanged
+        nationalNumber = regexManager.stringByReplacingOccurrences(matchedNumber, map: PhoneNumberPatterns.allNormalizationMappings, keepUnmapped: true)
 
         // Strip and extract extension (3)
         var numberExtension: String?
@@ -59,7 +60,7 @@ final class ParseManager {
         if countryCode == 0 {
             countryCode = regionMetadata.countryCode
         }
-        // Nomralized number (5)
+        // Normalized number (5)
         let normalizedNationalNumber = self.parser.normalizePhoneNumber(nationalNumber)
         nationalNumber = normalizedNationalNumber
 
@@ -114,8 +115,8 @@ final class ParseManager {
             queue.async(group: group) {
                 [weak self] in
                 do {
-                    if let phoneNumebr = try self?.parse(numberString, withRegion: region, ignoreType: ignoreType) {
-                        multiParseArray.append(phoneNumebr)
+                    if let phoneNumber = try self?.parse(numberString, withRegion: region, ignoreType: ignoreType) {
+                        multiParseArray.append(phoneNumber)
                     } else if shouldReturnFailedEmptyNumbers {
                         multiParseArray.append(PhoneNumber.notPhoneNumber())
                     }

@@ -32,7 +32,7 @@ enum Gender: Int, CaseIterable {
     
     static func toGender(gender: String) -> Gender {
         
-        switch gender {
+        switch gender.replacingOccurrences(of: " ", with: "").lowercased() {
             
         case "any":     fallthrough
             

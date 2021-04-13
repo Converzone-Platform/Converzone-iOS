@@ -49,6 +49,7 @@ class Master: Person {
             }
             
         }
+        
         return count
     }
     

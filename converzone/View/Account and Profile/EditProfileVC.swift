@@ -8,6 +8,7 @@
 
 import UIKit
 import os
+import SwiftAlert
 
 class EditProfileVC: UIViewController {
     
@@ -75,7 +76,6 @@ class EditProfileVC: UIViewController {
         master.firstname = firstname
         master.lastname = lastname
         
-        
     }
     
     @objc func endEditing() {
@@ -87,16 +87,9 @@ class EditProfileVC: UIViewController {
         // Check if everything is fine with the inputs of the user
         
         // 1. Did the user pick an image?
-        if #available(iOS 13.0, *) {
-            if profile_image.image.hashValue == UIImage(systemName: "person.circle").hashValue {
-                Alert.alert(title: "Profile Image", message: "Please choose a profile image")
-                return false
-            }
-        } else {
-            if profile_image.image.hashValue == UIImage(named: "user").hashValue {
-                Alert.alert(title: "Profile Image", message: "Please choose a profile image")
-                return false
-            }
+        if profile_image.image.hashValue == UIImage(systemName: "person.circle").hashValue {
+            Alert.alert(title: "Profile Image", message: "Please choose a profile image")
+            return false
         }
         
         // 2. No emojis in the first and last name
@@ -175,6 +168,7 @@ class EditProfileVC: UIViewController {
         
         var date = (tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as! InputDateCell).date.text
         date = date?.trimmingCharacters(in: .whitespacesAndNewlines)
+        
         if date == "" {
             
             master.birthdate = nil
@@ -245,7 +239,7 @@ class EditProfileVC: UIViewController {
         
         switch section {
         case 1:
-            return "These two fields are optional. We suggest entering them though. That way you (and other people) have access to a whole bunch of fancy filtering features."
+            return "The above two fields are optional."
         case 3:
             return "Disable this if you don't want new people to text you. This set on \"off\" will make sure you are not visible for others in the discover tab"
         default:

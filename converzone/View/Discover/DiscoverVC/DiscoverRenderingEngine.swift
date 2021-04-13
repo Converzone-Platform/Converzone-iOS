@@ -8,6 +8,7 @@
 
 import UIKit
 import os
+import SwiftDesign
 
 extension DiscoverVC {
     

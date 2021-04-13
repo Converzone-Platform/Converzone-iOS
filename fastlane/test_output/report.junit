@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites name='converzoneTests.xctest' tests='16' failures='0'>
+  <testsuite name='converzoneTests.WorldTests' tests='10' failures='0'>
+    <testcase classname='converzoneTests.WorldTests' name='testCountOfContinents' time='0.009'/>
+    <testcase classname='converzoneTests.WorldTests' name='testCountryNameForCountryCodeNil' time='0.009'/>
+    <testcase classname='converzoneTests.WorldTests' name='testCountryNameForCountryCodeGermanAustria' time='0.002'/>
+    <testcase classname='converzoneTests.WorldTests' name='testCountryNameForCountryCodeGeorgianGeorgia' time='0.004'/>
+    <testcase classname='converzoneTests.WorldTests' name='testCompareLanguages' time='0.002'/>
+    <testcase classname='converzoneTests.WorldTests' name='testSortLanguages' time='0.008'/>
+    <testcase classname='converzoneTests.WorldTests' name='testCountryNameForCountryCodeEnglishUS' time='0.004'/>
+    <testcase classname='converzoneTests.WorldTests' name='testCountCountriesInContinents' time='0.004'/>
+    <testcase classname='converzoneTests.WorldTests' name='testGetCountriesOfContinent' time='0.005'/>
+    <testcase classname='converzoneTests.WorldTests' name='testCountLanguages' time='0.003'/>
+  </testsuite>
+  <testsuite name='converzoneTests.PersonTests' tests='6' failures='0'>
+    <testcase classname='converzoneTests.PersonTests' name='testCompareTwoUsers' time='0.003'/>
+    <testcase classname='converzoneTests.PersonTests' name='testAgeCalculationOfPersonWhoWasBornToday' time='0.003'/>
+    <testcase classname='converzoneTests.PersonTests' name='testStringToGenderConversion' time='0.002'/>
+    <testcase classname='converzoneTests.PersonTests' name='testGenderToStringConversion' time='0.003'/>
+    <testcase classname='converzoneTests.PersonTests' name='testAgeCalculationOfPersonWhoDoesntHaveAnAgeDefined' time='0.003'/>
+    <testcase classname='converzoneTests.PersonTests' name='testUnopenedChatsCount' time='0.173'/>
+  </testsuite>
+</testsuites>

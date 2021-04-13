@@ -12,7 +12,7 @@ import CoreLocation
 import AVFoundation
 import os
 import MathParser
-import Crashlytics
+import SwiftAlert
 
 var chatOf: User = User()
 
@@ -68,12 +68,6 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         Internet.stoppedTyping(uid: chatOf.uid)
         
-        // Let's check if the input is not too long
-        if text.count > 10000 {
-            alert("Your message is very long", "Please consider splitting it up in multiple messages.")
-            return
-        }
-        
         deleteFirstMessage()
 
         text = text.replacingOccurrences(of: "fuck", with: "🦆", options: .caseInsensitive, range: nil)
@@ -126,9 +120,7 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         let actions = [
             UIAlertAction(title: "Send Image", style: .default, handler: { (alert) in
-                if #available(iOS 13.0, *) {
-                    alert.setValue(UIImage(systemName: "camera"), forKey: "image")
-                }
+                alert.setValue(UIImage(systemName: "camera"), forKey: "image")
             }),
             
             UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -157,14 +149,6 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         setUpInfoButton()
         
         navigationItem.titleView = navTitleWithImageAndText(titleText: chatOf.fullname, imageLink: chatOf.link_to_profile_image)
-        
-        #if DEBUG
-        
-        if #available(iOS 13.0, *) {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: nil)
-        }
-        
-        #endif
         
         Internet.update_chat_tableview_delegate = self
         
@@ -255,7 +239,6 @@ class ChatVC: UIViewController, ChatUpdateDelegate {
         
         Internet.listenForIsTyping(uid: chatOf.uid)
         
-        setUpLocationServices()
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.tableView.reloadData()
@@ -540,27 +523,6 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        //Direct to maps if the message is a location
-//        if chatOf.conversation[indexPath.row] is LocationMessage {
-//            let message = chatOf.conversation[indexPath.row] as! LocationMessage
-//            let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: (message.coordinate?.latitude)!, longitude: (message.coordinate?.longitude)!))
-//
-//            let source = MKMapItem(placemark: placemark)
-//
-//            if message.is_sender {
-//                source.name = master.fullname.string
-//            }else{
-//                source.name = chatOf.fullname.string
-//            }
-//
-//            MKMapItem.openMaps(with: [source], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault])
-//
-//        }
-    }
-    
-    
 }
 
 // MARK: Send message
@@ -644,39 +606,6 @@ extension ChatVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
     }
 }
 
-extension ChatVC: CLLocationManagerDelegate {
-    
-    func setUpLocationServices(){
-        
-        self.locationManager.requestAlwaysAuthorization()
-        
-        // For use in foreground
-        self.locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.pausesLocationUpdatesAutomatically = true
-            locationManager.startUpdatingLocation()
-            
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //master.coordinate = manager.location!.coordinate
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            locationManager.requestLocation()
-        }
-    }
-}
 
 //Disable Auto Rotation
 extension ChatVC {

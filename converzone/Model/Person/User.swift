@@ -43,15 +43,13 @@ class User: Person, Hashable {
         
         get {
             
-            var opened = true
-            
-            conversation.forEach { (message) in
+            for message in conversation {
                 if message.opened == false {
-                    opened = false
+                    return false
                 }
             }
             
-            return opened
+            return true
         }
     }
     

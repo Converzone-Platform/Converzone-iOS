@@ -9,8 +9,9 @@
 import UIKit
 import FirebaseAuth
 import os
+import SwiftDesign
 
-class ConversationsVC: UIViewController, ConversationUpdateDelegate {
+class ConversationsVC: UIViewController, ConversationUpdateDelegate, DiscoverUpdateDelegate {
     
     func didUpdate(sender: Internet) {
         DispatchQueue.main.async {
@@ -19,6 +20,9 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
             self.tableView.reloadData()
         }
     }
+    
+    private let number_of_items_for_fetch = 3
+    private var discover_card: DicoverCard = DicoverCard()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -34,6 +38,11 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         self.view.backgroundColor = Colors.background_grey
         
         Internet.update_conversations_tableview_delegate = self
+        Internet.update_discovery_tableview_delegate = self
+        
+        if discover_users.count == 0 {
+            fetchUsers()
+        }
     }
     
     private func sortUsersByLastMessageDate() {
@@ -55,6 +64,7 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
                     
                     return false
             }
+            
             return date_1.timeIntervalSince1970 >= date_2.timeIntervalSince1970
         })
     }
@@ -63,18 +73,16 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         super.viewWillAppear(animated)
         
         if Navigation.didNotFinishRegistration() {
-            performSegue(withIdentifier: "signOutUserSegue", sender: nil)
+            performSegue(withIdentifier: "signOutUserSegue", sender: self)
             return
         }
         
-        self.title = "Conversations"
+        self.title = "Converzone"
         self.tabBarController?.tabBar.items?[0].title = ""
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         Internet.getMaster()
-        
-        //filtered_converations = master?.conversations
         
         sortUsersByLastMessageDate()
         
@@ -104,76 +112,63 @@ class ConversationsVC: UIViewController, ConversationUpdateDelegate {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    @objc func longPressed(sender: UILongPressGestureRecognizer) {
+    private func fetchUsers(){
         
-        guard let sender = sender as? CustomTapGesture else {
+        if no_discoverable_users_left {
             return
         }
         
-        let pin = UIAlertAction(title: "Pin/Unpin", style: .default) { (action) in
-            sender.user.pinned_to_top = !sender.user.pinned_to_top
-            self.sortUsersByLastMessageDate()
-            self.tableView.reloadData()
+        for _ in 0...number_of_items_for_fetch {
+            Internet.findRandomUsers()
+            
         }
-        
-        let mute = UIAlertAction(title: "Mute/Unmute", style: .default) { (action) in
-            sender.user.muted = !sender.user.muted
-            self.sortUsersByLastMessageDate()
-            self.tableView.reloadData()
-        }
-        
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        Alert.alert(title: "Options", message: "What would you like to do?", target: self, actions: [pin, mute, cancel])
-        
-        print("I was long pressed")
     }
-}
-
-class CustomTapGesture: UILongPressGestureRecognizer {
-    var user: User = User()
 }
 
 extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if master.conversations.count == 0 {
-            tableView.setEmptyView(title: "No conversations yet.", message: "Text a random person in the discover tab")
-        }
-        else {
-            tableView.restore()
-        }
-        
-        return master.conversations.count
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        ["Conversations", "Discover"][section]
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell") as! ChatCell
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        let longPressRecognizer = CustomTapGesture(target: self, action: #selector(longPressed(sender:)))
-        longPressRecognizer.user = master.conversations[indexPath.row]
-        cell.addGestureRecognizer(longPressRecognizer)
+        if section == 0 {
+            if master.conversations.count == 0 {
+                tableView.setEmptyView(title: "No conversations yet.", message: "Text a random person in the discover tab")
+            }
+            else {
+                tableView.restore()
+            }
+            
+            return master.conversations.count
+        }else{
+            return discover_users.count
+        }
+    }
+    
+    fileprivate func renderConversationCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell") as! ChatCell
         
         cell.name.attributedText = master.conversations[indexPath.row].fullname
         
         if master.conversations[indexPath.row].pinned_to_top {
             
-            if #available(iOS 13.0, *) {
-                
-                let name = NSMutableAttributedString(string: master.conversations[indexPath.row].fullname.string + " ")
-                
-                let imageAttachment = NSTextAttachment()
-                let config = UIImage.SymbolConfiguration(scale: .small)
-                
-                let image = UIImage(systemName: "pin.circle", withConfiguration: config)
-                image?.withBaselineOffset(fromBottom: 1.0)
-                imageAttachment.image = image
-                name.append(NSAttributedString(attachment: imageAttachment))
-                
-                cell.name.attributedText = name
-            }
+            let name = NSMutableAttributedString(string: master.conversations[indexPath.row].fullname.string + " ")
+            
+            let imageAttachment = NSTextAttachment()
+            let config = UIImage.SymbolConfiguration(scale: .small)
+            
+            let image = UIImage(systemName: "pin.circle", withConfiguration: config)
+            image?.withBaselineOffset(fromBottom: 1.0)
+            imageAttachment.image = image
+            name.append(NSAttributedString(attachment: imageAttachment))
+            
+            cell.name.attributedText = name
         }
         
         Internet.setImage(withURL: master.conversations[indexPath.row].link_to_profile_image, imageView: cell.profile_image)
@@ -197,20 +192,73 @@ extension ConversationsVC: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if indexPath.section == 0{
+            return renderConversationCell(tableView, indexPath)
+        }else{
+            
+            guard let discover_user = discover_users[safe: discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)] else {
+                
+                os_log("Could not get user for discver tab.")
+                
+                return UITableViewCell()
+            }
+            
+            return renderPicDiscoverCell(tableView, indexPath, discover_user)
+        }
+        
+    }
+    
+    fileprivate func renderPicDiscoverCell(_ tableView: UITableView, _ indexPath: IndexPath, _ user: User) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PicDiscoverCell") as! PicDiscoverCell
+        
+        cell.name.attributedText = user.fullname
+        
+        Internet.setImage(withURL: user.link_to_profile_image, imageView: cell.profile_image)
+        
+        cell.profile_image.contentMode = .scaleAspectFill
+        cell.profile_image.clipsToBounds = true
+        
+        cell.profile_image.roundCorners(radius: 23, masksToBounds: true)
+        
+        cell.profile_image.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
+        cell.view.roundCorners(radius: 23)
+        cell.view.addShadow()
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 110
+        [110, 250][indexPath.section]
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        chatOf = master.conversations[indexPath.row]
+        if indexPath.section == 0{
+            chatOf = master.conversations[indexPath.row]
+            
+            Navigation.push(viewController: "ChatVC", context: self)
+        }else{
+            profile_of = discover_users[discover_users.index(discover_users.startIndex, offsetBy: indexPath.row)]
+            
+            self.discover_card.setUpCard(caller: self)
+            self.discover_card.animateTransitionIfNeeded(state: self.discover_card.nextState, duration: 0.9)
+        }
         
-        Navigation.push(viewController: "ChatVC", context: self)
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         
+        // UITableView only moves in one direction, y axis
+        let currentOffset = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        
+        if maximumOffset - currentOffset <= 2000 {
+            fetchUsers()
+        }
     }
 }
 

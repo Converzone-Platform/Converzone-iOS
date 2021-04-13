@@ -11,14 +11,6 @@ import XCTest
 
 class PersonTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
     func testAgeCalculationOfPersonWhoWasBornToday() {
         let personWhoWasBornToday = Person()
         personWhoWasBornToday.birthdate = Date()
@@ -31,11 +23,63 @@ class PersonTests: XCTestCase {
         XCTAssertEqual(personWhoWasBornToday.age, 0)
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testStringToGenderConversion() {
+        let inputs = ["any", "ANY", "anY", "all", "f", "female", "m", "male", "", " ", "anything else"]
+        let correctOutputs: [Gender] = [.any, .any, .any, .any, .female, .female, .male, .male, .unknown, .unknown, .non_binary]
+        
+        for (input, output) in zip(inputs, correctOutputs) {
+            XCTAssertEqual(Gender.toGender(gender: input), output)
         }
     }
-
+    
+    func testGenderToStringConversion() {
+        let inputs: [Gender] = [.any, .female, .male, .non_binary, .unknown]
+        let correctOutputs = ["any", "female", "male", "non binary", ""]
+        
+        for (input, output) in zip(inputs, correctOutputs){
+            XCTAssertEqual(input.toString(), output)
+        }
+    }
+    
+    func testUnopenedChatsCount(){
+        
+        let master = Master()
+        
+        for i in 1...10000 {
+            let user = User()
+            
+            let message1 = Message()
+            message1.opened = true
+            
+            let message2 = Message()
+            message2.opened = i % 2 == 0
+            
+            if arc4random() % 2 == 0 {
+                user.conversation.append(message1)
+            }
+            
+            user.conversation.append(message2)
+            
+            master.conversations.append(user)
+        }
+        
+        XCTAssertEqual(master.unopened_chats, 5000)
+    }
+    
+    func testCompareTwoUsers() {
+        
+        XCTAssert(User() == User())
+        
+        let user1 = User()
+        let user2 = User()
+        
+        user1.uid = "1"
+        
+        XCTAssertFalse(user1 == user2)
+        
+        user1.uid = ""
+        
+        XCTAssert(user1 == user2)
+    }
+    
 }

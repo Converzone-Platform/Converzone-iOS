@@ -6,8 +6,53 @@
         "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
         "state": {
           "branch": null,
-          "revision": "44bfa76787a0f07e4d5ae3304e9d4f631fd519bd",
-          "version": "5.13.0"
+          "revision": "2a10bf41da75599a9f8e872dbd44fe0155a2e00c",
+          "version": "5.15.8"
+        }
+      },
+      {
+        "package": "NVActivityIndicatorView",
+        "repositoryURL": "https://github.com/ninjaprox/NVActivityIndicatorView",
+        "state": {
+          "branch": null,
+          "revision": "bcb52371f2259254bac6690f92bb474a61768c47",
+          "version": "5.1.1"
+        }
+      },
+      {
+        "package": "PhoneNumberKit",
+        "repositoryURL": "https://github.com/marmelroy/PhoneNumberKit",
+        "state": {
+          "branch": null,
+          "revision": "1ef0431b971f69c48ca5eb4cdba07f2c5da54c35",
+          "version": "3.3.3"
+        }
+      },
+      {
+        "package": "SwiftAlert",
+        "repositoryURL": "https://github.com/Goga-Barabadze/SwiftAlert",
+        "state": {
+          "branch": "master",
+          "revision": "f8f6385a2143f13058f5d4f8a0f54b72ca08e7af",
+          "version": null
+        }
+      },
+      {
+        "package": "SwiftDesign",
+        "repositoryURL": "https://github.com/Goga-Barabadze/SwiftDesign",
+        "state": {
+          "branch": "master",
+          "revision": "e8547c42d7b9287c5afe26fb7886c247d2d1f768",
+          "version": null
+        }
+      },
+      {
+        "package": "SwiftNetworking",
+        "repositoryURL": "https://github.com/Goga-Barabadze/SwiftNetworking",
+        "state": {
+          "branch": "master",
+          "revision": "49f98c58ca1dcafbdf33c3c8ee52343064953d67",
+          "version": null
         }
       }
     ]

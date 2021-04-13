@@ -70,18 +70,6 @@ extension ChatVC {
             cell.right_constraint.isActive = message.is_sender ? true : false
         }
         
-//        if ((cell.message_label.text?.widthWithConstrained(cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - 56) {
-//
-//            cell.left_constraint.isActive = message.is_sender ? false : true
-//            cell.right_constraint.isActive = message.is_sender ? true : false
-//        }
-        
-//        if ((cell.message_label.text?.height(withConstrainedWidth: cell.message_label.frame.height, font: cell.message_label.font))! <= self.view.frame.width - 60){
-//
-//            cell.left_constraint.isActive = message.is_sender ? false : true
-//            cell.right_constraint.isActive = message.is_sender ? true : false
-//        }
-        
         maskCorners(message, indexPath, cell)
         
         return cell

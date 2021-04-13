@@ -10,10 +10,11 @@ import Foundation
 import FirebaseAuth
 import os
 import Kingfisher
+import SwiftAlert
 
 extension Internet {
     
-    /// Requests a silent push notification to the device and afterwards it send a SMS to the phone number
+    /// Requests a silent push notification to the device and afterwards it sends a SMS to the phone number
     /// - Parameter phoneNumber: The phone number to which the SMS is sent
     static func verify(phoneNumber: String, closure: @escaping (Bool) -> Void){
     
@@ -97,7 +98,7 @@ extension Internet {
             UserDefaults.standard.removeObject(forKey: "DidFinishRegistration")
             
         }catch{
-            alert("Signing out...", "An unknown error occurred")
+            Alert.alert(title: "Signing out...", message: "An unknown error occurred")
         }
     }
     

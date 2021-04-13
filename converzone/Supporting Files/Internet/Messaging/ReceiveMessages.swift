@@ -79,7 +79,4 @@ extension Internet {
         findConversationAndAddMessage(message: message, uid: sender, insertPosition: insertPosition)
         
     }
-    
-    
-    
 }

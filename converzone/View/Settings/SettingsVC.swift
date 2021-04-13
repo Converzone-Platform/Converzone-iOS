@@ -10,13 +10,12 @@ import UIKit
 import NotificationCenter
 import FirebaseAuth
 import os
-import Kingfisher
 
 class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private var settings = ["", "Languages", "Country", "Reminder", "Blocked users", "Donate", "Sign out"]
+    private var settings = ["", "Languages", "Country", "Blocked users", "Sign out"]
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -45,13 +44,13 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section){
             case 0: return 3
-            case 1: return 2
+            case 1: return 1
             default: return 1
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -102,23 +101,12 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 
             }
             
-            if settings[ tableView.globalIndexPath(for: indexPath as NSIndexPath) ] == "Reminder" {
-                if #available(iOS 13.0, *) {
-                    cell?.imageView?.image = UIImage(systemName: "calendar")
-                }
-            }
-            
             if settings[ tableView.globalIndexPath(for: indexPath as NSIndexPath) ] == "Blocked users" {
-                if #available(iOS 13.0, *) {
-                    cell?.imageView?.image = UIImage(systemName: "person.crop.circle.fill.badge.exclam")
-                }
+                cell?.imageView?.image = UIImage(systemName: "person.crop.circle.fill.badge.exclam")
             }
             
             if settings[ tableView.globalIndexPath(for: indexPath as NSIndexPath) ] == "Donate" {
-                if #available(iOS 13.0, *) {
-                    
-                    cell?.imageView?.image = UIImage(systemName: "heart.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)
-                }
+                cell?.imageView?.image = UIImage(systemName: "heart.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)
             }
             
         }
@@ -133,10 +121,8 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         case 0: Navigation.push(viewController: "EditProfileVC", context: self)
         case 1: Navigation.push(viewController: "UsersLanguagesVC", context: self)
         case 2: Navigation.push(viewController: "ContinentVC", context: self)
-        case 3: performSegue(withIdentifier: "showReminderSettingsSegue", sender: self)
-        case 4: performSegue(withIdentifier: "showBlockedUsersSegue", sender: self)
-        case 5: performSegue(withIdentifier: "showDonationScreenSegue", sender: self)
-        case 6:
+        case 3: performSegue(withIdentifier: "showBlockedUsersSegue", sender: self)
+        case 4:
             
             performSegue(withIdentifier: "signOutUserSegue", sender: nil)
             
