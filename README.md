@@ -1,6 +1,6 @@
 # Converzone
 
-Converzone has been created initally as a school project by Matthias Schwarzl and Goga Barabadze. Credits also go out to Samiran Erlacher, Stefan Schlögelhofer and Lukas Kaltenberg for their help and support, especially during the start phase.
+Converzone has been created initally as a school project by Matthias Schwarzl and Goga Barabadze. Credits also go out to Samiran Erlacher, Stefan Schlögelhofer and Lukas Kaltenberger for their help and support, especially during the start phase.
 
 
 ## General
